@@ -25,7 +25,7 @@ class App extends Component {
         if (window.location.hash) {
             let auth = this.digestHash();
             if (this.isAuthenticated(auth)) {
-                this.contents = <Home/>;
+                this.contents = <Home auth={auth} clientId={props.clientId} redirectUri={props.redirectUri}/>;
             } else {
                 this.contents = <AuthenticationWarning error={auth.error} state={auth.state}
                                                        scopes={props.scopes} clientId={props.clientId}
@@ -33,7 +33,8 @@ class App extends Component {
             }
         } else {
             this.contents =
-                <AuthenticationWarning scopes={props.scopes} clientId={props.clientId} redirectUri={props.redirectUri}/>;
+                <AuthenticationWarning scopes={props.scopes} clientId={props.clientId}
+                                       redirectUri={props.redirectUri}/>;
         }
     }
 
