@@ -1,4 +1,5 @@
 import React from 'react';
+import {Button} from "react-bootstrap";
 
 const AuthenticationWarning = (props) => {
 
@@ -10,11 +11,13 @@ const AuthenticationWarning = (props) => {
     const error = props.error ? <p>props.error</p> : '';
 
     return (
-        <div>
-            {state}
-            {error}
-            <p>PLEASE LOGIN RIGHT NOW!!</p>
-            <input type="submit" value="Click me to do it!" onClick={redirect}/>
+        <div className="container container-table">
+            <div className="well">
+                {state}
+                {error}
+                <p>You need to login to Spotify to use this app</p>
+                <Button bsStyle="success" onClick={redirect}>Login</Button>
+            </div>
         </div>
     )
 }
