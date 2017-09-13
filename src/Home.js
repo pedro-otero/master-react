@@ -7,19 +7,30 @@ class Home extends React.Component {
 
     constructor(props) {
         super(props);
+        this.spotifyApi = new SpotifyWebApi({
+            clientId: props.clientId,
+            redirectUri: props.redirectUri
+        });
         this.state = {
-            spotifyApi: new SpotifyWebApi({
-                clientId: props.clientId,
-                redirectUri: props.redirectUri
-            }),
             pages: {tracks: [], albums: []}
         }
-        this.state.spotifyApi.setAccessToken(props.auth.access_token);
-        this.state.spotifyApi.getMe().then(this.start.bind(this));
+        this.spotifyApi.setAccessToken(props.auth.access_token);
+        this.spotifyApi.getMe().then(this.start.bind(this));
     }
 
-    handleError(err) {
-        throw new Error(err);
+    handleError(limit, offset, entity) {
+        return function (err) {
+            const func = (entity === 'tracks' ? this.loadTracks : this.loadAlbums);
+            let time = 0;
+            console.error(err);
+            console.log(`Error on ${entity} because of ${err.code} - ${err.status}`);
+            if (err.code > 500) {
+                time = 2000;
+            } else if (err.code > 429) {
+                time = 7000;
+            }
+            setTimeout(func.apply(this, limit, offset), time);
+        }.bind(this);
     }
 
     start(profile) {
@@ -31,7 +42,10 @@ class Home extends React.Component {
 
     loadTracks(limit, offset) {
         console.log(`Loading tracks now from ${offset} to ${limit}`)
-        this.state.spotifyApi.getMySavedTracks({limit, offset}).then(this.receiveTracks.bind(this), this.handleError);
+        this.spotifyApi.getMySavedTracks({
+            limit,
+            offset
+        }).then(this.receiveTracks.bind(this), this.handleError(limit, offset, 'tracks'));
     }
 
     receiveTracks(page) {
@@ -47,7 +61,10 @@ class Home extends React.Component {
 
     loadAlbums(limit, offset) {
         console.log(`Loading albums now from ${offset} to ${limit}`)
-        this.state.spotifyApi.getMySavedAlbums({limit, offset}).then(this.receiveAlbums.bind(this), this.handleError);
+        this.spotifyApi.getMySavedAlbums({
+            limit,
+            offset
+        }).then(this.receiveAlbums.bind(this), this.handleError(limit, offset, 'albums'));
     }
 
     receiveAlbums(page) {
@@ -66,8 +83,8 @@ class Home extends React.Component {
             return (
                 <div>
                     <WelcomeBanner profile={this.state.profile}/>
-                    <LibraryBadge pages={this.state.pages.tracks}/>
-                    <LibraryBadge pages={this.state.pages.albums}/>
+                    <LibraryBadge pages={this.state.pages.tracks} entityName="track"/>
+                    <LibraryBadge pages={this.state.pages.albums} entityName="album"/>
                 </div>
             )
         } else {
