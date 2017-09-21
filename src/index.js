@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import SpotifyConfig from './config/spotify';
-import AuthenticationWarning from "./AuthenticationWarning";
+import AuthenticationWarning from "./components/AuthenticationWarning";
 import Home from "./Home";
 
 let mountingNode =

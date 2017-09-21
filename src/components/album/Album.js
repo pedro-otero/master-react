@@ -1,5 +1,5 @@
 import React from 'react';
-import {millisToString} from "./util/index";
+import {millisToString} from "../../util/index";
 
 const Album = ({album}) => {
 

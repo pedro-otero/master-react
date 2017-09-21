@@ -1,9 +1,9 @@
 import React from 'react';
 import SpotifyApi from './api/spotify';
-import WelcomeBanner from "./WelcomeBanner";
-import SideBar from "./SideBar";
-import TrackList from "./TrackList";
-import AlbumList from "./AlbumList";
+import WelcomeBanner from "./components/WelcomeBanner";
+import SideBar from "./components/SideBar";
+import TrackList from "./components/track/TrackList";
+import AlbumList from "./components/album/AlbumList";
 
 class Home extends React.Component {
 
