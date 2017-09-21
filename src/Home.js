@@ -8,6 +8,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as savedTracksActions from './actions/savedTracks';
 import * as savedAlbumsActions from './actions/savedAlbums';
+import * as profileActions from './actions/profile';
 
 class Home extends React.Component {
 
@@ -17,7 +18,7 @@ class Home extends React.Component {
             clientId: props.clientId,
             redirectUri: props.redirectUri
         });
-        this.state = {profile: null, selected: 'home'};
+        this.state = {selected: 'home'};
         this.select = this.select.bind(this);
         this.goHome = this.goHome.bind(this);
         this.goToTracks = this.goToTracks.bind(this);
@@ -29,7 +30,7 @@ class Home extends React.Component {
     }
 
     load() {
-        this.spotifyApi.profile().then(profile => this.setState({profile}));
+        this.spotifyApi.profile().then(this.props.actions.receiveProfile);
         this.spotifyApi.getSavedTracks().subscribe({
             next: this.props.actions.receiveSavedTracksPage,
             complete: () => {
@@ -63,7 +64,7 @@ class Home extends React.Component {
     }
 
     render() {
-        if (this.state.profile != null) {
+        if (this.props.profile != null) {
             return (
                 <div className="grid">
                     <div className="row">
@@ -72,7 +73,7 @@ class Home extends React.Component {
                         </div>
                         <div className="col-md-10">
                             {this.state.selected === 'home' &&
-                            <WelcomeBanner profile={this.state.profile} tracks={this.props.tracks}
+                            <WelcomeBanner profile={this.props.profile} tracks={this.props.tracks}
                                            albums={this.props.albums}/>}
                             {this.state.selected === 'tracks' && <TrackList pages={this.props.tracks}/>}
                             {this.state.selected === 'albums' && <AlbumList pages={this.props.albums}/>}
@@ -90,11 +91,12 @@ class Home extends React.Component {
 
 const mapStateToProps = (state) => ({
     tracks: state.tracks,
-    albums: state.albums
+    albums: state.albums,
+    profile: state.profile
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators({...savedTracksActions, ...savedAlbumsActions}, dispatch)
+    actions: bindActionCreators({...savedTracksActions, ...savedAlbumsActions, ...profileActions}, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
