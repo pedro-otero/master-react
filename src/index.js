@@ -2,29 +2,27 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
-import SpotifyConfig from './config/spotify';
+import spotifyConfig from './config/spotify';
 import AuthenticationWarning from "./components/AuthenticationWarning";
 import Home from "./Home";
 import {Provider} from 'react-redux';
 import configureStore from './store/configure';
+import * as spotifyConfigurationActions from "./actions/spotifyConfig";
+import * as authenticationActions from "./actions/authenticationData";
 
 let mountingNode =
     <AuthenticationWarning
-        redirectUri={SpotifyConfig.redirectUri}
-        clientId={SpotifyConfig.clientId}
-        scopes={SpotifyConfig.scopes}/>;
+        redirectUri={spotifyConfig.redirectUri}
+        clientId={spotifyConfig.clientId}
+        scopes={spotifyConfig.scopes}/>;
 
 if (window.location.hash) {
     const store = configureStore();
-    const auth = window.location.hash.substr(1).split('&')
-        .map(pair => pair.split('='))
-        .reduce((all, pair) => Object.defineProperty(all, pair[0], {enumerable: true, value: pair[1]}), {});
+    store.dispatch(authenticationActions.setAuthenticationData(window.location.hash));
+    store.dispatch(spotifyConfigurationActions.loadSpotifyConfiguration(spotifyConfig));
     mountingNode =
         <Provider store={store}>
-            <Home
-                auth={auth}
-                clientId={SpotifyConfig.clientId}
-                redirectUri={SpotifyConfig.redirectUri}/>
+            <Home/>
         </Provider>;
 }
 
