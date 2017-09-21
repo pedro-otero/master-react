@@ -64,7 +64,11 @@ class Home extends React.Component {
     }
 
     render() {
-        if (this.props.profile != null) {
+        if (this.props.profile.loaded === false) {
+            return (
+                <div>Loading...</div>
+            )
+        } else {
             return (
                 <div className="grid">
                     <div className="row">
@@ -80,10 +84,6 @@ class Home extends React.Component {
                         </div>
                     </div>
                 </div>
-            )
-        } else {
-            return (
-                <div>Loading...</div>
             )
         }
     }
