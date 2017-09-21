@@ -1,21 +1,23 @@
 import React from 'react';
-import {Col, Grid, Image, Row} from "react-bootstrap";
+import LibraryBadge from "./LibraryBadge";
 
-const WelcomeBanner = (props) => {
-
-    const profile = props.profile;
+const WelcomeBanner = ({profile, tracks, albums}) => {
 
     return (
-        <Grid>
-            <Row>
-                <Col md={2}>
-                    <Image src={profile.images[0].url} responsive circle/>
-                </Col>
-                <Col md={10}>
-                    <h1 className="text-right">Welcome, {profile.id}!</h1>
-                </Col>
-            </Row>
-        </Grid>
+        <div>
+            <div className="grid">
+                <div className="row">
+                    <div className="col-md-2">
+                        <img src={profile.images[0].url} alt="avatar"/>
+                    </div>
+                    <div className="col-md-10">
+                        <h1 className="text-right">Welcome, {profile.id}!</h1>
+                    </div>
+                </div>
+            </div>
+            <LibraryBadge pages={tracks} entityName="track"/>
+            <LibraryBadge pages={albums} entityName="album"/>
+        </div>
     )
 }
 

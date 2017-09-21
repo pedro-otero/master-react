@@ -1,90 +1,76 @@
 import React from 'react';
-import SpotifyWebApi from 'spotify-web-api-node';
+import SpotifyApi from './api/spotify';
 import WelcomeBanner from "./WelcomeBanner";
-import LibraryBadge from "./LibraryBadge";
+import SideBar from "./SideBar";
+import TrackList from "./TrackList";
 
 class Home extends React.Component {
 
     constructor(props) {
         super(props);
-        this.spotifyApi = new SpotifyWebApi({
+        this.spotifyApi = new SpotifyApi({
             clientId: props.clientId,
             redirectUri: props.redirectUri
         });
-        this.state = {
-            pages: {tracks: [], albums: []}
-        }
-        this.spotifyApi.setAccessToken(props.auth.access_token);
-        this.spotifyApi.getMe().then(this.start.bind(this));
+        this.state = {tracks: [], albums: [], profile: null, selected: 'home'};
+        this.select = this.select.bind(this);
+        this.goHome = this.goHome.bind(this);
+        this.goToTracks = this.goToTracks.bind(this);
+        this.goToAlbums = this.goToAlbums.bind(this);
     }
 
-    handleError(limit, offset, entity) {
-        return function (err) {
-            const func = (entity === 'tracks' ? this.loadTracks : this.loadAlbums);
-            let time = 0;
-            console.error(err);
-            console.log(`Error on ${entity} because of ${err.code} - ${err.status}`);
-            if (err.code > 500) {
-                time = 2000;
-            } else if (err.code > 429) {
-                time = 7000;
+    componentDidMount() {
+        this.load();
+    }
+
+    load() {
+        this.spotifyApi.profile().then(profile => this.setState({profile}));
+        this.spotifyApi.getSavedTracks().subscribe({
+            next: (page) => this.setState(previous => ({tracks: [...previous.tracks, page]})),
+            complete: () => {
+            },
+            error: () => {
             }
-            setTimeout(func.apply(this, limit, offset), time);
-        }.bind(this);
-    }
-
-    start(profile) {
-        console.log(profile);
-        this.setState({profile: profile.body});
-        this.loadTracks(20, 0);
-        this.loadAlbums(20, 0);
-    }
-
-    loadTracks(limit, offset) {
-        console.log(`Loading tracks now from ${offset} to ${limit}`)
-        this.spotifyApi.getMySavedTracks({
-            limit,
-            offset
-        }).then(this.receiveTracks.bind(this), this.handleError(limit, offset, 'tracks'));
-    }
-
-    receiveTracks(page) {
-        this.setState(prevState => ({
-            pages: {
-                tracks: prevState.pages.tracks.concat(page.body),
-                albums: prevState.pages.albums
+        });
+        this.spotifyApi.getSavedAlbums().subscribe({
+            next: (page) => this.setState(previous => ({albums: [...previous.albums, page]})),
+            complete: () => {
+            },
+            error: () => {
             }
-        }));
-        console.log(page);
-        if (page.body.next != null) this.loadTracks(page.body.limit, page.body.offset + page.body.limit);
+        });
     }
 
-    loadAlbums(limit, offset) {
-        console.log(`Loading albums now from ${offset} to ${limit}`)
-        this.spotifyApi.getMySavedAlbums({
-            limit,
-            offset
-        }).then(this.receiveAlbums.bind(this), this.handleError(limit, offset, 'albums'));
+    select(selected) {
+        this.setState({selected});
     }
 
-    receiveAlbums(page) {
-        this.setState(prevState => ({
-            pages: {
-                tracks: prevState.pages.tracks,
-                albums: prevState.pages.albums.concat(page.body)
-            }
-        }));
-        console.log(page);
-        if (page.body.next != null) this.loadAlbums(page.body.limit, page.body.offset + page.body.limit);
+    goHome() {
+        this.select('home');
+    }
+
+    goToTracks() {
+        this.select('tracks');
+    }
+
+    goToAlbums() {
+        this.select('albums');
     }
 
     render() {
-        if (this.state && this.state.profile) {
+        if (this.state.profile != null) {
             return (
-                <div>
-                    <WelcomeBanner profile={this.state.profile}/>
-                    <LibraryBadge pages={this.state.pages.tracks} entityName="track"/>
-                    <LibraryBadge pages={this.state.pages.albums} entityName="album"/>
+                <div className="grid">
+                    <div className="row">
+                        <div className="col-md-2">
+                            <SideBar onHome={this.goHome} onTracks={this.goToTracks} onAlbums={this.goToAlbums}/>
+                        </div>
+                        <div className="col-md-10">
+                            {this.state.selected === 'home' && <WelcomeBanner profile={this.state.profile} tracks={this.state.tracks} albums={this.state.albums} />}
+                            {this.state.selected === 'tracks' && <TrackList pages={this.state.tracks}/>}
+                            {this.state.selected === 'albums' && <div>And these are the ALBUMS</div>}
+                        </div>
+                    </div>
                 </div>
             )
         } else {

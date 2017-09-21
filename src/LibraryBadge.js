@@ -1,18 +1,24 @@
 import React from 'react';
-import {ProgressBar, Well} from "react-bootstrap";
 
-const LibraryBadge = (props) => {
+const LibraryBadge = ({pages, entityName}) => {
 
-    const pages = props.pages;
-    const loadedSoFar = props.pages.length ? pages.reduce((total, page) => total + page.items.length, 0) : 0;
-    const what = props.entityName + (loadedSoFar === 1 ? '' : 's');
-    const progress = props.pages.length ? (loadedSoFar / props.pages[0].total) * 100 : 0;
+    const loadedSoFar = pages.length ? pages.reduce((total, page) => total + page.items.length, 0) : 0;
+    const what = entityName + (loadedSoFar === 1 ? '' : 's');
+    const progress = pages.length ? (loadedSoFar / pages[0].total) * 100 : 0;
 
     return (
-        <Well>
+        <div className="jumbotron">
             <h1>{loadedSoFar} {what}</h1>
-            <ProgressBar now={progress}/>
-        </Well>
+            <div className="progress">
+                <div
+                    className="progress-bar"
+                    role="progressbar"
+                    style={{"width": progress + "%"}}
+                    aria-valuenow={progress}
+                    aria-valuemin="0"
+                    aria-valuemax="100"></div>
+            </div>
+        </div>
     )
 }
 

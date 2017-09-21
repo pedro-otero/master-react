@@ -1,18 +1,21 @@
 import React from 'react';
 
-const Track = (props) => {
+const Track = ({track, showAlbum}) => {
 
-    const track = props.album.tracks[props.index];
-    const feat = track.featured.length ? `(feat. ${track.featured.join(', ')})` : '';
-    const albumRow = props.showAlbum ? <h2>{props.album.artist} - {props.album.title}</h2> : '';
-    const trackNumber = props.showTrackNumber ? `${props.index + 1}.` : '';
+    const otherArtists = track.artists.slice(1).map(artist => artist.name);
 
     return (
-        <div>
-            <h1>{trackNumber} {track.title} {feat}</h1>
-            {albumRow}
-            <h3><i>{track.composers.join(' / ')}</i></h3>
-            <h3>Produced by {track.producers.join(', ')}</h3>
+        <div className="row">
+            <div className="col col-md-2">
+                <img src={track.album.images[0].url} className="img-fluid" alt="cover"></img>
+            </div>
+            <div className="column col-md-8 col-lg-8">
+                <h5>{track.name} {otherArtists.length > 0 && `(feat. ${otherArtists.join(', ')})`}</h5>
+                <h6>{track.artists[0].name}{showAlbum && ` - ${track.album.name}`}</h6>
+            </div>
+            <div className="col col-md-2 col-lg-2">
+                <p className="text-right">{track.duration_ms}</p>
+            </div>
         </div>
     )
 }
