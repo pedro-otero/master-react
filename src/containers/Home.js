@@ -1,14 +1,14 @@
 import React from 'react';
-import SpotifyApi from './api/spotify';
-import WelcomeBanner from "./components/WelcomeBanner";
-import SideBar from "./components/SideBar";
-import TrackList from "./components/track/TrackList";
-import AlbumList from "./components/album/AlbumList";
+import SpotifyApi from '../api/spotify';
+import WelcomeBanner from "../components/WelcomeBanner";
+import SideBar from "../components/SideBar";
+import TrackList from "../components/track/TrackList";
+import AlbumList from "../components/album/AlbumList";
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import * as savedTracksActions from './actions/savedTracks';
-import * as savedAlbumsActions from './actions/savedAlbums';
-import * as profileActions from './actions/profile';
+import * as savedTracksActions from '../actions/savedTracks';
+import * as savedAlbumsActions from '../actions/savedAlbums';
+import * as profileActions from '../actions/profile';
 
 class Home extends React.Component {
 
