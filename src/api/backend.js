@@ -751,4 +751,6 @@ export default function Backend() {
             }
         ]
     });
+
+    this.getTrack = () => Promise.resolve(this.getAlbum()).then(album => album.tracks[0]);
 }

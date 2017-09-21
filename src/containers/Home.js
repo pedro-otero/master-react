@@ -11,6 +11,7 @@ import * as savedAlbumsActions from '../actions/savedAlbums';
 import * as profileActions from '../actions/profile';
 import {Route} from "react-router";
 import {withRouter} from "react-router-dom";
+import TrackDetail from "../components/track/TrackDetail";
 
 class Home extends React.Component {
 
@@ -58,7 +59,8 @@ class Home extends React.Component {
                         </div>
                         <div className="col-md-10">
                             <Route exact path="/" component={WelcomeBanner} />
-                            <Route path="/tracks" component={TrackList}/>
+                            <Route exact path="/tracks" component={TrackList}/>
+                            <Route exact path="/tracks/:id" component={TrackDetail}/>
                             <Route path="/albums" component={AlbumList}/>
                         </div>
                     </div>

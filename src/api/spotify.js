@@ -795,4 +795,6 @@ export default function SpotifyApi({clientId, redirectUri}) {
         "type" : "user",
         "uri" : "spotify:user:triplehijueputa"
     });
+
+    this.getTrack = () => Promise.resolve(loremIpsumSavedTrack.track);
 }
