@@ -3,6 +3,7 @@ import SpotifyApi from './api/spotify';
 import WelcomeBanner from "./WelcomeBanner";
 import SideBar from "./SideBar";
 import TrackList from "./TrackList";
+import AlbumList from "./AlbumList";
 
 class Home extends React.Component {
 
@@ -68,7 +69,7 @@ class Home extends React.Component {
                         <div className="col-md-10">
                             {this.state.selected === 'home' && <WelcomeBanner profile={this.state.profile} tracks={this.state.tracks} albums={this.state.albums} />}
                             {this.state.selected === 'tracks' && <TrackList pages={this.state.tracks}/>}
-                            {this.state.selected === 'albums' && <div>And these are the ALBUMS</div>}
+                            {this.state.selected === 'albums' && <AlbumList pages={this.state.albums}/>}
                         </div>
                     </div>
                 </div>
