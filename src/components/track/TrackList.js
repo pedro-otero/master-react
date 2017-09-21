@@ -1,5 +1,6 @@
 import React from 'react';
 import Track from "./Track";
+import {connect} from "react-redux";
 
 const TrackList = ({pages}) => {
 
@@ -17,4 +18,10 @@ const TrackList = ({pages}) => {
     )
 }
 
-export default TrackList;
+const mapStateToProps = (state) => {
+    return {
+        pages: state.tracks
+    }
+};
+
+export default connect(mapStateToProps)(TrackList);

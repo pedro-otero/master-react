@@ -1,8 +1,9 @@
 import React from 'react';
 import Album from "./Album";
+import {connect} from "react-redux";
 
 const AlbumList = ({pages}) => {
-
+    console.log(pages);
     return (
         <ul className="list-group">
             {
@@ -17,4 +18,10 @@ const AlbumList = ({pages}) => {
     )
 }
 
-export default AlbumList;
+const mapStateToProps = (state) => {
+    return {
+        pages: state.albums
+    }
+};
+
+export default connect(mapStateToProps)(AlbumList);

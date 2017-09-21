@@ -9,6 +9,8 @@ import {connect} from 'react-redux';
 import * as savedTracksActions from '../actions/savedTracks';
 import * as savedAlbumsActions from '../actions/savedAlbums';
 import * as profileActions from '../actions/profile';
+import {Route} from "react-router";
+import {withRouter} from "react-router-dom";
 
 class Home extends React.Component {
 
@@ -18,11 +20,6 @@ class Home extends React.Component {
             clientId: props.clientId,
             redirectUri: props.redirectUri
         });
-        this.state = {selected: 'home'};
-        this.select = this.select.bind(this);
-        this.goHome = this.goHome.bind(this);
-        this.goToTracks = this.goToTracks.bind(this);
-        this.goToAlbums = this.goToAlbums.bind(this);
     }
 
     componentDidMount() {
@@ -47,22 +44,6 @@ class Home extends React.Component {
         });
     }
 
-    select(selected) {
-        this.setState({selected});
-    }
-
-    goHome() {
-        this.select('home');
-    }
-
-    goToTracks() {
-        this.select('tracks');
-    }
-
-    goToAlbums() {
-        this.select('albums');
-    }
-
     render() {
         if (this.props.profile.loaded === false) {
             return (
@@ -73,14 +54,12 @@ class Home extends React.Component {
                 <div className="grid">
                     <div className="row">
                         <div className="col-md-2">
-                            <SideBar onHome={this.goHome} onTracks={this.goToTracks} onAlbums={this.goToAlbums}/>
+                            <SideBar/>
                         </div>
                         <div className="col-md-10">
-                            {this.state.selected === 'home' &&
-                            <WelcomeBanner profile={this.props.profile} tracks={this.props.tracks}
-                                           albums={this.props.albums}/>}
-                            {this.state.selected === 'tracks' && <TrackList pages={this.props.tracks}/>}
-                            {this.state.selected === 'albums' && <AlbumList pages={this.props.albums}/>}
+                            <Route exact path="/" component={WelcomeBanner} />
+                            <Route path="/tracks" component={TrackList}/>
+                            <Route path="/albums" component={AlbumList}/>
                         </div>
                     </div>
                 </div>
@@ -104,4 +83,4 @@ const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({...savedTracksActions, ...savedAlbumsActions, ...profileActions}, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));

@@ -1,5 +1,6 @@
 import React from 'react';
 import LibraryBadge from "./LibraryBadge";
+import {connect} from "react-redux";
 
 const WelcomeBanner = ({profile, tracks, albums}) => {
 
@@ -21,4 +22,12 @@ const WelcomeBanner = ({profile, tracks, albums}) => {
     )
 }
 
-export default WelcomeBanner;
+const mapStateToProps = (state) => {
+    return {
+        tracks: state.tracks,
+        albums: state.albums,
+        profile: state.profile
+    }
+};
+
+export default connect(mapStateToProps)(WelcomeBanner);

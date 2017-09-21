@@ -1,5 +1,4 @@
 import {ConnectedRouter} from "react-router-redux";
-import {Route} from "react-router";
 import * as React from "react";
 import Home from "./Home";
 import {Provider} from 'react-redux';
@@ -19,9 +18,7 @@ export default class App extends React.Component {
         return (
             <Provider store={store}>
                 <ConnectedRouter history={history}>
-                    <div>
-                        <Route exact path="/" component={Home}/>
-                    </div>
+                    <Home/>
                 </ConnectedRouter>
             </Provider>
         );
