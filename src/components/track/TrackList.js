@@ -3,7 +3,6 @@ import Track from "./Track";
 import {connect} from "react-redux";
 
 const TrackList = ({pages}) => {
-
     return (
         <ul className="list-group">
             {

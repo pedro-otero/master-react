@@ -3,7 +3,6 @@ import Album from "./Album";
 import {connect} from "react-redux";
 
 const AlbumList = ({pages}) => {
-    console.log(pages);
     return (
         <ul className="list-group">
             {
