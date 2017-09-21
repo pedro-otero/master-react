@@ -70,12 +70,9 @@ class Home extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        tracks: state.tracks,
-        albums: state.albums,
         profile: state.profile,
         clientId: state.spotifyConfig.clientId,
-        redirectUri: state.spotifyConfig.redirectUri,
-        auth: state.auth
+        redirectUri: state.spotifyConfig.redirectUri
     }
 };
 
