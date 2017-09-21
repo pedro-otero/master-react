@@ -7,6 +7,7 @@ import AlbumList from "./components/album/AlbumList";
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as savedTracksActions from './actions/savedTracks';
+import * as savedAlbumsActions from './actions/savedAlbums';
 
 class Home extends React.Component {
 
@@ -16,7 +17,7 @@ class Home extends React.Component {
             clientId: props.clientId,
             redirectUri: props.redirectUri
         });
-        this.state = {albums: [], profile: null, selected: 'home'};
+        this.state = {profile: null, selected: 'home'};
         this.select = this.select.bind(this);
         this.goHome = this.goHome.bind(this);
         this.goToTracks = this.goToTracks.bind(this);
@@ -37,7 +38,7 @@ class Home extends React.Component {
             }
         });
         this.spotifyApi.getSavedAlbums().subscribe({
-            next: (page) => this.setState(previous => ({albums: [...previous.albums, page]})),
+            next: this.props.actions.receiveSavedAlbumsPage,
             complete: () => {
             },
             error: () => {
@@ -72,9 +73,9 @@ class Home extends React.Component {
                         <div className="col-md-10">
                             {this.state.selected === 'home' &&
                             <WelcomeBanner profile={this.state.profile} tracks={this.props.tracks}
-                                           albums={this.state.albums}/>}
+                                           albums={this.props.albums}/>}
                             {this.state.selected === 'tracks' && <TrackList pages={this.props.tracks}/>}
-                            {this.state.selected === 'albums' && <AlbumList pages={this.state.albums}/>}
+                            {this.state.selected === 'albums' && <AlbumList pages={this.props.albums}/>}
                         </div>
                     </div>
                 </div>
@@ -88,11 +89,12 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    tracks: state.tracks
+    tracks: state.tracks,
+    albums: state.albums
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators(savedTracksActions, dispatch)
+    actions: bindActionCreators({...savedTracksActions, ...savedAlbumsActions}, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
