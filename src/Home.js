@@ -4,6 +4,9 @@ import WelcomeBanner from "./components/WelcomeBanner";
 import SideBar from "./components/SideBar";
 import TrackList from "./components/track/TrackList";
 import AlbumList from "./components/album/AlbumList";
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import * as savedTracksActions from './actions/savedTracks';
 
 class Home extends React.Component {
 
@@ -13,7 +16,7 @@ class Home extends React.Component {
             clientId: props.clientId,
             redirectUri: props.redirectUri
         });
-        this.state = {tracks: [], albums: [], profile: null, selected: 'home'};
+        this.state = {albums: [], profile: null, selected: 'home'};
         this.select = this.select.bind(this);
         this.goHome = this.goHome.bind(this);
         this.goToTracks = this.goToTracks.bind(this);
@@ -27,7 +30,7 @@ class Home extends React.Component {
     load() {
         this.spotifyApi.profile().then(profile => this.setState({profile}));
         this.spotifyApi.getSavedTracks().subscribe({
-            next: (page) => this.setState(previous => ({tracks: [...previous.tracks, page]})),
+            next: this.props.actions.receiveSavedTracksPage,
             complete: () => {
             },
             error: () => {
@@ -67,8 +70,10 @@ class Home extends React.Component {
                             <SideBar onHome={this.goHome} onTracks={this.goToTracks} onAlbums={this.goToAlbums}/>
                         </div>
                         <div className="col-md-10">
-                            {this.state.selected === 'home' && <WelcomeBanner profile={this.state.profile} tracks={this.state.tracks} albums={this.state.albums} />}
-                            {this.state.selected === 'tracks' && <TrackList pages={this.state.tracks}/>}
+                            {this.state.selected === 'home' &&
+                            <WelcomeBanner profile={this.state.profile} tracks={this.props.tracks}
+                                           albums={this.state.albums}/>}
+                            {this.state.selected === 'tracks' && <TrackList pages={this.props.tracks}/>}
                             {this.state.selected === 'albums' && <AlbumList pages={this.state.albums}/>}
                         </div>
                     </div>
@@ -82,4 +87,12 @@ class Home extends React.Component {
     }
 }
 
-export default Home;
+const mapStateToProps = (state) => ({
+    tracks: state.tracks
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators(savedTracksActions, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
