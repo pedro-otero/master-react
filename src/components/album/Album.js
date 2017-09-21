@@ -3,8 +3,6 @@ import {millisToString} from "../../util/index";
 
 const Album = ({album}) => {
 
-    console.log(album.tracks.items);
-
     return (
         <div>
             <div className="row">
