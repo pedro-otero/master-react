@@ -1,4 +1,5 @@
 import React from 'react';
+import {millisToString} from "./util/index";
 
 const Track = ({track, showAlbum}) => {
 
@@ -14,7 +15,7 @@ const Track = ({track, showAlbum}) => {
                 <h6>{track.artists[0].name}{showAlbum && ` - ${track.album.name}`}</h6>
             </div>
             <div className="col col-md-2 col-lg-2">
-                <p className="text-right">{track.duration_ms}</p>
+                <p className="text-right">{millisToString(track.duration_ms)}</p>
             </div>
         </div>
     )
