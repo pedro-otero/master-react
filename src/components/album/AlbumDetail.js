@@ -8,11 +8,7 @@ class TrackDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            backend: new Backend(),
-            spotifyApi: new SpotifyApi({
-                clientId: props.clientId,
-                redirectUri: props.redirectUri
-            })
+            backend: new Backend()
         };
     }
 
@@ -21,7 +17,7 @@ class TrackDetail extends React.Component {
     }
 
     loadSpotifyAlbum() {
-        this.state.spotifyApi.getAlbum(this.props.match.params.id).then(this.loadAlbumDetails.bind(this));
+        this.props.spotifyApi.getAlbum(this.props.match.params.id).then(this.loadAlbumDetails.bind(this));
     }
 
     loadAlbumDetails(album) {
@@ -62,8 +58,7 @@ class TrackDetail extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        clientId: state.spotifyConfig.clientId,
-        redirectUri: state.spotifyConfig.redirectUri
+        spotifyApi: state.spotifyApi
     }
 };
 

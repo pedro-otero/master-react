@@ -8,11 +8,7 @@ class TrackDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            backend: new Backend(),
-            spotifyApi: new SpotifyApi({
-                clientId: props.clientId,
-                redirectUri: props.redirectUri
-            })
+            backend: new Backend()
         };
     }
 
@@ -21,7 +17,7 @@ class TrackDetail extends React.Component {
     }
 
     loadSpotifyTrack() {
-        this.state.spotifyApi.getTrack(this.props.match.params.id).then(this.loadTrackDetails.bind(this));
+        this.props.spotifyApi.getTrack(this.props.match.params.id).then(this.loadTrackDetails.bind(this));
     }
 
     loadTrackDetails(track) {
@@ -49,7 +45,7 @@ class TrackDetail extends React.Component {
                     <p><strong>Producers: </strong>{this.state.details.producers.join(', ')}</p>
                     <p><strong>Other artists: </strong>
                         {Object.keys(this.state.details.credits).map((name, i) => <p key={i}><h1>{name}: </h1>
-                                {this.state.details.credits[name].join(', ')}</p>)}</p>
+                            {this.state.details.credits[name].join(', ')}</p>)}</p>
                 </div>}
             </div>
         )
@@ -58,8 +54,7 @@ class TrackDetail extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        clientId: state.spotifyConfig.clientId,
-        redirectUri: state.spotifyConfig.redirectUri
+        spotifyApi: state.spotifyApi
     }
 };
 

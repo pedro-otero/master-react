@@ -1,5 +1,4 @@
 import React from 'react';
-import SpotifyApi from '../api/spotify';
 import WelcomeBanner from "../components/WelcomeBanner";
 import SideBar from "../components/SideBar";
 import TrackList from "../components/track/TrackList";
@@ -18,10 +17,6 @@ class Home extends React.Component {
 
     constructor(props) {
         super(props);
-        this.spotifyApi = new SpotifyApi({
-            clientId: props.clientId,
-            redirectUri: props.redirectUri
-        });
     }
 
     componentDidMount() {
@@ -29,15 +24,15 @@ class Home extends React.Component {
     }
 
     load() {
-        this.spotifyApi.profile().then(this.props.actions.receiveProfile);
-        this.spotifyApi.getSavedTracks().subscribe({
+        this.props.spotifyApi.profile().then(this.props.actions.receiveProfile);
+        this.props.spotifyApi.getSavedTracks().subscribe({
             next: this.props.actions.receiveSavedTracksPage,
             complete: () => {
             },
             error: () => {
             }
         });
-        this.spotifyApi.getSavedAlbums().subscribe({
+        this.props.spotifyApi.getSavedAlbums().subscribe({
             next: this.props.actions.receiveSavedAlbumsPage,
             complete: () => {
             },
@@ -75,8 +70,7 @@ class Home extends React.Component {
 const mapStateToProps = (state) => {
     return {
         profile: state.profile,
-        clientId: state.spotifyConfig.clientId,
-        redirectUri: state.spotifyConfig.redirectUri
+        spotifyApi: state.spotifyApi
     }
 };
 

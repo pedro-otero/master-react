@@ -799,4 +799,6 @@ export default function SpotifyApi({clientId, redirectUri}) {
     this.getTrack = () => Promise.resolve(loremIpsumSavedTrack.track);
 
     this.getAlbum = () => Promise.resolve(loremIpsumSavedAlbum.album);
+
+    this.setAccessToken = () => undefined;
 }

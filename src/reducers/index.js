@@ -1,10 +1,9 @@
 import tracks from './savedTracks';
 import albums from './savedAlbums';
 import profile from "./profile";
-import spotifyConfig from './spotifyConfig';
-import auth from './authenticationData';
+import spotifyApi from './spotifyApi';
 import {combineReducers} from 'redux';
 
-const rootReducer = combineReducers({tracks, albums, profile, spotifyConfig, auth});
+const rootReducer = combineReducers({tracks, albums, profile, spotifyApi});
 
 export default rootReducer;
