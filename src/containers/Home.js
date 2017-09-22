@@ -5,9 +5,7 @@ import TrackList from "../components/track/TrackList";
 import AlbumList from "../components/album/AlbumList";
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import * as savedTracksActions from '../actions/savedTracks';
-import * as savedAlbumsActions from '../actions/savedAlbums';
-import * as profileActions from '../actions/profile';
+import * as spotifyActions from '../actions/spotify';
 import {Route} from "react-router";
 import {withRouter} from "react-router-dom";
 import TrackDetail from "../components/track/TrackDetail";
@@ -63,7 +61,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators({...savedTracksActions, ...savedAlbumsActions, ...profileActions}, dispatch)
+    actions: bindActionCreators({...spotifyActions}, dispatch)
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));
