@@ -25,7 +25,6 @@ class TrackDetail extends React.Component {
     }
 
     loadTrackDetails(track) {
-        console.log('got track');
         this.setState({track});
         this.state.backend.getTrack(track).then(details => this.setState({details}));
     }

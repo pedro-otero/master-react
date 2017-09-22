@@ -326,13 +326,17 @@ export default function Backend() {
                         "duration": "4:58"
                     }
                 ],
-                "producers": [],
+                "producers": ["Kieron Menzies",
+                    "Lana Del Rey",
+                    "Rick Nowels"],
                 "composers": [
                     "Kieron Menzies",
                     "Lana Del Rey",
                     "Rick Nowels"
                 ],
-                "featured": [],
+                "featured": ["Kieron Menzies",
+                    "Lana Del Rey",
+                    "Rick Nowels"],
                 "credits": {
                     "Kieron Menzies": [
                         "Drums",
@@ -752,5 +756,5 @@ export default function Backend() {
         ]
     });
 
-    this.getTrack = () => Promise.resolve(this.getAlbum()).then(album => album.tracks[0]);
+    this.getTrack = () => Promise.resolve(this.getAlbum()).then(album => album.tracks[4]);
 }
