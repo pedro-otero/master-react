@@ -25,13 +25,7 @@ class Home extends React.Component {
 
     load() {
         this.props.spotifyApi.profile().then(this.props.actions.receiveProfile);
-        this.props.spotifyApi.getSavedTracks().subscribe({
-            next: this.props.actions.receiveSavedTracksPage,
-            complete: () => {
-            },
-            error: () => {
-            }
-        });
+        this.props.actions.loadSavedTracks(this.props.spotifyApi);
         this.props.spotifyApi.getSavedAlbums().subscribe({
             next: this.props.actions.receiveSavedAlbumsPage,
             complete: () => {
