@@ -1,8 +1,9 @@
 import React from 'react';
 import {connect} from "react-redux";
 import Backend from '../../api/backend';
-import SpotifyApi from '../../api/spotify';
 import {millisToString} from "../../util/index";
+import {bindActionCreators} from "redux";
+import * as spotifyActions from '../../actions/spotify';
 
 class TrackDetail extends React.Component {
     constructor(props) {
@@ -17,7 +18,7 @@ class TrackDetail extends React.Component {
     }
 
     loadSpotifyAlbum() {
-        this.props.spotifyApi.getAlbum(this.props.match.params.id).then(this.loadAlbumDetails.bind(this));
+        this.props.actions.getAlbum(this.props.match.params.id).then(this.loadAlbumDetails.bind(this));
     }
 
     loadAlbumDetails(album) {
@@ -58,8 +59,14 @@ class TrackDetail extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        spotifyApi: state.spotifyApi
+
     }
 };
 
-export default connect(mapStateToProps)(TrackDetail);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators({...spotifyActions}, dispatch)
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TrackDetail);

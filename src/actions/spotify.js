@@ -42,3 +42,15 @@ export const loadProfile = () => {
 export const receiveProfile = (profile) => {
     return {type: types.LOAD_PROFILE_SUCCESS, profile};
 }
+
+export const getTrack = (id) => {
+    return function(dispatch, getState) {
+        return getState().spotifyApi.getTrack(id);
+    }
+}
+
+export const getAlbum = (id) => {
+    return function(dispatch, getState) {
+        return getState().spotifyApi.getAlbum(id);
+    }
+}
