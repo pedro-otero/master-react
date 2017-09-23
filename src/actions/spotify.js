@@ -1,8 +1,8 @@
 import * as types from "./types";
 
-export const loadSavedAlbums = (api) => {
-    return function (dispatch) {
-        api.getSavedAlbums().subscribe({
+export const loadSavedAlbums = () => {
+    return function (dispatch, getState) {
+        getState().spotifyApi.getSavedAlbums().subscribe({
             next: (page) => dispatch(receiveSavedAlbumsPage(page)),
             complete: () => {
             },
@@ -16,9 +16,9 @@ export const receiveSavedAlbumsPage = (page) => {
     return {type: types.LOAD_SAVED_ALBUMS_PAGE_SUCCESS, page};
 }
 
-export const loadSavedTracks = (api) => {
-    return function (dispatch) {
-        api.getSavedTracks().subscribe({
+export const loadSavedTracks = () => {
+    return function (dispatch, getState) {
+        getState().spotifyApi.getSavedTracks().subscribe({
             next: (page) => dispatch(receiveSavedTracksPage(page)),
             complete: () => {
             },
@@ -33,9 +33,9 @@ export const receiveSavedTracksPage = (page) => {
 }
 
 
-export const loadProfile = (api) => {
-    return function(dispatch){
-        api.profile().then(profile => dispatch(receiveProfile(profile)))
+export const loadProfile = () => {
+    return function(dispatch, getState){
+        getState().spotifyApi.profile().then(profile => dispatch(receiveProfile(profile)))
     }
 }
 

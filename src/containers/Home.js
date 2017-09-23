@@ -22,9 +22,9 @@ class Home extends React.Component {
     }
 
     load() {
-        this.props.actions.loadProfile(this.props.spotifyApi);
-        this.props.actions.loadSavedTracks(this.props.spotifyApi);
-        this.props.actions.loadSavedAlbums(this.props.spotifyApi);
+        this.props.actions.loadProfile();
+        this.props.actions.loadSavedTracks();
+        this.props.actions.loadSavedAlbums();
     }
 
     render() {
@@ -55,8 +55,7 @@ class Home extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        profile: state.profile,
-        spotifyApi: state.spotifyApi
+        profile: state.profile
     }
 };
 
