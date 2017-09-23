@@ -2,10 +2,23 @@ import {createStore, applyMiddleware} from 'redux';
 import rootReducer from '../reducers/index';
 import initialState from './initalState';
 import thunkMiddleware from 'redux-thunk';
+import SpotifyApi from '../api/spotify';
+import spotifyConfig from '../config/spotify';
 
 import {routerMiddleware} from 'react-router-redux'
 
-export default (history) => createStore(
+function getSpotifyApi(hash) {
+    const auth = hash.substr(1).split('&')
+        .map(pair => pair.split('='))
+        .reduce((all, pair) =>
+                Object.defineProperty(all, pair[0], {enumerable: true, value: pair[1]}),
+            {});
+    const api = new SpotifyApi(spotifyConfig);
+    api.setAccessToken(auth.access_token);
+    return api;
+};
+
+export default (history, hash) => createStore(
     rootReducer,
     initialState,
-    applyMiddleware(thunkMiddleware, routerMiddleware(history)))
+    applyMiddleware(thunkMiddleware.withExtraArgument(getSpotifyApi(window.location.hash)), routerMiddleware(history)))

@@ -1,8 +1,8 @@
 import * as types from "./types";
 
 export const loadSavedAlbums = () => {
-    return function (dispatch, getState) {
-        getState().spotifyApi.getSavedAlbums().subscribe({
+    return function (dispatch, getState, spotifyApi) {
+        spotifyApi.getSavedAlbums().subscribe({
             next: (page) => dispatch(receiveSavedAlbumsPage(page)),
             complete: () => {
             },
@@ -17,8 +17,8 @@ export const receiveSavedAlbumsPage = (page) => {
 }
 
 export const loadSavedTracks = () => {
-    return function (dispatch, getState) {
-        getState().spotifyApi.getSavedTracks().subscribe({
+    return function (dispatch, getState, spotifyApi) {
+        spotifyApi.getSavedTracks().subscribe({
             next: (page) => dispatch(receiveSavedTracksPage(page)),
             complete: () => {
             },
@@ -34,8 +34,8 @@ export const receiveSavedTracksPage = (page) => {
 
 
 export const loadProfile = () => {
-    return function(dispatch, getState){
-        getState().spotifyApi.profile().then(profile => dispatch(receiveProfile(profile)))
+    return function(dispatch, getState, spotifyApi){
+        spotifyApi.profile().then(profile => dispatch(receiveProfile(profile)))
     }
 }
 
@@ -44,13 +44,13 @@ export const receiveProfile = (profile) => {
 }
 
 export const getTrack = (id) => {
-    return function(dispatch, getState) {
-        return getState().spotifyApi.getTrack(id);
+    return function(dispatch, getState, spotifyApi) {
+        return spotifyApi.getTrack(id);
     }
 }
 
 export const getAlbum = (id) => {
-    return function(dispatch, getState) {
-        return getState().spotifyApi.getAlbum(id);
+    return function(dispatch, getState, spotifyApi) {
+        return spotifyApi.getAlbum(id);
     }
 }
