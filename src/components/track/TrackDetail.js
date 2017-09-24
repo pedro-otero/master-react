@@ -1,29 +1,20 @@
 import React from 'react';
 import {connect} from "react-redux";
-import Backend from '../../api/backend';
 import {millisToString} from "../../util/index";
 import {bindActionCreators} from "redux";
 import * as spotifyActions from '../../actions/spotify';
+import * as backendActions from '../../actions/backend';
 
 class TrackDetail extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            backend: new Backend()
-        };
+        this.state = {};
     }
+
 
     componentDidMount() {
-        this.loadSpotifyTrack.bind(this)();
-    }
-
-    loadSpotifyTrack() {
-        this.props.actions.getTrack(this.props.match.params.id).then(this.loadTrackDetails.bind(this));
-    }
-
-    loadTrackDetails(track) {
-        this.setState({track});
-        this.state.backend.getTrack(track).then(details => this.setState({details}));
+        this.props.actions.getTrack(this.props.match.params.id).then(track => this.setState({track}));
+        this.props.actions.getTrackDetails(this.props.match.params.id).then(details => this.setState({details}));
     }
 
     render() {
@@ -61,7 +52,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actions: bindActionCreators({...spotifyActions}, dispatch)
+        actions: bindActionCreators({...spotifyActions, ...backendActions}, dispatch)
     }
 };
 

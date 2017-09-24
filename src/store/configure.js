@@ -4,6 +4,7 @@ import initialState from './initalState';
 import thunkMiddleware from 'redux-thunk';
 import SpotifyApi from '../api/spotify';
 import spotifyConfig from '../config/spotify';
+import Backend from '../api/backend';
 
 import {routerMiddleware} from 'react-router-redux'
 
@@ -21,4 +22,9 @@ function getSpotifyApi(hash) {
 export default (history, hash) => createStore(
     rootReducer,
     initialState,
-    applyMiddleware(thunkMiddleware.withExtraArgument(getSpotifyApi(window.location.hash)), routerMiddleware(history)))
+    applyMiddleware(
+        thunkMiddleware.withExtraArgument({
+            spotifyApi: getSpotifyApi(window.location.hash),
+            backend: new Backend()
+        }),
+        routerMiddleware(history)))

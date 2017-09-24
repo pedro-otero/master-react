@@ -1,6 +1,5 @@
 export default {
     tracks: [],
     albums: [],
-    profile: {loaded: false},
-    spotifyApi: null
+    profile: {loaded: false}
 }
