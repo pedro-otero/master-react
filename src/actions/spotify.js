@@ -32,7 +32,6 @@ export const receiveSavedTracksPage = (page) => {
     return {type: types.LOAD_SAVED_TRACKS_PAGE_SUCCESS, page};
 }
 
-
 export const loadProfile = () => {
     return function (dispatch, getState, {spotifyApi}) {
         spotifyApi.profile().then(profile => dispatch(receiveProfile(profile)))

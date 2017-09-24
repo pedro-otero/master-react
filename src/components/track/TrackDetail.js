@@ -6,11 +6,11 @@ import * as spotifyActions from '../../actions/spotify';
 import * as backendActions from '../../actions/backend';
 
 class TrackDetail extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {};
     }
-
 
     componentDidMount() {
         this.props.actions.getTrack(this.props.match.params.id).then(track => this.setState({track}));

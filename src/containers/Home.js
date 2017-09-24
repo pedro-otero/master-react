@@ -13,15 +13,7 @@ import AlbumDetail from "../components/album/AlbumDetail";
 
 class Home extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
-        this.load();
-    }
-
-    load() {
         this.props.actions.loadProfile();
         this.props.actions.loadSavedTracks();
         this.props.actions.loadSavedAlbums();

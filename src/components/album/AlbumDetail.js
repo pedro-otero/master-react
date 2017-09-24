@@ -6,16 +6,13 @@ import * as spotifyActions from '../../actions/spotify';
 import * as backendActions from '../../actions/backend';
 
 class TrackDetail extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {};
     }
 
     componentDidMount() {
-        this.loadSpotifyAlbum.bind(this)();
-    }
-
-    loadSpotifyAlbum() {
         this.props.actions.getAlbum(this.props.match.params.id).then(album => this.setState({album}));
         this.props.actions.getAlbumDetails(this.props.match.params.id).then(details => this.setState({details}));
     }
