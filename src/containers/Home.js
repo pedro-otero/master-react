@@ -25,18 +25,12 @@ class Home extends React.Component {
             )
         } else {
             return (
-                <div className="container-fluid">
-                    <div className="grid">
-                        <div className="row">
-                            <div className="col-md-10">
-                                <Route exact path="/" component={WelcomePage}/>
-                                <Route exact path="/tracks" component={TrackList}/>
-                                <Route exact path="/tracks/:id" component={TrackDetail}/>
-                                <Route exact path="/albums" component={AlbumList}/>
-                                <Route exact path="/albums/:id" component={AlbumDetail}/>
-                            </div>
-                        </div>
-                    </div>
+                <div>
+                    <Route exact path="/" component={WelcomePage}/>
+                    <Route exact path="/tracks" component={TrackList}/>
+                    <Route exact path="/tracks/:id" component={TrackDetail}/>
+                    <Route exact path="/albums" component={AlbumList}/>
+                    <Route exact path="/albums/:id" component={AlbumDetail}/>
                 </div>
             )
         }

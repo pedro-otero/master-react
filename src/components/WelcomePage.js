@@ -6,7 +6,7 @@ const WelcomePage = ({profile, tracks, albums}) => {
 
     return (
         <div>
-            <div className="grid mt-4">
+            <div className="container-fluid mt-4">
                 <div className="row">
                     <div className="col col-4">
                         <img className="img-fluid rounded" src={profile.images[0].url} alt="avatar"/>
@@ -17,7 +17,7 @@ const WelcomePage = ({profile, tracks, albums}) => {
                     </div>
                 </div>
             </div>
-            <div className="mt-4">
+            <div className="container-fluid mt-4">
                 {tracks.length && <Link to="/tracks">
                     <div className="jumbotron">
                         <h1>{tracks[0].total} tracks</h1>

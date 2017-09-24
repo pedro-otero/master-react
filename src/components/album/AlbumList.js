@@ -4,16 +4,12 @@ import {connect} from "react-redux";
 
 const AlbumList = ({pages}) => {
     return (
-        <ul className="list-group">
-            {
-                pages
-                    .reduce((all, page) => all.concat(page.items), [])
-                    .map((savedAlbum, i) =>
-                        <li key={i} className="list-group-item">
-                            <Album album={savedAlbum.album}/>
-                        </li>)
-            }
-        </ul>
+        <div>            {
+            pages.reduce((all, page) => all.concat(page.items), [])
+                .map((savedAlbum, i) =>
+                    <Album key={i} album={savedAlbum.album}/>
+                )}
+        </div>
     )
 }
 
