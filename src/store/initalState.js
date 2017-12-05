@@ -1,5 +1,6 @@
 export default {
-    tracks: [],
-    albums: [],
-    profile: {loaded: false}
+    song: {
+        track: null,
+        credits: null
+    }
 }

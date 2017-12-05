@@ -1,0 +1,53 @@
+{
+  "producers": [
+    "Kieron Menzies",
+    "Lana Del Rey",
+    "Rick Nowels"
+  ],
+  "composers": [
+    "Kieron Menzies",
+    "Lana Del Rey",
+    "Rick Nowels"
+  ],
+  "collaborators": [
+    {
+      "name": "Kieron Menzies",
+      "roles": [
+        "Drums",
+        "Bass",
+        "Sampler [Samples]",
+        "Synth",
+        "Effects"
+      ]
+    },
+    {
+      "name": "Lana Del Rey",
+      "roles": [
+        "Vocals"
+      ]
+    },
+    {
+      "name": "Rick Nowels",
+      "roles": [
+        "Organ",
+        "Synth",
+        "Keyboards"
+      ]
+    },
+    {
+      "name": "Patrick Warren",
+      "roles": [
+        "Harmonium",
+        "Piano"
+      ]
+    },
+    {
+      "name": "Leon Michels",
+      "roles": [
+        "Synth [Synth Pad]",
+        "Performer [Juno Lead]",
+        "Flute"
+      ]
+    }
+  ]
+}

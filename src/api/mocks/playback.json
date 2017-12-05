@@ -1,0 +1,88 @@
+{
+  "timestamp": 1512434715816,
+  "progress_ms": 187636,
+  "is_playing": true,
+  "item": {
+    "album": {
+      "album_type": "single",
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/16KSSLMXOdKQ2MHt9bOHTG"
+          },
+          "href": "https://api.spotify.com/v1/artists/16KSSLMXOdKQ2MHt9bOHTG",
+          "id": "16KSSLMXOdKQ2MHt9bOHTG",
+          "name": "Tough Love",
+          "type": "artist",
+          "uri": "spotify:artist:16KSSLMXOdKQ2MHt9bOHTG"
+        }
+      ],
+      "external_urls": {
+        "spotify": "https://open.spotify.com/album/4Oq7T2OTxi6dicTv6PAuV0"
+      },
+      "href": "https://api.spotify.com/v1/albums/4Oq7T2OTxi6dicTv6PAuV0",
+      "id": "4Oq7T2OTxi6dicTv6PAuV0",
+      "images": [
+        {
+          "height": 640,
+          "url": "https://i.scdn.co/image/b3f9b0a6b1078bf1dd9f02565be709281ac9ac08",
+          "width": 640
+        },
+        {
+          "height": 300,
+          "url": "https://i.scdn.co/image/ed2312c92c30b2d00e88e951e9ecd786e69a8173",
+          "width": 300
+        },
+        {
+          "height": 64,
+          "url": "https://i.scdn.co/image/468723f16b5814c08a66efe657c0fcba51c20bb1",
+          "width": 64
+        }
+      ],
+      "name": "DLNW EP",
+      "type": "album",
+      "uri": "spotify:album:4Oq7T2OTxi6dicTv6PAuV0"
+    },
+    "artists": [
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/16KSSLMXOdKQ2MHt9bOHTG"
+        },
+        "href": "https://api.spotify.com/v1/artists/16KSSLMXOdKQ2MHt9bOHTG",
+        "id": "16KSSLMXOdKQ2MHt9bOHTG",
+        "name": "Tough Love",
+        "type": "artist",
+        "uri": "spotify:artist:16KSSLMXOdKQ2MHt9bOHTG"
+      }
+    ],
+    "disc_number": 1,
+    "duration_ms": 283125,
+    "explicit": false,
+    "external_ids": {
+      "isrc": "QMTGL1600033"
+    },
+    "external_urls": {
+      "spotify": "https://open.spotify.com/track/2ObbdGEowwVggIIlLTMZcR"
+    },
+    "href": "https://api.spotify.com/v1/tracks/2ObbdGEowwVggIIlLTMZcR",
+    "id": "2ObbdGEowwVggIIlLTMZcR",
+    "is_playable": true,
+    "name": "One More Try - Original Mix",
+    "popularity": 25,
+    "preview_url": "https://p.scdn.co/mp3-preview/23528907854d5c33dac0a0d89544dbf164e66c2d?cid=8897482848704f2a8f8d7c79726a70d4",
+    "track_number": 2,
+    "type": "track",
+    "uri": "spotify:track:2ObbdGEowwVggIIlLTMZcR"
+  },
+  "context": null,
+  "device": {
+    "id": "4e59352307d31ad0e848c6ec928985778102f67d",
+    "is_active": true,
+    "is_restricted": false,
+    "name": "DESKTOP-IFLV799",
+    "type": "Computer",
+    "volume_percent": 100
+  },
+  "repeat_state": "off",
+  "shuffle_state": false
+}

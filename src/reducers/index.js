@@ -1,8 +1,18 @@
-import tracks from './savedTracks';
-import albums from './savedAlbums';
-import profile from "./profile";
 import {combineReducers} from 'redux';
+import * as types from "../actions/types";
+import initialState from "../store/initalState";
 
-const rootReducer = combineReducers({tracks, albums, profile});
+function song(state = initialState.song, action) {
+    switch (action.type) {
+        case types.LOAD_PLAYBACK_SUCCESS:
+            return {credits: state.credits, track: action.track};
+        case types.LOAD_CREDITS_SUCCESS:
+            return {credits: action.credits, track: state.track};
+        default:
+            return state;
+    }
+};
+
+const rootReducer = combineReducers({song});
 
 export default rootReducer;
