@@ -9,7 +9,10 @@ export const getCurrentPlayback = () => {
                     backend.getCredits(playback.body.item, album.body).then(credits => {
                         dispatch({type: types.LOAD_CREDITS_SUCCESS, credits});
                     });
-                })
+                });
+                spotifyApi.getArtist(playback.body.item.artists[0].id).then(artist => {
+                    dispatch({type: types.LOAD_ARTIST_SUCCESS, artist});
+                });
             });
     }
 }
