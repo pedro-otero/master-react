@@ -1,0 +1,21 @@
+header {
+    display: flex;
+    flexDirection: row;
+}
+
+h4, h5, h6{
+    display: inline;
+}
+
+.header-imageblock {
+    flex: 3;
+}
+
+.header-image {
+    max-width: 100%;
+}
+
+.header-title{
+    flex: 7;
+    flex-direction: column;
+}

@@ -5,7 +5,7 @@ import {Route} from "react-router";
 import {withRouter} from "react-router-dom";
 
 import * as spotifyActions from '../actions/spotify';
-import Song from "../components/song";
+import Song from "../components/song/song";
 
 class Home extends React.Component {
 
