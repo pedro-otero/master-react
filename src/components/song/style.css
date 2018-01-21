@@ -3,24 +3,83 @@ body {
     color: white;
 }
 
-header {
-    display: flex;
-    flexDirection: row;
-}
-
 h4, h5, h6{
     display: inline;
 }
 
-.header-imageblock {
-    flex: 3;
+.header {
+    position: relative;
 }
 
-.header-image {
-    max-width: 100%;
+.header .content {
+    padding: 2em 0;
+    display: flex;
+    flex-direction: row;
+    top: 0;
+    margin: 0 15%;
+    width: 70%;
+    position: absolute;
+    z-index: 1;
 }
 
-.header-title{
-    flex: 7;
-    flex-direction: column;
+.header .content > div {
+    margin-right: 2em;
+}
+
+.header .content > div + div > h2 {
+    padding: 1em 0;
+}
+
+.header .background {
+    width: 100%;
+    height: 16em;
+    margin-bottom: 10px;
+    filter: brightness(0.3) blur(10px);
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    z-index: 0;
+}
+
+.albumCover {
+    width: 12em;
+}
+
+div.header + div {
+    margin: 0 15%;
+    width: 70%;
+}
+
+.collaborator {
+    background-color: white;
+    color: black;
+    margin-left: 5px;
+    padding: 0px 10px 0px 10px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.composer {
+    font-style: italic;
+}
+
+.producer {
+    font-weight: bold;
+}
+
+.featured {
+    border-bottom: 1px dashed gray;
+}
+
+.main-artist{
+    text-decoration: underline;
+}
+
+.main-artist::before{
+    content: "★ ";
+}
+
+.artistImg {
+    filter: blur(5px);
+    z-index: -1;
 }
