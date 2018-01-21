@@ -43,9 +43,25 @@ h4, h5, h6{
 
 .albumCover {
     width: 12em;
+    height: 12em;
+    background-size: cover;
+    position: relative;
 }
 
-div.header + div {
+.albumYear {
+    font-size: xx-small;
+    background-color: rgba(0,0,0,0.7);
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    text-align: right;
+}
+
+.albumYear::before {
+    content: "© ";
+}
+
+.credits {
     margin: 0 15%;
     width: 70%;
 }
@@ -77,9 +93,4 @@ div.header + div {
 
 .main-artist::before{
     content: "★ ";
-}
-
-.artistImg {
-    filter: blur(5px);
-    z-index: -1;
 }

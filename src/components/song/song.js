@@ -38,8 +38,8 @@ class Song extends React.Component {
         return <article>
             {track && artist && <div className="header">
                 <div className="content">
-                    <div>
-                        <img className="albumCover" alt="cover" src={track.album.images[0].url}/>
+                    <div className="albumCover" style={{backgroundImage: `url(${track.album.images[0].url})`}}>
+                        <span className="albumYear">2006</span>
                     </div>
                     <div>
                         <h2>{track.name}</h2>
@@ -50,7 +50,7 @@ class Song extends React.Component {
 
                 </div>
             </div>}
-            {credits && <div>
+            {credits && <div className="credits">
                 <p><h4>Composers: </h4>{credits.composers.map(collaborator)}</p>
                 <p><h4>Producers: </h4>{credits.producers.map(collaborator)}</p>
                 <p><h4>Other credits: </h4>
