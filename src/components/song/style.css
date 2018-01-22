@@ -18,10 +18,6 @@ body {
     z-index: 1;
 }
 
-.header .content > div {
-    margin-right: 2em;
-}
-
 .artistName {
     font-size: 1.5em;
 }
@@ -67,6 +63,7 @@ body {
 }
 
 .albumCover {
+    margin-right: 2em;
     width: 12em;
     height: 12em;
     background-size: cover;
