@@ -51,7 +51,7 @@ class Song extends React.Component {
                         <span className="producers">{credits.producers.map(collaborator)}</span>
                     </div>
                 </div>
-                <div className="background" style={layers(artist.images[0])}>
+                <div className="artistImg" style={layers(artist.images[0])}>
 
                 </div>
             </div>}

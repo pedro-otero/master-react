@@ -7,15 +7,47 @@ body {
     position: relative;
 }
 
-.header .content {
+.content {
     padding: 2em 0;
     display: flex;
     flex-direction: row;
-    top: 0;
     margin: 0 15%;
     width: 70%;
-    position: absolute;
+    position: relative;
     z-index: 1;
+}
+
+.artistImg {
+    width: 100%;
+    margin-bottom: 10px;
+    filter: brightness(0.3) blur(10px);
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 0;
+}
+
+.albumCover {
+    margin-right: 2em;
+    width: 12em;
+    height: 12em;
+    background-size: cover;
+    position: relative;
+}
+
+.albumYear {
+    font-size: xx-small;
+    background-color: rgba(0,0,0,0.7);
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    text-align: right;
+}
+
+.albumYear::before {
+    content: "© ";
 }
 
 .artistName {
@@ -49,38 +81,6 @@ body {
 
 .producers::after {
     content: "]";
-}
-
-.header .background {
-    width: 100%;
-    height: 16em;
-    margin-bottom: 10px;
-    filter: brightness(0.3) blur(10px);
-    background-position: center;
-    background-size: cover;
-    position: relative;
-    z-index: 0;
-}
-
-.albumCover {
-    margin-right: 2em;
-    width: 12em;
-    height: 12em;
-    background-size: cover;
-    position: relative;
-}
-
-.albumYear {
-    font-size: xx-small;
-    background-color: rgba(0,0,0,0.7);
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    text-align: right;
-}
-
-.albumYear::before {
-    content: "© ";
 }
 
 .credits {
