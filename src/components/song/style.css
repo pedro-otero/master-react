@@ -3,10 +3,6 @@ body {
     color: white;
 }
 
-h4, h5, h6{
-    display: inline;
-}
-
 .header {
     position: relative;
 }
@@ -26,8 +22,37 @@ h4, h5, h6{
     margin-right: 2em;
 }
 
-.header .content > div + div > h2 {
+.artistName {
+    font-size: 1.5em;
+}
+
+.trackName {
     padding: 1em 0;
+    font-size: 3em;
+}
+
+.composers::before {
+    content: "(";
+}
+
+.composers::after {
+    content: ")";
+}
+
+.composers span, .producers span {
+    font-size: 0.7em;
+}
+
+.composers span:not(:last-child)::after, .producers span:not(:last-child)::after {
+    content: ", ";
+}
+
+.producers::before {
+    content: "[";
+}
+
+.producers::after {
+    content: "]";
 }
 
 .header .background {
@@ -66,31 +91,7 @@ h4, h5, h6{
     width: 70%;
 }
 
-.collaborator {
-    background-color: white;
-    color: black;
-    margin-left: 5px;
-    padding: 0px 10px 0px 10px;
-    border-radius: 20px;
-    display: inline-block;
-}
-
-.composer {
-    font-style: italic;
-}
-
-.producer {
-    font-weight: bold;
-}
-
-.featured {
-    border-bottom: 1px dashed gray;
-}
-
-.main-artist{
-    text-decoration: underline;
-}
-
-.main-artist::before{
-    content: "★ ";
+.collaboratorName {
+    border-bottom: 1px solid;
+    margin-top: 1em;
 }

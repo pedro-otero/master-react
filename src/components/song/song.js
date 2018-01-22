@@ -36,14 +36,19 @@ class Song extends React.Component {
         });
 
         return <article>
-            {track && artist && <div className="header">
+            {track && artist && credits && <div className="header">
                 <div className="content">
                     <div className="albumCover" style={{backgroundImage: `url(${track.album.images[0].url})`}}>
                         <span className="albumYear">2006</span>
                     </div>
                     <div>
-                        <h2>{track.name}</h2>
-                        <h3>{mainArtistName} - {track.album.name}</h3>
+                        <span className="artistName">{mainArtistName}</span>
+                        <br/>
+                        <span className="trackName">{track.name}</span>
+                        <br/>
+                        <span className="composers">{credits.composers.map(collaborator)}</span>
+                        <br/>
+                        <span className="producers">{credits.producers.map(collaborator)}</span>
                     </div>
                 </div>
                 <div className="background" style={layers(artist.images[0])}>
@@ -51,16 +56,12 @@ class Song extends React.Component {
                 </div>
             </div>}
             {credits && <div className="credits">
-                <p><h4>Composers: </h4>{credits.composers.map(collaborator)}</p>
-                <p><h4>Producers: </h4>{credits.producers.map(collaborator)}</p>
-                <p><h4>Other credits: </h4>
-                    <ul>
-                        {credits.collaborators.map(collaborator => (
-                            <li key={collaborator.name}><h5>{collaborator.name}:</h5> {collaborator.roles.join(', ')}
-                            </li>
-                        ))}
-                    </ul>
-                </p>
+                {credits.collaborators.map((collaborator, i) => (
+                    <span key={i}>
+                        <h5 className="collaboratorName">{collaborator.name}:</h5>
+                        {collaborator.roles.join(', ')}
+                    </span>
+                ))}
             </div>}
         </article>
     }
