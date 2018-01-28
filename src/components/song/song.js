@@ -6,7 +6,7 @@ class Song extends React.Component {
 
     render() {
 
-        const {track, credits, artist} = this.props;
+        const {track, credits, artist, album} = this.props;
         const mainArtistName = (track && track.artists[0].name) || '';
 
         const roles = name => {
@@ -36,10 +36,10 @@ class Song extends React.Component {
         });
 
         return <article>
-            {track && artist && credits && <div className="header">
+            {track && artist && credits && album && <div className="header">
                 <div className="content">
                     <div className="albumCover" style={{backgroundImage: `url(${track.album.images[0].url})`}}>
-                        <span className="albumYear">2006</span>
+                        <span className="albumYear">{album.release_date.substring(0, 4)}</span>
                     </div>
                     <div>
                         <span className="artistName">{mainArtistName}</span>
@@ -72,6 +72,7 @@ const mapStateToProps = (state) => {
         track: state.song.track,
         credits: state.song.credits,
         artist: state.song.artist,
+        album: state.song.album,
     }
 };
 

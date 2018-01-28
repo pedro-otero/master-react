@@ -3,5 +3,6 @@ export default {
         track: null,
         credits: null,
         artist: null,
+        album: null,
     }
 }
