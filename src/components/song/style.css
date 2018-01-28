@@ -182,7 +182,7 @@ body {
 .artistImg {
     width: 100%;
     margin-bottom: 10px;
-    filter: brightness(0.3) blur(10px);
+    filter: brightness(0.6) blur(10px);
     background-position: center;
     background-size: cover;
     position: absolute;
@@ -198,7 +198,7 @@ body {
 
 .albumYear {
     font-size: xx-small;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.4);
     position: absolute;
     width: 100%;
     bottom: 0;

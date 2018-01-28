@@ -31,7 +31,7 @@ class Song extends React.Component {
         }
 
         const layers = (image) => ({
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.35) 95%, black), 
+            backgroundImage: `linear-gradient(rgba(0,0,0,0.1) 65%, black), 
             url(${image.url})`
         });
 
