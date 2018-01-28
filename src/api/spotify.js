@@ -1,13 +1,14 @@
-import playback from './mocks/playback.json';
-import artist from './mocks/artist.json';
+import SpotifyWebApi from 'spotify-web-api-node';
 
 export default function SpotifyApi({clientId, redirectUri}) {
 
-    this.getCurrentPlayback = () => Promise.resolve({body: playback});
+    const api = new SpotifyWebApi({clientId, redirectUri});
 
-    this.getAlbum = () => Promise.resolve({});
+    this.getCurrentPlayback = () => api.getMyCurrentPlaybackState();
 
-    this.getArtist = (id) => Promise.resolve(artist);
+    this.getAlbum = (id) => api.getAlbum(id);
 
-    this.setAccessToken = () => undefined;
+    this.getArtist = (id) => api.getArtist(id);
+
+    this.setAccessToken = (token) => api.setAccessToken(token);
 }

@@ -11,7 +11,7 @@ export const getCurrentPlayback = () => {
                     });
                 });
                 spotifyApi.getArtist(playback.body.item.artists[0].id).then(artist => {
-                    dispatch({type: types.LOAD_ARTIST_SUCCESS, artist});
+                    dispatch({type: types.LOAD_ARTIST_SUCCESS, artist: artist.body});
                 });
             });
     }
