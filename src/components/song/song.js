@@ -3,9 +3,7 @@ import {connect} from "react-redux";
 import './style.css';
 
 class Song extends React.Component {
-
   render() {
-
     const {
       track,
       data: {
@@ -54,9 +52,11 @@ class Song extends React.Component {
       {<div className="credits">
         {Object.keys(credits).map((collaborator, i) => (
           <span key={i}>
-                        <h5 className="collaboratorName">{collaborator}:</h5>
+            <h5 className="collaboratorName">
+              {collaborator}:
+            </h5>
             {credits[collaborator].join(', ')}
-                    </span>
+          </span>
         ))}
       </div>}
     </article>
