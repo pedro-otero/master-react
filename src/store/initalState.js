@@ -1,8 +1,13 @@
 export default {
   song: {
-    track: null,
-    credits: null,
-    artist: null,
-    album: null,
+    track: {
+      artists: [{}],
+      album: {
+        images: [{}]
+      }
+    },
+    credits: { composers: [], producers: [], credits: {} },
+    artist: { images: [{}] },
+    album: { release_date: '' },
   }
 }

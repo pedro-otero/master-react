@@ -7,7 +7,7 @@ class Song extends React.Component {
   render() {
 
     const { track, data, artist, album } = this.props;
-    const mainArtistName = (track && track.artists[0].name) || '';
+    const mainArtistName = track.artists[0].name || '';
 
     const layers = (image) => ({
       backgroundImage: `linear-gradient(rgba(0,0,0,0.1) 65%, black), 
@@ -15,7 +15,7 @@ class Song extends React.Component {
     });
 
     return <article>
-      {track && artist && data && album && <div className="header">
+      {<div className="header">
         <div className="content">
           <div className="albumCover" style={{ backgroundImage: `url(${track.album.images[0].url})` }}>
             <span className="albumYear">{album.release_date.substring(0, 4)}</span>
@@ -32,7 +32,7 @@ class Song extends React.Component {
             </span>
             <br/>
             <span className="producers">
-              {data.composers.map((name, i) => (
+              {data.producers.map((name, i) => (
                 <span key={`producer-${name}-${i}`}>{name}</span>
               ))}
             </span>
@@ -42,8 +42,8 @@ class Song extends React.Component {
 
         </div>
       </div>}
-      {data && data.credits && <div className="credits">
-        {data && Object.keys(data.credits).map((collaborator, i) => (
+      {<div className="credits">
+        {Object.keys(data.credits).map((collaborator, i) => (
           <span key={i}>
                         <h5 className="collaboratorName">{collaborator}:</h5>
             {data.credits[collaborator].join(', ')}
