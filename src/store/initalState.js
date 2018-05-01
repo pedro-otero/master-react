@@ -1,8 +1,8 @@
 export default {
-    song: {
-        track: null,
-        credits: null,
-        artist: null,
-        album: null,
-    }
+  song: {
+    track: null,
+    credits: null,
+    artist: null,
+    album: null,
+  }
 }

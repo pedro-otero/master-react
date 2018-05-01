@@ -9,21 +9,22 @@ import Song from "../components/song/song";
 
 class Home extends React.Component {
 
-    componentDidMount() {
-        this.props.actions.getCurrentPlayback();
-    }
+  componentDidMount() {
+    this.props.actions.getCurrentPlayback();
+  }
 
-    render() {
-        return (
-            <div>
-                <Route exact path="/" component={Song}/>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div>
+        <Route exact path="/" component={Song}/>
+      </div>
+    )
+  }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators({...spotifyActions}, dispatch)
+  actions: bindActionCreators({ ...spotifyActions }, dispatch)
 });
 
-export default withRouter(connect(() => {}, mapDispatchToProps)(Home));
+export default withRouter(connect(() => {
+}, mapDispatchToProps)(Home));
