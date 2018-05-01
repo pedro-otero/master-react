@@ -1,4 +1,5 @@
 import reduce from './bundle';
+import {LOAD_ALBUM_SUCCESS, LOAD_ARTIST_SUCCESS, LOAD_CREDITS_SUCCESS, LOAD_PLAYBACK_SUCCESS} from "../actions/types";
 
 describe('Main reducer', () => {
   describe('returns default state', () => {
@@ -31,5 +32,37 @@ describe('Main reducer', () => {
     test('artist', () => {
       expect(bundle.artist);
     });
+  });
+
+  it('sets playback data', () => {
+    const bundle = reduce(undefined, {
+      type: LOAD_PLAYBACK_SUCCESS,
+      track: { id: 1 }
+    });
+    expect(bundle.track.id);
+  });
+
+  it('sets album', () => {
+    const bundle = reduce(undefined, {
+      type: LOAD_ALBUM_SUCCESS,
+      album: { id: 1 }
+    });
+    expect(bundle.album.id);
+  });
+
+  it('sets artist', () => {
+    const bundle = reduce(undefined, {
+      type: LOAD_ARTIST_SUCCESS,
+      artist: { id: 1 }
+    });
+    expect(bundle.artist.id);
+  });
+
+  it('sets credits', () => {
+    const bundle = reduce(undefined, {
+      type: LOAD_CREDITS_SUCCESS,
+      artist: { id: 1 }
+    });
+    expect(bundle.artist.id);
   });
 });
