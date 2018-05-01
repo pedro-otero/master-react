@@ -6,7 +6,16 @@ class Song extends React.Component {
 
   render() {
 
-    const { track, data, artist, album } = this.props;
+    const {
+      track,
+      data: {
+        composers,
+        producers,
+        credits
+      },
+      artist,
+      album
+    } = this.props;
     const mainArtistName = track.artists[0].name || '';
 
     const layers = (image) => ({
@@ -26,13 +35,13 @@ class Song extends React.Component {
             <span className="trackName">{track.name}</span>
             <br/>
             <span className="composers">
-              {data.composers.map((name, i) => (
+              {composers.map((name, i) => (
                 <span key={`composer-${name}-${i}`}>{name}</span>
               ))}
             </span>
             <br/>
             <span className="producers">
-              {data.producers.map((name, i) => (
+              {producers.map((name, i) => (
                 <span key={`producer-${name}-${i}`}>{name}</span>
               ))}
             </span>
@@ -43,10 +52,10 @@ class Song extends React.Component {
         </div>
       </div>}
       {<div className="credits">
-        {Object.keys(data.credits).map((collaborator, i) => (
+        {Object.keys(credits).map((collaborator, i) => (
           <span key={i}>
                         <h5 className="collaboratorName">{collaborator}:</h5>
-            {data.credits[collaborator].join(', ')}
+            {credits[collaborator].join(', ')}
                     </span>
         ))}
       </div>}
