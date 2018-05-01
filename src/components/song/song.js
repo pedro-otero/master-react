@@ -6,7 +6,7 @@ class Song extends React.Component {
 
   render() {
 
-    const { track, credits, artist, album } = this.props;
+    const { track, data, artist, album } = this.props;
     const mainArtistName = (track && track.artists[0].name) || '';
 
     const roles = name => {
@@ -14,10 +14,10 @@ class Song extends React.Component {
       if (name === mainArtistName) {
         result.push('main-artist');
       }
-      if (credits.composers.includes(name)) {
+      if (data.composers.includes(name)) {
         result.push('composer');
       }
-      if (credits.producers.includes(name)) {
+      if (data.producers.includes(name)) {
         result.push('producer');
       }
       if (track.artists.splice(1).map(artist => artist.name).includes(name)) {
@@ -36,7 +36,7 @@ class Song extends React.Component {
     });
 
     return <article>
-      {track && artist && credits && album && <div className="header">
+      {track && artist && data && album && <div className="header">
         <div className="content">
           <div className="albumCover" style={{ backgroundImage: `url(${track.album.images[0].url})` }}>
             <span className="albumYear">{album.release_date.substring(0, 4)}</span>
@@ -46,20 +46,20 @@ class Song extends React.Component {
             <br/>
             <span className="trackName">{track.name}</span>
             <br/>
-            <span className="composers">{credits.composers.map(collaborator)}</span>
+            <span className="composers">{data.composers.map(collaborator)}</span>
             <br/>
-            <span className="producers">{credits.producers.map(collaborator)}</span>
+            <span className="producers">{data.producers.map(collaborator)}</span>
           </div>
         </div>
         <div className="artistImg" style={layers(artist.images[0])}>
 
         </div>
       </div>}
-      {credits && <div className="credits">
-        {credits.collaborators.map((collaborator, i) => (
+      {data && data.credits && <div className="credits">
+        {data && Object.keys(data.credits).map((collaborator, i) => (
           <span key={i}>
-                        <h5 className="collaboratorName">{collaborator.name}:</h5>
-            {collaborator.roles.join(', ')}
+                        <h5 className="collaboratorName">{collaborator}:</h5>
+            {data.credits[collaborator].join(', ')}
                     </span>
         ))}
       </div>}
@@ -70,7 +70,7 @@ class Song extends React.Component {
 const mapStateToProps = (state) => {
   return {
     track: state.song.track,
-    credits: state.song.credits,
+    data: state.song.credits,
     artist: state.song.artist,
     album: state.song.album,
   }
