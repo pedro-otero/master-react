@@ -9,27 +9,6 @@ class Song extends React.Component {
     const { track, data, artist, album } = this.props;
     const mainArtistName = (track && track.artists[0].name) || '';
 
-    const roles = name => {
-      const result = [];
-      if (name === mainArtistName) {
-        result.push('main-artist');
-      }
-      if (data.composers.includes(name)) {
-        result.push('composer');
-      }
-      if (data.producers.includes(name)) {
-        result.push('producer');
-      }
-      if (track.artists.splice(1).map(artist => artist.name).includes(name)) {
-        result.push('featured');
-      }
-      return result;
-    }
-
-    const collaborator = name => {
-      return <span className={['collaborator', ...roles(name)].join(' ')}>{name}</span>
-    }
-
     const layers = (image) => ({
       backgroundImage: `linear-gradient(rgba(0,0,0,0.1) 65%, black), 
             url(${image.url})`
@@ -46,9 +25,17 @@ class Song extends React.Component {
             <br/>
             <span className="trackName">{track.name}</span>
             <br/>
-            <span className="composers">{data.composers.map(collaborator)}</span>
+            <span className="composers">
+              {data.composers.map((name, i) => (
+                <span key={`composer-${name}-${i}`}>{name}</span>
+              ))}
+            </span>
             <br/>
-            <span className="producers">{data.producers.map(collaborator)}</span>
+            <span className="producers">
+              {data.composers.map((name, i) => (
+                <span key={`producer-${name}-${i}`}>{name}</span>
+              ))}
+            </span>
           </div>
         </div>
         <div className="artistImg" style={layers(artist.images[0])}>
