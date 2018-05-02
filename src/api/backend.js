@@ -1,7 +1,7 @@
 import request from 'superagent';
 
 export default function Backend() {
-  this.getCredits = albumId => new Promise(function (resolve, reject) {
+  this.getCredits = albumId => new Promise(((resolve, reject) => {
     request
       .get(`${process.env.REACT_APP_BE_DOMAIN}/data/album/${albumId}`)
       .end((err, res) => {
@@ -12,5 +12,5 @@ export default function Backend() {
           resolve(res.body);
         }
       });
-  });
+  }));
 }
