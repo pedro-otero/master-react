@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from "react-redux";
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './style.css';
 
@@ -10,16 +10,16 @@ class Song extends React.Component {
       data: {
         composers,
         producers,
-        credits
+        credits,
       },
       artist,
-      album
+      album,
     } = this.props;
     const mainArtistName = track.artists[0].name || '';
 
-    const layers = (image) => ({
+    const layers = image => ({
       backgroundImage: `linear-gradient(rgba(0,0,0,0.1) 65%, black), 
-            url(${image.url})`
+            url(${image.url})`,
     });
 
     return <article>
@@ -60,7 +60,7 @@ class Song extends React.Component {
           </span>
         ))}
       </div>}
-    </article>
+    </article>;
   }
 }
 
@@ -71,13 +71,11 @@ Song.propTypes = {
   album: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    track: state.song.track,
-    data: state.song.credits,
-    artist: state.song.artist,
-    album: state.song.album,
-  }
-};
+const mapStateToProps = state => ({
+  track: state.song.track,
+  data: state.song.credits,
+  artist: state.song.artist,
+  album: state.song.album,
+});
 
 export default connect(mapStateToProps)(Song);
