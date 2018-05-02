@@ -10,6 +10,13 @@ describe('Spotify async actions', () => {
       album,
       artists: [artist],
     };
+    const credits = {
+      bestMatch: {
+        tracks: [{
+          id: 'T1',
+        }],
+      },
+    };
     const spotifyApi = {
       getAlbum: jest.fn(() => Promise.resolve({ body: album })),
       getArtist: jest.fn(() => Promise.resolve({ body: artist })),
@@ -20,7 +27,7 @@ describe('Spotify async actions', () => {
       })),
     };
     const backend = {
-      getCredits: jest.fn(() => Promise.resolve({})),
+      getCredits: jest.fn(() => Promise.resolve(credits)),
     };
     const dispatch = jest.fn();
     getCurrentPlayback()(dispatch, null, {
@@ -62,13 +69,13 @@ describe('Spotify async actions', () => {
     });
 
     it('calls backend#getCredits', () => {
-      expect(backend.getCredits.mock.calls).toEqual([[track, album]]);
+      expect(backend.getCredits.mock.calls).toEqual([[album.id]]);
     });
 
     it('dispatches credits info', () => {
       expect(dispatch).toHaveBeenCalledWith({
         type: LOAD_CREDITS_SUCCESS,
-        credits: {},
+        credits: credits.bestMatch.tracks[0],
       });
     });
   });

@@ -6,8 +6,8 @@ export const getCurrentPlayback = () => function (dispatch, getState, { spotifyA
       dispatch({ type: types.LOAD_PLAYBACK_SUCCESS, track: playback.body.item });
       spotifyApi.getAlbum(playback.body.item.album.id).then((album) => {
         dispatch({ type: types.LOAD_ALBUM_SUCCESS, album: album.body });
-        backend.getCredits(playback.body.item, album.body).then((credits) => {
-          dispatch({ type: types.LOAD_CREDITS_SUCCESS, credits });
+        backend.getCredits(album.body.id).then((credits) => {
+          dispatch({ type: types.LOAD_CREDITS_SUCCESS, credits: credits.bestMatch.tracks.find(t => t.id === playback.body.item.id) });
         });
       });
       spotifyApi.getArtist(playback.body.item.artists[0].id).then((artist) => {
