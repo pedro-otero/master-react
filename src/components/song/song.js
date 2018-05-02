@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
+import PropTypes from 'prop-types';
 import './style.css';
 
 class Song extends React.Component {
@@ -62,6 +63,13 @@ class Song extends React.Component {
     </article>
   }
 }
+
+Song.propTypes = {
+  track: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+  artist: PropTypes.object.isRequired,
+  album: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = (state) => {
   return {
