@@ -23,7 +23,7 @@ export class Song extends React.Component {
     });
 
     return <article>
-      {<div className="header">
+      <div className="header">
         <div className="content">
           <div className="albumCover" style={{ backgroundImage: `url(${track.album.images[0].url})` }}>
             <span className="albumYear">{album.release_date.substring(0, 4)}</span>
@@ -49,8 +49,8 @@ export class Song extends React.Component {
         <div className="artistImg" style={layers(artist.images[0])}>
 
         </div>
-      </div>}
-      {<div className="credits">
+      </div>
+      <div className="credits">
         {Object.keys(credits).map((collaborator, i) => (
           <span key={i}>
             <h5 className="collaboratorName">
@@ -59,7 +59,7 @@ export class Song extends React.Component {
             {credits[collaborator].join(', ')}
           </span>
         ))}
-      </div>}
+      </div>
     </article>;
   }
 }
