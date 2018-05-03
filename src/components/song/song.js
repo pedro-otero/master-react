@@ -25,14 +25,13 @@ export class Song extends React.Component {
     if ((track.id || artist.id || album.id) && Object.keys(credits).length) {
       return 'with-credits';
     }
-
     return '';
   }
 
   startPollingCredits() {
     this.timer = setTimeout(() => {
       this.props.actions.getCredits();
-    }, 1000);
+    }, this.props.pollFreq);
   }
 
   render() {
@@ -112,6 +111,14 @@ Song.propTypes = {
   artist: PropTypes.object.isRequired,
   album: PropTypes.object.isRequired,
   progress: PropTypes.number,
+  actions: PropTypes.shape({
+    getCredits: PropTypes.func.isRequired,
+  }),
+  pollFreq: PropTypes.number,
+};
+
+Song.defaultProps = {
+  pollFreq: 1000,
 };
 
 const mapStateToProps = state => ({
