@@ -1,8 +1,8 @@
 import React from 'react';
-import Enzyme, { shallow } from 'enzyme';
+import Enzyme, {shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import { Song } from './song';
+import {Song} from './song';
 import initialState from '../../store/initalState';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -57,6 +57,23 @@ describe('Song component', () => {
 
     it('displays small progress indicator', () => {
       expect(wrapper.find('progress[className="small-progress"]')).toHaveLength(1);
+    });
+  });
+
+  describe('search finished', () => {
+    const wrapper = shallow(<Song
+      data={Object.assign({}, initialState.song.credits, { credits: { P1: ['R1', 'R2'] } })}
+      track={Object.assign({}, initialState.song.track, { id: 'T1' })}
+      album={initialState.song.album}
+      artist={initialState.song.artist}
+      progress={100}/>);
+
+    it('does not display big progress indicator', () => {
+      expect(wrapper.find('progress[className="big-progress"]')).toHaveLength(0);
+    });
+
+    it('does not display small progress indicator', () => {
+      expect(wrapper.find('progress[className="small-progress"]')).toHaveLength(0);
     });
   });
 });

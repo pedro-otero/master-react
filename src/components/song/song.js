@@ -10,10 +10,14 @@ export class Song extends React.Component {
       data: { composers, producers, credits },
       artist,
       album,
+      progress,
     } = this.props;
     console.log(credits);
     if (!track.id && !artist.id && !album.id) {
       return 'empty';
+    }
+    if (progress === 100) {
+      return 'finished';
     }
     if ((track.id || artist.id || album.id) && !Object.keys(credits).length) {
       return 'no-credits';
@@ -21,6 +25,7 @@ export class Song extends React.Component {
     if ((track.id || artist.id || album.id) && Object.keys(credits).length) {
       return 'with-credits';
     }
+
     return '';
   }
   render() {
