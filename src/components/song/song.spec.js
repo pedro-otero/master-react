@@ -15,12 +15,12 @@ describe('Song component', () => {
       album={initialState.song.album}
       artist={initialState.song.artist}/>);
 
-  it('hides composers list', () => {
-    expect(wrapper.find('span[className="composers"]')).toHaveLength(0);
-  });
+    it('hides composers list', () => {
+      expect(wrapper.find('span[className="composers"]')).toHaveLength(0);
+    });
 
-  it('hides producers list', () => {
-    expect(wrapper.find('span[className="producers"]')).toHaveLength(0);
-  });
+    it('hides producers list', () => {
+      expect(wrapper.find('span[className="producers"]')).toHaveLength(0);
+    });
   });
 });
