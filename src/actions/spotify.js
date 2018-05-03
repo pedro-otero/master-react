@@ -10,9 +10,10 @@ export const getCurrentPlayback = () => function (dispatch, getState, { spotifyA
       spotifyApi.getArtist(playback.item.artists[0].id).then(({ body: artist }) => {
         dispatch({ type: types.LOAD_ARTIST_SUCCESS, artist });
       });
-      backend.getCredits(playback.item.album.id).then(({ bestMatch: { tracks } }) => {
+      backend.getCredits(playback.item.album.id).then(({ bestMatch: { tracks }, progress }) => {
         const credits = tracks.find(t => t.id === playback.item.id);
         dispatch({ type: types.LOAD_CREDITS_SUCCESS, credits });
+        dispatch({ type: types.SET_PROGRESS, progress });
       });
     });
 };

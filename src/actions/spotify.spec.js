@@ -1,5 +1,8 @@
 import { getCurrentPlayback } from './spotify';
-import { LOAD_ALBUM_SUCCESS, LOAD_ARTIST_SUCCESS, LOAD_CREDITS_SUCCESS, LOAD_PLAYBACK_SUCCESS } from './types';
+import {
+  LOAD_ALBUM_SUCCESS, LOAD_ARTIST_SUCCESS, LOAD_CREDITS_SUCCESS, LOAD_PLAYBACK_SUCCESS,
+  SET_PROGRESS
+} from './types';
 
 describe('Spotify async actions', () => {
   describe('getCurrentPlayback', () => {
@@ -16,6 +19,7 @@ describe('Spotify async actions', () => {
           id: 'T1',
         }],
       },
+      progress: 30,
     };
     const spotifyApi = {
       getAlbum: jest.fn(() => Promise.resolve({ body: album })),
@@ -76,6 +80,13 @@ describe('Spotify async actions', () => {
       expect(dispatch).toHaveBeenCalledWith({
         type: LOAD_CREDITS_SUCCESS,
         credits: credits.bestMatch.tracks[0],
+      });
+    });
+
+    it('dispatches progress info', () => {
+      expect(dispatch).toHaveBeenCalledWith({
+        type: SET_PROGRESS,
+        progress: 30,
       });
     });
   });
