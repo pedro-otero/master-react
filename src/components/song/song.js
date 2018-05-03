@@ -101,7 +101,6 @@ export class Song extends React.Component {
       </div>
       {status === 'with-credits' && <progress className="small-progress" value={progress} max="100"/>}
       <div className="credits">
-        {status === 'no-credits' && <progress className="big-progress" value={progress} max="100"/>}
         {Object.keys(credits).map((collaborator, i) => (
           <span key={i}>
             <h5 className="collaboratorName">
@@ -111,6 +110,7 @@ export class Song extends React.Component {
           </span>
         ))}
       </div>
+      {status === 'no-credits' && <progress className="big-progress" value={progress} max="100"/>}
     </article>;
   }
 }

@@ -243,3 +243,13 @@ body {
     top: 0;
     height: 0.3em;
 }
+
+.big-progress {
+    background-color: gray;
+    color: crimson;
+    width: 100%;
+    opacity: 0.7;
+    position: absolute;
+    top: 50%;
+    height: 3em;
+}
