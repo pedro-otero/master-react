@@ -6,6 +6,10 @@ import * as spotifyActions from '../../actions/spotify';
 import { bindActionCreators } from 'redux';
 
 export class Song extends React.Component {
+  componentWillUnmount() {
+    this.timer = null;
+  }
+
   getStatus() {
     const {
       track,
