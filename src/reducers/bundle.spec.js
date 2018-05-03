@@ -1,5 +1,8 @@
 import reduce from './bundle';
-import { LOAD_ALBUM_SUCCESS, LOAD_ARTIST_SUCCESS, LOAD_CREDITS_SUCCESS, LOAD_PLAYBACK_SUCCESS } from '../actions/types';
+import {
+  LOAD_ALBUM_SUCCESS, LOAD_ARTIST_SUCCESS, LOAD_CREDITS_SUCCESS, LOAD_PLAYBACK_SUCCESS,
+  SET_PROGRESS
+} from '../actions/types';
 
 describe('Main reducer', () => {
   describe('returns default state', () => {
@@ -68,5 +71,13 @@ describe('Main reducer', () => {
       artist: { id: 1 },
     });
     expect(bundle.artist.id);
+  });
+
+  it('sets progress', () => {
+    const bundle = reduce(undefined, {
+      type: SET_PROGRESS,
+      progress: 50,
+    });
+    expect(bundle.progress).toEqual(50);
   });
 });
