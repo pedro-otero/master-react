@@ -11,11 +11,15 @@ export class Song extends React.Component {
       artist,
       album,
     } = this.props;
+    console.log(credits);
     if (!track.id && !artist.id && !album.id) {
       return 'empty';
     }
     if ((track.id || artist.id || album.id) && !Object.keys(credits).length) {
       return 'no-credits';
+    }
+    if ((track.id || artist.id || album.id) && Object.keys(credits).length) {
+      return 'with-credits';
     }
     return '';
   }
@@ -70,8 +74,9 @@ export class Song extends React.Component {
 
         </div>
       </div>
+      {status === 'with-credits' && <progress className="small-progress" value={progress} max="100"/>}
       <div className="credits">
-        {status === 'no-credits' && <progress className="big-progress"value={progress} max={100}/>}
+        {status === 'no-credits' && <progress className="big-progress" value={progress} max="100"/>}
         {Object.keys(credits).map((collaborator, i) => (
           <span key={i}>
             <h5 className="collaboratorName">

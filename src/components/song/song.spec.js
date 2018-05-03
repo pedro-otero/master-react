@@ -38,5 +38,25 @@ describe('Song component', () => {
     it('displays big progress indicator', () => {
       expect(wrapper.find('progress[className="big-progress"]')).toHaveLength(1);
     });
+
+    it('does not display small progress indicator', () => {
+      expect(wrapper.find('progress[className="small-progress"]')).toHaveLength(0);
+    });
+  });
+
+  describe('search responded with some credits', () => {
+    const wrapper = shallow(<Song
+      data={Object.assign({}, initialState.song.credits, { credits: { P1: ['R1', 'R2'] } })}
+      track={Object.assign({}, initialState.song.track, { id: 'T1' })}
+      album={initialState.song.album}
+      artist={initialState.song.artist}/>);
+
+    it('does not display big progress indicator', () => {
+      expect(wrapper.find('progress[className="big-progress"]')).toHaveLength(0);
+    });
+
+    it('displays small progress indicator', () => {
+      expect(wrapper.find('progress[className="small-progress"]')).toHaveLength(1);
+    });
   });
 });
