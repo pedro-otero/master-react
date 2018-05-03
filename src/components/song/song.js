@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './style.css';
+import * as spotifyActions from '../../actions/spotify';
+import { bindActionCreators } from 'redux';
 
 export class Song extends React.Component {
   getStatus() {
@@ -133,4 +135,6 @@ const mapStateToProps = state => ({
   progress: state.song.progress,
 });
 
-export default connect(mapStateToProps)(Song);
+export default connect(mapStateToProps, dispatch => ({
+  actions: bindActionCreators({ ...spotifyActions }, dispatch),
+}))(Song);
