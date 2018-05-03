@@ -28,6 +28,13 @@ export class Song extends React.Component {
 
     return '';
   }
+
+  startPollingCredits() {
+    this.timer = setTimeout(() => {
+      this.props.actions.getCredits();
+    }, 1000);
+  }
+
   render() {
     const {
       track,
@@ -42,6 +49,10 @@ export class Song extends React.Component {
     } = this.props;
     const mainArtistName = track.artists[0].name || '';
     const status = this.getStatus();
+
+    if (progress !== null && !this.timer) {
+      this.startPollingCredits();
+    }
 
     const layers = image => ({
       backgroundImage: `linear-gradient(rgba(0,0,0,0.1) 65%, black), 

@@ -76,4 +76,21 @@ describe('Song component', () => {
       expect(wrapper.find('progress[className="small-progress"]')).toHaveLength(0);
     });
   });
+
+  describe('starts getting credits when first response available', () => {
+    const actions = {
+      getCredits: jest.fn(),
+    };
+    const wrapper = shallow(<Song
+      data={Object.assign({}, initialState.song.credits, { credits: { P1: ['R1', 'R2'] } })}
+      track={Object.assign({}, initialState.song.track, { id: 'T1' })}
+      album={initialState.song.album}
+      artist={initialState.song.artist}
+      actions={actions}
+      progress={1}/>);
+
+    it('sets timer', () => {
+      expect(wrapper.instance().timer).toBeDefined();
+    });
+  });
 });
