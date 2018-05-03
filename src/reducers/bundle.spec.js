@@ -32,6 +32,10 @@ describe('Main reducer', () => {
     test('artist', () => {
       expect(bundle.artist);
     });
+
+    test('progress', () => {
+      expect(!bundle.progress);
+    });
   });
 
   it('sets playback data', () => {
