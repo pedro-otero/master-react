@@ -1,23 +1,23 @@
 import reduce from './bundle';
-import {LOAD_ALBUM_SUCCESS, LOAD_ARTIST_SUCCESS, LOAD_CREDITS_SUCCESS, LOAD_PLAYBACK_SUCCESS} from "../actions/types";
+import { LOAD_ALBUM_SUCCESS, LOAD_ARTIST_SUCCESS, LOAD_CREDITS_SUCCESS, LOAD_PLAYBACK_SUCCESS } from '../actions/types';
 
 describe('Main reducer', () => {
   describe('returns default state', () => {
     const bundle = reduce(undefined, {
-      type: 'ASDFG'
+      type: 'ASDFG',
     });
 
     describe('data from backend', () => {
       test('producers', () => {
-        expect(bundle.credits.producers.length === 0)
+        expect(bundle.credits.producers.length === 0);
       });
 
       test('composers', () => {
-        expect(bundle.credits.composers.length === 0)
+        expect(bundle.credits.composers.length === 0);
       });
 
       test('credits', () => {
-        expect(Object.keys(bundle.credits.credits).length === 0)
+        expect(Object.keys(bundle.credits.credits).length === 0);
       });
     });
 
@@ -37,7 +37,7 @@ describe('Main reducer', () => {
   it('sets playback data', () => {
     const bundle = reduce(undefined, {
       type: LOAD_PLAYBACK_SUCCESS,
-      track: { id: 1 }
+      track: { id: 1 },
     });
     expect(bundle.track.id);
   });
@@ -45,7 +45,7 @@ describe('Main reducer', () => {
   it('sets album', () => {
     const bundle = reduce(undefined, {
       type: LOAD_ALBUM_SUCCESS,
-      album: { id: 1 }
+      album: { id: 1 },
     });
     expect(bundle.album.id);
   });
@@ -53,7 +53,7 @@ describe('Main reducer', () => {
   it('sets artist', () => {
     const bundle = reduce(undefined, {
       type: LOAD_ARTIST_SUCCESS,
-      artist: { id: 1 }
+      artist: { id: 1 },
     });
     expect(bundle.artist.id);
   });
@@ -61,7 +61,7 @@ describe('Main reducer', () => {
   it('sets credits', () => {
     const bundle = reduce(undefined, {
       type: LOAD_CREDITS_SUCCESS,
-      artist: { id: 1 }
+      artist: { id: 1 },
     });
     expect(bundle.artist.id);
   });
