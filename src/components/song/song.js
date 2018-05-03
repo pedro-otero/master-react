@@ -11,9 +11,13 @@ export class Song extends React.Component {
       artist,
       album,
     } = this.props;
-    if(!track.id && !artist.id && !album.id){
+    if (!track.id && !artist.id && !album.id) {
       return 'empty';
     }
+    if ((track.id || artist.id || album.id) && !Object.keys(credits).length) {
+      return 'no-credits';
+    }
+    return '';
   }
   render() {
     const {
@@ -25,6 +29,7 @@ export class Song extends React.Component {
       },
       artist,
       album,
+      progress,
     } = this.props;
     const mainArtistName = track.artists[0].name || '';
     const status = this.getStatus();
@@ -66,6 +71,7 @@ export class Song extends React.Component {
         </div>
       </div>
       <div className="credits">
+        {status === 'no-credits' && <progress className="big-progress"value={progress} max={100}/>}
         {Object.keys(credits).map((collaborator, i) => (
           <span key={i}>
             <h5 className="collaboratorName">

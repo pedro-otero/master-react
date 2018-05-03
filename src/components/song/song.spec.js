@@ -27,4 +27,16 @@ describe('Song component', () => {
       expect(wrapper.find('div[className="all-data-empty"]')).toHaveLength(1);
     });
   });
+
+  describe('search responded without credits', () => {
+    const wrapper = shallow(<Song
+      data={initialState.song.credits}
+      track={Object.assign({}, initialState.song.track, { id: 'T1' })}
+      album={initialState.song.album}
+      artist={initialState.song.artist}/>);
+
+    it('displays big progress indicator', () => {
+      expect(wrapper.find('progress[className="big-progress"]')).toHaveLength(1);
+    });
+  });
 });
