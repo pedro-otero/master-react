@@ -48,13 +48,13 @@ export class Song extends React.Component {
             <br/>
             <span className="trackName">{track.name}</span>
             <br/>
-            {composers.length && <span className="composers">
+            {composers.length > 0 && <span className="composers">
               {composers.map((name, i) => (
                 <span key={`composer-${name}-${i}`}>{name}</span>
               ))}
             </span>}
             <br/>
-            {producers.length && <span className="producers">
+            {producers.length > 0 && <span className="producers">
               {producers.map((name, i) => (
                 <span key={`producer-${name}-${i}`}>{name}</span>
               ))}
