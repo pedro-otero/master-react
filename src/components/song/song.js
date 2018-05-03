@@ -84,6 +84,7 @@ Song.propTypes = {
   data: PropTypes.object.isRequired,
   artist: PropTypes.object.isRequired,
   album: PropTypes.object.isRequired,
+  progress: PropTypes.number,
 };
 
 const mapStateToProps = state => ({
@@ -91,6 +92,7 @@ const mapStateToProps = state => ({
   data: state.song.credits,
   artist: state.song.artist,
   album: state.song.album,
+  progress: state.song.progress,
 });
 
 export default connect(mapStateToProps)(Song);
