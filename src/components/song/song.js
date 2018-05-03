@@ -23,6 +23,9 @@ export class Song extends React.Component {
     });
 
     return <article>
+      {!track.id && !artist.id && !album.id && <div className="all-data-empty">
+        EMPTY
+      </div>}
       <div className="header">
         <div className="content">
           <div className="albumCover" style={{ backgroundImage: `url(${track.album.images[0].url})` }}>

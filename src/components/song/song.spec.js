@@ -22,5 +22,9 @@ describe('Song component', () => {
     it('hides producers list', () => {
       expect(wrapper.find('span[className="producers"]')).toHaveLength(0);
     });
+
+    it('shows all-data-empty section', () => {
+      expect(wrapper.find('div[className="all-data-empty"]')).toHaveLength(1);
+    });
   });
 });
