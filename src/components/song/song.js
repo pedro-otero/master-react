@@ -29,7 +29,7 @@ export class Song extends React.Component {
   }
 
   startPollingCredits() {
-    this.timer = setTimeout(() => {
+    this.timer = setInterval(() => {
       this.props.actions.getCredits();
     }, this.props.pollFreq);
   }
@@ -51,6 +51,10 @@ export class Song extends React.Component {
 
     if (progress !== null && !this.timer) {
       this.startPollingCredits();
+    }
+    if (progress === 100 && this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
     }
 
     const layers = image => ({

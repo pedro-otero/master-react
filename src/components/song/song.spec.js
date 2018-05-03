@@ -96,9 +96,17 @@ describe('Song component', () => {
       expect(wrapper.instance().timer).toBeDefined();
     });
 
-    it('calls getCredits once', (done) => {
+    it('calls getCredits until progress is 100', (done) => {
+      let times = 0;
       const actions = {
-        getCredits: jest.fn(() => done()),
+        getCredits: jest.fn(() => {
+          times += 1;
+          if (times === 2) {
+            wrapper.setProps({ progress: 100 });
+            expect(wrapper.instance().timer).toEqual(null);
+            done();
+          }
+        }),
       };
       const wrapper = shallow(<Song
         data={Object.assign({}, initialState.song.credits, { credits: { P1: ['R1', 'R2'] } })}
