@@ -4,6 +4,17 @@ import PropTypes from 'prop-types';
 import './style.css';
 
 export class Song extends React.Component {
+  getStatus() {
+    const {
+      track,
+      data: { composers, producers, credits },
+      artist,
+      album,
+    } = this.props;
+    if(!track.id && !artist.id && !album.id){
+      return 'empty';
+    }
+  }
   render() {
     const {
       track,
@@ -16,6 +27,7 @@ export class Song extends React.Component {
       album,
     } = this.props;
     const mainArtistName = track.artists[0].name || '';
+    const status = this.getStatus();
 
     const layers = image => ({
       backgroundImage: `linear-gradient(rgba(0,0,0,0.1) 65%, black), 
@@ -23,7 +35,7 @@ export class Song extends React.Component {
     });
 
     return <article>
-      {!track.id && !artist.id && !album.id && <div className="all-data-empty">
+      {status === 'empty' && <div className="all-data-empty">
         EMPTY
       </div>}
       <div className="header">
