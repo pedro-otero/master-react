@@ -233,3 +233,13 @@ body {
     border-bottom: 1px solid;
     margin-top: 1em;
 }
+
+.small-progress {
+    background-color: gray;
+    color: aqua;
+    width: 100%;
+    opacity: 0.7;
+    position: absolute;
+    top: 0;
+    height: 0.3em;
+}
