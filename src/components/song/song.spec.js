@@ -116,7 +116,8 @@ describe('Song component', () => {
         actions={actions}
         pollFreq={1}
         progress={1}/>);
-      // expect(actions.getCredits.mock.calls).toHaveLength(1);
     });
   });
+
+  it('nullifies timer when unmounting');
 });
