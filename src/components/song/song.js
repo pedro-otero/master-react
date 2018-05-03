@@ -33,17 +33,17 @@ export class Song extends React.Component {
             <br/>
             <span className="trackName">{track.name}</span>
             <br/>
-            <span className="composers">
+            {composers.length && <span className="composers">
               {composers.map((name, i) => (
                 <span key={`composer-${name}-${i}`}>{name}</span>
               ))}
-            </span>
+            </span>}
             <br/>
-            <span className="producers">
+            {producers.length && <span className="producers">
               {producers.map((name, i) => (
                 <span key={`producer-${name}-${i}`}>{name}</span>
               ))}
-            </span>
+            </span>}
           </div>
         </div>
         <div className="artistImg" style={layers(artist.images[0])}>
