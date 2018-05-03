@@ -3,11 +3,12 @@ export default {
     track: {
       artists: [{}],
       album: {
-        images: [{}]
-      }
+        images: [{}],
+      },
     },
     credits: { composers: [], producers: [], credits: {} },
     artist: { images: [{}] },
     album: { release_date: '' },
-  }
-}
+    progress: null,
+  },
+};
