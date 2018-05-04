@@ -5,7 +5,6 @@ import { routerMiddleware } from 'react-router-redux';
 import rootReducer from '../reducers/index';
 import initialState from './initalState';
 import SpotifyApi from '../api/spotify';
-import spotifyConfig from '../config/spotify';
 import Backend from '../api/backend';
 
 
@@ -17,7 +16,10 @@ function getSpotifyApi(hash) {
         Object.defineProperty(all, pair[0], { enumerable: true, value: pair[1] }),
       {},
     );
-  const api = new SpotifyApi(spotifyConfig);
+  const api = new SpotifyApi({
+    redirectUri: process.env.REACT_APP_SPOTIFY_REDIRECT_URI,
+    clientId: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
+  });
   api.setAccessToken(auth.access_token);
   return api;
 }
