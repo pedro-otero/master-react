@@ -8,19 +8,12 @@ import SpotifyApi from '../api/spotify';
 import Backend from '../api/backend';
 
 
-function getSpotifyApi(hash) {
-  const auth = hash.substr(1).split('&')
-    .map(pair => pair.split('='))
-    .reduce(
-      (all, pair) =>
-        Object.defineProperty(all, pair[0], { enumerable: true, value: pair[1] }),
-      {},
-    );
+function getSpotifyApi() {
   const api = new SpotifyApi({
     redirectUri: process.env.REACT_APP_SPOTIFY_REDIRECT_URI,
     clientId: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
   });
-  api.setAccessToken(auth.access_token);
+  api.setAccessToken(localStorage.getItem('token'));
   return api;
 }
 
@@ -29,7 +22,7 @@ export default history => createStore(
   initialState,
   applyMiddleware(
     thunkMiddleware.withExtraArgument({
-      spotifyApi: getSpotifyApi(window.location.hash),
+      spotifyApi: getSpotifyApi(),
       backend: new Backend(),
     }),
     routerMiddleware(history),

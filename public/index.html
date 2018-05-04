@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000000">
@@ -21,21 +21,50 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
-  </head>
-  <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <script>
+      var url = "https://accounts.spotify.com/authorize?" + [
+        ['client_id', '%REACT_APP_SPOTIFY_CLIENT_ID%'],
+        ['response_type', 'token'],
+        ['redirect_uri', '%REACT_APP_SPOTIFY_REDIRECT_URI%'],
+        ['state', 'reactApp'],
+        ['scope', '%REACT_APP_SPOTIFY_SCOPES%'],
+        ['show_dialog', 'false'],
+      ].map(function (pair) {
+        return pair[0] + "=" + pair[1];
+      }).join('&');
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+      function checkToken() {
+        var token = localStorage.getItem('token');
+        var elementToHide = token ? 'authWarning' : 'root';
+        document.getElementById(elementToHide).style.display = 'hidden';
+      }
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+      function redirect() {
+        window.location = url;
+      }
+    </script>
+</head>
+<body onload="checkToken();">
+<noscript>
+    You need to enable JavaScript to run this app.
+</noscript>
+<div id="authWarning" class="container container-table">
+    <div class="jumbotron">
+        <h1 class="display-3">Hey there!</h1>
+        <p>You need to login to Spotify to use this app</p>
+        <input type="button" class="btn btn-success" onclick="redirect();" value="Login"/>
+    </div>
+</div>
+<div id="root"></div>
+<!--
+  This HTML file is a template.
+  If you open it directly in the browser, you will see an empty page.
+
+  You can add webfonts, meta tags, or analytics to this file.
+  The build step will place the bundled scripts into the <body> tag.
+
+  To begin the development, run `npm start` or `yarn start`.
+  To create a production bundle, use `npm run build` or `yarn build`.
+-->
+</body>
 </html>
