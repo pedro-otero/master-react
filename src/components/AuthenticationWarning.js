@@ -1,8 +1,16 @@
 import React from 'react';
 
 const AuthenticationWarning = ({ clientId, redirectUri, scopes }) => {
-
-  const url = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${redirectUri}&state=reactApp&scope=${scopes}&show_dialog=false`;
+  const params = {
+    client_id: clientId,
+    response_type: 'token',
+    redirect_uri: redirectUri,
+    state: 'reactApp',
+    scope: scopes,
+    show_dialog: 'false',
+  };
+  const queryString = Object.keys(params).map(key => `${key}=${params[key]}`).join('&');
+  const url = `https://accounts.spotify.com/authorize?${queryString}`;
 
   return (
     <div className="container container-table">
@@ -12,7 +20,7 @@ const AuthenticationWarning = ({ clientId, redirectUri, scopes }) => {
         <input type="button" className="btn btn-success" onClick={() => window.location = url} value="Login"/>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default AuthenticationWarning;
