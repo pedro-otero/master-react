@@ -2,16 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const AuthenticationWarning = ({ clientId, redirectUri, scopes }) => {
-  const params = {
-    client_id: clientId,
-    response_type: 'token',
-    redirect_uri: redirectUri,
-    state: 'reactApp',
-    scope: scopes,
-    show_dialog: 'false',
-  };
-  const queryString = Object.keys(params).map(key => `${key}=${params[key]}`).join('&');
-  const url = `https://accounts.spotify.com/authorize?${queryString}`;
+  const url = `https://accounts.spotify.com/authorize?${[
+    ['client_id', clientId],
+    ['response_type', 'token'],
+    ['redirect_uri', redirectUri],
+    ['state', 'reactApp'],
+    ['scope', scopes],
+    ['show_dialog', 'false'],
+  ].map(pair => `${pair[0]}=${pair[1]}`).join('&')}`;
 
   return (
     <div className="container container-table">
