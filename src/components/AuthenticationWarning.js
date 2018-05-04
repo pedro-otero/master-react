@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const AuthenticationWarning = ({ clientId, redirectUri, scopes }) => {
   const params = {
@@ -21,6 +22,12 @@ const AuthenticationWarning = ({ clientId, redirectUri, scopes }) => {
       </div>
     </div>
   );
+};
+
+AuthenticationWarning.propTypes = {
+  clientId: PropTypes.string.isRequired,
+  redirectUri: PropTypes.string.isRequired,
+  scopes: PropTypes.string.isRequired,
 };
 
 export default AuthenticationWarning;
