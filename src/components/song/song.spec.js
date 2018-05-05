@@ -14,7 +14,7 @@ describe('Song component', () => {
       track={initialState.song.track}
       album={initialState.song.album}
       artist={initialState.song.artist}
-      actions={{ getCredits: jest.fn() }}/>);
+      actions={{ getCredits: jest.fn(), getCurrentPlayback: jest.fn() }}/>);
 
     it('hides composers list', () => {
       expect(wrapper.find('span[className="composers"]')).toHaveLength(0);
@@ -35,7 +35,7 @@ describe('Song component', () => {
       track={Object.assign({}, initialState.song.track, { id: 'T1' })}
       album={initialState.song.album}
       artist={initialState.song.artist}
-      actions={{ getCredits: jest.fn() }}/>);
+      actions={{ getCredits: jest.fn(), getCurrentPlayback: jest.fn() }}/>);
 
     it('displays big progress indicator', () => {
       expect(wrapper.find('progress[className="big-progress"]')).toHaveLength(1);
@@ -52,7 +52,7 @@ describe('Song component', () => {
       track={Object.assign({}, initialState.song.track, { id: 'T1' })}
       album={initialState.song.album}
       artist={initialState.song.artist}
-      actions={{ getCredits: jest.fn() }}/>);
+      actions={{ getCredits: jest.fn(), getCurrentPlayback: jest.fn() }}/>);
 
     it('does not display big progress indicator', () => {
       expect(wrapper.find('progress[className="big-progress"]')).toHaveLength(0);
@@ -70,7 +70,7 @@ describe('Song component', () => {
       album={initialState.song.album}
       artist={initialState.song.artist}
       progress={100}
-      actions={{ getCredits: jest.fn() }}/>);
+      actions={{ getCredits: jest.fn(), getCurrentPlayback: jest.fn() }}/>);
 
     it('does not display big progress indicator', () => {
       expect(wrapper.find('progress[className="big-progress"]')).toHaveLength(0);
@@ -84,7 +84,7 @@ describe('Song component', () => {
   describe('starts getting credits when first response available', () => {
     it('sets timer', () => {
       const actions = {
-        getCredits: jest.fn(),
+        getCredits: jest.fn(), getCurrentPlayback: jest.fn(),
       };
       const wrapper = shallow(<Song
         data={Object.assign({}, initialState.song.credits, { credits: { P1: ['R1', 'R2'] } })}
@@ -107,6 +107,7 @@ describe('Song component', () => {
             done();
           }
         }),
+        getCurrentPlayback: jest.fn(),
       };
       const wrapper = shallow(<Song
         data={Object.assign({}, initialState.song.credits, { credits: { P1: ['R1', 'R2'] } })}
