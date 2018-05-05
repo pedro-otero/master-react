@@ -21,43 +21,11 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
-    <script>
-      var url = "https://accounts.spotify.com/authorize?" + [
-        ['client_id', '%REACT_APP_SPOTIFY_CLIENT_ID%'],
-        ['response_type', 'token'],
-        ['redirect_uri', '%REACT_APP_SPOTIFY_REDIRECT_URI%'],
-        ['state', 'reactApp'],
-        ['scope', '%REACT_APP_SPOTIFY_SCOPES%'],
-        ['show_dialog', 'false'],
-      ].map(function (pair) {
-        return pair[0] + "=" + pair[1];
-      }).join('&');
-
-      function checkToken() {
-        var token = localStorage.getItem('token');
-        var expiry = localStorage.getItem('expiry');
-        var now = new Date().getTime();
-        var difference = now - expiry;
-        var elementToHide = token && (difference <= 0) ? 'authWarning' : 'root';
-        document.getElementById(elementToHide).style.display = 'none';
-      }
-
-      function redirect() {
-        window.location = url;
-      }
-    </script>
 </head>
-<body onload="checkToken();">
+<body>
 <noscript>
     You need to enable JavaScript to run this app.
 </noscript>
-<div id="authWarning" class="container container-table">
-    <div class="jumbotron">
-        <h1 class="display-3">Hey there!</h1>
-        <p>You need to login to Spotify to use this app</p>
-        <input type="button" class="btn btn-success" onclick="redirect();" value="Login"/>
-    </div>
-</div>
 <div id="root"></div>
 <!--
   This HTML file is a template.

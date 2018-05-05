@@ -1,14 +1,20 @@
 import SpotifyWebApi from 'spotify-web-api-node';
 
 export default function SpotifyApi({ clientId, redirectUri }) {
-
   const api = new SpotifyWebApi({ clientId, redirectUri });
+  api.setAccessToken(localStorage.getItem('token'));
 
-  this.getCurrentPlayback = () => api.getMyCurrentPlaybackState();
+  const success = response => response;
 
-  this.getAlbum = (id) => api.getAlbum(id);
+  const error = ({ statusCode }) => {
+    if (statusCode === 401) {
+      window.location.reload();
+    }
+  };
 
-  this.getArtist = (id) => api.getArtist(id);
+  this.getCurrentPlayback = () => api.getMyCurrentPlaybackState().then(success, error);
 
-  this.setAccessToken = (token) => api.setAccessToken(token);
+  this.getAlbum = id => api.getAlbum(id).then(success, error);
+
+  this.getArtist = id => api.getArtist(id).then(success, error);
 }
