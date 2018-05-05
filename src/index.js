@@ -13,7 +13,7 @@ if (token && difference <= 0) {
   ReactDOM.render(<App/>, document.getElementById('root'));
   registerServiceWorker();
 } else {
-  window.location = `https://accounts.spotify.com/authorize?${[
+  window.location = `${process.env.REACT_APP_SPOTIFY_AUTHORIZE_URL}?${[
     ['client_id', process.env.REACT_APP_SPOTIFY_CLIENT_ID],
     ['response_type', 'token'],
     ['redirect_uri', process.env.REACT_APP_SPOTIFY_REDIRECT_URI],
