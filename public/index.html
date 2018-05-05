@@ -35,7 +35,10 @@
 
       function checkToken() {
         var token = localStorage.getItem('token');
-        var elementToHide = token ? 'authWarning' : 'root';
+        var expiry = localStorage.getItem('expiry');
+        var now = new Date().getTime();
+        var difference = now - expiry;
+        var elementToHide = token && (difference <= 0) ? 'authWarning' : 'root';
         document.getElementById(elementToHide).style.display = 'none';
       }
 

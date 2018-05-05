@@ -15,9 +15,11 @@
       }
 
       var token = getParameterByName('access_token');
+      var expiry = Number(getParameterByName('expires_in')) * 1000;
       if (token) {
-        window.location = '/index.html';
         localStorage.setItem('token', token);
+        localStorage.setItem('expiry', new Date().getTime() + (expiry * 1000));
+        window.location = '/';
       }
     </script>
 </head>
