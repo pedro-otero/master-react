@@ -1,9 +1,10 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import './style.css';
 import * as spotifyActions from '../../actions/spotify';
-import { bindActionCreators } from 'redux';
 
 export class Song extends React.Component {
   componentDidMount() {
@@ -17,7 +18,7 @@ export class Song extends React.Component {
   getStatus() {
     const {
       track,
-      data: { composers, producers, credits },
+      data: { credits },
       artist,
       album,
       progress,
@@ -103,7 +104,10 @@ export class Song extends React.Component {
 
         </div>
       </div>
-      {status === 'with-credits' && <progress className="small-progress" value={progress} max="100"/>}
+      {status === 'with-credits' && <div className="progress small-progress">
+        <div className="progress-all" style={{ width: '100%' }}></div>
+        <div className="progress-done" style={{ width: `${progress}%` }}></div>
+      </div>}
       <div className="credits">
         {Object.keys(credits).map((collaborator, i) => (
           <span key={i}>
@@ -114,7 +118,10 @@ export class Song extends React.Component {
           </span>
         ))}
       </div>
-      {status === 'no-credits' && <progress className="big-progress" value={progress} max="100"/>}
+      {status === 'no-credits' && <div className="progress big-progress">
+        <div className="progress-all" style={{ width: '100%' }}></div>
+        <div className="progress-done" style={{ width: `${progress}%` }}></div>
+      </div>}
     </article>;
   }
 }
