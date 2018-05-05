@@ -5,17 +5,17 @@ import SpotifyWebApi from 'spotify-web-api-node';
 
 import rootReducer from '../reducers/index';
 import initialState from './initalState';
-import SpotifyCustomApi from '../api/spotify';
+import SpotifyCustomApiFactory from '../api/spotify';
 import Backend from '../api/backend';
 
-const getSpotifyApi = SpotifyCustomApi(SpotifyWebApi, window.location);
+const CustomSpotifyApi = SpotifyCustomApiFactory(SpotifyWebApi, window.location);
 
 export default history => createStore(
   rootReducer,
   initialState,
   applyMiddleware(
     thunkMiddleware.withExtraArgument({
-      spotifyApi: new getSpotifyApi({
+      spotifyApi: new CustomSpotifyApi({
         redirectUri: process.env.REACT_APP_SPOTIFY_REDIRECT_URI,
         clientId: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
       }),
