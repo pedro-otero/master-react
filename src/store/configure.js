@@ -1,23 +1,24 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { routerMiddleware } from 'react-router-redux';
+import SpotifyWebApi from 'spotify-web-api-node';
 
 import rootReducer from '../reducers/index';
 import initialState from './initalState';
-import SpotifyApi from '../api/spotify';
+import SpotifyCustomApi from '../api/spotify';
 import Backend from '../api/backend';
 
-const getSpotifyApi = () => new SpotifyApi({
-  redirectUri: process.env.REACT_APP_SPOTIFY_REDIRECT_URI,
-  clientId: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
-});
+const getSpotifyApi = SpotifyCustomApi(SpotifyWebApi, window.location);
 
 export default history => createStore(
   rootReducer,
   initialState,
   applyMiddleware(
     thunkMiddleware.withExtraArgument({
-      spotifyApi: getSpotifyApi(),
+      spotifyApi: new getSpotifyApi({
+        redirectUri: process.env.REACT_APP_SPOTIFY_REDIRECT_URI,
+        clientId: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
+      }),
       backend: new Backend(),
     }),
     routerMiddleware(history),

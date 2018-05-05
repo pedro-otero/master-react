@@ -1,4 +1,4 @@
-export default SpotifyWebApi => function ({ clientId, redirectUri }) {
+export default (SpotifyWebApi, location) => function ({ clientId, redirectUri }) {
   const api = new SpotifyWebApi({ clientId, redirectUri });
   api.setAccessToken(localStorage.getItem('token'));
 
@@ -6,7 +6,7 @@ export default SpotifyWebApi => function ({ clientId, redirectUri }) {
 
   const error = ({ statusCode }) => {
     if (statusCode === 401) {
-      window.location.reload();
+      location.reload();
     }
   };
 
