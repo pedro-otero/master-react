@@ -36,7 +36,7 @@
       function checkToken() {
         var token = localStorage.getItem('token');
         var elementToHide = token ? 'authWarning' : 'root';
-        document.getElementById(elementToHide).style.display = 'hidden';
+        document.getElementById(elementToHide).style.display = 'none';
       }
 
       function redirect() {
