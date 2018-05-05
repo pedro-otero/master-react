@@ -6,6 +6,10 @@ import * as spotifyActions from '../../actions/spotify';
 import { bindActionCreators } from 'redux';
 
 export class Song extends React.Component {
+  componentDidMount() {
+    this.props.actions.getCurrentPlayback();
+  }
+
   componentWillUnmount() {
     this.timer = null;
   }
@@ -122,6 +126,7 @@ Song.propTypes = {
   album: PropTypes.object.isRequired,
   progress: PropTypes.number,
   actions: PropTypes.shape({
+    getCurrentPlayback: PropTypes.func.isRequired,
     getCredits: PropTypes.func.isRequired,
   }),
   pollFreq: PropTypes.number,
