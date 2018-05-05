@@ -1,6 +1,4 @@
-import SpotifyWebApi from 'spotify-web-api-node';
-
-export default function SpotifyApi({ clientId, redirectUri }) {
+export default SpotifyWebApi => function ({ clientId, redirectUri }) {
   const api = new SpotifyWebApi({ clientId, redirectUri });
   api.setAccessToken(localStorage.getItem('token'));
 
@@ -17,4 +15,4 @@ export default function SpotifyApi({ clientId, redirectUri }) {
   this.getAlbum = id => api.getAlbum(id).then(success, error);
 
   this.getArtist = id => api.getArtist(id).then(success, error);
-}
+};
