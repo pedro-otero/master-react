@@ -5,7 +5,7 @@ describe('Spotify module', () => {
     global.localStorage = { getItem: jest.fn(() => 'fakeToken') };
     const webApi = jest.fn(() => ({ setAccessToken: jest.fn() }));
     const factory = Spotify(webApi);
-    new factory(1, 2);
+    factory(1, 2);
     expect(webApi.mock.instances.length).toEqual(1);
   });
 
@@ -16,7 +16,7 @@ describe('Spotify module', () => {
       getAlbum: jest.fn(() => Promise.resolve('OK')),
     }));
     const factory = Spotify(webApi);
-    const api = new factory(1, 2);
+    const api = factory(1, 2);
     api.getAlbum().then(value => expect(value).toEqual('OK'), () => expect(undefined));
   });
 
@@ -28,7 +28,7 @@ describe('Spotify module', () => {
     }));
     const location = { reload: jest.fn() };
     const factory = Spotify(webApi, location);
-    const api = new factory(1, 2);
+    const api = factory(1, 2);
     api.getAlbum().then(() => {
       expect(location.reload).toHaveBeenCalled();
       done();

@@ -12,7 +12,7 @@ import Backend from './api/backend';
 
 const CustomSpotifyApi = SpotifyCustomApiFactory(SpotifyWebApi, window.location);
 
-const spotifyApi = new CustomSpotifyApi({
+const spotifyApi = CustomSpotifyApi({
   redirectUri: process.env.REACT_APP_SPOTIFY_REDIRECT_URI,
   clientId: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
 });

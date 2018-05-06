@@ -1,4 +1,4 @@
-export default (SpotifyWebApi, location) => function ({ clientId, redirectUri }) {
+export default (SpotifyWebApi, location) => ({ clientId, redirectUri }) => {
   const api = new SpotifyWebApi({ clientId, redirectUri });
   api.setAccessToken(localStorage.getItem('token'));
 
@@ -10,9 +10,9 @@ export default (SpotifyWebApi, location) => function ({ clientId, redirectUri })
     }
   };
 
-  this.getCurrentPlayback = () => api.getMyCurrentPlaybackState().then(success, error);
-
-  this.getAlbum = id => api.getAlbum(id).then(success, error);
-
-  this.getArtist = id => api.getArtist(id).then(success, error);
+  return {
+    getCurrentPlayback: () => api.getMyCurrentPlaybackState().then(success, error),
+    getAlbum: id => api.getAlbum(id).then(success, error),
+    getArtist: id => api.getArtist(id).then(success, error),
+  };
 };
