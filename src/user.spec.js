@@ -18,4 +18,13 @@ describe('Auth module', () => {
     const user = getUser();
     expect(user.isAuthenticated()).toEqual(true);
   });
+
+  it('builds authentication url', () => {
+    process.env.REACT_APP_SPOTIFY_CLIENT_ID = 'clientId';
+    process.env.REACT_APP_SPOTIFY_AUTHORIZE_URL = 'http://auth.com';
+    process.env.REACT_APP_SPOTIFY_REDIRECT_URI = 'http://frontend.org';
+    process.env.REACT_APP_SPOTIFY_SCOPES = 'theScopes';
+    const user = getUser();
+    expect(user.getAuthUrl()).toEqual('http://auth.com?client_id=clientId&response_type=token&redirect_uri=http://frontend.org&state=reactApp&scope=theScopes&show_dialog=false');
+  });
 });
