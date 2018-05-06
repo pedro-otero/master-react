@@ -3,7 +3,21 @@ import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import { Song } from './song';
-import initialState from '../../store/initalState';
+
+const initialState = {
+  song: {
+    track: {
+      artists: [{}],
+      album: {
+        images: [{}],
+      },
+    },
+    credits: { composers: [], producers: [], credits: {} },
+    artist: { images: [{}] },
+    album: { release_date: '' },
+    progress: null,
+  },
+};
 
 Enzyme.configure({ adapter: new Adapter() });
 
