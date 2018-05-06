@@ -98,9 +98,9 @@ export default class Song extends React.Component {
 }
 
 Song.propTypes = {
-  track: PropTypes.object.isRequired,
-  bestMatch: PropTypes.object.isRequired,
-  artist: PropTypes.object.isRequired,
-  album: PropTypes.object.isRequired,
+  track: PropTypes.object,
+  bestMatch: PropTypes.object,
+  artist: PropTypes.object,
+  album: PropTypes.object,
   progress: PropTypes.number,
 };
