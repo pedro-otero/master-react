@@ -15,12 +15,20 @@ export default class App extends React.Component {
   getPlaybackData() {
     this.props.spotifyApi.getCurrentPlayback().then(({ body: playback }) => {
       this.setState({ track: playback.item });
-      this.props.spotifyApi.getAlbum(playback.item.album.id).then(({ body: album }) => {
-        this.setState({ album }, this.getCredits);
-      });
-      this.props.spotifyApi.getArtist(playback.item.artists[0].id).then(({ body: artist }) => {
-        this.setState({ artist });
-      });
+      this.getAlbum(playback.item.album.id);
+      this.getArtist(playback.item.artists[0].id);
+    });
+  }
+
+  getAlbum(id) {
+    this.props.spotifyApi.getAlbum(id).then(({ body: album }) => {
+      this.setState({ album }, this.getCredits);
+    });
+  }
+
+  getArtist(id) {
+    this.props.spotifyApi.getArtist(id).then(({ body: artist }) => {
+      this.setState({ artist });
     });
   }
 
