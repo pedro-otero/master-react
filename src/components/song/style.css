@@ -265,6 +265,7 @@ body {
     top: 0;
     bottom: 0;
     z-index: 1001;
+    transition: width 1s;
 }
 
 .big-progress > .progress-all {
