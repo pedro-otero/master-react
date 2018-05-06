@@ -1,12 +1,11 @@
-const isAuthenticated = () => {
-  const token = localStorage.getItem('token');
-  const expiry = Number(localStorage.getItem('expiry'));
-  const now = new Date().getTime();
-  const difference = now - expiry;
-  return typeof token !== 'undefined' && difference <= 0;
-};
 export default () => ({
-  isAuthenticated,
+  isAuthenticated: () => {
+    const token = localStorage.getItem('token');
+    const expiry = Number(localStorage.getItem('expiry'));
+    const now = new Date().getTime();
+    const difference = now - expiry;
+    return typeof token !== 'undefined' && difference <= 0;
+  },
   getAuthUrl: () => `${process.env.REACT_APP_SPOTIFY_AUTHORIZE_URL}?${[
     ['client_id', process.env.REACT_APP_SPOTIFY_CLIENT_ID],
     ['response_type', 'token'],
