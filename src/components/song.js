@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import './song.css';
 import LoadingCircle from './LoadingCircle';
 import Progress from './progress';
+import Collaborator from './collaborator';
 
 const Song = ({
   track,
@@ -81,10 +82,9 @@ const Song = ({
     {bestMatch && <div className="credits">
         {Object.keys(bestMatch.credits).map((collaborator, i) => (
           <span key={i}>
-            <h5 className="collaboratorName">
-              {collaborator}:
-            </h5>
-            {bestMatch.credits[collaborator].join(', ')}
+            <Collaborator
+                name={collaborator}
+                roles={bestMatch.credits[collaborator]} />
           </span>
         ))}
       </div>}
