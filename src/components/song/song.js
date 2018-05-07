@@ -71,7 +71,7 @@ const Song = ({
         <h1>Starting search...</h1>
       </div>}
       {status === 'with-credits' && <div className="progress small-progress">
-        <div className="progress-all" style={{ width: '100%' }}></div>
+        <div className="progress-all"></div>
         <div className="progress-done" style={{ width: `${progress}%` }}></div>
       </div>}
       {bestMatch && <div className="credits">
@@ -85,7 +85,7 @@ const Song = ({
         ))}
       </div>}
       {status === 'no-credits' && <div className="progress big-progress">
-        <div className="progress-all" style={{ width: '100%' }}></div>
+        <div className="progress-all"></div>
         <div className="progress-done" style={{ width: `${progress}%` }}></div>
       </div>}
     </article>;
