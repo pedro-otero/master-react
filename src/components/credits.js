@@ -1,3 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default () => <div></div>;
+const Credits = () => <div></div>;
+
+Credits.propTypes = {
+  data: PropTypes.object.isRequired,
+};
+
+export default Credits;
