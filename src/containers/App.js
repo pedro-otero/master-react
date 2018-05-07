@@ -51,6 +51,6 @@ export default class App extends React.Component {
 }
 
 App.propTypes = {
-  spotifyApi: PropTypes.func.isRequired,
   backend: PropTypes.func.isRequired,
+  spotifyApi: PropTypes.func.isRequired,
 };
