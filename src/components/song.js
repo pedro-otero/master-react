@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import './song.css';
 import LoadingCircle from './LoadingCircle';
+import Progress from './progress';
 
 const Song = ({
   track,
@@ -70,10 +71,7 @@ const Song = ({
         <LoadingCircle/>
         <h1>Starting search...</h1>
       </div>}
-      {status === 'with-credits' && <div className="progress small-progress">
-        <div className="progress-all"></div>
-        <div className="progress-done" style={{ width: `${progress}%` }}></div>
-      </div>}
+      {status === 'with-credits' && <Progress size="small" value={progress}/>}
       {bestMatch && <div className="credits">
         {Object.keys(bestMatch.credits).map((collaborator, i) => (
           <span key={i}>
@@ -84,10 +82,7 @@ const Song = ({
           </span>
         ))}
       </div>}
-      {status === 'no-credits' && <div className="progress big-progress">
-        <div className="progress-all"></div>
-        <div className="progress-done" style={{ width: `${progress}%` }}></div>
-      </div>}
+      {status === 'no-credits' && <Progress size="big" value={progress}/>}
     </article>;
 };
 Song.propTypes = {

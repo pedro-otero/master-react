@@ -234,57 +234,6 @@ body {
     margin-top: 1em;
 }
 
-.progress {
-    position: absolute;
-    width: 100%;
-    background: none;
-    border-radius: 0;
-}
-
-.small-progress {
-    top: 0;
-    height: 0.3em;
-}
-
-.big-progress {
-    top: 50%;
-    height: 3em;
-}
-
-.progress-all {
-    width: 100%;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-}
-
-.progress-done {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    z-index: 1001;
-    transition: width 1s;
-}
-
-.big-progress > .progress-all {
-    background: #181818;
-}
-
-.big-progress > .progress-done {
-    background-color: lightgray;
-}
-
-.small-progress > .progress-all {
-    color: rgba(1, 1, 1, 0)
-}
-
-.small-progress > .progress-done {
-    background-color: #00b600;
-}
-
 .all-data-empty {
     width: 100%;
     text-align: center;
