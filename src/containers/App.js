@@ -9,6 +9,7 @@ export default class App extends React.Component {
   }
 
   componentWillUnmount() {
+    clearTimeout(this.timer);
     this.timer = null;
   }
 
@@ -38,7 +39,7 @@ export default class App extends React.Component {
         const trackBestMatch = tracks.find(t => t.id === this.state.track.id);
         this.setState({ bestMatch: trackBestMatch, progress });
         if (progress < 100) {
-          this.timer = setImmediate(this.getCredits.bind(this), 1000);
+          this.timer = setTimeout(this.getCredits.bind(this), 1000);
         }
       });
   }
