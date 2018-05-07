@@ -27,4 +27,14 @@ describe('Auth module', () => {
     const user = getUser();
     expect(user.getAuthUrl()).toEqual('http://auth.com?client_id=clientId&response_type=token&redirect_uri=http://frontend.org&state=reactApp&scope=theScopes&show_dialog=false');
   });
+
+  it('constructs an api object', () => {
+    const ApiClass = jest.fn();
+    const user = getUser(ApiClass);
+    user.getApi();
+    expect(ApiClass.mock.calls).toEqual([[{
+      redirectUri: process.env.REACT_APP_SPOTIFY_REDIRECT_URI,
+      clientId: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
+    }]]);
+  });
 });
