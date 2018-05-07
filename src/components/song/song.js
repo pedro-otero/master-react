@@ -22,10 +22,10 @@ export default class Song extends React.Component {
     if (progress === 100) {
       return 'finished';
     }
-    if (!bestMatch || !Object.keys(bestMatch.credits).length) {
+    if (!Object.keys(bestMatch.credits).length) {
       return 'no-credits';
     }
-    if (bestMatch && Object.keys(bestMatch.credits).length) {
+    if (Object.keys(bestMatch.credits).length) {
       return 'with-credits';
     }
     return '';
