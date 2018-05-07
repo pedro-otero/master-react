@@ -86,11 +86,11 @@ const Song = ({
     </article>;
 };
 Song.propTypes = {
-  track: PropTypes.object,
-  bestMatch: PropTypes.object,
-  artist: PropTypes.object,
   album: PropTypes.object,
+  artist: PropTypes.object,
+  bestMatch: PropTypes.object,
   progress: PropTypes.number,
+  track: PropTypes.object,
 };
 
 export default Song;

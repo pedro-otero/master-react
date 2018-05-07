@@ -7,5 +7,10 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "airbnb-base"
-  ]
+  ],
+  "rules": {
+    "react/sort-prop-types": [
+      "error"
+    ]
+  }
 }
