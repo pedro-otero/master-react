@@ -38,9 +38,21 @@ describe('Song component', () => {
     });
   });
 
+  describe('search not started yet', () => {
+    const wrapper = shallow(<Song
+      track={initialState.song.track}
+      album={initialState.song.album}
+      artist={initialState.song.artist}/>);
+
+    it('displays the search not started div', () => {
+      expect(wrapper.find('div[className="search-not-started"]')).toHaveLength(1);
+    });
+  });
+
   describe('search responded without credits', () => {
     const wrapper = shallow(<Song
       bestMatch={initialState.song.credits}
+      progress={0}
       track={Object.assign({}, initialState.song.track, { id: 'T1' })}
       album={initialState.song.album}
       artist={initialState.song.artist}/>);
@@ -57,6 +69,7 @@ describe('Song component', () => {
   describe('search responded with some credits', () => {
     const wrapper = shallow(<Song
       bestMatch={Object.assign({}, initialState.song.credits, { credits: { P1: ['R1', 'R2'] } })}
+      progress={10}
       track={Object.assign({}, initialState.song.track, { id: 'T1' })}
       album={initialState.song.album}
       artist={initialState.song.artist}/>);

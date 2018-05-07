@@ -16,6 +16,9 @@ export default class Song extends React.Component {
     if (!track && !artist && !album) {
       return 'empty';
     }
+    if (typeof progress === 'undefined') {
+      return 'search-not-started';
+    }
     if (progress === 100) {
       return 'finished';
     }
@@ -77,6 +80,10 @@ export default class Song extends React.Component {
 
         </div>}
       </div>
+      {status === 'search-not-started' && <div className="search-not-started">
+        <LoadingCircle/>
+        <h1>Starting search...</h1>
+      </div>}
       {status === 'with-credits' && <div className="progress small-progress">
         <div className="progress-all" style={{ width: '100%' }}></div>
         <div className="progress-done" style={{ width: `${progress}%` }}></div>
