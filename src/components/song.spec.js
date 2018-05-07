@@ -58,11 +58,11 @@ describe('Song component', () => {
       artist={initialState.song.artist}/>);
 
     it('displays big progress indicator', () => {
-      expect(wrapper.find('div[className="progress big-progress"]')).toHaveLength(1);
+      expect(wrapper.find('Progress[size="big"]')).toHaveLength(1);
     });
 
     it('does not display small progress indicator', () => {
-      expect(wrapper.find('div[className="progress small-progress"]')).toHaveLength(0);
+      expect(wrapper.find('Progress[size="small"]')).toHaveLength(0);
     });
   });
 
@@ -75,11 +75,11 @@ describe('Song component', () => {
       artist={initialState.song.artist}/>);
 
     it('does not display big progress indicator', () => {
-      expect(wrapper.find('div[className="progress big-progress"]')).toHaveLength(0);
+      expect(wrapper.find('Progress[size="big"]')).toHaveLength(0);
     });
 
     it('displays small progress indicator', () => {
-      expect(wrapper.find('div[className="progress small-progress"]')).toHaveLength(1);
+      expect(wrapper.find('Progress[size="small"]')).toHaveLength(1);
     });
   });
 
