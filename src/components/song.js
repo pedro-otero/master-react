@@ -35,7 +35,7 @@ const Song = ({
 
   return <article>
     {status === 'empty' && <div className="all-data-empty">
-      <LoadingCircle/>
+      <LoadingCircle />
       <h1>Loading data from Spotify...</h1>
       </div>}
     <div className="header">
@@ -46,16 +46,16 @@ const Song = ({
         <div>
           {track && <span>
             <span className="artistName">{track.artists[0].name}</span>
-            <br/>
+            <br />
             <span className="trackName">{track.name}</span>
-            <br/>
+            <br />
             </span>}
           {bestMatch && bestMatch.composers.length > 0 && <span className="composers">
               {bestMatch.composers.map((name, i) => (
                 <span key={`composer-${name}-${i}`}>{name}</span>
               ))}
             </span>}
-          <br/>
+          <br />
           {bestMatch && bestMatch.producers.length > 0 && <span className="producers">
               {bestMatch.producers.map((name, i) => (
                 <span key={`producer-${name}-${i}`}>{name}</span>
@@ -68,10 +68,10 @@ const Song = ({
         </div>}
     </div>
     {status === 'search-not-started' && <div className="search-not-started">
-      <LoadingCircle/>
+      <LoadingCircle />
       <h1>Starting search...</h1>
       </div>}
-    {status === 'with-credits' && <Progress size="small" value={progress}/>}
+    {status === 'with-credits' && <Progress size="small" value={progress} />}
     {bestMatch && <div className="credits">
         {Object.keys(bestMatch.credits).map((collaborator, i) => (
           <span key={i}>
@@ -82,7 +82,7 @@ const Song = ({
           </span>
         ))}
       </div>}
-    {status === 'no-credits' && <Progress size="big" value={progress}/>}
+    {status === 'no-credits' && <Progress size="big" value={progress} />}
   </article>;
 };
 Song.propTypes = {
