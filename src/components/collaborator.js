@@ -7,7 +7,7 @@ const Collaborator = ({ name, roles }) => <div>
   <h5 className="collaboratorName">
     {name}:
   </h5>
-  {roles.join(', ')}
+  <p>{roles.join(', ')}</p>
 </div>;
 
 Collaborator.propTypes = {

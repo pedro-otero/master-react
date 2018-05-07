@@ -9,9 +9,13 @@ Enzyme.configure({ adapter: new Adapter() });
 describe('Collaborator component', () => {
   const wrapper = shallow(<Collaborator
       name="P1"
-      roles={['R1']} />);
+      roles={['R1', 'R2']} />);
 
   it('shows name', () => {
     expect(wrapper.find('h5[className="collaboratorName"]')).toHaveLength(1);
+  });
+
+  it('shows roles', () => {
+    expect(wrapper.find('p').text()).toEqual('R1, R2');
   });
 });
