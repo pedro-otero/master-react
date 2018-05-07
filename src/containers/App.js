@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
-import Song from '../components/song/song';
+import Song from '../components/song';
 
 export default class App extends React.Component {
   componentDidMount() {
