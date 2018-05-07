@@ -9,6 +9,10 @@ Enzyme.configure({ adapter: new Adapter() });
 describe('Credits component', () => {
   const wrapper = shallow(<Credits data={{}} />);
 
+  it('has main div', () => {
+    expect(wrapper.find('div[className="credits"]')).toHaveLength(1);
+  });
+
   it('has no Collaborators component', () => {
     expect(wrapper.find('Collaborator')).toHaveLength(0);
   });

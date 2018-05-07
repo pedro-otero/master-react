@@ -1,17 +1,18 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Collaborator from './collaborator';
 
-const Credits = ({ data }) => <Fragment>
-  {Object.keys(data)
+const Credits = ({ data }) => (
+  <div className="credits">
+    {Object.keys(data)
     .map(key => (
       <Collaborator
           key={`collaborator-${key}`}
           name={key}
           roles={data[key]} />
    ))}
-</Fragment>;
+  </div>);
 
 Credits.propTypes = {
   data: PropTypes.object.isRequired,
