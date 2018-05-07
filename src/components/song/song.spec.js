@@ -22,7 +22,7 @@ const initialState = {
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('Song component', () => {
-  describe('initial state', () => {
+  describe('all null', () => {
     const wrapper = shallow(<Song />);
 
     it('hides composers list', () => {
