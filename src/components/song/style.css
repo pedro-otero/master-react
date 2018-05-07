@@ -283,3 +283,7 @@ body {
 .small-progress > .progress-done {
     background-color: #00b600;
 }
+
+.all-data-empty{
+    text-align: center;
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './style.css';
+import LoadingCircle from '../LoadingCircle';
 
 export default class Song extends React.Component {
   getStatus() {
@@ -44,7 +45,8 @@ export default class Song extends React.Component {
 
     return <article>
       {status === 'empty' && <div className="all-data-empty">
-        EMPTY
+        <LoadingCircle />
+        <h1>Loading data from Spotify...</h1>
       </div>}
       <div className="header">
         <div className="content">
