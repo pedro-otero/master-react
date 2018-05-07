@@ -10,17 +10,11 @@ import SpotifyCustomApiFactory from './api/spotify';
 import Backend from './api/backend';
 import getUser from './user';
 
-const CustomSpotifyApi = SpotifyCustomApiFactory(SpotifyWebApi, window.location);
-
-const spotifyApi = CustomSpotifyApi({
-  redirectUri: process.env.REACT_APP_SPOTIFY_REDIRECT_URI,
-  clientId: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
-});
 const backend = new Backend();
-const user = getUser();
+const user = getUser(SpotifyCustomApiFactory(SpotifyWebApi, window.location));
 
 if (user.isAuthenticated()) {
-  ReactDOM.render(<App {...{ spotifyApi, backend }}/>, document.getElementById('root'));
+  ReactDOM.render(<App spotifyApi={user.getApi()} backend={backend}/>, document.getElementById('root'));
   registerServiceWorker();
 } else {
   window.location = user.getAuthUrl();
