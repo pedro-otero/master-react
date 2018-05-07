@@ -11,6 +11,9 @@
   "rules": {
     "react/sort-prop-types": [
       "error"
+    ],
+    "react/jsx-indent": [
+      "error", 2
     ]
   }
 }

@@ -34,45 +34,45 @@ const Song = ({
   });
 
   return <article>
-      {status === 'empty' && <div className="all-data-empty">
-        <LoadingCircle/>
-        <h1>Loading data from Spotify...</h1>
+    {status === 'empty' && <div className="all-data-empty">
+      <LoadingCircle/>
+      <h1>Loading data from Spotify...</h1>
       </div>}
-      <div className="header">
-        <div className="content">
-          {track && album && <div className="albumCover" style={{ backgroundImage: `url(${track.album.images[0].url})` }}>
-            <span className="albumYear">{album.release_date.substring(0, 4)}</span>
+    <div className="header">
+      <div className="content">
+        {track && album && <div className="albumCover" style={{ backgroundImage: `url(${track.album.images[0].url})` }}>
+          <span className="albumYear">{album.release_date.substring(0, 4)}</span>
           </div>}
-          <div>
-            {track && <span>
-              <span className="artistName">{track.artists[0].name}</span>
-              <br/>
-              <span className="trackName">{track.name}</span>
-              <br/>
+        <div>
+          {track && <span>
+            <span className="artistName">{track.artists[0].name}</span>
+            <br/>
+            <span className="trackName">{track.name}</span>
+            <br/>
             </span>}
-            {bestMatch && bestMatch.composers.length > 0 && <span className="composers">
+          {bestMatch && bestMatch.composers.length > 0 && <span className="composers">
               {bestMatch.composers.map((name, i) => (
                 <span key={`composer-${name}-${i}`}>{name}</span>
               ))}
             </span>}
-            <br/>
-            {bestMatch && bestMatch.producers.length > 0 && <span className="producers">
+          <br/>
+          {bestMatch && bestMatch.producers.length > 0 && <span className="producers">
               {bestMatch.producers.map((name, i) => (
                 <span key={`producer-${name}-${i}`}>{name}</span>
               ))}
             </span>}
-          </div>
         </div>
-        {artist && <div className="artistImg" style={layers(artist.images[0])}>
+      </div>
+      {artist && <div className="artistImg" style={layers(artist.images[0])}>
 
         </div>}
-      </div>
-      {status === 'search-not-started' && <div className="search-not-started">
-        <LoadingCircle/>
-        <h1>Starting search...</h1>
+    </div>
+    {status === 'search-not-started' && <div className="search-not-started">
+      <LoadingCircle/>
+      <h1>Starting search...</h1>
       </div>}
-      {status === 'with-credits' && <Progress size="small" value={progress}/>}
-      {bestMatch && <div className="credits">
+    {status === 'with-credits' && <Progress size="small" value={progress}/>}
+    {bestMatch && <div className="credits">
         {Object.keys(bestMatch.credits).map((collaborator, i) => (
           <span key={i}>
             <h5 className="collaboratorName">
@@ -82,8 +82,8 @@ const Song = ({
           </span>
         ))}
       </div>}
-      {status === 'no-credits' && <Progress size="big" value={progress}/>}
-    </article>;
+    {status === 'no-credits' && <Progress size="big" value={progress}/>}
+  </article>;
 };
 Song.propTypes = {
   album: PropTypes.object,
