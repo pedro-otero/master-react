@@ -24,10 +24,7 @@ const Song = ({
     if (!Object.keys(bestMatch.credits).length) {
       return 'no-credits';
     }
-    if (Object.keys(bestMatch.credits).length) {
-      return 'with-credits';
-    }
-    return '';
+    return 'with-credits';
   })();
 
   const layers = image => ({
