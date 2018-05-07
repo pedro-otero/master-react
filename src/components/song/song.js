@@ -4,15 +4,14 @@ import PropTypes from 'prop-types';
 import './style.css';
 import LoadingCircle from '../LoadingCircle';
 
-export default class Song extends React.Component {
-  getStatus() {
-    const {
-      track,
-      bestMatch,
-      artist,
-      album,
-      progress,
-    } = this.props;
+const Song = ({
+  track,
+  bestMatch,
+  artist,
+  album,
+  progress,
+}) => {
+  const status = (() => {
     if (!track && !artist && !album) {
       return 'empty';
     }
@@ -29,26 +28,16 @@ export default class Song extends React.Component {
       return 'with-credits';
     }
     return '';
-  }
+  })();
 
-  render() {
-    const {
-      track,
-      bestMatch,
-      artist,
-      album,
-      progress,
-    } = this.props;
-    const status = this.getStatus();
-
-    const layers = image => ({
-      backgroundImage: `linear-gradient(rgba(0,0,0,0.1) 65%, black), 
+  const layers = image => ({
+    backgroundImage: `linear-gradient(rgba(0,0,0,0.1) 65%, black), 
             url(${image.url})`,
-    });
+  });
 
-    return <article>
+  return <article>
       {status === 'empty' && <div className="all-data-empty">
-        <LoadingCircle />
+        <LoadingCircle/>
         <h1>Loading data from Spotify...</h1>
       </div>}
       <div className="header">
@@ -103,9 +92,7 @@ export default class Song extends React.Component {
         <div className="progress-done" style={{ width: `${progress}%` }}></div>
       </div>}
     </article>;
-  }
-}
-
+};
 Song.propTypes = {
   track: PropTypes.object,
   bestMatch: PropTypes.object,
@@ -113,3 +100,5 @@ Song.propTypes = {
   album: PropTypes.object,
   progress: PropTypes.number,
 };
+
+export default Song;
