@@ -40,7 +40,9 @@ const Song = ({
       </div>}
     <div className="header">
       <div className="content">
-        {track && album && <div className="albumCover" style={{ backgroundImage: `url(${track.album.images[0].url})` }}>
+        {track && album && <div
+            className="albumCover"
+            style={{ backgroundImage: `url(${track.album.images[0].url})` }}>
           <span className="albumYear">{album.release_date.substring(0, 4)}</span>
           </div>}
         <div>
@@ -63,7 +65,9 @@ const Song = ({
             </span>}
         </div>
       </div>
-      {artist && <div className="artistImg" style={layers(artist.images[0])}>
+      {artist && <div
+          className="artistImg"
+          style={layers(artist.images[0])}>
 
         </div>}
     </div>
@@ -71,7 +75,9 @@ const Song = ({
       <LoadingCircle />
       <h1>Starting search...</h1>
       </div>}
-    {status === 'with-credits' && <Progress size="small" value={progress} />}
+    {status === 'with-credits' && <Progress
+        size="small"
+        value={progress} />}
     {bestMatch && <div className="credits">
         {Object.keys(bestMatch.credits).map((collaborator, i) => (
           <span key={i}>
@@ -82,7 +88,9 @@ const Song = ({
           </span>
         ))}
       </div>}
-    {status === 'no-credits' && <Progress size="big" value={progress} />}
+    {status === 'no-credits' && <Progress
+        size="big"
+        value={progress} />}
   </article>;
 };
 Song.propTypes = {
