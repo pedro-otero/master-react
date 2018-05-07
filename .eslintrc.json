@@ -19,6 +19,9 @@
     "react/jsx-space-before-closing": [
       "error",
       "always"
+    ],
+    "react/react-in-jsx-scope": [
+      "error"
     ]
   }
 }
