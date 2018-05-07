@@ -9,6 +9,7 @@ export default class App extends React.Component {
   }
 
   componentWillUnmount() {
+    clearTimeout(this.timer);
     this.timer = null;
   }
 
