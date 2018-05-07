@@ -229,11 +229,6 @@ body {
     content: "]";
 }
 
-.collaboratorName {
-    border-bottom: 1px solid;
-    margin-top: 1em;
-}
-
 .all-data-empty {
     width: 100%;
     text-align: center;
