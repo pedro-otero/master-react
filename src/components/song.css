@@ -176,18 +176,8 @@ body {
     z-index: 0;
 }
 
-.albumCover {
-    background-size: cover;
-    position: relative;
-}
-
 .albumYear {
     font-size: xx-small;
-    background-color: rgba(0, 0, 0, 0.4);
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    text-align: right;
 }
 
 .albumYear::before {

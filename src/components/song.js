@@ -6,6 +6,7 @@ import LoadingCircle from './loading-circle';
 import Progress from './progress';
 import Credits from './credits';
 import Label from './label';
+import Cover from './cover';
 
 const Song = ({
   track,
@@ -39,11 +40,10 @@ const Song = ({
     {status === 'empty' && <LoadingCircle message="Loading data from Spotify..." />}
     <div className="header">
       <div className="content">
-        {track && album && <div
-            className="albumCover"
-            style={{ backgroundImage: `url(${album.images[0].url})` }}>
-          <span className="albumYear">{album.release_date.substring(0, 4)}</span>
-          </div>}
+        {track && album && <Cover
+            album={album}
+            imageClass="albumCover"
+            yearClass="albumYear" />}
         <div>
           {track && <span>
             <Label
