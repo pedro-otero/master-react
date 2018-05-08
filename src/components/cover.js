@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './cover.css';
+
 const Cover = ({ album, imageClass, yearClass }) => (
   <div
       className={`image${imageClass ? ` ${imageClass}` : ''}`}
