@@ -5,7 +5,7 @@ const Cover = ({ album }) => (
   <div
       className="image"
       style={{ backgroundImage: `url(${album.images[0].url})` }}>
-    <span className="albumYear">{album.release_date.substring(0, 4)}</span>
+    <span className="year">{album.release_date.substring(0, 4)}</span>
   </div>);
 
 Cover.propTypes = {
