@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './song.css';
 import LoadingCircle from './LoadingCircle';
 import Progress from './progress';
-import Collaborator from './collaborator';
+import Credits from './credits';
 
 const Song = ({
   track,
@@ -79,15 +79,7 @@ const Song = ({
     {status === 'with-credits' && <Progress
         size="small"
         value={progress} />}
-    {bestMatch && <div className="credits">
-        {Object.keys(bestMatch.credits).map((collaborator, i) => (
-          <span key={i}>
-            <Collaborator
-                name={collaborator}
-                roles={bestMatch.credits[collaborator]} />
-          </span>
-        ))}
-      </div>}
+    {bestMatch && <Credits data={bestMatch.credits} />}
     {status === 'no-credits' && <Progress
         size="big"
         value={progress} />}
