@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './song.css';
-import LoadingCircle from './LoadingCircle';
+import LoadingCircle from './loading-circle';
 import Progress from './progress';
 import Credits from './credits';
 
