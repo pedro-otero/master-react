@@ -54,17 +54,19 @@ const Song = ({
                 className="trackName"
                 value={track.name} />
             </span>}
-          {bestMatch && <JointList
-              className="composers"
-              values={bestMatch.composers}
-              start="("
-              end=")" />}
-          <br />
-          {bestMatch && <JointList
-              className="producers"
-              values={bestMatch.producers}
-              start="["
-              end="]" />}
+          {bestMatch && <span>
+            <JointList
+                className="composers"
+                values={bestMatch.composers}
+                start="("
+                end=")" />
+            <br />
+            <JointList
+                className="producers"
+                values={bestMatch.producers}
+                start="["
+                end="]" />
+          </span>}
         </div>
       </div>
       {artist && <div
