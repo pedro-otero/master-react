@@ -27,17 +27,17 @@ describe('Song component', () => {
     expect(wrapper.find('span[className="producers"]')).toHaveLength(0);
   });
 
-  it('shows all-data-empty section', () => {
-    expect(wrapper.find('div[className="all-data-empty"]')).toHaveLength(1);
+  it('shows spotify info loading circle', () => {
+    expect(wrapper.find('LoadingCircle[message="Loading data from Spotify..."]')).toHaveLength(1);
   });
 
-  it('displays the search not started div', () => {
+  it('displays the search not started loading circle', () => {
     wrapper.setProps({
       track,
       album,
       artist,
     });
-    expect(wrapper.find('div[className="search-not-started"]')).toHaveLength(1);
+    expect(wrapper.find('LoadingCircle[message="Starting search..."]')).toHaveLength(1);
   });
 
   it('displays big progress indicator', () => {

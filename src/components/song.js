@@ -35,9 +35,7 @@ const Song = ({
   });
 
   return <article>
-    {status === 'empty' && <div className="all-data-empty">
-      <LoadingCircle message="Loading data from Spotify..." />
-      </div>}
+    {status === 'empty' && <LoadingCircle message="Loading data from Spotify..." />}
     <div className="header">
       <div className="content">
         {track && album && <div
@@ -71,9 +69,7 @@ const Song = ({
 
         </div>}
     </div>
-    {status === 'search-not-started' && <div className="search-not-started">
-      <LoadingCircle message="Starting search..." />
-      </div>}
+    {status === 'search-not-started' && <LoadingCircle message="Starting search..." />}
     {status === 'with-credits' && <Progress
         size="small"
         value={progress} />}
