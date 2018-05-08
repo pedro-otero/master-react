@@ -34,8 +34,8 @@ const Song = ({
   })();
 
   return <article>
-    {status === 'empty' && <LoadingCircle message="Loading data from Spotify..." />}
-    {track && bestMatch && <Banner
+    {track && artist && album &&
+    <Banner
         src={artist.images[0].url}
         className="content">
       <Cover
@@ -49,25 +49,30 @@ const Song = ({
         <Label
             className="trackName"
             value={track.name} />
-        <JointList
-            className="composers"
-            start="("
-            values={bestMatch.composers}
-            end=")" />
-        <br />
-        <JointList
-            className="producers"
-            start="["
-            values={bestMatch.producers}
-            end="]" />
+        {bestMatch && <span>
+          <JointList
+              className="composers"
+              start="("
+              values={bestMatch.composers}
+              end=")" />
+          <br />
+          <JointList
+              className="producers"
+              start="["
+              values={bestMatch.producers}
+              end="]" />
+        </span>}
       </div>
-      </Banner>}
+    </Banner>}
+    {status === 'empty' && <LoadingCircle message="Loading data from Spotify..." />}
     {status === 'search-not-started' && <LoadingCircle message="Starting search..." />}
-    {status === 'with-credits' && <Progress
+    {status === 'with-credits' &&
+    <Progress
         size="small"
         value={progress} />}
     {bestMatch && <Credits data={bestMatch.credits} />}
-    {status === 'no-credits' && <Progress
+    {status === 'no-credits' &&
+    <Progress
         size="big"
         value={progress} />}
   </article>;
