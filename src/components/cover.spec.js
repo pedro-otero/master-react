@@ -9,6 +9,6 @@ Enzyme.configure({ adapter: new Adapter() });
 describe('Cover', () => {
   it('displays album cover', () => {
     const wrapper = shallow(<Cover album={{ images: [{ url: 'img.jpg' }], release_date: '2004' }} />);
-    expect(wrapper.find('div[className="albumCover"]').length).toEqual(1);
+    expect(wrapper.find('div[className="image"]').length).toEqual(1);
   });
 });
