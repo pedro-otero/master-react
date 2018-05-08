@@ -15,11 +15,11 @@ describe('Song component', () => {
   const wrapper = shallow(<Song />);
 
   it('hides composers list', () => {
-    expect(wrapper.find('span[className="composers"]')).toHaveLength(0);
+    expect(wrapper.find('JointList[className="composers"]')).toHaveLength(0);
   });
 
   it('hides producers list', () => {
-    expect(wrapper.find('span[className="producers"]')).toHaveLength(0);
+    expect(wrapper.find('JointList[className="producers"]')).toHaveLength(0);
   });
 
   it('shows spotify info loading circle', () => {
@@ -87,7 +87,7 @@ describe('Song component', () => {
       album,
       artist,
     });
-    expect(wrapper.find('progress[className="big-progress"]')).toHaveLength(0);
+    expect(wrapper.find('Progress[className="big-progress"]')).toHaveLength(0);
   });
 
   it('does not display small progress indicator', () => {
@@ -98,6 +98,6 @@ describe('Song component', () => {
       album,
       artist,
     });
-    expect(wrapper.find('progress[className="small-progress"]')).toHaveLength(0);
+    expect(wrapper.find('Progress[className="small-progress"]')).toHaveLength(0);
   });
 });
