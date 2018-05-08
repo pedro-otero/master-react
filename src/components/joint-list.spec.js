@@ -14,6 +14,13 @@ describe('Inline List', () => {
     expect(wrapper.find('span[className="main"]').text()).toEqual('one, two, three');
   });
 
+  it('renders nothing when passed empty list of values', () => {
+    const wrapper = shallow(<JointList
+        values={[]}
+        className="main" />);
+    expect(wrapper.find('span[className="main"]').length).toEqual(0);
+  });
+
   it('starts list of values with a passed prop', () => {
     const wrapper = shallow(<JointList
         values={['one', 'two', 'three']}
