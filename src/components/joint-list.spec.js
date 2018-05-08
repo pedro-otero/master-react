@@ -7,8 +7,10 @@ import JointList from './joint-list';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('Inline List', () => {
-  it('renders list of values', () => {
-    const wrapper = shallow(<JointList values={['one', 'two', 'three']} />);
+  it('renders list of values with className', () => {
+    const wrapper = shallow(<JointList
+        values={['one', 'two', 'three']}
+        className="main" />);
     expect(wrapper.find('span[className="main"]').text()).toEqual('one, two, three');
   });
 
@@ -16,13 +18,13 @@ describe('Inline List', () => {
     const wrapper = shallow(<JointList
         values={['one', 'two', 'three']}
         start="this is the list: " />);
-    expect(wrapper.find('span[className="main"]').text()).toEqual('this is the list: one, two, three');
+    expect(wrapper.find('span').text()).toEqual('this is the list: one, two, three');
   });
 
   it('ends list of values with a passed prop', () => {
     const wrapper = shallow(<JointList
         values={['one', 'two', 'three']}
         end="." />);
-    expect(wrapper.find('span[className="main"]').text()).toEqual('one, two, three.');
+    expect(wrapper.find('span').text()).toEqual('one, two, three.');
   });
 });
