@@ -4,15 +4,10 @@ import Adapter from 'enzyme-adapter-react-16';
 
 import Song from './song';
 
-const track = {
-  artists: [{}],
-  album: {
-    images: [{}],
-  },
-};
+const track = { artists: [{}] };
 const credits = { composers: [], producers: [], credits: {} };
 const artist = { images: [{}] };
-const album = { release_date: '' };
+const album = { release_date: '', images: [{}] };
 
 Enzyme.configure({ adapter: new Adapter() });
 

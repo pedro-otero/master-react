@@ -41,7 +41,7 @@ const Song = ({
       <div className="content">
         {track && album && <div
             className="albumCover"
-            style={{ backgroundImage: `url(${track.album.images[0].url})` }}>
+            style={{ backgroundImage: `url(${album.images[0].url})` }}>
           <span className="albumYear">{album.release_date.substring(0, 4)}</span>
           </div>}
         <div>
