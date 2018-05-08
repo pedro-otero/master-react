@@ -11,4 +11,18 @@ describe('Inline List', () => {
     const wrapper = shallow(<JointList values={['one', 'two', 'three']} />);
     expect(wrapper.find('span[className="main"]').text()).toEqual('one, two, three');
   });
+
+  it('starts list of values with a passed prop', () => {
+    const wrapper = shallow(<JointList
+        values={['one', 'two', 'three']}
+        start="this is the list: " />);
+    expect(wrapper.find('span[className="main"]').text()).toEqual('this is the list: one, two, three');
+  });
+
+  it('ends list of values with a passed prop', () => {
+    const wrapper = shallow(<JointList
+        values={['one', 'two', 'three']}
+        end="." />);
+    expect(wrapper.find('span[className="main"]').text()).toEqual('one, two, three.');
+  });
 });
