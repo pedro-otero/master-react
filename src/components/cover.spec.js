@@ -23,4 +23,11 @@ describe('Cover', () => {
     const wrapper = shallow(<Cover album={{ images: [{ url: 'img.jpg' }], release_date: '2004' }} />);
     expect(wrapper.find('span[className="year"]').length).toEqual(1);
   });
+
+  it('displays year with applied class for year label', () => {
+    const wrapper = shallow(<Cover
+        album={{ images: [{ url: 'img.jpg' }], release_date: '2004' }}
+        yearClass="someClass" />);
+    expect(wrapper.find('span[className="year someClass"]').length).toEqual(1);
+  });
 });
