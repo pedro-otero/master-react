@@ -6,7 +6,7 @@ import JointList from './joint-list';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-describe('Inline List', () => {
+describe('Joint List', () => {
   it('renders list of values with className', () => {
     const wrapper = shallow(<JointList
         values={['one', 'two', 'three']}
