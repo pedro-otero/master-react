@@ -199,13 +199,3 @@ body {
 .producers::after {
     content: "]";
 }
-
-.all-data-empty {
-    width: 100%;
-    text-align: center;
-}
-
-.search-not-started {
-    width: 100%;
-    text-align: center;
-}

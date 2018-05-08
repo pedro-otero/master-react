@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './loading-circle.css';
 
 const LoadingCircle = ({ message }) => (
-  <span>
+  <div className="main">
     <div className="sk-fading-circle">
       <div className="sk-circle1 sk-circle"></div>
       <div className="sk-circle2 sk-circle"></div>
@@ -20,7 +20,7 @@ const LoadingCircle = ({ message }) => (
       <div className="sk-circle12 sk-circle"></div>
     </div>
     <h1>{message}</h1>
-  </span>
+  </div>
 );
 
 LoadingCircle.propTypes = {
