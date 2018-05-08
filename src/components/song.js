@@ -5,6 +5,7 @@ import './song.css';
 import LoadingCircle from './loading-circle';
 import Progress from './progress';
 import Credits from './credits';
+import Label from './label';
 
 const Song = ({
   track,
@@ -45,10 +46,12 @@ const Song = ({
           </div>}
         <div>
           {track && <span>
-            <span className="artistName">{track.artists[0].name}</span>
-            <br />
-            <span className="trackName">{track.name}</span>
-            <br />
+            <Label
+                className="artistName"
+                value={track.artists[0].name} />
+            <Label
+                className="trackName"
+                value={track.name} />
             </span>}
           {bestMatch && bestMatch.composers.length > 0 && <span className="composers">
               {bestMatch.composers.map((name, i) => (
