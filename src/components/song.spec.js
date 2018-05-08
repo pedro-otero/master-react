@@ -35,6 +35,15 @@ describe('Song component', () => {
     expect(wrapper.find('LoadingCircle[message="Starting search..."]')).toHaveLength(1);
   });
 
+  it('displays the banner', () => {
+    wrapper.setProps({
+      track,
+      album,
+      artist,
+    });
+    expect(wrapper.find('Banner')).toHaveLength(1);
+  });
+
   it('displays big progress indicator', () => {
     wrapper.setProps({
       bestMatch: credits,
