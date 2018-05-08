@@ -2,8 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './song.css';
-import LoadingCircle from './LoadingCircle';
+import LoadingCircle from './loading-circle';
 import Progress from './progress';
+import Credits from './credits';
+import Label from './label';
+import Cover from './cover';
+import JointList from './joint-list';
+import Banner from './banner';
 
 const Song = ({
   track,
@@ -28,67 +33,46 @@ const Song = ({
     return 'with-credits';
   })();
 
-  const layers = image => ({
-    backgroundImage: `linear-gradient(rgba(0,0,0,0.1) 65%, black), 
-            url(${image.url})`,
-  });
-
   return <article>
-    {status === 'empty' && <div className="all-data-empty">
-      <LoadingCircle />
-      <h1>Loading data from Spotify...</h1>
-      </div>}
-    <div className="header">
-      <div className="content">
-        {track && album && <div
-            className="albumCover"
-            style={{ backgroundImage: `url(${track.album.images[0].url})` }}>
-          <span className="albumYear">{album.release_date.substring(0, 4)}</span>
-          </div>}
-        <div>
-          {track && <span>
-            <span className="artistName">{track.artists[0].name}</span>
-            <br />
-            <span className="trackName">{track.name}</span>
-            <br />
-            </span>}
-          {bestMatch && bestMatch.composers.length > 0 && <span className="composers">
-              {bestMatch.composers.map((name, i) => (
-                <span key={`composer-${name}-${i}`}>{name}</span>
-              ))}
-            </span>}
+    {track && artist && album &&
+    <Banner
+        src={artist.images[0].url}
+        className="content">
+      <Cover
+          album={album}
+          imageClass="albumCover"
+          yearClass="albumYear" />
+      <div>
+        <Label
+            className="artistName"
+            value={track.artists[0].name} />
+        <Label
+            className="trackName"
+            value={track.name} />
+        {bestMatch && <span>
+          <JointList
+              className="composers"
+              start="("
+              values={bestMatch.composers}
+              end=")" />
           <br />
-          {bestMatch && bestMatch.producers.length > 0 && <span className="producers">
-              {bestMatch.producers.map((name, i) => (
-                <span key={`producer-${name}-${i}`}>{name}</span>
-              ))}
-            </span>}
-        </div>
+          <JointList
+              className="producers"
+              start="["
+              values={bestMatch.producers}
+              end="]" />
+        </span>}
       </div>
-      {artist && <div
-          className="artistImg"
-          style={layers(artist.images[0])}>
-
-        </div>}
-    </div>
-    {status === 'search-not-started' && <div className="search-not-started">
-      <LoadingCircle />
-      <h1>Starting search...</h1>
-      </div>}
-    {status === 'with-credits' && <Progress
+    </Banner>}
+    {status === 'empty' && <LoadingCircle message="Loading data from Spotify..." />}
+    {status === 'search-not-started' && <LoadingCircle message="Starting search..." />}
+    {status === 'with-credits' &&
+    <Progress
         size="small"
         value={progress} />}
-    {bestMatch && <div className="credits">
-        {Object.keys(bestMatch.credits).map((collaborator, i) => (
-          <span key={i}>
-            <h5 className="collaboratorName">
-              {collaborator}:
-            </h5>
-            {bestMatch.credits[collaborator].join(', ')}
-          </span>
-        ))}
-      </div>}
-    {status === 'no-credits' && <Progress
+    {bestMatch && <Credits data={bestMatch.credits} />}
+    {status === 'no-credits' &&
+    <Progress
         size="big"
         value={progress} />}
   </article>;
