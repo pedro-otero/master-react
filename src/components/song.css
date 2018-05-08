@@ -180,10 +180,6 @@ body {
     font-size: xx-small;
 }
 
-.albumYear::before {
-    content: "© ";
-}
-
 .composers::before {
     content: "(";
 }
