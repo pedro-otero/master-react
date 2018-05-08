@@ -2,15 +2,15 @@ import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import Artist from './artist';
+import Label from './label';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-describe('Artist label component', () => {
+describe('Label component', () => {
   it('displays artist message', () => {
-    const wrapper = shallow(<Artist
+    const wrapper = shallow(<Label
         className="someClass"
-        name="someone" />);
+        value="someone" />);
     expect(wrapper.find('span[className="someClass"]').text()).toEqual('someone');
   });
 });
