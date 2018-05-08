@@ -7,6 +7,7 @@ import Progress from './progress';
 import Credits from './credits';
 import Label from './label';
 import Cover from './cover';
+import JointList from './joint-list';
 
 const Song = ({
   track,
@@ -53,17 +54,17 @@ const Song = ({
                 className="trackName"
                 value={track.name} />
             </span>}
-          {bestMatch && bestMatch.composers.length > 0 && <span className="composers">
-              {bestMatch.composers.map((name, i) => (
-                <span key={`composer-${name}-${i}`}>{name}</span>
-              ))}
-            </span>}
+          {bestMatch && <JointList
+              className="composers"
+              values={bestMatch.composers}
+              start="("
+              end=")" />}
           <br />
-          {bestMatch && bestMatch.producers.length > 0 && <span className="producers">
-              {bestMatch.producers.map((name, i) => (
-                <span key={`producer-${name}-${i}`}>{name}</span>
-              ))}
-            </span>}
+          {bestMatch && <JointList
+              className="producers"
+              values={bestMatch.producers}
+              start="["
+              end="]" />}
         </div>
       </div>
       {artist && <div
