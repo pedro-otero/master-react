@@ -57,14 +57,14 @@ const Song = ({
           {bestMatch && <span>
             <JointList
                 className="composers"
-                values={bestMatch.composers}
                 start="("
+                values={bestMatch.composers}
                 end=")" />
             <br />
             <JointList
                 className="producers"
-                values={bestMatch.producers}
                 start="["
+                values={bestMatch.producers}
                 end="]" />
           </span>}
         </div>
