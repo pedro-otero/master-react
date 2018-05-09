@@ -1,18 +1,23 @@
 import getBackEndConstructor from './backend';
 
+let pollTimes = 0;
+const progresses = [30, 60, 100];
 const getMock = jest.fn(id => ({
   end: (f) => {
     if (id === 'http://myapp.com/ERROR') {
       f('ERROR', null);
     } else if (id === 'http://myapp.com/OK') {
       f(null, { body: { id, bestMatch: {}, progress: 100 } });
+    } else if (id === 'http://myapp.com/POLL') {
+      f(null, { body: { id, bestMatch: {}, progress: progresses[pollTimes] } });
+      pollTimes += 1;
     }
   },
 }));
 const mockRequest = {
   get: getMock,
 };
-const Backend = getBackEndConstructor(mockRequest, 'http://myapp.com');
+const Backend = getBackEndConstructor(mockRequest, 'http://myapp.com', 0);
 const backend = new Backend();
 
 describe('Backend', () => {
@@ -40,6 +45,25 @@ describe('Backend', () => {
           done('with error');
         },
         () => done(),
+      );
+  });
+
+  it('polls album data endpoint', (done) => {
+    const values = [];
+    backend.getCredits('POLL')
+      .subscribe(
+        (value) => {
+          values.push(value);
+        },
+        () => {
+          done('with error');
+        },
+        () => {
+          expect(values[0].progress).toEqual(30);
+          expect(values[1].progress).toEqual(60);
+          expect(values[2].progress).toEqual(100);
+          done();
+        },
       );
   });
 });
