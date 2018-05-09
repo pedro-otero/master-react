@@ -35,7 +35,7 @@ export default class App extends React.Component {
 
   getCredits() {
     this.props.backend.getCredits(this.state.album.id)
-      .then(({ bestMatch: { tracks }, progress }) => {
+      .subscribe(({ bestMatch: { tracks }, progress }) => {
         const trackBestMatch = tracks.find(t => t.id === this.state.track.id);
         this.setState({ bestMatch: trackBestMatch, progress });
         if (progress < 100) {

@@ -1,8 +1,9 @@
 import React from 'react';
-import Enzyme, {shallow} from 'enzyme';
+import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import App from './App';
+import * as Observable from "rxjs";
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -24,7 +25,7 @@ describe('App container', () => {
       getAlbum: jest.fn(() => Promise.resolve({ body: { id: 'AL1' } })),
     };
     const backend = {
-      getCredits: jest.fn(() => Promise.resolve({
+      getCredits: jest.fn(() => Observable.from([{
         progress: 0,
         bestMatch: {
           tracks: [{
@@ -33,14 +34,14 @@ describe('App container', () => {
             credits: {},
           }],
         },
-      })),
+      }])),
     };
     let wrapper;
 
     beforeAll(() => {
       wrapper = shallow(<App
-        spotifyApi={mockApi}
-        backend={backend}/>);
+          spotifyApi={mockApi}
+          backend={backend} />);
     });
 
     it('Calls #getCurrentPlayback on mount', () => {

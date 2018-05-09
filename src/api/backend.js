@@ -1,16 +1,19 @@
-import request from 'superagent';
+import * as Rx from 'rxjs';
 
-export default function Backend() {
-  this.getCredits = albumId => new Promise(((resolve, reject) => {
-    request
-      .get(`${process.env.REACT_APP_BE_DOMAIN}/data/album/${albumId}`)
-      .end((err, res) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(res.body);
+export default (request, url) => function Backend() {
+  this.getCredits = albumId => Rx.Observable.create((subscriber) => {
+    const retrieve = receive => request.get(`${url}/${albumId}`).end(receive);
+    const receive = (err, res) => {
+      if (err) {
+        console.error(err);
+        subscriber.error(err);
+      } else {
+        subscriber.next(res.body);
+        if (res.body.progress === 100) {
+          subscriber.complete();
         }
-      });
-  }));
-}
+      }
+    };
+    retrieve(receive);
+  });
+};
