@@ -2,6 +2,7 @@ import * as Rx from 'rxjs';
 
 export default (request, url, pollFreq) => function Backend() {
   this.getCredits = albumId => Rx.Observable.create((subscriber) => {
+    let timer;
     const retrieve = receive => request.get(`${url}/${albumId}`).end(receive);
     const receive = (err, res) => {
       if (err) {
@@ -12,10 +13,13 @@ export default (request, url, pollFreq) => function Backend() {
         if (res.body.progress === 100) {
           subscriber.complete();
         } else {
-          setTimeout(() => retrieve(receive), pollFreq);
+          timer = setTimeout(() => retrieve(receive), pollFreq);
         }
       }
     };
     retrieve(receive);
+    return () => {
+      clearTimeout(timer);
+    };
   });
 };

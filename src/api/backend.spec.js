@@ -66,4 +66,20 @@ describe('Backend', () => {
         },
       );
   });
+
+  it('clears timer when unsubscribing', () => {
+    global.clearTimeout = jest.fn();
+    const subscription = backend.getCredits('OK')
+      .subscribe(
+        (value) => {
+          expect(value.id).toEqual('http://myapp.com/OK');
+        },
+        () => {
+          throw Error('with error');
+        },
+        () => {},
+      );
+    subscription.unsubscribe();
+    expect(global.clearTimeout.mock.calls).toEqual([[undefined]]);
+  });
 });
