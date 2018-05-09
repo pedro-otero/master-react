@@ -30,7 +30,7 @@ describe('Backend', () => {
       );
   });
 
-  it('resolves if response from server has no error', (done) => {
+  it('emits data', (done) => {
     backend.getCredits('OK')
       .subscribe(
         (value) => {
