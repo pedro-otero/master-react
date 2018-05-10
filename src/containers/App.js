@@ -45,12 +45,18 @@ export default class App extends React.Component {
     this.creditsObservable = this.props.backend.getCredits(this.state.album.id)
       .subscribe(({ bestMatch: { tracks }, progress }) => {
         const trackBestMatch = tracks.find(t => t.id === this.state.track.id);
-        this.setState({ bestMatch: trackBestMatch, progress });
+        this.setState({
+          bestMatch: trackBestMatch,
+          progress,
+        });
       }, this.addError);
   }
 
   addError({ message }) {
-    this.setState({ errors: [...this.state.errors, message], progress: 100 });
+    this.setState({
+      errors: [...this.state.errors, message],
+      progress: 100,
+    });
   }
 
   render() {
