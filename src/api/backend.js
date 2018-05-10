@@ -6,7 +6,6 @@ export default (request, url, pollFreq) => function Backend() {
     const retrieve = receive => request.get(`${url}/${albumId}`).end(receive);
     const receive = (err, res) => {
       if (err) {
-        console.error(err);
         subscriber.error(err);
       } else {
         subscriber.next(res.body);

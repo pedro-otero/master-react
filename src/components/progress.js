@@ -17,6 +17,7 @@ Progress.propTypes = {
     if (props[value] < 0 || props[value] > 100) {
       return Error('"progress" prop out of range (0 <= progress <= 100)');
     }
+    return null;
   },
 };
 

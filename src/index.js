@@ -16,7 +16,12 @@ const backend = new Backend();
 const user = getUser(SpotifyCustomApiFactory(SpotifyWebApi, window.location));
 
 if (user.isAuthenticated()) {
-  ReactDOM.render(<App spotifyApi={user.getApi()} backend={backend}/>, document.getElementById('root'));
+  ReactDOM.render(
+    <App
+        spotifyApi={user.getApi()}
+        backend={backend} />,
+    document.getElementById('root'),
+  );
   registerServiceWorker();
 } else {
   window.location = user.getAuthUrl();
