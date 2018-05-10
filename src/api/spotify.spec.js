@@ -13,11 +13,11 @@ describe('Spotify module', () => {
     global.localStorage = { getItem: jest.fn(() => 'fakeToken') };
     const webApi = jest.fn(() => ({
       setAccessToken: jest.fn(),
-      getAlbum: jest.fn(() => Promise.resolve('OK')),
+      getMyCurrentPlaybackState: jest.fn(() => Promise.resolve('OK')),
     }));
     const getSpotifyModule = Spotify(webApi);
     const api = getSpotifyModule(1, 2);
-    api.getAlbum().then(value => expect(value).toEqual('OK'), () => expect(undefined));
+    api.getCurrentPlayback().then(value => expect(value).toEqual('OK'), () => expect(undefined));
   });
 
   it('reloads app (to authenticate again) if it gets 401 error', (done) => {
