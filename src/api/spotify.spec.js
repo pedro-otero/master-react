@@ -34,4 +34,20 @@ describe('Spotify module', () => {
       done();
     });
   });
+
+  it('passes errors if it gets another type of error', (done) => {
+    global.localStorage = { getItem: jest.fn(() => 'fakeToken') };
+    const webApi = jest.fn(() => ({
+      setAccessToken: jest.fn(),
+      getArtist: jest.fn(() => Promise.reject({ statusCode: 404 })),
+    }));
+    const getSpotifyModule = Spotify(webApi, null);
+    const api = getSpotifyModule(1, 2);
+    api.getArtist().then(() => {
+      done('with error');
+    }, (err) => {
+      expect(err.statusCode === 404);
+      done();
+    });
+  });
 });
