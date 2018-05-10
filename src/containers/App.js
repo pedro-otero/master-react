@@ -9,8 +9,7 @@ export default class App extends React.Component {
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timer);
-    this.timer = null;
+    this.creditsObservable.unsubscribe();
   }
 
   getPlaybackData() {
@@ -34,7 +33,7 @@ export default class App extends React.Component {
   }
 
   getCredits() {
-    this.props.backend.getCredits(this.state.album.id)
+    this.creditsObservable = this.props.backend.getCredits(this.state.album.id)
       .subscribe(({ bestMatch: { tracks }, progress }) => {
         const trackBestMatch = tracks.find(t => t.id === this.state.track.id);
         this.setState({ bestMatch: trackBestMatch, progress });

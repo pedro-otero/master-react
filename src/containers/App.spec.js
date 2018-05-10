@@ -1,7 +1,7 @@
 import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import * as Observable from 'rxjs';
+import * as Rx from 'rxjs';
 
 import App from './App';
 
@@ -24,8 +24,9 @@ describe('App container', () => {
       getArtist: jest.fn(() => Promise.resolve({ body: { id: 'AR1' } })),
       getAlbum: jest.fn(() => Promise.resolve({ body: { id: 'AL1' } })),
     };
-    const backend = {
-      getCredits: jest.fn(() => Observable.from([{
+    const unsubscribe = jest.fn();
+    const observable = Rx.Observable.create((observer) => {
+      observer.next({
         progress: 0,
         bestMatch: {
           tracks: [{
@@ -34,7 +35,12 @@ describe('App container', () => {
             credits: {},
           }],
         },
-      }])),
+      });
+      observer.complete();
+      return unsubscribe;
+    });
+    const backend = {
+      getCredits: jest.fn(() => observable),
     };
     let wrapper;
 
@@ -58,6 +64,11 @@ describe('App container', () => {
 
     it('gets credits', () => {
       expect(backend.getCredits.mock.calls).toEqual([['AL1']]);
+    });
+
+    it('unsubscribes from credits observable', () => {
+      wrapper.unmount();
+      expect(unsubscribe.mock.calls.length).toEqual(1);
     });
   });
 });
