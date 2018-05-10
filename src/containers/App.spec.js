@@ -42,13 +42,10 @@ describe('App container', () => {
     const backend = {
       getCredits: jest.fn(() => observable),
     };
-    let wrapper;
 
-    beforeAll(() => {
-      wrapper = shallow(<App
-          spotifyApi={mockApi}
-          backend={backend} />);
-    });
+    const wrapper = shallow(<App
+        spotifyApi={mockApi}
+        backend={backend} />);
 
     it('Calls #getCurrentPlayback on mount', () => {
       expect(mockApi.getCurrentPlayback.mock.calls.length).toBe(1);
