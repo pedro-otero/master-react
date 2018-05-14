@@ -14,6 +14,7 @@ const Backend = getBackend(request, `${process.env.REACT_APP_BE_DOMAIN}/data/alb
 const backend = new Backend();
 const user = getUser(SpotifyWebApi, window);
 
+registerServiceWorker();
 if (user.isAuthenticated()) {
   ReactDOM.render(
     <App
@@ -21,7 +22,6 @@ if (user.isAuthenticated()) {
         backend={backend} />,
     document.getElementById('root'),
   );
-  registerServiceWorker();
 } else {
   window.location = user.getAuthUrl();
 }
