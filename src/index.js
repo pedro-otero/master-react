@@ -7,13 +7,12 @@ import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import App from './containers/App';
 
-import SpotifyCustomApiFactory from './api/spotify';
 import getBackend from './api/backend';
 import getUser from './user';
 
 const Backend = getBackend(request, `${process.env.REACT_APP_BE_DOMAIN}/data/album`, 1000);
 const backend = new Backend();
-const user = getUser(SpotifyCustomApiFactory(SpotifyWebApi, window.location), window.location, window.history);
+const user = getUser(SpotifyWebApi, window.location, window.history);
 
 if (user.isAuthenticated()) {
   ReactDOM.render(

@@ -66,7 +66,7 @@ describe('Auth module', () => {
   });
 
   it('constructs an api object', () => {
-    const ApiClass = jest.fn();
+    const ApiClass = jest.fn(() => ({ setAccessToken: jest.fn() }));
     const user = getUser(ApiClass, emptyHashLocation);
     user.getApi();
     expect(ApiClass.mock.calls).toEqual([[{

@@ -1,3 +1,5 @@
+import SpotifyCustomApiFactory from './api/spotify';
+
 export default (ApiClass, location, history) => ({
   isAuthenticated: () => {
     if (location.hash) {
@@ -23,8 +25,11 @@ export default (ApiClass, location, history) => ({
     ['scope', process.env.REACT_APP_SPOTIFY_SCOPES],
     ['show_dialog', 'false'],
   ].map(pair => `${pair[0]}=${pair[1]}`).join('&')}`,
-  getApi: () => new ApiClass({
-    redirectUri: location.href,
-    clientId: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
-  }),
+  getApi: () => {
+    const CustomApi = SpotifyCustomApiFactory(ApiClass, location);
+    return CustomApi({
+      redirectUri: location.href,
+      clientId: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
+    });
+  },
 });
