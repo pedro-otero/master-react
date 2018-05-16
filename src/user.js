@@ -17,13 +17,13 @@ export default (ApiClass, location) => ({
   getAuthUrl: () => `${process.env.REACT_APP_SPOTIFY_AUTHORIZE_URL}?${[
     ['client_id', process.env.REACT_APP_SPOTIFY_CLIENT_ID],
     ['response_type', 'token'],
-    ['redirect_uri', process.env.REACT_APP_SPOTIFY_REDIRECT_URI],
+    ['redirect_uri', location.href],
     ['state', 'reactApp'],
     ['scope', process.env.REACT_APP_SPOTIFY_SCOPES],
     ['show_dialog', 'false'],
   ].map(pair => `${pair[0]}=${pair[1]}`).join('&')}`,
   getApi: () => new ApiClass({
-    redirectUri: process.env.REACT_APP_SPOTIFY_REDIRECT_URI,
+    redirectUri: location.href,
     clientId: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
   }),
 });
