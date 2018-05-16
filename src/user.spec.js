@@ -26,12 +26,14 @@ describe('Auth module', () => {
 
   describe('location has a hash', () => {
     let isAuthenticated;
+    const history = { pushState: jest.fn() };
     beforeAll(() => {
       global.localStorage = {
         getItem: jest.fn(key => ({ token: '', expiry: new Date(Date.now() + 1000).toISOString() })[key]),
         setItem: jest.fn(),
       };
-      const user = getUser(null, { hash: '#access_token=FAKE&token_type=Bearer&expires_in=3600&state=reactApp' });
+      const hash = '#access_token=FAKE&token_type=Bearer&expires_in=3600&state=reactApp';
+      const user = getUser(null, { hash }, history);
       isAuthenticated = user.isAuthenticated();
     });
 
@@ -48,6 +50,10 @@ describe('Auth module', () => {
 
     it('#isAuthenticated = true', () => {
       expect(isAuthenticated).toEqual(true);
+    });
+
+    it('pushes history state that clears the hash', () => {
+      expect(history.pushState).toHaveBeenCalled();
     });
   });
 

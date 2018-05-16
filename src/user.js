@@ -1,4 +1,4 @@
-export default (ApiClass, location) => ({
+export default (ApiClass, location, history) => ({
   isAuthenticated: () => {
     if (location.hash) {
       const pairs = location.hash.substring(1).split('&').map(pair => pair.split('='));
@@ -7,6 +7,7 @@ export default (ApiClass, location) => ({
       const expiry = new Date(Date.now() + (expiresIn * 1000)).toISOString();
       localStorage.setItem('token', token);
       localStorage.setItem('expiry', expiry);
+      history.pushState({}, '', '/');
     }
     const token = localStorage.getItem('token');
     const expiry = new Date(localStorage.getItem('expiry'));
