@@ -9,7 +9,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.addError = this.addError.bind(this);
-    this.state = { errors: [] };
+    this.state = { errors: [], playback: true };
   }
 
   componentDidMount() {
@@ -32,6 +32,8 @@ export default class App extends React.Component {
         });
         this.getAlbum(track.album.id);
         this.getArtist(track.artists[0].id);
+      } else {
+        this.setState({ playback: false });
       }
     }, this.addError).catch(this.addError);
   }
