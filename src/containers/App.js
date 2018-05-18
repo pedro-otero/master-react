@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Song from '../components/song';
 import './App.css';
+import EmptyPlayback from '../components/empty-playback';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -23,7 +24,10 @@ export default class App extends React.Component {
 
   getPlaybackData() {
     this.props.spotifyApi.getCurrentPlayback().then(({ body: { item: track } }) => {
-      this.setState({ track });
+      this.setState({
+        track,
+        playback: !!track,
+      });
       this.getAlbum(track.album.id);
       this.getArtist(track.artists[0].id);
     }, this.addError).catch(this.addError);
@@ -61,7 +65,7 @@ export default class App extends React.Component {
 
   render() {
     const {
-      track, album, artist, bestMatch, progress, errors,
+      track, album, artist, bestMatch, progress, errors, playback,
     } = this.state;
     return (
       <div>
@@ -70,6 +74,7 @@ export default class App extends React.Component {
           {errors.map((error, i) => <p key={`error-${i}`}>{error}</p>)}
           <p>Please reload the page to try again</p>
         </div>}
+        {!playback && <EmptyPlayback />}
         <Song
             track={track}
             album={album}

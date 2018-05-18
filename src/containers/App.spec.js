@@ -106,6 +106,10 @@ describe('App container', () => {
       expect(mockApi.getCurrentPlayback.mock.calls.length).toBe(1);
     });
 
+    it('displays EmptyPlayback component', () => {
+      expect(wrapper.find('EmptyPlayback').length).toBe(1);
+    });
+
     it('does NOT get album', () => {
       expect(mockApi.getAlbum).not.toHaveBeenCalled();
     });
