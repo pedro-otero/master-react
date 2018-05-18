@@ -23,7 +23,7 @@ const Banner = ({ src, className, children }) => {
 Banner.propTypes = {
   children: PropTypes.array.isRequired,
   className: PropTypes.string,
-  src: PropTypes.string.isRequired,
+  src: PropTypes.string,
 };
 
 export default Banner;

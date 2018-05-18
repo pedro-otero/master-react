@@ -33,10 +33,12 @@ const Song = ({
     return 'with-credits';
   })();
 
+  const artistImg = artist && artist.images.length ? artist.images[0].url : undefined;
+
   return <article>
     {track && artist && album &&
     <Banner
-        src={artist.images[0].url}
+        src={artistImg}
         className="content">
       <Cover
           album={album}

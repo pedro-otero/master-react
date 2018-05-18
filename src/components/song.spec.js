@@ -6,13 +6,16 @@ import Song from './song';
 
 const track = { artists: [{}] };
 const credits = { composers: [], producers: [], credits: {} };
-const artist = { images: [{}] };
+const artist = { images: [{ url: 'ImgUrl' }] };
 const album = { release_date: '', images: [{}] };
 
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('Song component', () => {
-  const wrapper = shallow(<Song />);
+  let wrapper;
+  beforeEach(() => {
+    wrapper = shallow(<Song />);
+  });
 
   it('hides composers list', () => {
     expect(wrapper.find('JointList[className="composers"]')).toHaveLength(0);
@@ -41,7 +44,16 @@ describe('Song component', () => {
       album,
       artist,
     });
-    expect(wrapper.find('Banner')).toHaveLength(1);
+    expect(wrapper.find('Banner').prop('src')).toEqual('ImgUrl');
+  });
+
+  it('does not break when artist has no images', () => {
+    wrapper.setProps({
+      track,
+      artist: { images: [] },
+      album,
+    });
+    expect(wrapper.find('Banner').prop('src')).toBeUndefined();
   });
 
   it('displays big progress indicator', () => {
