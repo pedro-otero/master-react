@@ -156,5 +156,7 @@ body {
 }
 
 .albumYear {
-    font-size: xx-small;
+    font-size: small;
+    padding-top: 2px;
+    padding-right: 3px;
 }
