@@ -1,13 +1,11 @@
 @media (max-width: 320px) {
 
     .content {
-        margin: 0 5px;
-        width: 310px;
-        padding: 5px 0;
+        padding: 0.5em;
     }
 
     .albumCover {
-        margin-right: 1em;
+        margin-right: 0.5em;
         min-width: 6em;
         max-width: 6em;
         min-height: 6em;
@@ -22,22 +20,16 @@
         padding: 0.7em 0;
         font-size: 2.2em;
     }
-
-    .composers, .producers {
-        font-size: 0.6em;
-    }
 }
 
 @media (min-width: 321px) and (max-width: 768px) {
 
     .content {
-        margin: 0 5%;
-        width: 90%;
-        padding: 0.5em 0;
+        padding: 0.5em;
     }
 
     .albumCover {
-        margin-right: 1.35em;
+        margin-right: 0.5em;
         min-width: 7em;
         max-width: 7em;
         min-height: 7em;
@@ -51,10 +43,6 @@
     .trackName {
         padding: 0.7em 0;
         font-size: 2.3em;
-    }
-
-    .composers, .producers {
-        font-size: 0.7em;
     }
 }
 
@@ -82,10 +70,6 @@
         padding: 0.8em 0;
         font-size: 2.6em;
     }
-
-    .composers, .producers {
-        font-size: 0.8em;
-    }
 }
 
 @media (min-width: 1281px) and (max-width: 1919px) {
@@ -111,10 +95,6 @@
     .trackName {
         padding: 1em 0;
         font-size: 3em;
-    }
-
-    .composers, .producers {
-        font-size: 0.8em;
     }
 }
 
@@ -142,20 +122,25 @@
         padding: 1em 0;
         font-size: 3em;
     }
-
-    .composers, .producers {
-        font-size: 0.8em;
-    }
 }
 
 body {
     background-color: black;
     color: white;
     font-family: sans-serif;
+    margin: 0;
 }
-
-
 
 .albumYear {
-    font-size: xx-small;
+    font-size: small;
+    padding-top: 2px;
+    padding-right: 3px;
 }
+
+.artistName {
+    color: #cccccc;
+}
+
+.composers, .producers {
+     font-size: small;
+ }
