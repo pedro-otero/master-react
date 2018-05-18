@@ -63,6 +63,10 @@ describe('App container', () => {
       expect(backend.getCredits.mock.calls).toEqual([['AL1']]);
     });
 
+    it('displays Song', () => {
+      expect(wrapper.find('Song').length).toEqual(1);
+    });
+
     it('unsubscribes from credits observable', () => {
       wrapper.unmount();
       expect(unsubscribe.mock.calls.length).toEqual(1);
