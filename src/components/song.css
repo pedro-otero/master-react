@@ -20,10 +20,6 @@
         padding: 0.7em 0;
         font-size: 2.2em;
     }
-
-    .composers, .producers {
-        font-size: 0.6em;
-    }
 }
 
 @media (min-width: 321px) and (max-width: 768px) {
@@ -47,10 +43,6 @@
     .trackName {
         padding: 0.7em 0;
         font-size: 2.3em;
-    }
-
-    .composers, .producers {
-        font-size: 0.7em;
     }
 }
 
@@ -78,10 +70,6 @@
         padding: 0.8em 0;
         font-size: 2.6em;
     }
-
-    .composers, .producers {
-        font-size: 0.8em;
-    }
 }
 
 @media (min-width: 1281px) and (max-width: 1919px) {
@@ -107,10 +95,6 @@
     .trackName {
         padding: 1em 0;
         font-size: 3em;
-    }
-
-    .composers, .producers {
-        font-size: 0.8em;
     }
 }
 
@@ -138,10 +122,6 @@
         padding: 1em 0;
         font-size: 3em;
     }
-
-    .composers, .producers {
-        font-size: 0.8em;
-    }
 }
 
 body {
@@ -160,3 +140,7 @@ body {
 .artistName {
     color: #cccccc;
 }
+
+.composers, .producers {
+     font-size: small;
+ }
