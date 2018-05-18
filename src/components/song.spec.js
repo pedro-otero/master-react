@@ -6,7 +6,7 @@ import Song from './song';
 
 const track = { artists: [{}] };
 const credits = { composers: [], producers: [], credits: {} };
-const artist = { images: [{}] };
+const artist = { images: [{ url: 'ImgUrl' }] };
 const album = { release_date: '', images: [{}] };
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -44,7 +44,7 @@ describe('Song component', () => {
       album,
       artist,
     });
-    expect(wrapper.find('Banner')).toHaveLength(1);
+    expect(wrapper.find('Banner').prop('src')).toEqual('ImgUrl');
   });
 
   it('displays big progress indicator', () => {
