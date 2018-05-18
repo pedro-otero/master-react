@@ -47,6 +47,15 @@ describe('Song component', () => {
     expect(wrapper.find('Banner').prop('src')).toEqual('ImgUrl');
   });
 
+  it('does not break when artist has no images', () => {
+    wrapper.setProps({
+      track,
+      artist: { images: [] },
+      album,
+    });
+    expect(wrapper.find('Banner').prop('src')).toBeUndefined();
+  });
+
   it('displays big progress indicator', () => {
     wrapper.setProps({
       bestMatch: credits,
