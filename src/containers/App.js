@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Song from '../components/song';
 import './App.css';
+import EmptyPlayback from '../components/empty-playback';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -22,10 +23,16 @@ export default class App extends React.Component {
   }
 
   getPlaybackData() {
-    this.props.spotifyApi.getCurrentPlayback().then(({ body: playback }) => {
-      this.setState({ track: playback.item });
-      this.getAlbum(playback.item.album.id);
-      this.getArtist(playback.item.artists[0].id);
+    this.props.spotifyApi.getCurrentPlayback().then(({ body }) => {
+      if (body) {
+        const { item: track } = body;
+        this.setState({
+          track,
+          playback: true,
+        });
+        this.getAlbum(track.album.id);
+        this.getArtist(track.artists[0].id);
+      }
     }, this.addError).catch(this.addError);
   }
 
@@ -61,7 +68,7 @@ export default class App extends React.Component {
 
   render() {
     const {
-      track, album, artist, bestMatch, progress, errors,
+      track, album, artist, bestMatch, progress, errors, playback,
     } = this.state;
     return (
       <div>
@@ -70,12 +77,13 @@ export default class App extends React.Component {
           {errors.map((error, i) => <p key={`error-${i}`}>{error}</p>)}
           <p>Please reload the page to try again</p>
         </div>}
-        <Song
+        {!playback && <EmptyPlayback />}
+        {playback && <Song
             track={track}
             album={album}
             artist={artist}
             bestMatch={bestMatch}
-            progress={progress} />
+            progress={progress} />}
       </div>
     );
   }
