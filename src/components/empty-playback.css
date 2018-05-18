@@ -1,0 +1,6 @@
+.emptyPlaybackMessage {
+}
+
+.emptyPlaybackMessage > p:first-child {
+    font-weight: bold;
+}
