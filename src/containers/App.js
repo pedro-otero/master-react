@@ -23,9 +23,9 @@ export default class App extends React.Component {
   }
 
   getPlaybackData() {
-    this.props.spotifyApi.getCurrentPlayback().then((response) => {
-      if (response.body !== null) {
-        const { body: { item: track } } = response;
+    this.props.spotifyApi.getCurrentPlayback().then(({ body }) => {
+      if (body) {
+        const { item: track } = body;
         this.setState({
           track,
           playback: true,
