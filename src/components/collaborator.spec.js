@@ -12,7 +12,7 @@ describe('Collaborator component', () => {
       roles={['R1', 'R2']} />);
 
   it('shows name', () => {
-    expect(wrapper.find('h5[className="collaboratorName"]')).toHaveLength(1);
+    expect(wrapper.find('h3[className="collaboratorName"]')).toHaveLength(1);
   });
 
   it('shows roles', () => {
