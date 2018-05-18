@@ -1,16 +1,14 @@
 @media (max-width: 320px) {
 
     .credits {
-        margin: 0 5px;
-        width: 310px;
+        margin: 0.5em;
     }
 }
 
 @media (min-width: 321px) and (max-width: 768px) {
 
     .credits {
-        margin: 0 5%;
-        width: 90%;
+        margin: 0.5em;
     }
 }
 
