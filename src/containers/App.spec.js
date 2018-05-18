@@ -68,4 +68,54 @@ describe('App container', () => {
       expect(unsubscribe.mock.calls.length).toEqual(1);
     });
   });
+
+  describe('finds NO playback data', () => {
+    const mockApi = {
+      getCurrentPlayback: jest.fn(() => Promise.resolve({
+        body: {
+          item: null,
+        },
+      })),
+      getArtist: jest.fn(),
+      getAlbum: jest.fn(),
+    };
+    const unsubscribe = jest.fn();
+    const observable = Rx.Observable.create((observer) => {
+      observer.next({
+        progress: 0,
+        bestMatch: {
+          tracks: [{
+            composers: [],
+            producers: [],
+            credits: {},
+          }],
+        },
+      });
+      observer.complete();
+      return unsubscribe;
+    });
+    const backend = {
+      getCredits: jest.fn(() => observable),
+    };
+
+    const wrapper = shallow(<App
+        spotifyApi={mockApi}
+        backend={backend} />);
+
+    it('Calls #getCurrentPlayback on mount', () => {
+      expect(mockApi.getCurrentPlayback.mock.calls.length).toBe(1);
+    });
+
+    it('does NOT get album', () => {
+      expect(mockApi.getAlbum).not.toHaveBeenCalled();
+    });
+
+    it('does NOT get artist', () => {
+      expect(mockApi.getArtist).not.toHaveBeenCalled();
+    });
+
+    it('does NOT get credits', () => {
+      expect(backend.getCredits).not.toHaveBeenCalled();
+    });
+  });
 });
