@@ -12,7 +12,10 @@ const album = { release_date: '', images: [{}] };
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('Song component', () => {
-  const wrapper = shallow(<Song />);
+  let wrapper;
+  beforeEach(() => {
+    wrapper = shallow(<Song />);
+  });
 
   it('hides composers list', () => {
     expect(wrapper.find('JointList[className="composers"]')).toHaveLength(0);
