@@ -43,12 +43,19 @@ describe('App container', () => {
       getCredits: jest.fn(() => observable),
     };
 
-    const wrapper = shallow(<App
-        spotifyApi={mockApi}
-        backend={backend} />);
+    let wrapper;
+    beforeAll(() => {
+      wrapper = shallow(<App
+          spotifyApi={mockApi}
+          backend={backend} />);
+    });
 
     it('Calls #getCurrentPlayback on mount', () => {
       expect(mockApi.getCurrentPlayback.mock.calls.length).toBe(1);
+    });
+
+    it('hides EmptyPlayback component', () => {
+      expect(wrapper.update().find('EmptyPlayback').length).toBe(0);
     });
 
     it('gets album', () => {
@@ -64,7 +71,7 @@ describe('App container', () => {
     });
 
     it('displays Song', () => {
-      expect(wrapper.find('Song').length).toEqual(1);
+      expect(wrapper.update().find('Song').length).toEqual(1);
     });
 
     it('unsubscribes from credits observable', () => {
@@ -83,35 +90,37 @@ describe('App container', () => {
       getArtist: jest.fn(),
       getAlbum: jest.fn(),
     };
-    const unsubscribe = jest.fn();
-    const observable = Rx.Observable.create((observer) => {
-      observer.next({
-        progress: 0,
-        bestMatch: {
-          tracks: [{
-            composers: [],
-            producers: [],
-            credits: {},
-          }],
-        },
-      });
-      observer.complete();
-      return unsubscribe;
-    });
     const backend = {
-      getCredits: jest.fn(() => observable),
+      getCredits: jest.fn(),
     };
 
-    const wrapper = shallow(<App
-        spotifyApi={mockApi}
-        backend={backend} />);
+    let wrapper;
+    let errorsSpy;
+    beforeAll(() => {
+      wrapper = shallow(<App
+          spotifyApi={mockApi}
+          backend={backend} />);
+      errorsSpy = jest.spyOn(App.prototype, 'addError');
+    });
 
     it('Calls #getCurrentPlayback on mount', () => {
       expect(mockApi.getCurrentPlayback.mock.calls.length).toBe(1);
     });
 
     it('displays EmptyPlayback component', () => {
-      expect(wrapper.find('EmptyPlayback').length).toBe(1);
+      expect(wrapper.update().find('EmptyPlayback').length).toBe(1);
+    });
+
+    it('hides errors', () => {
+      expect(wrapper.update().find('div[className="errors-div"]').length).toBe(0);
+    });
+
+    it('does not add errors', () => {
+      expect(errorsSpy).not.toHaveBeenCalled();
+    });
+
+    it('hides Song', () => {
+      expect(wrapper.update().find('Song').length).toEqual(0);
     });
 
     it('does NOT get album', () => {

@@ -26,10 +26,12 @@ export default class App extends React.Component {
     this.props.spotifyApi.getCurrentPlayback().then(({ body: { item: track } }) => {
       this.setState({
         track,
-        playback: !!track,
+        playback: track !== null,
       });
-      this.getAlbum(track.album.id);
-      this.getArtist(track.artists[0].id);
+      if (track !== null) {
+        this.getAlbum(track.album.id);
+        this.getArtist(track.artists[0].id);
+      }
     }, this.addError).catch(this.addError);
   }
 
@@ -75,12 +77,12 @@ export default class App extends React.Component {
           <p>Please reload the page to try again</p>
         </div>}
         {!playback && <EmptyPlayback />}
-        <Song
+        {playback && <Song
             track={track}
             album={album}
             artist={artist}
             bestMatch={bestMatch}
-            progress={progress} />
+            progress={progress} />}
       </div>
     );
   }
