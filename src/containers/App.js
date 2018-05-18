@@ -23,12 +23,13 @@ export default class App extends React.Component {
   }
 
   getPlaybackData() {
-    this.props.spotifyApi.getCurrentPlayback().then(({ body: { item: track } }) => {
-      this.setState({
-        track,
-        playback: track !== null,
-      });
-      if (track !== null) {
+    this.props.spotifyApi.getCurrentPlayback().then((response) => {
+      if (response.body !== null) {
+        const { body: { item: track } } = response;
+        this.setState({
+          track,
+          playback: true,
+        });
         this.getAlbum(track.album.id);
         this.getArtist(track.artists[0].id);
       }

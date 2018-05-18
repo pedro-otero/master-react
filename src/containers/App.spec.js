@@ -83,9 +83,7 @@ describe('App container', () => {
   describe('finds NO playback data', () => {
     const mockApi = {
       getCurrentPlayback: jest.fn(() => Promise.resolve({
-        body: {
-          item: null,
-        },
+        body: null,
       })),
       getArtist: jest.fn(),
       getAlbum: jest.fn(),
