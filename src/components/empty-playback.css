@@ -1,6 +1,15 @@
 .emptyPlaybackMessage {
 }
 
-.emptyPlaybackMessage > p:first-child {
+.emptyPlaybackMessage > p:first-of-type {
     font-weight: bold;
+}
+
+.emptyPlaybackMessage > div:first-of-type {
+    width: 100%;
+    text-align: center;
+}
+
+i[class="em-svg em-thinking_face"] {
+    font-size: xx-large;
 }
