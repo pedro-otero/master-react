@@ -1,11 +1,12 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Song from '../components/song';
 import './App.css';
 import EmptyPlayback from '../components/empty-playback';
 
-export default class App extends React.Component {
+export class App extends React.Component {
   constructor(props) {
     super(props);
     this.addError = this.addError.bind(this);
@@ -91,7 +92,11 @@ export default class App extends React.Component {
   }
 }
 
+const mapStateToProps = ({ bestMatches }) => ({ bestMatches });
+
 App.propTypes = {
   backend: PropTypes.func.isRequired,
   spotifyApi: PropTypes.func.isRequired,
 };
+
+export default connect(mapStateToProps)(App);
