@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Song from '../components/song';
 import './App.css';
 import EmptyPlayback from '../components/empty-playback';
+import addBestMatch from '../redux/actions/add-best-match';
 
 export class App extends React.Component {
   constructor(props) {
@@ -53,10 +54,9 @@ export class App extends React.Component {
 
   getCredits() {
     this.creditsObservable = this.props.backend.getCredits(this.state.album.id)
-      .subscribe(({ bestMatch: { tracks }, progress }) => {
-        const trackBestMatch = tracks.find(t => t.id === this.state.track.id);
+      .subscribe(({ id, bestMatch: { tracks }, progress }) => {
+        this.props.addBestMatch(id, { tracks });
         this.setState({
-          bestMatch: trackBestMatch,
           progress,
         });
       }, this.addError);
@@ -69,10 +69,21 @@ export class App extends React.Component {
     });
   }
 
+  getBestMatch() {
+    const { track, album } = this.state;
+    const { bestMatches } = this.props;
+    if (track && album && bestMatches[album.id]) {
+      const albumBestMatch = bestMatches[album.id];
+      return albumBestMatch.tracks.find(t => t.id === track.id);
+    }
+    return null;
+  }
+
   render() {
     const {
-      track, album, artist, bestMatch, progress, errors, playback,
+      track, album, artist, progress, errors, playback,
     } = this.state;
+    const bestMatch = this.getBestMatch();
     return (
       <div>
         {errors.length > 0 &&
@@ -94,9 +105,15 @@ export class App extends React.Component {
 
 const mapStateToProps = ({ bestMatches }) => ({ bestMatches });
 
+const mapDispatchToProps = dispatch => ({
+  addBestMatch: (id, bestMatch) => dispatch(addBestMatch(id, bestMatch)),
+});
+
 App.propTypes = {
+  addBestMatch: PropTypes.func.isRequired,
   backend: PropTypes.func.isRequired,
+  bestMatches: PropTypes.object.isRequired,
   spotifyApi: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
