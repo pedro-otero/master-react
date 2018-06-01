@@ -1,5 +1,5 @@
 export default (id, bestMatch) => ({
-  type: 'ADD_BEST_MATCH',
+  type: 'SET_SEARCH_RESULT',
   data: {
     id,
     value: bestMatch,
