@@ -1,5 +1,5 @@
 import { createStore, combineReducers } from 'redux';
-import bestMatches from '../reducers/best-matches';
+import bestMatches from '../reducers/searches';
 
 const store = () => createStore(combineReducers({
   bestMatches,

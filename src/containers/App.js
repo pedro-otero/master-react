@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Song from '../components/song';
 import './App.css';
 import EmptyPlayback from '../components/empty-playback';
-import addBestMatch from '../redux/actions/add-best-match';
+import addBestMatch from '../redux/actions/set-search-result';
 
 export class App extends React.Component {
   constructor(props) {

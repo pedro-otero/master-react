@@ -1,4 +1,4 @@
-import addBestMatch from './add-best-match';
+import addBestMatch from './set-search-result';
 
 describe('Add best match action', () => {
   it('creates action', () => {

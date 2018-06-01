@@ -1,4 +1,4 @@
-import reduce from './best-matches';
+import reduce from './searches';
 
 describe('Best matches reducer', () => {
   it('adds new best matches', () => {
