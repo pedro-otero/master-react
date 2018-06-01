@@ -1,8 +1,8 @@
 import { createStore, combineReducers } from 'redux';
-import bestMatches from '../reducers/searches';
+import searches from '../reducers/searches';
 
 const store = () => createStore(combineReducers({
-  bestMatches,
+  searches,
 }));
 
 export default store;

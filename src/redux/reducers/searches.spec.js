@@ -1,14 +1,14 @@
 import reduce from './searches';
 
-describe('Best matches reducer', () => {
-  it('adds new best matches', () => {
-    const bestMatches = reduce({}, {
+describe('Searches reducer', () => {
+  it('sets search results', () => {
+    const searches = reduce({}, {
       type: 'SET_SEARCH_RESULT',
       data: {
         id: 'theId',
         value: 'theValue',
       },
     });
-    expect(bestMatches.theId).toEqual('theValue');
+    expect(searches.theId).toEqual('theValue');
   });
 });

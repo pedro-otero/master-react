@@ -42,13 +42,13 @@ describe('App container', () => {
     const backend = {
       getCredits: jest.fn(() => observable),
     };
-    const addBestMatch = jest.fn();
+    const setSearchResult = jest.fn();
 
     let wrapper;
     beforeAll(() => {
       wrapper = shallow(<App
-          addBestMatch={addBestMatch}
-          bestMatches={[]}
+          setSearchResult={setSearchResult}
+          searches={[]}
           spotifyApi={mockApi}
           backend={backend} />);
     });

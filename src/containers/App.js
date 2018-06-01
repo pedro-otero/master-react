@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Song from '../components/song';
 import './App.css';
 import EmptyPlayback from '../components/empty-playback';
-import addBestMatch from '../redux/actions/set-search-result';
+import setSearchResult from '../redux/actions/set-search-result';
 
 export class App extends React.Component {
   constructor(props) {
@@ -70,9 +70,9 @@ export class App extends React.Component {
 
   getBestMatch() {
     const { track, album } = this.state;
-    const { bestMatches } = this.props;
-    if (track && album && bestMatches[album.id]) {
-      const albumBestMatch = bestMatches[album.id].bestMatch;
+    const { searches } = this.props;
+    if (track && album && searches[album.id]) {
+      const albumBestMatch = searches[album.id].bestMatch;
       return albumBestMatch.tracks.find(t => t.id === track.id);
     }
     return null;
@@ -102,15 +102,15 @@ export class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ bestMatches }) => ({ bestMatches });
+const mapStateToProps = ({ searches }) => ({ searches });
 
 const mapDispatchToProps = dispatch => ({
-  setSearchResult: (id, bestMatch) => dispatch(addBestMatch(id, bestMatch)),
+  setSearchResult: (id, search) => dispatch(setSearchResult(id, search)),
 });
 
 App.propTypes = {
   backend: PropTypes.func.isRequired,
-  bestMatches: PropTypes.object.isRequired,
+  searches: PropTypes.object.isRequired,
   setSearchResult: PropTypes.func.isRequired,
   spotifyApi: PropTypes.func.isRequired,
 };
