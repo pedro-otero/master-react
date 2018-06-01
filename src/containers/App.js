@@ -54,10 +54,10 @@ export class App extends React.Component {
 
   getCredits() {
     this.creditsObservable = this.props.backend.getCredits(this.state.album.id)
-      .subscribe(({ id, bestMatch: { tracks }, progress }) => {
-        this.props.addBestMatch(id, { tracks });
+      .subscribe((response) => {
+        this.props.addBestMatch(response.id, response);
         this.setState({
-          progress,
+          progress: response.progress,
         });
       }, this.addError);
   }
@@ -65,7 +65,6 @@ export class App extends React.Component {
   addError({ message }) {
     this.setState({
       errors: [...this.state.errors, message],
-      progress: 100,
     });
   }
 
@@ -73,7 +72,7 @@ export class App extends React.Component {
     const { track, album } = this.state;
     const { bestMatches } = this.props;
     if (track && album && bestMatches[album.id]) {
-      const albumBestMatch = bestMatches[album.id];
+      const albumBestMatch = bestMatches[album.id].bestMatch;
       return albumBestMatch.tracks.find(t => t.id === track.id);
     }
     return null;
