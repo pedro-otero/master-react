@@ -55,7 +55,7 @@ export class App extends React.Component {
   getCredits() {
     this.creditsObservable = this.props.backend.getCredits(this.state.album.id)
       .subscribe((response) => {
-        this.props.addBestMatch(response.id, response);
+        this.props.setSearchResult(response.id, response);
         this.setState({
           progress: response.progress,
         });
@@ -105,13 +105,13 @@ export class App extends React.Component {
 const mapStateToProps = ({ bestMatches }) => ({ bestMatches });
 
 const mapDispatchToProps = dispatch => ({
-  addBestMatch: (id, bestMatch) => dispatch(addBestMatch(id, bestMatch)),
+  setSearchResult: (id, bestMatch) => dispatch(addBestMatch(id, bestMatch)),
 });
 
 App.propTypes = {
-  addBestMatch: PropTypes.func.isRequired,
   backend: PropTypes.func.isRequired,
   bestMatches: PropTypes.object.isRequired,
+  setSearchResult: PropTypes.func.isRequired,
   spotifyApi: PropTypes.func.isRequired,
 };
 
