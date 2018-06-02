@@ -16,7 +16,7 @@ export class App extends React.Component {
   constructor(props) {
     super(props);
     this.addError = this.addError.bind(this);
-    this.state = { errors: [], playback: true };
+    this.state = { errors: [] };
   }
 
   componentDidMount() {
@@ -31,16 +31,12 @@ export class App extends React.Component {
 
   getPlaybackData() {
     this.props.spotifyApi.getCurrentPlayback().then(({ body }) => {
-      if (body) {
-        const { item: track } = body;
-        this.setState({
-          track,
-          playback: true,
-        });
-        this.getAlbum(track.album.id);
-        this.getArtist(track.artists[0].id);
+      if (body && body.item) {
+        this.props.setPlaybackInfo(body);
+        this.getAlbum(body.item.album.id);
+        this.getArtist(body.item.artists[0].id);
       } else {
-        this.setState({ playback: false });
+        setPlaybackInfo(null);
       }
     }, this.addError).catch(this.addError);
   }
@@ -73,45 +69,43 @@ export class App extends React.Component {
   }
 
   selectSearch() {
-    const { track } = this.state;
     const album = this.selectAlbum();
-    const { searches } = this.props;
-    if (track && album && searches[album.id]) {
+    const { searches, playbackInfo } = this.props;
+    if (playbackInfo && playbackInfo.item && album && searches[album.id]) {
       return searches[album.id];
     }
     return null;
   }
 
   getBestMatch() {
+    const { playbackInfo } = this.props;
     const search = this.selectSearch();
-    if (search) {
+    if (search && playbackInfo && playbackInfo.item) {
       const albumBestMatch = search.bestMatch;
-      return albumBestMatch.tracks.find(t => t.id === this.state.track.id);
+      return albumBestMatch.tracks.find(t => t.id === playbackInfo.item.id);
     }
     return null;
   }
 
   selectAlbum() {
-    const { albums } = this.props;
-    const { track } = this.state;
-    if (track && albums[track.album.id]) {
-      return albums[track.album.id];
+    const { albums, playbackInfo } = this.props;
+    if (playbackInfo && playbackInfo.item && albums[playbackInfo.item.album.id]) {
+      return albums[playbackInfo.item.album.id];
     }
     return null;
   }
 
   selectArtist() {
-    const { artists } = this.props;
-    const { track } = this.state;
-    if (track) {
-      return artists[track.artists[0].id];
+    const { artists, playbackInfo } = this.props;
+    if (playbackInfo && playbackInfo.item) {
+      return artists[playbackInfo.item.artists[0].id];
     }
     return null;
   }
 
   render() {
     const {
-      track, errors, playback,
+      errors,
     } = this.state;
     const bestMatch = this.getBestMatch();
     const search = this.selectSearch();
@@ -124,9 +118,9 @@ export class App extends React.Component {
           {errors.map((error, i) => <p key={`error-${i}`}>{error}</p>)}
           <p>Please reload the page to try again</p>
         </div>}
-        {!playback && <EmptyPlayback />}
-        {playback && <Song
-            track={track}
+        {!this.props.playbackInfo && <EmptyPlayback />}
+        {this.props.playbackInfo && this.props.playbackInfo.item && <Song
+            track={this.props.playbackInfo.item}
             album={album}
             artist={artist}
             bestMatch={bestMatch}
@@ -153,6 +147,7 @@ App.propTypes = {
   albums: PropTypes.object.isRequired,
   artists: PropTypes.object.isRequired,
   backend: PropTypes.func.isRequired,
+  playbackInfo: PropTypes.object,
   searches: PropTypes.object.isRequired,
   setAlbum: PropTypes.func.isRequired,
   setArtist: PropTypes.func.isRequired,
