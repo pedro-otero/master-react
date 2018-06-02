@@ -135,7 +135,11 @@ export class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ searches, albums, artists }) => ({ searches, albums, artists });
+const mapStateToProps = ({
+  searches, albums, artists, playbackInfo,
+}) => ({
+  searches, albums, artists, playbackInfo,
+});
 
 const mapDispatchToProps = dispatch => ({
   setSearchResult: (id, search) => dispatch(setSearchResult(id, search)),
