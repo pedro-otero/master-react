@@ -18,7 +18,7 @@ const user = getUser(SpotifyWebApi, window);
 
 registerServiceWorker();
 if (user.isAuthenticated()) {
-  const store = configureStore();
+  const store = configureStore(user.getApi());
   ReactDOM.render(
     <Provider store={store}>
       <App
