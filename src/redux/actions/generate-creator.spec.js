@@ -1,4 +1,6 @@
-import setSearchResult from './set-search-result';
+import generateCreator from './generate-creator';
+
+const setSearchResult = generateCreator('SET_SEARCH_RESULT');
 
 describe('Set search result action', () => {
   it('creates action', () => {

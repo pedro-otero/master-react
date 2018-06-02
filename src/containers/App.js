@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import Song from '../components/song';
 import './App.css';
 import EmptyPlayback from '../components/empty-playback';
-import setSearchResult from '../redux/actions/set-search-result';
+import generateCreator from '../redux/actions/generate-creator';
+
+const setSearchResult = generateCreator('SET_SEARCH_RESULT');
 
 export class App extends React.Component {
   constructor(props) {
