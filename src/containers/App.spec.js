@@ -43,12 +43,15 @@ describe('App container', () => {
       getCredits: jest.fn(() => observable),
     };
     const setSearchResult = jest.fn();
+    const setAlbum = jest.fn();
 
     let wrapper;
     beforeAll(() => {
       wrapper = shallow(<App
           setSearchResult={setSearchResult}
+          setAlbum={setAlbum}
           searches={[]}
+          albums={{ AL1: { id: 'AL1', value: 'expected' } }}
           spotifyApi={mockApi}
           backend={backend} />);
     });
@@ -75,6 +78,10 @@ describe('App container', () => {
 
     it('displays Song', () => {
       expect(wrapper.update().find('Song').length).toEqual(1);
+    });
+
+    it('selects correct album', () => {
+      expect(wrapper.instance().selectAlbum().value).toEqual('expected');
     });
 
     it('unsubscribes from credits observable', () => {

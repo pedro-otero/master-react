@@ -1,8 +1,9 @@
 import { createStore, combineReducers } from 'redux';
-import searches from '../reducers/searches';
+import generateReducer from '../reducers/generate-reducer';
 
 const store = () => createStore(combineReducers({
-  searches,
+  searches: generateReducer('SET_SEARCH_RESULT'),
+  albums: generateReducer('SET_ALBUM'),
 }));
 
 export default store;

@@ -8,6 +8,7 @@ import EmptyPlayback from '../components/empty-playback';
 import generateCreator from '../redux/actions/generate-creator';
 
 const setSearchResult = generateCreator('SET_SEARCH_RESULT');
+const setAlbum = generateCreator('SET_ALBUM');
 
 export class App extends React.Component {
   constructor(props) {
@@ -44,7 +45,8 @@ export class App extends React.Component {
 
   getAlbum(id) {
     this.props.spotifyApi.getAlbum(id).then(({ body: album }) => {
-      this.setState({ album }, this.getCredits);
+      this.props.setAlbum(id, album);
+      this.getCredits();
     }, this.addError).catch(this.addError);
   }
 
@@ -55,7 +57,8 @@ export class App extends React.Component {
   }
 
   getCredits() {
-    this.creditsObservable = this.props.backend.getCredits(this.state.album.id)
+    const album = this.selectAlbum();
+    this.creditsObservable = this.props.backend.getCredits(album.id)
       .subscribe((response) => {
         this.props.setSearchResult(response.id, response);
         this.setState({
@@ -71,7 +74,8 @@ export class App extends React.Component {
   }
 
   getBestMatch() {
-    const { track, album } = this.state;
+    const { track } = this.state;
+    const album = this.selectAlbum();
     const { searches } = this.props;
     if (track && album && searches[album.id]) {
       const albumBestMatch = searches[album.id].bestMatch;
@@ -80,11 +84,21 @@ export class App extends React.Component {
     return null;
   }
 
+  selectAlbum() {
+    const { albums } = this.props;
+    const { track } = this.state;
+    if (track && albums[track.album.id]) {
+      return albums[track.album.id];
+    }
+    return null;
+  }
+
   render() {
     const {
-      track, album, artist, progress, errors, playback,
+      track, artist, progress, errors, playback,
     } = this.state;
     const bestMatch = this.getBestMatch();
+    const album = this.selectAlbum();
     return (
       <div>
         {errors.length > 0 &&
@@ -104,15 +118,18 @@ export class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ searches }) => ({ searches });
+const mapStateToProps = ({ searches, albums }) => ({ searches, albums });
 
 const mapDispatchToProps = dispatch => ({
   setSearchResult: (id, search) => dispatch(setSearchResult(id, search)),
+  setAlbum: (id, album) => dispatch(setAlbum(id, album)),
 });
 
 App.propTypes = {
+  albums: PropTypes.object.isRequired,
   backend: PropTypes.func.isRequired,
   searches: PropTypes.object.isRequired,
+  setAlbum: PropTypes.func.isRequired,
   setSearchResult: PropTypes.func.isRequired,
   spotifyApi: PropTypes.func.isRequired,
 };
