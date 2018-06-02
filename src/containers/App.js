@@ -6,6 +6,7 @@ import Song from '../components/song';
 import './App.css';
 import EmptyPlayback from '../components/empty-playback';
 import generateCreator from '../redux/actions/generate-creator';
+import setPlaybackInfo from '../redux/actions/set-playback-info';
 
 const setSearchResult = generateCreator('SET_SEARCH_RESULT');
 const setAlbum = generateCreator('SET_ALBUM');
@@ -145,6 +146,7 @@ const mapDispatchToProps = dispatch => ({
   setSearchResult: (id, search) => dispatch(setSearchResult(id, search)),
   setAlbum: (id, album) => dispatch(setAlbum(id, album)),
   setArtist: (id, artist) => dispatch(setArtist(id, artist)),
+  setPlaybackInfo: info => dispatch(setPlaybackInfo(info)),
 });
 
 App.propTypes = {
@@ -154,6 +156,7 @@ App.propTypes = {
   searches: PropTypes.object.isRequired,
   setAlbum: PropTypes.func.isRequired,
   setArtist: PropTypes.func.isRequired,
+  setPlaybackInfo: PropTypes.func.isRequired,
   setSearchResult: PropTypes.func.isRequired,
   spotifyApi: PropTypes.func.isRequired,
 };
