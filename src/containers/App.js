@@ -9,6 +9,7 @@ import generateCreator from '../redux/actions/generate-creator';
 
 const setSearchResult = generateCreator('SET_SEARCH_RESULT');
 const setAlbum = generateCreator('SET_ALBUM');
+const setArtist = generateCreator('SET_ARTIST');
 
 export class App extends React.Component {
   constructor(props) {
@@ -52,7 +53,7 @@ export class App extends React.Component {
 
   getArtist(id) {
     this.props.spotifyApi.getArtist(id).then(({ body: artist }) => {
-      this.setState({ artist });
+      this.props.setArtist(id, artist);
     }, this.addError).catch(this.addError);
   }
 
@@ -93,12 +94,22 @@ export class App extends React.Component {
     return null;
   }
 
+  selectArtist() {
+    const { artists } = this.props;
+    const { track } = this.state;
+    if (track) {
+      return artists[track.artists[0].id];
+    }
+    return null;
+  }
+
   render() {
     const {
-      track, artist, progress, errors, playback,
+      track, progress, errors, playback,
     } = this.state;
     const bestMatch = this.getBestMatch();
     const album = this.selectAlbum();
+    const artist = this.selectArtist();
     return (
       <div>
         {errors.length > 0 &&
@@ -118,18 +129,21 @@ export class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ searches, albums }) => ({ searches, albums });
+const mapStateToProps = ({ searches, albums, artists }) => ({ searches, albums, artists });
 
 const mapDispatchToProps = dispatch => ({
   setSearchResult: (id, search) => dispatch(setSearchResult(id, search)),
   setAlbum: (id, album) => dispatch(setAlbum(id, album)),
+  setArtist: (id, artist) => dispatch(setArtist(id, artist)),
 });
 
 App.propTypes = {
   albums: PropTypes.object.isRequired,
+  artists: PropTypes.object.isRequired,
   backend: PropTypes.func.isRequired,
   searches: PropTypes.object.isRequired,
   setAlbum: PropTypes.func.isRequired,
+  setArtist: PropTypes.func.isRequired,
   setSearchResult: PropTypes.func.isRequired,
   spotifyApi: PropTypes.func.isRequired,
 };
