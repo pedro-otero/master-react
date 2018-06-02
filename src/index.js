@@ -15,10 +15,10 @@ import getUser from './user';
 const Backend = getBackend(request, `${process.env.REACT_APP_BE_DOMAIN}/data/album`, 1000);
 const backend = new Backend();
 const user = getUser(SpotifyWebApi, window);
-const store = configureStore();
 
 registerServiceWorker();
 if (user.isAuthenticated()) {
+  const store = configureStore();
   ReactDOM.render(
     <Provider store={store}>
       <App
