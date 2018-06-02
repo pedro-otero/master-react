@@ -62,9 +62,6 @@ export class App extends React.Component {
     this.creditsObservable = this.props.backend.getCredits(album.id)
       .subscribe((response) => {
         this.props.setSearchResult(response.id, response);
-        this.setState({
-          progress: response.progress,
-        });
       }, this.addError);
   }
 
@@ -74,13 +71,21 @@ export class App extends React.Component {
     });
   }
 
-  getBestMatch() {
+  selectSearch() {
     const { track } = this.state;
     const album = this.selectAlbum();
     const { searches } = this.props;
     if (track && album && searches[album.id]) {
-      const albumBestMatch = searches[album.id].bestMatch;
-      return albumBestMatch.tracks.find(t => t.id === track.id);
+      return searches[album.id];
+    }
+    return null;
+  }
+
+  getBestMatch() {
+    const search = this.selectSearch();
+    if (search) {
+      const albumBestMatch = search.bestMatch;
+      return albumBestMatch.tracks.find(t => t.id === this.state.track.id);
     }
     return null;
   }
@@ -105,9 +110,10 @@ export class App extends React.Component {
 
   render() {
     const {
-      track, progress, errors, playback,
+      track, errors, playback,
     } = this.state;
     const bestMatch = this.getBestMatch();
+    const search = this.selectSearch();
     const album = this.selectAlbum();
     const artist = this.selectArtist();
     return (
@@ -123,7 +129,7 @@ export class App extends React.Component {
             album={album}
             artist={artist}
             bestMatch={bestMatch}
-            progress={progress} />}
+            progress={(search || {}).progress} />}
       </div>
     );
   }
