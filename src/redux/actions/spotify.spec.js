@@ -14,7 +14,9 @@ describe('Spotify actions', () => {
   };
   const actions = {
     setArtist: jest.fn(),
+    loadArtist: jest.fn(),
     setAlbum: jest.fn(),
+    loadAlbum: jest.fn(),
   };
 
   it('SET_PLAYBACK_INFO', () => {
