@@ -1,4 +1,4 @@
-import { setPlaybackInfo, loadPlaybackInfo } from './playback-info';
+import { setPlaybackInfo, loadPlaybackInfo } from './spotify';
 
 describe('Playback info action creator', () => {
   it('creates SET_PLAYBACK_INFO action', () => {

@@ -1,4 +1,4 @@
-import reduce from './playback-info';
+import reduce from './spotify';
 
 describe('Playback info reducer', () => {
   it('sets playback info', () => {

@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import generateReducer from '../reducers/generate-reducer';
-import setPlaybackInfo from '../reducers/playback-info';
+import setPlaybackInfo from '../reducers/spotify';
 
 const store = spotifyApi => createStore(
   combineReducers({
