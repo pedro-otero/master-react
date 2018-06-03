@@ -55,20 +55,31 @@ describe('Spotify actions', () => {
     afterAll(() => successApi.getCurrentPlayback.mockClear());
   });
 
-  it('Informs of failure when loading playback info', (done) => {
-    const thunk = loadPlaybackInfo();
-    thunk(dispatch, null, failureApi).then(() => {
+  describe('Failed playback info load', () => {
+    beforeAll((done) => {
+      const thunk = loadPlaybackInfo();
+      thunk(dispatch, null, failureApi).then(done);
+    });
+
+    it('calls api method', () => {
       expect(failureApi.getCurrentPlayback).toHaveBeenCalled();
+    });
+
+    it('informs load started', () => {
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SET_PLAYBACK_INFO',
         data: 'LOADING',
       });
+    });
+
+    it('informs load finished', () => {
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SET_PLAYBACK_INFO',
         data: 'FAILED',
       });
-      done();
     });
+
+    afterAll(() => failureApi.getCurrentPlayback.mockClear());
   });
 
   it('Loads album', (done) => {
