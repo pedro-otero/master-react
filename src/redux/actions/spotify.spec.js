@@ -19,21 +19,40 @@ describe('Spotify actions', () => {
     });
   });
 
-  it('Loads playback info', (done) => {
-    const thunk = loadPlaybackInfo();
-    thunk(dispatch, null, successApi).then((response) => {
+  describe('Succesful playback info load', () => {
+    let response;
+    beforeEach((done) => {
+      const thunk = loadPlaybackInfo();
+      thunk(dispatch, null, successApi).then((resolution) => {
+        response = resolution;
+        done();
+      });
+    });
+
+    it('forwards response', () => {
       expect(response.body).toEqual({});
+    });
+
+
+    it('calls api method', () => {
       expect(successApi.getCurrentPlayback).toHaveBeenCalled();
+    });
+
+    it('informs load started', () => {
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SET_PLAYBACK_INFO',
         data: 'LOADING',
       });
+    });
+
+    it('informs load finished', () => {
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SET_PLAYBACK_INFO',
         data: {},
       });
-      done();
     });
+
+    afterAll(() => successApi.getCurrentPlayback.mockClear());
   });
 
   it('Informs of failure when loading playback info', (done) => {
