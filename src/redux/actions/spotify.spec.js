@@ -35,20 +35,20 @@ describe('Spotify actions', () => {
     const api = {
       getCurrentPlayback: jest.fn(() => Promise.reject(Error())),
     };
-    const dispatch = jest.fn()
-      .mockImplementationOnce(action => expect(action).toEqual({
+    const dispatch = jest.fn();
+    thunk(dispatch, null, api).then((response) => {
+      expect(response.body).toEqual({});
+      expect(api.getCurrentPlayback).toHaveBeenCalled();
+      expect(dispatch).toHaveBeenCalledWith({
         type: 'SET_PLAYBACK_INFO',
         data: 'LOADING',
-      }))
-      .mockImplementationOnce((action) => {
-        expect(action).toEqual({
-          type: 'SET_PLAYBACK_INFO',
-          data: 'FAILED',
-        });
-        expect(api.getCurrentPlayback).toHaveBeenCalled();
-        done();
       });
-    thunk(dispatch, null, api);
+      expect(dispatch).toHaveBeenCalledWith({
+        type: 'SET_PLAYBACK_INFO',
+        data: 'FAILED',
+      });
+      done();
+    });
   });
 
   it('Loads album', (done) => {
