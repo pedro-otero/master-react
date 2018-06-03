@@ -21,5 +21,5 @@ export const loadAlbum = id => (dispatch, getState, spotifyApi) => {
     .getAlbum(id).then((response) => {
       dispatch(setAlbum(id, response.body));
       return response;
-    });
+    }, () => dispatch(setAlbum(id, 'FAILED')));
 };

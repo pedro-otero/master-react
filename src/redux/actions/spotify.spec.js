@@ -77,4 +77,30 @@ describe('Playback info action creator', () => {
       done();
     });
   });
+
+  it('Fails album load', (done) => {
+    const thunk = loadAlbum('AL1');
+    const api = {
+      getAlbum: jest.fn(() => Promise.reject(Error())),
+    };
+    const dispatch = jest.fn();
+    thunk(dispatch, null, api).then(() => {
+      expect(api.getAlbum).toHaveBeenCalledWith('AL1');
+      expect(dispatch).toHaveBeenCalledWith({
+        type: 'SET_ALBUM',
+        data: {
+          id: 'AL1',
+          value: 'LOADING',
+        },
+      });
+      expect(dispatch).toHaveBeenCalledWith({
+        type: 'SET_ALBUM',
+        data: {
+          id: 'AL1',
+          value: 'FAILED',
+        },
+      });
+      done();
+    });
+  });
 });
