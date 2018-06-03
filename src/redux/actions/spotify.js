@@ -15,8 +15,11 @@ export const loadPlaybackInfo = () => (dispatch, getState, spotifyApi) => {
   }, () => dispatch(setPlaybackInfo('FAILED')));
 };
 
-export const loadAlbum = id => (dispatch, getState, spotifyApi) => spotifyApi
-  .getAlbum(id).then((response) => {
-    dispatch(setAlbum(id, response.body));
-    return response;
-  });
+export const loadAlbum = id => (dispatch, getState, spotifyApi) => {
+  dispatch(setAlbum(id, 'LOADING'));
+  return spotifyApi
+    .getAlbum(id).then((response) => {
+      dispatch(setAlbum(id, response.body));
+      return response;
+    });
+};

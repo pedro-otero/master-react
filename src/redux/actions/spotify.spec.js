@@ -64,6 +64,13 @@ describe('Playback info action creator', () => {
         type: 'SET_ALBUM',
         data: {
           id: 'AL1',
+          value: 'LOADING',
+        },
+      });
+      expect(dispatch).toHaveBeenCalledWith({
+        type: 'SET_ALBUM',
+        data: {
+          id: 'AL1',
           value: {},
         },
       });
