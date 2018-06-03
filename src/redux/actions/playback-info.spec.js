@@ -1,7 +1,7 @@
 import { setPlaybackInfo } from './playback-info';
 
-describe('Set playback info action creator', () => {
-  it('creates action', () => {
+describe('Playback info action creator', () => {
+  it('creates SET_PLAYBACK_INFO action', () => {
     const action = setPlaybackInfo('val');
     expect(action).toEqual({
       type: 'SET_PLAYBACK_INFO',
