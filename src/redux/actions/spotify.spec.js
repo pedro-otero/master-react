@@ -12,6 +12,10 @@ describe('Spotify actions', () => {
     getAlbum: jest.fn(() => Promise.reject(Error())),
     getArtist: jest.fn(() => Promise.reject(Error())),
   };
+  const actions = {
+    setArtist: jest.fn(),
+    setAlbum: jest.fn(),
+  };
 
   it('SET_PLAYBACK_INFO', () => {
     const action = setPlaybackInfo('val');
@@ -25,7 +29,7 @@ describe('Spotify actions', () => {
     let response;
     beforeAll((done) => {
       const thunk = loadPlaybackInfo();
-      thunk(dispatch, null, successApi).then((resolution) => {
+      thunk(dispatch, null, { spotifyApi: successApi, actions }).then((resolution) => {
         response = resolution;
         done();
       });
@@ -60,7 +64,7 @@ describe('Spotify actions', () => {
   describe('Failed playback info load', () => {
     beforeAll((done) => {
       const thunk = loadPlaybackInfo();
-      thunk(dispatch, null, failureApi).then(done);
+      thunk(dispatch, null, { spotifyApi: failureApi, actions }).then(done);
     });
 
     it('calls api method', () => {
@@ -88,7 +92,7 @@ describe('Spotify actions', () => {
     let response;
     beforeAll((done) => {
       const thunk = loadAlbum('AL1');
-      thunk(dispatch, null, successApi).then((resolution) => {
+      thunk(dispatch, null, { spotifyApi: successApi, actions }).then((resolution) => {
         response = resolution;
         done();
       });
@@ -103,33 +107,23 @@ describe('Spotify actions', () => {
     });
 
     it('informs load started', () => {
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SET_ALBUM',
-        data: {
-          id: 'AL1',
-          value: 'LOADING',
-        },
-      });
+      expect(actions.setAlbum).toHaveBeenCalledWith('AL1', 'LOADING');
     });
 
-
-    it('informs load finished', () => {
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SET_ALBUM',
-        data: {
-          id: 'AL1',
-          value: {},
-        },
-      });
+    it('informs load failed', () => {
+      expect(actions.setAlbum).toHaveBeenCalledWith('AL1', {});
     });
 
-    afterAll(() => successApi.getAlbum.mockClear());
+    afterAll(() => {
+      successApi.getAlbum.mockClear();
+      actions.setAlbum.mockClear();
+    });
   });
 
   describe('Album load failure', () => {
     beforeAll((done) => {
       const thunk = loadAlbum('AL1');
-      thunk(dispatch, null, failureApi).then(done);
+      thunk(dispatch, null, { spotifyApi: failureApi, actions }).then(done);
     });
 
     it('calls api method', () => {
@@ -137,33 +131,24 @@ describe('Spotify actions', () => {
     });
 
     it('informs load started', () => {
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SET_ALBUM',
-        data: {
-          id: 'AL1',
-          value: 'LOADING',
-        },
-      });
+      expect(actions.setAlbum).toHaveBeenCalledWith('AL1', 'LOADING');
     });
 
     it('informs load failed', () => {
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SET_ALBUM',
-        data: {
-          id: 'AL1',
-          value: 'FAILED',
-        },
-      });
+      expect(actions.setAlbum).toHaveBeenCalledWith('AL1', 'FAILED');
     });
 
-    afterAll(() => failureApi.getAlbum.mockClear());
+    afterAll(() => {
+      failureApi.getAlbum.mockClear();
+      actions.setAlbum.mockClear();
+    });
   });
 
   describe('Succesful artist load', () => {
     let response;
     beforeAll((done) => {
       const thunk = loadArtist('AR1');
-      thunk(dispatch, null, successApi).then((resolution) => {
+      thunk(dispatch, null, { spotifyApi: successApi, actions }).then((resolution) => {
         response = resolution;
         done();
       });
@@ -178,33 +163,24 @@ describe('Spotify actions', () => {
     });
 
     it('informs load started', () => {
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SET_ARTIST',
-        data: {
-          id: 'AR1',
-          value: 'LOADING',
-        },
-      });
+      expect(actions.setArtist).toHaveBeenCalledWith('AR1', 'LOADING');
     });
 
 
     it('informs load finished', () => {
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SET_ARTIST',
-        data: {
-          id: 'AR1',
-          value: {},
-        },
-      });
+      expect(actions.setArtist).toHaveBeenCalledWith('AR1', {});
     });
 
-    afterAll(() => successApi.getArtist.mockClear());
+    afterAll(() => {
+      successApi.getArtist.mockClear();
+      actions.setArtist.mockClear();
+    });
   });
 
   describe('Artist load failure', () => {
     beforeAll((done) => {
       const thunk = loadArtist('AR1');
-      thunk(dispatch, null, failureApi).then(done);
+      thunk(dispatch, null, { spotifyApi: failureApi, actions }).then(done);
     });
 
     it('calls api method', () => {
@@ -212,25 +188,16 @@ describe('Spotify actions', () => {
     });
 
     it('informs load started', () => {
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SET_ARTIST',
-        data: {
-          id: 'AR1',
-          value: 'LOADING',
-        },
-      });
+      expect(actions.setArtist).toHaveBeenCalledWith('AR1', 'LOADING');
     });
 
     it('informs load failed', () => {
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SET_ARTIST',
-        data: {
-          id: 'AR1',
-          value: 'FAILED',
-        },
-      });
+      expect(actions.setArtist).toHaveBeenCalledWith('AR1', 'FAILED');
     });
 
-    afterAll(() => failureApi.getArtist.mockClear());
+    afterAll(() => {
+      failureApi.getArtist.mockClear();
+      actions.setArtist.mockClear();
+    });
   });
 });
