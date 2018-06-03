@@ -38,8 +38,7 @@ describe('Spotify actions', () => {
 
   it('Informs of failure when loading playback info', (done) => {
     const thunk = loadPlaybackInfo();
-    thunk(dispatch, null, failureApi).then((response) => {
-      expect(response.body).toEqual({});
+    thunk(dispatch, null, failureApi).then(() => {
       expect(failureApi.getCurrentPlayback).toHaveBeenCalled();
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SET_PLAYBACK_INFO',
