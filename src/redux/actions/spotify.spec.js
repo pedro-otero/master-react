@@ -2,8 +2,15 @@ import { setPlaybackInfo, loadPlaybackInfo, loadAlbum, loadArtist } from './spot
 
 describe('Spotify actions', () => {
   const dispatch = jest.fn();
+  const playbackInfo = {
+    item: {
+      artists: [{ id: 'AR1' }],
+    },
+  };
   const successApi = {
-    getCurrentPlayback: jest.fn(() => Promise.resolve({ body: {} })),
+    getCurrentPlayback: jest.fn(() => Promise.resolve({
+      body: playbackInfo,
+    })),
     getAlbum: jest.fn(() => Promise.resolve({ body: {} })),
     getArtist: jest.fn(() => Promise.resolve({ body: {} })),
   };
@@ -38,7 +45,7 @@ describe('Spotify actions', () => {
     });
 
     it('forwards response', () => {
-      expect(response.body).toEqual({});
+      expect(response.body).toEqual(playbackInfo);
     });
 
 
@@ -56,8 +63,12 @@ describe('Spotify actions', () => {
     it('informs load finished', () => {
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SET_PLAYBACK_INFO',
-        data: {},
+        data: playbackInfo,
       });
+    });
+
+    it('calls actions.loadArtist', () => {
+      expect(actions.loadArtist).toHaveBeenCalledWith('AR1');
     });
 
     afterAll(() => successApi.getCurrentPlayback.mockClear());

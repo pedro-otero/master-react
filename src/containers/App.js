@@ -6,11 +6,10 @@ import Song from '../components/song';
 import './App.css';
 import EmptyPlayback from '../components/empty-playback';
 import generateCreator from '../redux/actions/generate-creator';
-import { loadAlbum, loadArtist, loadPlaybackInfo } from '../redux/actions/spotify';
+import { loadAlbum, loadPlaybackInfo } from '../redux/actions/spotify';
 
 const setSearchResult = generateCreator('SET_SEARCH_RESULT');
 const setAlbum = generateCreator('SET_ALBUM');
-const setArtist = generateCreator('SET_ARTIST');
 
 export class App extends React.Component {
   constructor(props) {
@@ -33,7 +32,6 @@ export class App extends React.Component {
     this.props.loadPlaybackInfo().then(({ body }) => {
       if (body && body.item) {
         this.getAlbum(body.item.album.id);
-        this.getArtist(body.item.artists[0].id);
       }
     }, this.addError).catch(this.addError);
   }
@@ -42,10 +40,6 @@ export class App extends React.Component {
     this.props.loadAlbum(id).then(() => {
       this.getCredits();
     }, this.addError).catch(this.addError);
-  }
-
-  getArtist(id) {
-    this.props.loadArtist(id).then(() => {}, this.addError).catch(this.addError);
   }
 
   getCredits() {
@@ -84,7 +78,10 @@ export class App extends React.Component {
   selectAlbum() {
     const { albums, playbackInfo } = this.props;
     if (playbackInfo && playbackInfo.item && albums[playbackInfo.item.album.id]) {
-      return albums[playbackInfo.item.album.id];
+      const album = albums[playbackInfo.item.album.id];
+      if (album !== 'LOADING' && album !== 'FAILED') {
+        return album;
+      }
     }
     return null;
   }
@@ -136,9 +133,7 @@ const mapStateToProps = ({
 const mapDispatchToProps = dispatch => ({
   setSearchResult: (id, search) => dispatch(setSearchResult(id, search)),
   setAlbum: (id, album) => dispatch(setAlbum(id, album)),
-  setArtist: (id, artist) => dispatch(setArtist(id, artist)),
   loadAlbum: id => dispatch(loadAlbum(id)),
-  loadArtist: id => dispatch(loadArtist(id)),
   loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
 });
 
@@ -147,12 +142,10 @@ App.propTypes = {
   artists: PropTypes.object.isRequired,
   backend: PropTypes.func.isRequired,
   loadAlbum: PropTypes.func.isRequired,
-  loadArtist: PropTypes.func.isRequired,
   loadPlaybackInfo: PropTypes.func.isRequired,
   playbackInfo: PropTypes.object,
   searches: PropTypes.object.isRequired,
   setAlbum: PropTypes.func.isRequired,
-  setArtist: PropTypes.func.isRequired,
   setSearchResult: PropTypes.func.isRequired,
   spotifyApi: PropTypes.func.isRequired,
 };

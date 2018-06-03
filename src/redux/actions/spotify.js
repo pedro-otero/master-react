@@ -3,10 +3,11 @@ export const setPlaybackInfo = data => ({
   data,
 });
 
-export const loadPlaybackInfo = () => (dispatch, getState, { spotifyApi }) => {
+export const loadPlaybackInfo = () => (dispatch, getState, { spotifyApi, actions }) => {
   dispatch(setPlaybackInfo('LOADING'));
   return spotifyApi.getCurrentPlayback().then((response) => {
     dispatch(setPlaybackInfo(response.body));
+    dispatch(actions.loadArtist(response.body.item.artists[0].id));
     return response;
   }, () => dispatch(setPlaybackInfo('FAILED')));
 };
