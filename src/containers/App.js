@@ -6,7 +6,7 @@ import Song from '../components/song';
 import './App.css';
 import EmptyPlayback from '../components/empty-playback';
 import generateCreator from '../redux/actions/generate-creator';
-import { loadAlbum, loadPlaybackInfo } from '../redux/actions/spotify';
+import { loadAlbum, loadArtist, loadPlaybackInfo } from '../redux/actions/spotify';
 
 const setSearchResult = generateCreator('SET_SEARCH_RESULT');
 const setAlbum = generateCreator('SET_ALBUM');
@@ -45,9 +45,7 @@ export class App extends React.Component {
   }
 
   getArtist(id) {
-    this.props.spotifyApi.getArtist(id).then(({ body: artist }) => {
-      this.props.setArtist(id, artist);
-    }, this.addError).catch(this.addError);
+    this.props.loadArtist(id).then(() => {}, this.addError).catch(this.addError);
   }
 
   getCredits() {
@@ -94,7 +92,10 @@ export class App extends React.Component {
   selectArtist() {
     const { artists, playbackInfo } = this.props;
     if (playbackInfo && playbackInfo.item) {
-      return artists[playbackInfo.item.artists[0].id];
+      const artist = artists[playbackInfo.item.artists[0].id];
+      if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
+        return artist;
+      }
     }
     return null;
   }
@@ -137,6 +138,7 @@ const mapDispatchToProps = dispatch => ({
   setAlbum: (id, album) => dispatch(setAlbum(id, album)),
   setArtist: (id, artist) => dispatch(setArtist(id, artist)),
   loadAlbum: id => dispatch(loadAlbum(id)),
+  loadArtist: id => dispatch(loadArtist(id)),
   loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
 });
 
@@ -145,6 +147,7 @@ App.propTypes = {
   artists: PropTypes.object.isRequired,
   backend: PropTypes.func.isRequired,
   loadAlbum: PropTypes.func.isRequired,
+  loadArtist: PropTypes.func.isRequired,
   loadPlaybackInfo: PropTypes.func.isRequired,
   playbackInfo: PropTypes.object,
   searches: PropTypes.object.isRequired,
