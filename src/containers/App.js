@@ -6,7 +6,7 @@ import Song from '../components/song';
 import './App.css';
 import EmptyPlayback from '../components/empty-playback';
 import generateCreator from '../redux/actions/generate-creator';
-import { loadPlaybackInfo } from '../redux/actions/spotify';
+import { loadAlbum, loadPlaybackInfo } from '../redux/actions/spotify';
 
 const setSearchResult = generateCreator('SET_SEARCH_RESULT');
 const setAlbum = generateCreator('SET_ALBUM');
@@ -39,8 +39,7 @@ export class App extends React.Component {
   }
 
   getAlbum(id) {
-    this.props.spotifyApi.getAlbum(id).then(({ body: album }) => {
-      this.props.setAlbum(id, album);
+    this.props.loadAlbum(id).then(() => {
       this.getCredits();
     }, this.addError).catch(this.addError);
   }
@@ -137,6 +136,7 @@ const mapDispatchToProps = dispatch => ({
   setSearchResult: (id, search) => dispatch(setSearchResult(id, search)),
   setAlbum: (id, album) => dispatch(setAlbum(id, album)),
   setArtist: (id, artist) => dispatch(setArtist(id, artist)),
+  loadAlbum: id => dispatch(loadAlbum(id)),
   loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
 });
 
@@ -144,6 +144,7 @@ App.propTypes = {
   albums: PropTypes.object.isRequired,
   artists: PropTypes.object.isRequired,
   backend: PropTypes.func.isRequired,
+  loadAlbum: PropTypes.func.isRequired,
   loadPlaybackInfo: PropTypes.func.isRequired,
   playbackInfo: PropTypes.object,
   searches: PropTypes.object.isRequired,
