@@ -72,7 +72,7 @@ describe('Spotify actions', () => {
       });
     });
 
-    it('informs load finished', () => {
+    it('informs load failed', () => {
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SET_PLAYBACK_INFO',
         data: 'FAILED',
