@@ -12,13 +12,21 @@ describe('Playback info action creator', () => {
   it('Loads playback info', (done) => {
     const thunk = loadPlaybackInfo();
     const api = {
-      getCurrentPlayback: jest.fn(() => Promise.resolve({})),
+      getCurrentPlayback: jest.fn(() => Promise.resolve({ body: {} })),
     };
-    const dispatch = jest.fn((action) => {
-      expect(action.type).toEqual('SET_PLAYBACK_INFO');
-      expect(api.getCurrentPlayback).toHaveBeenCalled();
-      done();
-    });
+    const dispatch = jest.fn()
+      .mockImplementationOnce(action => expect(action).toEqual({
+        type: 'SET_PLAYBACK_INFO',
+        data: 'LOADING',
+      }))
+      .mockImplementationOnce((action) => {
+        expect(action).toEqual({
+          type: 'SET_PLAYBACK_INFO',
+          data: {},
+        });
+        expect(api.getCurrentPlayback).toHaveBeenCalled();
+        done();
+      });
     thunk(dispatch, null, api);
   });
 });
