@@ -21,7 +21,7 @@ describe('Spotify actions', () => {
 
   describe('Succesful playback info load', () => {
     let response;
-    beforeEach((done) => {
+    beforeAll((done) => {
       const thunk = loadPlaybackInfo();
       thunk(dispatch, null, successApi).then((resolution) => {
         response = resolution;
