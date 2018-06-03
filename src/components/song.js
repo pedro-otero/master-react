@@ -90,10 +90,10 @@ Song.propTypes = {
 };
 
 const mapStateToProps = ({
-  tracks, albums, artists, searches, playbackInfo,
+  tracks, albums, artists, searches,
 }, { trackId }) => {
   const props = {};
-  if (playbackInfo && playbackInfo !== 'LOADING' && playbackInfo !== 'FAILED') {
+  if (tracks[trackId]) {
     const track = tracks[trackId];
     Object.assign(props, { track });
     const album = albums[track.album.id];

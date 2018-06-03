@@ -28,6 +28,13 @@ describe('Spotify actions', () => {
     loadAlbum: jest.fn(),
     setTrack: jest.fn(),
   };
+  const clearActionMocks = () => {
+    actions.setArtist.mockClear();
+    actions.loadArtist.mockClear();
+    actions.setAlbum.mockClear();
+    actions.loadAlbum.mockClear();
+    actions.setTrack.mockClear();
+  };
 
   it('SET_PLAYBACK_INFO', () => {
     const action = setPlaybackInfo('val');
@@ -82,7 +89,63 @@ describe('Spotify actions', () => {
       expect(actions.setTrack).toHaveBeenCalledWith('T1', playbackInfo.item);
     });
 
-    afterAll(() => successApi.getCurrentPlayback.mockClear());
+    afterAll(() => {
+      successApi.getCurrentPlayback.mockClear();
+      clearActionMocks();
+    });
+  });
+
+  describe('Succesful empty playback info load', () => {
+    let response;
+    const api = {
+      getCurrentPlayback: jest.fn(() => Promise.resolve({
+        body: null,
+      })),
+    };
+    beforeAll((done) => {
+      const thunk = loadPlaybackInfo();
+      thunk(dispatch, null, { spotifyApi: api, actions }).then((resolution) => {
+        response = resolution;
+        done();
+      });
+    });
+
+    it('forwards response', () => {
+      expect(response.body).toEqual(null);
+    });
+
+
+    it('calls api method', () => {
+      expect(api.getCurrentPlayback).toHaveBeenCalled();
+    });
+
+    it('informs load started', () => {
+      expect(dispatch).toHaveBeenCalledWith({
+        type: 'SET_PLAYBACK_INFO',
+        data: 'LOADING',
+      });
+    });
+
+    it('informs load finished', () => {
+      expect(dispatch).toHaveBeenCalledWith({
+        type: 'SET_PLAYBACK_INFO',
+        data: null,
+      });
+    });
+
+    it('does not call actions.loadArtist', () => {
+      expect(actions.loadArtist).not.toHaveBeenCalled();
+    });
+
+    it('does not call actions.loadAlbum', () => {
+      expect(actions.loadAlbum).not.toHaveBeenCalled();
+    });
+
+    it('does not call actions.setTrack', () => {
+      expect(actions.setTrack).not.toHaveBeenCalled();
+    });
+
+    afterAll(clearActionMocks);
   });
 
   describe('Failed playback info load', () => {
@@ -109,7 +172,10 @@ describe('Spotify actions', () => {
       });
     });
 
-    afterAll(() => failureApi.getCurrentPlayback.mockClear());
+    afterAll(() => {
+      failureApi.getCurrentPlayback.mockClear();
+      clearActionMocks();
+    });
   });
 
   describe('Succesful album load', () => {
@@ -140,7 +206,7 @@ describe('Spotify actions', () => {
 
     afterAll(() => {
       successApi.getAlbum.mockClear();
-      actions.setAlbum.mockClear();
+      clearActionMocks();
     });
   });
 
@@ -164,7 +230,7 @@ describe('Spotify actions', () => {
 
     afterAll(() => {
       failureApi.getAlbum.mockClear();
-      actions.setAlbum.mockClear();
+      clearActionMocks();
     });
   });
 
@@ -197,7 +263,7 @@ describe('Spotify actions', () => {
 
     afterAll(() => {
       successApi.getArtist.mockClear();
-      actions.setArtist.mockClear();
+      clearActionMocks();
     });
   });
 
@@ -221,7 +287,7 @@ describe('Spotify actions', () => {
 
     afterAll(() => {
       failureApi.getArtist.mockClear();
-      actions.setArtist.mockClear();
+      clearActionMocks();
     });
   });
 });
