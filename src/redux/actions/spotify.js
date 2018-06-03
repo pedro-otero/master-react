@@ -1,3 +1,7 @@
+import generateCreator from '../actions/generate-creator';
+
+const setAlbum = generateCreator('SET_ALBUM');
+
 export const setPlaybackInfo = data => ({
   type: 'SET_PLAYBACK_INFO',
   data,
@@ -10,3 +14,9 @@ export const loadPlaybackInfo = () => (dispatch, getState, spotifyApi) => {
     return response;
   }, () => dispatch(setPlaybackInfo('FAILED')));
 };
+
+export const loadAlbum = id => (dispatch, getState, spotifyApi) => spotifyApi
+  .getAlbum(id).then((response) => {
+    dispatch(setAlbum(id, response.body));
+    return response;
+  });

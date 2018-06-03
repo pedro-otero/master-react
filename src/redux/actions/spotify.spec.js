@@ -1,4 +1,4 @@
-import { setPlaybackInfo, loadPlaybackInfo } from './spotify';
+import { setPlaybackInfo, loadPlaybackInfo, loadAlbum } from './spotify';
 
 describe('Playback info action creator', () => {
   it('creates SET_PLAYBACK_INFO action', () => {
@@ -49,5 +49,25 @@ describe('Playback info action creator', () => {
         done();
       });
     thunk(dispatch, null, api);
+  });
+
+  it('Loads album', (done) => {
+    const thunk = loadAlbum('AL1');
+    const api = {
+      getAlbum: jest.fn(() => Promise.resolve({ body: {} })),
+    };
+    const dispatch = jest.fn();
+    thunk(dispatch, null, api).then((response) => {
+      expect(response.body).toEqual({});
+      expect(api.getAlbum).toHaveBeenCalledWith('AL1');
+      expect(dispatch).toHaveBeenCalledWith({
+        type: 'SET_ALBUM',
+        data: {
+          id: 'AL1',
+          value: {},
+        },
+      });
+      done();
+    });
   });
 });
