@@ -1,6 +1,8 @@
 import { setPlaybackInfo, loadPlaybackInfo, loadAlbum } from './spotify';
 
 describe('Spotify actions', () => {
+  const dispatch = jest.fn();
+
   it('SET_PLAYBACK_INFO', () => {
     const action = setPlaybackInfo('val');
     expect(action).toEqual({
@@ -14,7 +16,6 @@ describe('Spotify actions', () => {
     const api = {
       getCurrentPlayback: jest.fn(() => Promise.resolve({ body: {} })),
     };
-    const dispatch = jest.fn();
     thunk(dispatch, null, api).then((response) => {
       expect(response.body).toEqual({});
       expect(api.getCurrentPlayback).toHaveBeenCalled();
@@ -35,7 +36,6 @@ describe('Spotify actions', () => {
     const api = {
       getCurrentPlayback: jest.fn(() => Promise.reject(Error())),
     };
-    const dispatch = jest.fn();
     thunk(dispatch, null, api).then((response) => {
       expect(response.body).toEqual({});
       expect(api.getCurrentPlayback).toHaveBeenCalled();
@@ -56,7 +56,6 @@ describe('Spotify actions', () => {
     const api = {
       getAlbum: jest.fn(() => Promise.resolve({ body: {} })),
     };
-    const dispatch = jest.fn();
     thunk(dispatch, null, api).then((response) => {
       expect(response.body).toEqual({});
       expect(api.getAlbum).toHaveBeenCalledWith('AL1');
@@ -83,7 +82,6 @@ describe('Spotify actions', () => {
     const api = {
       getAlbum: jest.fn(() => Promise.reject(Error())),
     };
-    const dispatch = jest.fn();
     thunk(dispatch, null, api).then(() => {
       expect(api.getAlbum).toHaveBeenCalledWith('AL1');
       expect(dispatch).toHaveBeenCalledWith({
