@@ -82,11 +82,25 @@ describe('Spotify actions', () => {
     afterAll(() => failureApi.getCurrentPlayback.mockClear());
   });
 
-  it('Loads album', (done) => {
-    const thunk = loadAlbum('AL1');
-    thunk(dispatch, null, successApi).then((response) => {
+  describe('Succesful album load', () => {
+    let response;
+    beforeAll((done) => {
+      const thunk = loadAlbum('AL1');
+      thunk(dispatch, null, successApi).then((resolution) => {
+        response = resolution;
+        done();
+      });
+    });
+
+    it('forwards response', () => {
       expect(response.body).toEqual({});
+    });
+
+    it('calls api method', () => {
       expect(successApi.getAlbum).toHaveBeenCalledWith('AL1');
+    });
+
+    it('informs load started', () => {
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SET_ALBUM',
         data: {
@@ -94,6 +108,10 @@ describe('Spotify actions', () => {
           value: 'LOADING',
         },
       });
+    });
+
+
+    it('informs load finished', () => {
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SET_ALBUM',
         data: {
@@ -101,8 +119,9 @@ describe('Spotify actions', () => {
           value: {},
         },
       });
-      done();
     });
+
+    afterAll(() => successApi.getAlbum.mockClear());
   });
 
   it('Fails album load', (done) => {
