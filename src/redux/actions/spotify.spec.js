@@ -1,14 +1,16 @@
-import { setPlaybackInfo, loadPlaybackInfo, loadAlbum } from './spotify';
+import { setPlaybackInfo, loadPlaybackInfo, loadAlbum, loadArtist } from './spotify';
 
 describe('Spotify actions', () => {
   const dispatch = jest.fn();
   const successApi = {
     getCurrentPlayback: jest.fn(() => Promise.resolve({ body: {} })),
     getAlbum: jest.fn(() => Promise.resolve({ body: {} })),
+    getArtist: jest.fn(() => Promise.resolve({ body: {} })),
   };
   const failureApi = {
     getCurrentPlayback: jest.fn(() => Promise.reject(Error())),
     getAlbum: jest.fn(() => Promise.reject(Error())),
+    getArtist: jest.fn(() => Promise.reject(Error())),
   };
 
   it('SET_PLAYBACK_INFO', () => {
@@ -155,5 +157,80 @@ describe('Spotify actions', () => {
     });
 
     afterAll(() => failureApi.getAlbum.mockClear());
+  });
+
+  describe('Succesful artist load', () => {
+    let response;
+    beforeAll((done) => {
+      const thunk = loadArtist('AR1');
+      thunk(dispatch, null, successApi).then((resolution) => {
+        response = resolution;
+        done();
+      });
+    });
+
+    it('forwards response', () => {
+      expect(response.body).toEqual({});
+    });
+
+    it('calls api method', () => {
+      expect(successApi.getArtist).toHaveBeenCalledWith('AR1');
+    });
+
+    it('informs load started', () => {
+      expect(dispatch).toHaveBeenCalledWith({
+        type: 'SET_ARTIST',
+        data: {
+          id: 'AR1',
+          value: 'LOADING',
+        },
+      });
+    });
+
+
+    it('informs load finished', () => {
+      expect(dispatch).toHaveBeenCalledWith({
+        type: 'SET_ARTIST',
+        data: {
+          id: 'AR1',
+          value: {},
+        },
+      });
+    });
+
+    afterAll(() => successApi.getArtist.mockClear());
+  });
+
+  describe('Artist load failure', () => {
+    beforeAll((done) => {
+      const thunk = loadArtist('AR1');
+      thunk(dispatch, null, failureApi).then(done);
+    });
+
+    it('calls api method', () => {
+      expect(failureApi.getArtist).toHaveBeenCalledWith('AR1');
+    });
+
+    it('informs load started', () => {
+      expect(dispatch).toHaveBeenCalledWith({
+        type: 'SET_ARTIST',
+        data: {
+          id: 'AR1',
+          value: 'LOADING',
+        },
+      });
+    });
+
+    it('informs load failed', () => {
+      expect(dispatch).toHaveBeenCalledWith({
+        type: 'SET_ARTIST',
+        data: {
+          id: 'AR1',
+          value: 'FAILED',
+        },
+      });
+    });
+
+    afterAll(() => failureApi.getArtist.mockClear());
   });
 });
