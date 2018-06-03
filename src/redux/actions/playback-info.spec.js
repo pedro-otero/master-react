@@ -29,4 +29,25 @@ describe('Playback info action creator', () => {
       });
     thunk(dispatch, null, api);
   });
+
+  it('Informs of failure when loading playback info', (done) => {
+    const thunk = loadPlaybackInfo();
+    const api = {
+      getCurrentPlayback: jest.fn(() => Promise.reject(Error())),
+    };
+    const dispatch = jest.fn()
+      .mockImplementationOnce(action => expect(action).toEqual({
+        type: 'SET_PLAYBACK_INFO',
+        data: 'LOADING',
+      }))
+      .mockImplementationOnce((action) => {
+        expect(action).toEqual({
+          type: 'SET_PLAYBACK_INFO',
+          data: 'FAILED',
+        });
+        expect(api.getCurrentPlayback).toHaveBeenCalled();
+        done();
+      });
+    thunk(dispatch, null, api);
+  });
 });
