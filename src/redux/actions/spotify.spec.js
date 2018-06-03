@@ -2,6 +2,14 @@ import { setPlaybackInfo, loadPlaybackInfo, loadAlbum } from './spotify';
 
 describe('Spotify actions', () => {
   const dispatch = jest.fn();
+  const successApi = {
+    getCurrentPlayback: jest.fn(() => Promise.resolve({ body: {} })),
+    getAlbum: jest.fn(() => Promise.resolve({ body: {} })),
+  };
+  const failureApi = {
+    getCurrentPlayback: jest.fn(() => Promise.reject(Error())),
+    getAlbum: jest.fn(() => Promise.reject(Error())),
+  };
 
   it('SET_PLAYBACK_INFO', () => {
     const action = setPlaybackInfo('val');
@@ -13,12 +21,9 @@ describe('Spotify actions', () => {
 
   it('Loads playback info', (done) => {
     const thunk = loadPlaybackInfo();
-    const api = {
-      getCurrentPlayback: jest.fn(() => Promise.resolve({ body: {} })),
-    };
-    thunk(dispatch, null, api).then((response) => {
+    thunk(dispatch, null, successApi).then((response) => {
       expect(response.body).toEqual({});
-      expect(api.getCurrentPlayback).toHaveBeenCalled();
+      expect(successApi.getCurrentPlayback).toHaveBeenCalled();
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SET_PLAYBACK_INFO',
         data: 'LOADING',
@@ -33,12 +38,9 @@ describe('Spotify actions', () => {
 
   it('Informs of failure when loading playback info', (done) => {
     const thunk = loadPlaybackInfo();
-    const api = {
-      getCurrentPlayback: jest.fn(() => Promise.reject(Error())),
-    };
-    thunk(dispatch, null, api).then((response) => {
+    thunk(dispatch, null, failureApi).then((response) => {
       expect(response.body).toEqual({});
-      expect(api.getCurrentPlayback).toHaveBeenCalled();
+      expect(failureApi.getCurrentPlayback).toHaveBeenCalled();
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SET_PLAYBACK_INFO',
         data: 'LOADING',
@@ -53,12 +55,9 @@ describe('Spotify actions', () => {
 
   it('Loads album', (done) => {
     const thunk = loadAlbum('AL1');
-    const api = {
-      getAlbum: jest.fn(() => Promise.resolve({ body: {} })),
-    };
-    thunk(dispatch, null, api).then((response) => {
+    thunk(dispatch, null, successApi).then((response) => {
       expect(response.body).toEqual({});
-      expect(api.getAlbum).toHaveBeenCalledWith('AL1');
+      expect(successApi.getAlbum).toHaveBeenCalledWith('AL1');
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SET_ALBUM',
         data: {
@@ -79,11 +78,8 @@ describe('Spotify actions', () => {
 
   it('Fails album load', (done) => {
     const thunk = loadAlbum('AL1');
-    const api = {
-      getAlbum: jest.fn(() => Promise.reject(Error())),
-    };
-    thunk(dispatch, null, api).then(() => {
-      expect(api.getAlbum).toHaveBeenCalledWith('AL1');
+    thunk(dispatch, null, failureApi).then(() => {
+      expect(failureApi.getAlbum).toHaveBeenCalledWith('AL1');
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SET_ALBUM',
         data: {
