@@ -48,55 +48,10 @@ export class App extends React.Component {
     });
   }
 
-  selectSearch() {
-    const album = this.selectAlbum();
-    const { searches, playbackInfo } = this.props;
-    if (playbackInfo && playbackInfo.item && album && searches[album.id]) {
-      return searches[album.id];
-    }
-    return null;
-  }
-
-  getBestMatch() {
-    const { playbackInfo } = this.props;
-    const search = this.selectSearch();
-    if (search && playbackInfo && playbackInfo.item) {
-      const albumBestMatch = search.bestMatch;
-      return albumBestMatch.tracks.find(t => t.id === playbackInfo.item.id);
-    }
-    return null;
-  }
-
-  selectAlbum() {
-    const { albums, playbackInfo } = this.props;
-    if (playbackInfo && playbackInfo.item && albums[playbackInfo.item.album.id]) {
-      const album = albums[playbackInfo.item.album.id];
-      if (album !== 'LOADING' && album !== 'FAILED') {
-        return album;
-      }
-    }
-    return null;
-  }
-
-  selectArtist() {
-    const { artists, playbackInfo } = this.props;
-    if (playbackInfo && playbackInfo.item) {
-      const artist = artists[playbackInfo.item.artists[0].id];
-      if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
-        return artist;
-      }
-    }
-    return null;
-  }
-
   render() {
     const {
       errors,
     } = this.state;
-    const bestMatch = this.getBestMatch();
-    const search = this.selectSearch();
-    const album = this.selectAlbum();
-    const artist = this.selectArtist();
     return (
       <div>
         {errors.length > 0 &&
@@ -106,20 +61,16 @@ export class App extends React.Component {
         </div>}
         {!this.props.playbackInfo && <EmptyPlayback />}
         {this.props.playbackInfo && this.props.playbackInfo.item && <Song
-            track={this.props.playbackInfo.item}
-            album={album}
-            artist={artist}
-            bestMatch={bestMatch}
-            progress={(search || {}).progress} />}
+            trackId={this.props.playbackInfo.item.id} />}
       </div>
     );
   }
 }
 
 const mapStateToProps = ({
-  searches, albums, artists, playbackInfo,
+  searches, playbackInfo,
 }) => ({
-  searches, albums, artists, playbackInfo,
+  searches, playbackInfo,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -128,14 +79,11 @@ const mapDispatchToProps = dispatch => ({
 });
 
 App.propTypes = {
-  albums: PropTypes.object.isRequired,
-  artists: PropTypes.object.isRequired,
   backend: PropTypes.func.isRequired,
   loadPlaybackInfo: PropTypes.func.isRequired,
   playbackInfo: PropTypes.object,
   searches: PropTypes.object.isRequired,
   setSearchResult: PropTypes.func.isRequired,
-  spotifyApi: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

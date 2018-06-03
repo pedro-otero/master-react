@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import './song.css';
 import LoadingCircle from './loading-circle';
@@ -10,7 +11,7 @@ import Cover from './cover';
 import JointList from './joint-list';
 import Banner from './banner';
 
-const Song = ({
+export const Song = ({
   track,
   bestMatch,
   artist,
@@ -79,6 +80,7 @@ const Song = ({
         value={progress} />}
   </article>;
 };
+
 Song.propTypes = {
   album: PropTypes.object,
   artist: PropTypes.object,
@@ -87,4 +89,30 @@ Song.propTypes = {
   track: PropTypes.object,
 };
 
-export default Song;
+const mapStateToProps = ({
+  tracks, albums, artists, searches, playbackInfo,
+}, { trackId }) => {
+  const props = {};
+  if (playbackInfo && playbackInfo !== 'LOADING' && playbackInfo !== 'FAILED') {
+    const track = tracks[trackId];
+    Object.assign(props, { track });
+    const album = albums[track.album.id];
+    if (album && album !== 'LOADING' && album !== 'FAILED') {
+      Object.assign(props, { album });
+    }
+    const artist = artists[track.artists[0].id];
+    if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
+      Object.assign(props, { artist });
+    }
+    const search = searches[track.album.id];
+    if (search && search !== 'LOADING' && search !== 'FAILED') {
+      Object.assign(props, {
+        bestMatch: search.bestMatch.tracks.find(t => t.id === track.id),
+        progress: search.progress,
+      });
+    }
+  }
+  return props;
+};
+
+export default connect(mapStateToProps)(Song);

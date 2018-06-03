@@ -21,9 +21,7 @@ if (user.isAuthenticated()) {
   const store = configureStore(user.getApi());
   ReactDOM.render(
     <Provider store={store}>
-      <App
-          spotifyApi={user.getApi()}
-          backend={backend} />
+      <App backend={backend} />
     </Provider>,
     document.getElementById('root'),
   );
