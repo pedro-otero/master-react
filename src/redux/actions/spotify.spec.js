@@ -1,7 +1,7 @@
 import { setPlaybackInfo, loadPlaybackInfo, loadAlbum } from './spotify';
 
-describe('Playback info action creator', () => {
-  it('creates SET_PLAYBACK_INFO action', () => {
+describe('Spotify actions', () => {
+  it('SET_PLAYBACK_INFO', () => {
     const action = setPlaybackInfo('val');
     expect(action).toEqual({
       type: 'SET_PLAYBACK_INFO',
