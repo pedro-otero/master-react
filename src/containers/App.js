@@ -6,10 +6,9 @@ import Song from '../components/song';
 import './App.css';
 import EmptyPlayback from '../components/empty-playback';
 import generateCreator from '../redux/actions/generate-creator';
-import { loadAlbum, loadPlaybackInfo } from '../redux/actions/spotify';
+import { loadPlaybackInfo } from '../redux/actions/spotify';
 
 const setSearchResult = generateCreator('SET_SEARCH_RESULT');
-const setAlbum = generateCreator('SET_ALBUM');
 
 export class App extends React.Component {
   constructor(props) {
@@ -31,20 +30,13 @@ export class App extends React.Component {
   getPlaybackData() {
     this.props.loadPlaybackInfo().then(({ body }) => {
       if (body && body.item) {
-        this.getAlbum(body.item.album.id);
+        this.getCredits(body.item.album.id);
       }
     }, this.addError).catch(this.addError);
   }
 
-  getAlbum(id) {
-    this.props.loadAlbum(id).then(() => {
-      this.getCredits();
-    }, this.addError).catch(this.addError);
-  }
-
-  getCredits() {
-    const album = this.selectAlbum();
-    this.creditsObservable = this.props.backend.getCredits(album.id)
+  getCredits(id) {
+    this.creditsObservable = this.props.backend.getCredits(id)
       .subscribe((response) => {
         this.props.setSearchResult(response.id, response);
       }, this.addError);
@@ -132,8 +124,6 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = dispatch => ({
   setSearchResult: (id, search) => dispatch(setSearchResult(id, search)),
-  setAlbum: (id, album) => dispatch(setAlbum(id, album)),
-  loadAlbum: id => dispatch(loadAlbum(id)),
   loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
 });
 
@@ -141,11 +131,9 @@ App.propTypes = {
   albums: PropTypes.object.isRequired,
   artists: PropTypes.object.isRequired,
   backend: PropTypes.func.isRequired,
-  loadAlbum: PropTypes.func.isRequired,
   loadPlaybackInfo: PropTypes.func.isRequired,
   playbackInfo: PropTypes.object,
   searches: PropTypes.object.isRequired,
-  setAlbum: PropTypes.func.isRequired,
   setSearchResult: PropTypes.func.isRequired,
   spotifyApi: PropTypes.func.isRequired,
 };

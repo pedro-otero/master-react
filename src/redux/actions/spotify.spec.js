@@ -5,6 +5,7 @@ describe('Spotify actions', () => {
   const playbackInfo = {
     item: {
       artists: [{ id: 'AR1' }],
+      album: { id: 'AL1' },
     },
   };
   const successApi = {
@@ -69,6 +70,10 @@ describe('Spotify actions', () => {
 
     it('calls actions.loadArtist', () => {
       expect(actions.loadArtist).toHaveBeenCalledWith('AR1');
+    });
+
+    it('calls actions.loadAlbum', () => {
+      expect(actions.loadAlbum).toHaveBeenCalledWith('AL1');
     });
 
     afterAll(() => successApi.getCurrentPlayback.mockClear());
