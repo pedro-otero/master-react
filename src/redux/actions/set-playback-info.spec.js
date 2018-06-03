@@ -1,4 +1,4 @@
-import setPlaybackInfo from './set-playback-info';
+import { setPlaybackInfo } from './set-playback-info';
 
 describe('Set playback info action creator', () => {
   it('creates action', () => {

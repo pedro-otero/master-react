@@ -6,7 +6,7 @@ import Song from '../components/song';
 import './App.css';
 import EmptyPlayback from '../components/empty-playback';
 import generateCreator from '../redux/actions/generate-creator';
-import setPlaybackInfo from '../redux/actions/set-playback-info';
+import { setPlaybackInfo } from '../redux/actions/set-playback-info';
 
 const setSearchResult = generateCreator('SET_SEARCH_RESULT');
 const setAlbum = generateCreator('SET_ALBUM');
