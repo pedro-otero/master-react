@@ -4,6 +4,7 @@ describe('Spotify actions', () => {
   const dispatch = jest.fn();
   const playbackInfo = {
     item: {
+      id: 'T1',
       artists: [{ id: 'AR1' }],
       album: { id: 'AL1' },
     },
@@ -25,6 +26,7 @@ describe('Spotify actions', () => {
     loadArtist: jest.fn(),
     setAlbum: jest.fn(),
     loadAlbum: jest.fn(),
+    setTrack: jest.fn(),
   };
 
   it('SET_PLAYBACK_INFO', () => {
@@ -74,6 +76,10 @@ describe('Spotify actions', () => {
 
     it('calls actions.loadAlbum', () => {
       expect(actions.loadAlbum).toHaveBeenCalledWith('AL1');
+    });
+
+    it('calls actions.setTrack', () => {
+      expect(actions.setTrack).toHaveBeenCalledWith('T1', playbackInfo.item);
     });
 
     afterAll(() => successApi.getCurrentPlayback.mockClear());
