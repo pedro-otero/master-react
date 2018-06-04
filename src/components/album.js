@@ -6,6 +6,7 @@ import Banner from './banner';
 import Cover from './cover';
 import Label from './label';
 import TrackItem from './track-item';
+import Progress from './progress';
 
 export const Album = ({ artist, album, search }) => {
   const artistImg = artist && artist.images.length ? artist.images[0].url : undefined;
@@ -28,6 +29,9 @@ export const Album = ({ artist, album, search }) => {
         </div>
       </Banner>}
     {album && search && <Fragment>
+      {search.progress < 100 && <Progress
+          size="small"
+          value={search.progress} />}
       {album.tracks.items.map((fromSpotify, i) => <TrackItem
           key={`${album.id}-${fromSpotify.id}`}
           fromSearch={search.bestMatch.tracks[i]}
