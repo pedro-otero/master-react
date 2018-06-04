@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import './track-item.css';
 import Composers from './composers';
 
-const duration = (millis) => {
-  const time = new Date();
-  time.setMilliseconds(time.getTime() + millis);
-  return `${time.getMinutes()}:${time.getSeconds()}`;
-};
+function duration(millis) {
+  const minutes = Math.floor(millis / 60000);
+  const seconds = ((millis % 60000) / 1000).toFixed(0);
+  return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+}
 
 const TrackItem = ({
   number, fromSpotify: { name, duration_ms: millis }, fromSearch: { composers },
