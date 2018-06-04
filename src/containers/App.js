@@ -49,9 +49,8 @@ export class App extends React.Component {
   }
 
   render() {
-    const {
-      errors,
-    } = this.state;
+    const { errors } = this.state;
+    const { playbackInfo } = this.props;
     return (
       <div>
         {errors.length > 0 &&
@@ -59,9 +58,9 @@ export class App extends React.Component {
           {errors.map((error, i) => <p key={`error-${i}`}>{error}</p>)}
           <p>Please reload the page to try again</p>
         </div>}
-        {!this.props.playbackInfo && <EmptyPlayback />}
-        {this.props.playbackInfo && this.props.playbackInfo.item && <Song
-            trackId={this.props.playbackInfo.item.id} />}
+        {!playbackInfo && <EmptyPlayback />}
+        {playbackInfo && playbackInfo.item && <Song
+            trackId={playbackInfo.item.id} />}
       </div>
     );
   }
