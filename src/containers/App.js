@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Song from '../components/song';
+import TrackDetails from '../components/track-details';
 import './App.css';
 import EmptyPlayback from '../components/empty-playback';
 import generateCreator from '../redux/actions/generate-creator';
@@ -59,7 +59,7 @@ export class App extends React.Component {
           <p>Please reload the page to try again</p>
         </div>}
         {!playbackInfo && <EmptyPlayback />}
-        {playbackInfo && playbackInfo.item && <Song
+        {playbackInfo && playbackInfo.item && <TrackDetails
             trackId={playbackInfo.item.id} />}
       </div>
     );

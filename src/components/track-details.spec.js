@@ -2,7 +2,7 @@ import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import { Song } from './song';
+import { TrackDetails } from './track-details';
 
 const track = { artists: [{}] };
 const credits = { composers: [], producers: [], credits: {} };
@@ -11,10 +11,10 @@ const album = { release_date: '', images: [{}] };
 
 Enzyme.configure({ adapter: new Adapter() });
 
-describe('Song component', () => {
+describe('TrackDetails component', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = shallow(<Song />);
+    wrapper = shallow(<TrackDetails />);
   });
 
   it('hides composers list', () => {

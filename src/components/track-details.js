@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import './song.css';
+import './track-details.css';
 import LoadingCircle from './loading-circle';
 import Progress from './progress';
 import Credits from './credits';
@@ -12,7 +12,7 @@ import Banner from './banner';
 import Composers from './composers';
 import Producers from './producers';
 
-export const Song = ({
+export const TrackDetails = ({
   track,
   bestMatch,
   artist,
@@ -74,7 +74,7 @@ export const Song = ({
   </article>;
 };
 
-Song.propTypes = {
+TrackDetails.propTypes = {
   album: PropTypes.object,
   artist: PropTypes.object,
   bestMatch: PropTypes.object,
@@ -108,4 +108,4 @@ const mapStateToProps = ({
   return props;
 };
 
-export default connect(mapStateToProps)(Song);
+export default connect(mapStateToProps)(TrackDetails);

@@ -66,8 +66,8 @@ describe('App container', () => {
       expect(backend.getCredits.mock.calls).toEqual([['AL1']]);
     });
 
-    it.skip('displays Song', () => {
-      expect(wrapper.find('Song').length).toEqual(1);
+    it.skip('displays TrackDetails', () => {
+      expect(wrapper.find('TrackDetails').length).toEqual(1);
     });
 
     it('unsubscribes from credits observable', () => {
@@ -111,8 +111,8 @@ describe('App container', () => {
       expect(errorsSpy).not.toHaveBeenCalled();
     });
 
-    it('hides Song', () => {
-      expect(wrapper.update().find('Song').length).toEqual(0);
+    it('hides TrackDetails', () => {
+      expect(wrapper.update().find('TrackDetails').length).toEqual(0);
     });
 
     it('does NOT get credits', () => {
