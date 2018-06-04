@@ -35,6 +35,21 @@ Album.propTypes = {
   id: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = ({
+  albums, artists,
+}, { albumId }) => {
+  const props = {};
+  if (albums[albumId]) {
+    const album = albums[albumId];
+    if (album && album !== 'LOADING' && album !== 'FAILED') {
+      Object.assign(props, { album });
+    }
+    const artist = artists[album.artists[0].id];
+    if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
+      Object.assign(props, { artist });
+    }
+  }
+  return props;
+};
 
 export default connect(mapStateToProps)(Album);

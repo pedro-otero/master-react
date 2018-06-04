@@ -9,6 +9,7 @@ import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import configureStore from './redux/store';
 import App from './containers/App';
+import Album from './components/album';
 
 import Backend from './api/backend';
 import getUser from './user';
@@ -22,10 +23,16 @@ if (user.isAuthenticated()) {
   ReactDOM.render(
     <Provider store={store}>
       <Router>
-        <Route
-            path="/"
-            render={() => <App onUnmount={backend.stopAllSearches} />}
+        <span>
+          <Route
+              path="/"
+              render={() => <App onUnmount={backend.stopAllSearches} />}
             />
+          <Route
+              path="/album/:id"
+              render={({ match }) => <Album albumId={match.params.id} />}
+            />
+        </span>
       </Router>
     </Provider>,
     document.getElementById('root'),

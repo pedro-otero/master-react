@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import './track-details.css';
 import LoadingCircle from './loading-circle';
@@ -42,10 +43,14 @@ export const TrackDetails = ({
     <Banner
         src={artistImg}
         className="content">
-      <Cover
-          album={album}
-          imageClass="albumCover"
-          yearClass="albumYear" />
+      <Link
+          to={`/album/${album.id}`}
+          className="RR-link">
+        <Cover
+            album={album}
+            imageClass="albumCover"
+            yearClass="albumYear" />
+      </Link>
       <div>
         <Label
             className="artistName"

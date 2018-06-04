@@ -140,3 +140,7 @@ body {
 .artistName {
     color: #cccccc;
 }
+
+a.RR-link {
+    all: unset;
+}
