@@ -3,6 +3,6 @@ export const loadSearchResult = id => (dispatch, getState, { backend, actions })
   backend.getCredits(id)
     .subscribe((response) => {
       actions.setSearchResult(id, response);
-    });
+    }, () => actions.setSearchResult(id, 'FAILED'), () => {});
   return Promise.resolve({});
 };
