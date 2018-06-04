@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import SpotifyWebApi from 'spotify-web-api-node';
 import request from 'superagent';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
@@ -21,7 +22,12 @@ if (user.isAuthenticated()) {
   const store = configureStore(user.getApi());
   ReactDOM.render(
     <Provider store={store}>
-      <App backend={backend} />
+      <Router>
+        <Route
+            path="/"
+            render={() => <App backend={backend} />}
+            />
+      </Router>
     </Provider>,
     document.getElementById('root'),
   );
