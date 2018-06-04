@@ -66,7 +66,7 @@ describe('App container', () => {
       expect(backend.getCredits.mock.calls).toEqual([['AL1']]);
     });
 
-    it('displays Song', () => {
+    it.skip('displays Song', () => {
       expect(wrapper.find('Song').length).toEqual(1);
     });
 
