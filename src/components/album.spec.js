@@ -10,4 +10,11 @@ describe('Album component', () => {
   it('renders empty OK', () => {
     shallow(<Album />);
   });
+
+  it('renders banner', () => {
+    const wrapper = shallow(<Album
+        album={{ artists: [{}] }}
+        artist={{ images: [{}] }} />);
+    expect(wrapper.find('Banner').length).toEqual(1);
+  });
 });
