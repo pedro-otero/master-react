@@ -1,0 +1,21 @@
+.track-item-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.track-item-div > div:first-child {
+    display: flex;
+    flex-direction: row;
+}
+
+.track-item-number {
+    flex: 1;
+}
+
+.track-item-name {
+    flex: 9;
+}
+
+.track-item-duration {
+    flex: 2;
+}
