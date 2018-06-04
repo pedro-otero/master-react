@@ -2,7 +2,7 @@ import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import Song from './song';
+import { Song } from './song';
 
 const track = { artists: [{}] };
 const credits = { composers: [], producers: [], credits: {} };

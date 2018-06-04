@@ -32,6 +32,9 @@
     ],
     "react/react-in-jsx-scope": [
       "error"
+    ],
+    "import/no-named-as-default": [
+      "off"
     ]
   }
 }

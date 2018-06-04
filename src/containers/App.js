@@ -1,15 +1,20 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Song from '../components/song';
 import './App.css';
 import EmptyPlayback from '../components/empty-playback';
+import generateCreator from '../redux/actions/generate-creator';
+import { loadPlaybackInfo } from '../redux/actions/spotify';
 
-export default class App extends React.Component {
+const setSearchResult = generateCreator('SET_SEARCH_RESULT');
+
+export class App extends React.Component {
   constructor(props) {
     super(props);
     this.addError = this.addError.bind(this);
-    this.state = { errors: [], playback: true };
+    this.state = { errors: [] };
   }
 
   componentDidMount() {
@@ -23,55 +28,29 @@ export default class App extends React.Component {
   }
 
   getPlaybackData() {
-    this.props.spotifyApi.getCurrentPlayback().then(({ body }) => {
-      if (body) {
-        const { item: track } = body;
-        this.setState({
-          track,
-          playback: true,
-        });
-        this.getAlbum(track.album.id);
-        this.getArtist(track.artists[0].id);
-      } else {
-        this.setState({ playback: false });
+    this.props.loadPlaybackInfo().then(({ body }) => {
+      if (body && body.item) {
+        this.getCredits(body.item.album.id);
       }
     }, this.addError).catch(this.addError);
   }
 
-  getAlbum(id) {
-    this.props.spotifyApi.getAlbum(id).then(({ body: album }) => {
-      this.setState({ album }, this.getCredits);
-    }, this.addError).catch(this.addError);
-  }
-
-  getArtist(id) {
-    this.props.spotifyApi.getArtist(id).then(({ body: artist }) => {
-      this.setState({ artist });
-    }, this.addError).catch(this.addError);
-  }
-
-  getCredits() {
-    this.creditsObservable = this.props.backend.getCredits(this.state.album.id)
-      .subscribe(({ bestMatch: { tracks }, progress }) => {
-        const trackBestMatch = tracks.find(t => t.id === this.state.track.id);
-        this.setState({
-          bestMatch: trackBestMatch,
-          progress,
-        });
+  getCredits(id) {
+    this.creditsObservable = this.props.backend.getCredits(id)
+      .subscribe((response) => {
+        this.props.setSearchResult(response.id, response);
       }, this.addError);
   }
 
   addError({ message }) {
     this.setState({
       errors: [...this.state.errors, message],
-      progress: 100,
     });
   }
 
   render() {
-    const {
-      track, album, artist, bestMatch, progress, errors, playback,
-    } = this.state;
+    const { errors } = this.state;
+    const { playbackInfo } = this.props;
     return (
       <div>
         {errors.length > 0 &&
@@ -79,19 +58,31 @@ export default class App extends React.Component {
           {errors.map((error, i) => <p key={`error-${i}`}>{error}</p>)}
           <p>Please reload the page to try again</p>
         </div>}
-        {!playback && <EmptyPlayback />}
-        {playback && <Song
-            track={track}
-            album={album}
-            artist={artist}
-            bestMatch={bestMatch}
-            progress={progress} />}
+        {!playbackInfo && <EmptyPlayback />}
+        {playbackInfo && playbackInfo.item && <Song
+            trackId={playbackInfo.item.id} />}
       </div>
     );
   }
 }
 
+const mapStateToProps = ({
+  searches, playbackInfo,
+}) => ({
+  searches, playbackInfo,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setSearchResult: (id, search) => dispatch(setSearchResult(id, search)),
+  loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
+});
+
 App.propTypes = {
-  backend: PropTypes.func.isRequired,
-  spotifyApi: PropTypes.func.isRequired,
+  backend: PropTypes.object.isRequired,
+  loadPlaybackInfo: PropTypes.func.isRequired,
+  playbackInfo: PropTypes.object,
+  searches: PropTypes.object.isRequired,
+  setSearchResult: PropTypes.func.isRequired,
 };
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
