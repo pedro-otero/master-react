@@ -10,6 +10,7 @@ import Label from './label';
 import Cover from './cover';
 import JointList from './joint-list';
 import Banner from './banner';
+import Composers from './composers';
 
 export const Song = ({
   track,
@@ -53,11 +54,7 @@ export const Song = ({
             className="trackName"
             value={track.name} />
         {bestMatch && <span>
-          <JointList
-              className="composers"
-              start="("
-              values={bestMatch.composers}
-              end=")" />
+          <Composers list={bestMatch.composers} />
           <br />
           <JointList
               className="producers"

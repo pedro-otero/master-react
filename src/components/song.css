@@ -141,6 +141,6 @@ body {
     color: #cccccc;
 }
 
-.composers, .producers {
-     font-size: small;
- }
+.producers {
+    font-size: small;
+}
