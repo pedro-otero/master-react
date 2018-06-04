@@ -46,7 +46,7 @@ describe('Spotify actions', () => {
     });
   });
 
-  describe('Succesful playback info load', () => {
+  describe('Successful playback info load', () => {
     let response;
     beforeAll((done) => {
       const thunk = loadPlaybackInfo();
