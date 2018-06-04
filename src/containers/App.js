@@ -79,7 +79,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 App.propTypes = {
-  backend: PropTypes.func.isRequired,
+  backend: PropTypes.object.isRequired,
   loadPlaybackInfo: PropTypes.func.isRequired,
   playbackInfo: PropTypes.object,
   searches: PropTypes.object.isRequired,

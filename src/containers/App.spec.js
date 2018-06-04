@@ -9,21 +9,19 @@ Enzyme.configure({ adapter: new Adapter() });
 
 describe('App container', () => {
   describe('gets all playback data', () => {
-    const mockApi = {
-      getCurrentPlayback: jest.fn(() => Promise.resolve({
-        body: {
-          item: {
-            artists: [{ id: 'AR1' }],
-            album: {
-              id: 'AL1',
-              images: [{}],
-            },
-          },
+    const playbackInfo = {
+      item: {
+        id: 'T1',
+        artists: [{ id: 'AR1' }],
+        album: {
+          id: 'AL1',
+          images: [{}],
         },
-      })),
-      getArtist: jest.fn(() => Promise.resolve({ body: { id: 'AR1' } })),
-      getAlbum: jest.fn(() => Promise.resolve({ body: { id: 'AL1' } })),
+      },
     };
+    const loadPlaybackInfo = jest.fn(() => Promise.resolve({
+      body: playbackInfo,
+    }));
     const unsubscribe = jest.fn();
     const observable = Rx.Observable.create((observer) => {
       observer.next({
@@ -43,36 +41,25 @@ describe('App container', () => {
       getCredits: jest.fn(() => observable),
     };
     const setSearchResult = jest.fn();
-    const setAlbum = jest.fn();
-    const setArtist = jest.fn();
 
     let wrapper;
     beforeAll(() => {
       wrapper = shallow(<App
+          loadPlaybackInfo={loadPlaybackInfo}
           setSearchResult={setSearchResult}
-          setAlbum={setAlbum}
-          setArtist={setArtist}
-          searches={[]}
+          searches={{}}
+          playbackInfo={playbackInfo}
           albums={{ AL1: { id: 'AL1', value: 'expected' } }}
           artists={{ AR1: { id: 'AR1', value: 'expected' } }}
-          spotifyApi={mockApi}
           backend={backend} />);
     });
 
-    it('Calls #getCurrentPlayback on mount', () => {
-      expect(mockApi.getCurrentPlayback.mock.calls.length).toBe(1);
+    it('Calls loadPlaybackInfo on mount', () => {
+      expect(loadPlaybackInfo.mock.calls.length).toBe(1);
     });
 
     it('hides EmptyPlayback component', () => {
-      expect(wrapper.update().find('EmptyPlayback').length).toBe(0);
-    });
-
-    it('gets album', () => {
-      expect(mockApi.getAlbum.mock.calls).toEqual([['AL1']]);
-    });
-
-    it('gets artist', () => {
-      expect(mockApi.getArtist.mock.calls).toEqual([['AR1']]);
+      expect(wrapper.find('EmptyPlayback').length).toBe(0);
     });
 
     it('gets credits', () => {
@@ -80,15 +67,7 @@ describe('App container', () => {
     });
 
     it('displays Song', () => {
-      expect(wrapper.update().find('Song').length).toEqual(1);
-    });
-
-    it('selects correct album', () => {
-      expect(wrapper.instance().selectAlbum().value).toEqual('expected');
-    });
-
-    it('selects correct artist', () => {
-      expect(wrapper.instance().selectArtist().value).toEqual('expected');
+      expect(wrapper.find('Song').length).toEqual(1);
     });
 
     it('unsubscribes from credits observable', () => {
@@ -98,13 +77,9 @@ describe('App container', () => {
   });
 
   describe('finds NO playback data', () => {
-    const mockApi = {
-      getCurrentPlayback: jest.fn(() => Promise.resolve({
-        body: null,
-      })),
-      getArtist: jest.fn(),
-      getAlbum: jest.fn(),
-    };
+    const loadPlaybackInfo = jest.fn(() => Promise.resolve({
+      body: null,
+    }));
     const backend = {
       getCredits: jest.fn(),
     };
@@ -113,13 +88,15 @@ describe('App container', () => {
     let errorsSpy;
     beforeAll(() => {
       wrapper = shallow(<App
-          spotifyApi={mockApi}
+          loadPlaybackInfo={loadPlaybackInfo}
+          searches={{}}
+          setSearchResult={jest.fn()}
           backend={backend} />);
       errorsSpy = jest.spyOn(App.prototype, 'addError');
     });
 
     it('Calls #getCurrentPlayback on mount', () => {
-      expect(mockApi.getCurrentPlayback.mock.calls.length).toBe(1);
+      expect(loadPlaybackInfo.mock.calls.length).toBe(1);
     });
 
     it('displays EmptyPlayback component', () => {
@@ -136,14 +113,6 @@ describe('App container', () => {
 
     it('hides Song', () => {
       expect(wrapper.update().find('Song').length).toEqual(0);
-    });
-
-    it('does NOT get album', () => {
-      expect(mockApi.getAlbum).not.toHaveBeenCalled();
-    });
-
-    it('does NOT get artist', () => {
-      expect(mockApi.getArtist).not.toHaveBeenCalled();
     });
 
     it('does NOT get credits', () => {
