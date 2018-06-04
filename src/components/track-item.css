@@ -1,6 +1,7 @@
 .track-item-div {
     display: flex;
     flex-direction: column;
+    margin: 0.5em 0;
 }
 
 .track-item-div > div:first-child {
@@ -9,11 +10,13 @@
 }
 
 .track-item-number {
+    text-align: right;
     flex: 1;
 }
 
 .track-item-name {
-    flex: 9;
+    flex: 17;
+    margin: 0 0.5em;
 }
 
 .track-item-duration {

@@ -14,7 +14,10 @@ const TrackItem = ({
     <div className="track-item-name">{name}</div>
     <div className="track-item-duration">{duration(millis)}</div>
   </div>
-  <Composers list={composers} />
+  <div>
+    <div className="track-item-number"> </div>
+    <Composers list={composers} />
+  </div>
 </div>;
 
 TrackItem.propTypes = {
