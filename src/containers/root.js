@@ -10,20 +10,8 @@ import TrackDetails from '../components/track-details';
 import { loadSearchResult } from '../redux/actions/backend';
 
 class Root extends React.Component {
-  componentDidMount() {
-    this.getPlaybackData();
-  }
-
   getPlaybackData() {
     this.props.loadPlaybackInfo();
-    this.timer = setInterval(this.props.loadPlaybackInfo, 1000);
-  }
-
-  componentWillUnmount() {
-    if (this.timer) {
-      clearInterval(this.timer);
-    }
-    this.props.onUnmount();
   }
 
   render() {
@@ -34,7 +22,10 @@ class Root extends React.Component {
           <Route
               exact
               path="/"
-              component={CurrentPlayback}
+              render={() => {
+                this.getPlaybackData();
+                return <CurrentPlayback />;
+              }}
           />
           <Route
               path="/track/:id"
