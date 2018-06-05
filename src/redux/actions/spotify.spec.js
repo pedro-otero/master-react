@@ -37,6 +37,11 @@ describe('Spotify actions', () => {
     actions.setTrack.mockClear();
     actions.loadSearchResult.mockClear();
   };
+  const emptyGetState = () => ({
+    searches: { },
+    albums: { },
+    artists: { },
+  });
 
   it('SET_PLAYBACK_INFO', () => {
     const action = setPlaybackInfo('val');
@@ -46,11 +51,11 @@ describe('Spotify actions', () => {
     });
   });
 
-  describe('Succesful playback info load', () => {
+  describe('Successful playback info load', () => {
     let response;
     beforeAll((done) => {
       const thunk = loadPlaybackInfo();
-      thunk(dispatch, null, { spotifyApi: successApi, actions }).then((resolution) => {
+      thunk(dispatch, emptyGetState, { spotifyApi: successApi, actions }).then((resolution) => {
         response = resolution;
         done();
       });
@@ -109,7 +114,7 @@ describe('Spotify actions', () => {
     };
     beforeAll((done) => {
       const thunk = loadPlaybackInfo();
-      thunk(dispatch, null, { spotifyApi: api, actions }).then((resolution) => {
+      thunk(dispatch, emptyGetState, { spotifyApi: api, actions }).then((resolution) => {
         response = resolution;
         done();
       });
@@ -156,7 +161,7 @@ describe('Spotify actions', () => {
   describe('Failed playback info load', () => {
     beforeAll((done) => {
       const thunk = loadPlaybackInfo();
-      thunk(dispatch, null, { spotifyApi: failureApi, actions }).then(done);
+      thunk(dispatch, emptyGetState, { spotifyApi: failureApi, actions }).then(done);
     });
 
     it('calls api method', () => {
@@ -187,7 +192,7 @@ describe('Spotify actions', () => {
     let response;
     beforeAll((done) => {
       const thunk = loadAlbum('AL1');
-      thunk(dispatch, null, { spotifyApi: successApi, actions }).then((resolution) => {
+      thunk(dispatch, emptyGetState, { spotifyApi: successApi, actions }).then((resolution) => {
         response = resolution;
         done();
       });
@@ -215,10 +220,26 @@ describe('Spotify actions', () => {
     });
   });
 
+  it('Avoids to load albums already in state', (done) => {
+    const thunk = loadAlbum('AL1');
+    thunk(null, () => ({ albums: { AL1: {} } }), { spotifyApi: successApi }).then(() => {
+      expect(successApi.getAlbum).not.toBeCalled();
+      done();
+    });
+  });
+
+  it('Reloads a failed album', (done) => {
+    const thunk = loadAlbum('AL1');
+    thunk(dispatch, () => ({ albums: { AL1: 'FAILED' } }), { spotifyApi: successApi, actions }).then(() => {
+      expect(successApi.getAlbum).toBeCalled();
+      done();
+    });
+  });
+
   describe('Album load failure', () => {
     beforeAll((done) => {
       const thunk = loadAlbum('AL1');
-      thunk(dispatch, null, { spotifyApi: failureApi, actions }).then(done);
+      thunk(dispatch, emptyGetState, { spotifyApi: failureApi, actions }).then(done);
     });
 
     it('calls api method', () => {
@@ -243,7 +264,7 @@ describe('Spotify actions', () => {
     let response;
     beforeAll((done) => {
       const thunk = loadArtist('AR1');
-      thunk(dispatch, null, { spotifyApi: successApi, actions }).then((resolution) => {
+      thunk(dispatch, emptyGetState, { spotifyApi: successApi, actions }).then((resolution) => {
         response = resolution;
         done();
       });
@@ -272,10 +293,26 @@ describe('Spotify actions', () => {
     });
   });
 
+  it('Avoids to load artists already in state', (done) => {
+    const thunk = loadArtist('AR1');
+    thunk(null, () => ({ artists: { AR1: {} } }), { spotifyApi: successApi }).then(() => {
+      expect(successApi.getArtist).not.toBeCalled();
+      done();
+    });
+  });
+
+  it('Reloads a failed artist', (done) => {
+    const thunk = loadArtist('AR1');
+    thunk(dispatch, () => ({ artists: { AR1: 'FAILED' } }), { spotifyApi: successApi, actions }).then(() => {
+      expect(successApi.getArtist).toBeCalled();
+      done();
+    });
+  });
+
   describe('Artist load failure', () => {
     beforeAll((done) => {
       const thunk = loadArtist('AR1');
-      thunk(dispatch, null, { spotifyApi: failureApi, actions }).then(done);
+      thunk(dispatch, emptyGetState, { spotifyApi: failureApi, actions }).then(done);
     });
 
     it('calls api method', () => {
