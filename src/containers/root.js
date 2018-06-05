@@ -1,13 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 
 import CurrentPlayback from '../containers/CurrentPlayback';
 import Album from '../components/album';
+import { loadPlaybackInfo } from '../redux/actions/spotify';
+import TrackDetails from '../components/track-details';
 
 class Root extends React.Component {
+  componentDidMount() {
+    this.getPlaybackData();
+  }
+
+  getPlaybackData() {
+    this.props.loadPlaybackInfo();
+    this.timer = setInterval(this.props.loadPlaybackInfo, 1000);
+  }
+
   componentWillUnmount() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
     this.props.onUnmount();
   }
 
@@ -19,7 +33,11 @@ class Root extends React.Component {
           <Route
               exact
               path="/"
-              render={() => <CurrentPlayback />}
+              component={CurrentPlayback}
+          />
+          <Route
+              path="/track/:id"
+              render={({ match }) => <TrackDetails trackId={match.params.id} />}
           />
           <Route
               path="/album/:id"
@@ -32,8 +50,13 @@ class Root extends React.Component {
 }
 
 Root.propTypes = {
+  loadPlaybackInfo: PropTypes.func.isRequired,
   onUnmount: PropTypes.func.isRequired,
   store: PropTypes.object.isRequired,
 };
 
-export default Root;
+const mapDispatchToProps = dispatch => ({
+  loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
+});
+
+export default connect(() => ({}), mapDispatchToProps)(Root);

@@ -1,70 +1,36 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
-import TrackDetails from '../components/track-details';
 import './CurrentPlayback.css';
 import EmptyPlayback from '../components/empty-playback';
-import generateCreator from '../redux/actions/generate-creator';
 import { loadPlaybackInfo } from '../redux/actions/spotify';
 
-const setSearchResult = generateCreator('SET_SEARCH_RESULT');
-
 export class CurrentPlayback extends React.Component {
-  constructor(props) {
-    super(props);
-    this.addError = this.addError.bind(this);
-    this.state = { errors: [] };
-  }
-
-  componentDidMount() {
-    this.getPlaybackData();
-  }
-
-  getPlaybackData() {
-    this.props.loadPlaybackInfo().then(() => {}, this.addError).catch(this.addError);
-  }
-
-  addError({ message }) {
-    this.setState({
-      errors: [...this.state.errors, message],
-    });
-  }
-
   render() {
-    const { errors } = this.state;
-    const { playbackInfo } = this.props;
+    const { track } = this.props;
     return (
       <div>
-        {errors.length > 0 &&
-        <div className="errors-div">
-          {errors.map((error, i) => <p key={`error-${i}`}>{error}</p>)}
-          <p>Please reload the page to try again</p>
-        </div>}
-        {!playbackInfo && <EmptyPlayback />}
-        {playbackInfo && playbackInfo.item && <TrackDetails
-            trackId={playbackInfo.item.id} />}
+        {!track && <EmptyPlayback />}
+        {track && <Redirect
+            to={`/track/${track.id}`}
+            push />}
       </div>
     );
   }
 }
 
-const mapStateToProps = ({
-  searches, playbackInfo,
-}) => ({
-  searches, playbackInfo,
+const mapStateToProps = ({ playbackInfo }) => ({
+  track: playbackInfo && playbackInfo.item ? playbackInfo.item : null,
 });
 
 const mapDispatchToProps = dispatch => ({
-  setSearchResult: (id, search) => dispatch(setSearchResult(id, search)),
   loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
 });
 
 CurrentPlayback.propTypes = {
-  loadPlaybackInfo: PropTypes.func.isRequired,
-  playbackInfo: PropTypes.object,
-  searches: PropTypes.object.isRequired,
-  setSearchResult: PropTypes.func.isRequired,
+  track: PropTypes.object,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CurrentPlayback);
