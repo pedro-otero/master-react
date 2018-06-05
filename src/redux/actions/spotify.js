@@ -9,17 +9,11 @@ export const loadPlaybackInfo = () => (dispatch, getState, { spotifyApi, actions
     dispatch(setPlaybackInfo(response.body));
     if (response.body) {
       const albumId = response.body.item.album.id;
-      if (!getState().searches[albumId]) {
-        dispatch(actions.loadSearchResult(albumId));
-      }
+      dispatch(actions.loadSearchResult(albumId));
       dispatch(actions.setTrack(response.body.item.id, response.body.item));
       const artistId = response.body.item.artists[0].id;
-      if (!getState().artists[artistId]) {
-        dispatch(actions.loadArtist(artistId));
-      }
-      if (!getState().albums[albumId]) {
-        dispatch(actions.loadAlbum(albumId));
-      }
+      dispatch(actions.loadArtist(artistId));
+      dispatch(actions.loadAlbum(albumId));
     }
     return response;
   }, () => dispatch(setPlaybackInfo('FAILED')));

@@ -105,35 +105,6 @@ describe('Spotify actions', () => {
     });
   });
 
-  describe('Already loaded playback info retry', () => {
-    beforeAll((done) => {
-      const thunk = loadPlaybackInfo();
-      const state = {
-        searches: { AL1: {} },
-        albums: { AL1: {} },
-        artists: { AR1: {} },
-      };
-      thunk(dispatch, () => state, { spotifyApi: successApi, actions }).then(done);
-    });
-
-    it('does not call loadSearchResult', () => {
-      expect(actions.loadSearchResult).not.toHaveBeenCalled();
-    });
-
-    it('does not call actions.loadArtist', () => {
-      expect(actions.loadArtist).not.toHaveBeenCalled();
-    });
-
-    it('does not call actions.loadAlbum', () => {
-      expect(actions.loadAlbum).not.toHaveBeenCalled();
-    });
-
-    afterAll(() => {
-      successApi.getCurrentPlayback.mockClear();
-      clearActionMocks();
-    });
-  });
-
   describe('Succesful empty playback info load', () => {
     let response;
     const api = {
