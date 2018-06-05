@@ -14,6 +14,7 @@ class Root extends React.Component {
     super(props);
     this.getAlbum = this.getAlbum.bind(this);
     this.getTrack = this.getTrack.bind(this);
+    this.getPlaybackData = this.getPlaybackData.bind(this);
   }
   getPlaybackData() {
     this.props.loadPlaybackInfo();
