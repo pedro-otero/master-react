@@ -37,6 +37,11 @@ describe('Spotify actions', () => {
     actions.setTrack.mockClear();
     actions.loadSearchResult.mockClear();
   };
+  const emptyGetState = () => ({
+    searches: { },
+    albums: { },
+    artists: { },
+  });
 
   it('SET_PLAYBACK_INFO', () => {
     const action = setPlaybackInfo('val');
@@ -50,7 +55,7 @@ describe('Spotify actions', () => {
     let response;
     beforeAll((done) => {
       const thunk = loadPlaybackInfo();
-      thunk(dispatch, null, { spotifyApi: successApi, actions }).then((resolution) => {
+      thunk(dispatch, emptyGetState, { spotifyApi: successApi, actions }).then((resolution) => {
         response = resolution;
         done();
       });
@@ -100,6 +105,35 @@ describe('Spotify actions', () => {
     });
   });
 
+  describe('Already loaded playback info retry', () => {
+    beforeAll((done) => {
+      const thunk = loadPlaybackInfo();
+      const state = {
+        searches: { AL1: {} },
+        albums: { AL1: {} },
+        artists: { AR1: {} },
+      };
+      thunk(dispatch, () => state, { spotifyApi: successApi, actions }).then(done);
+    });
+
+    it('does not call loadSearchResult', () => {
+      expect(actions.loadSearchResult).not.toHaveBeenCalled();
+    });
+
+    it('does not call actions.loadArtist', () => {
+      expect(actions.loadArtist).not.toHaveBeenCalled();
+    });
+
+    it('does not call actions.loadAlbum', () => {
+      expect(actions.loadAlbum).not.toHaveBeenCalled();
+    });
+
+    afterAll(() => {
+      successApi.getCurrentPlayback.mockClear();
+      clearActionMocks();
+    });
+  });
+
   describe('Succesful empty playback info load', () => {
     let response;
     const api = {
@@ -109,7 +143,7 @@ describe('Spotify actions', () => {
     };
     beforeAll((done) => {
       const thunk = loadPlaybackInfo();
-      thunk(dispatch, null, { spotifyApi: api, actions }).then((resolution) => {
+      thunk(dispatch, emptyGetState, { spotifyApi: api, actions }).then((resolution) => {
         response = resolution;
         done();
       });
@@ -156,7 +190,7 @@ describe('Spotify actions', () => {
   describe('Failed playback info load', () => {
     beforeAll((done) => {
       const thunk = loadPlaybackInfo();
-      thunk(dispatch, null, { spotifyApi: failureApi, actions }).then(done);
+      thunk(dispatch, emptyGetState, { spotifyApi: failureApi, actions }).then(done);
     });
 
     it('calls api method', () => {
@@ -187,7 +221,7 @@ describe('Spotify actions', () => {
     let response;
     beforeAll((done) => {
       const thunk = loadAlbum('AL1');
-      thunk(dispatch, null, { spotifyApi: successApi, actions }).then((resolution) => {
+      thunk(dispatch, emptyGetState, { spotifyApi: successApi, actions }).then((resolution) => {
         response = resolution;
         done();
       });
@@ -218,7 +252,7 @@ describe('Spotify actions', () => {
   describe('Album load failure', () => {
     beforeAll((done) => {
       const thunk = loadAlbum('AL1');
-      thunk(dispatch, null, { spotifyApi: failureApi, actions }).then(done);
+      thunk(dispatch, emptyGetState, { spotifyApi: failureApi, actions }).then(done);
     });
 
     it('calls api method', () => {
@@ -243,7 +277,7 @@ describe('Spotify actions', () => {
     let response;
     beforeAll((done) => {
       const thunk = loadArtist('AR1');
-      thunk(dispatch, null, { spotifyApi: successApi, actions }).then((resolution) => {
+      thunk(dispatch, emptyGetState, { spotifyApi: successApi, actions }).then((resolution) => {
         response = resolution;
         done();
       });
@@ -275,7 +309,7 @@ describe('Spotify actions', () => {
   describe('Artist load failure', () => {
     beforeAll((done) => {
       const thunk = loadArtist('AR1');
-      thunk(dispatch, null, { spotifyApi: failureApi, actions }).then(done);
+      thunk(dispatch, emptyGetState, { spotifyApi: failureApi, actions }).then(done);
     });
 
     it('calls api method', () => {
