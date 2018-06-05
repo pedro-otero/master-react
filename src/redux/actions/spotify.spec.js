@@ -1,4 +1,4 @@
-import {setPlaybackInfo, loadPlaybackInfo, loadAlbum, loadArtist, loadTrack} from './spotify';
+import { setPlaybackInfo, loadPlaybackInfo, loadAlbum, loadArtist, loadTrack } from './spotify';
 
 describe('Spotify actions', () => {
   const dispatch = jest.fn();
@@ -15,7 +15,9 @@ describe('Spotify actions', () => {
     })),
     getAlbum: jest.fn(() => Promise.resolve({ body: {} })),
     getArtist: jest.fn(() => Promise.resolve({ body: {} })),
-    getTrack: jest.fn(() => Promise.resolve({ body: {} })),
+    getTrack: jest.fn(() => Promise.resolve({
+      body: playbackInfo.item,
+    })),
   };
   const failureApi = {
     getCurrentPlayback: jest.fn(() => Promise.reject(Error())),
@@ -347,11 +349,19 @@ describe('Spotify actions', () => {
     });
 
     it('forwards response', () => {
-      expect(response.body).toEqual({});
+      expect(response.body).toEqual(playbackInfo.item);
     });
 
     it('calls api method', () => {
       expect(successApi.getTrack).toHaveBeenCalledWith('T1');
+    });
+
+    it('calls actions.loadArtist', () => {
+      expect(actions.loadArtist).toHaveBeenCalledWith('AR1');
+    });
+
+    it('calls actions.loadAlbum', () => {
+      expect(actions.loadAlbum).toHaveBeenCalledWith('AL1');
     });
 
     it('informs load started', () => {
@@ -359,7 +369,7 @@ describe('Spotify actions', () => {
     });
 
     it('informs load failed', () => {
-      expect(actions.setTrack).toHaveBeenCalledWith('T1', {});
+      expect(actions.setTrack).toHaveBeenCalledWith('T1', playbackInfo.item);
     });
 
     afterAll(() => {
