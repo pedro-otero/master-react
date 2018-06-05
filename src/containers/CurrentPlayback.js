@@ -5,7 +5,6 @@ import { Redirect } from 'react-router-dom';
 
 import './CurrentPlayback.css';
 import EmptyPlayback from '../components/empty-playback';
-import { loadPlaybackInfo } from '../redux/actions/spotify';
 
 export class CurrentPlayback extends React.Component {
   render() {
@@ -25,12 +24,8 @@ const mapStateToProps = ({ playbackInfo }) => ({
   track: playbackInfo && playbackInfo.item ? playbackInfo.item : null,
 });
 
-const mapDispatchToProps = dispatch => ({
-  loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
-});
-
 CurrentPlayback.propTypes = {
   track: PropTypes.object,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CurrentPlayback);
+export default connect(mapStateToProps)(CurrentPlayback);
