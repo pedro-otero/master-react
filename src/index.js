@@ -24,7 +24,7 @@ if (user.isAuthenticated()) {
       <Router>
         <Route
             path="/"
-            render={() => <App backend={backend} />}
+            render={() => <App onUnmount={backend.stopAllSearches} />}
             />
       </Router>
     </Provider>,

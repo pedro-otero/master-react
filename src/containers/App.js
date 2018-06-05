@@ -21,6 +21,10 @@ export class App extends React.Component {
     this.getPlaybackData();
   }
 
+  componentWillUnmount() {
+    this.props.onUnmount();
+  }
+
   getPlaybackData() {
     this.props.loadPlaybackInfo().then(() => {}, this.addError).catch(this.addError);
   }
@@ -62,6 +66,7 @@ const mapDispatchToProps = dispatch => ({
 
 App.propTypes = {
   loadPlaybackInfo: PropTypes.func.isRequired,
+  onUnmount: PropTypes.func.isRequired,
   playbackInfo: PropTypes.object,
   searches: PropTypes.object.isRequired,
   setSearchResult: PropTypes.func.isRequired,
