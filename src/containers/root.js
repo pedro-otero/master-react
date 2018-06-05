@@ -10,38 +10,46 @@ import TrackDetails from '../components/track-details';
 import { loadSearchResult } from '../redux/actions/backend';
 
 class Root extends React.Component {
+  constructor(props) {
+    super(props);
+    this.getAlbum = this.getAlbum.bind(this);
+    this.getTrack = this.getTrack.bind(this);
+  }
   getPlaybackData() {
     this.props.loadPlaybackInfo();
+    return <CurrentPlayback />;
+  }
+
+  getAlbum({ match }) {
+    const { store } = this.props;
+    const albumId = match.params.id;
+    store.dispatch(loadAlbum(albumId));
+    store.dispatch(loadSearchResult(albumId));
+    return <Album albumId={match.params.id} />;
+  }
+
+  getTrack({ match }) {
+    const { store } = this.props;
+    store.dispatch(loadTrack(match.params.id));
+    return <TrackDetails trackId={match.params.id} />;
   }
 
   render() {
-    const { store } = this.props;
-    return <Provider store={store}>
+    return <Provider store={this.props.store}>
       <Router>
         <span>
           <Route
               exact
               path="/"
-              render={() => {
-                this.getPlaybackData();
-                return <CurrentPlayback />;
-              }}
+              render={this.getPlaybackData}
           />
           <Route
               path="/track/:id"
-              render={({ match }) => {
-                store.dispatch(loadTrack(match.params.id));
-                return <TrackDetails trackId={match.params.id} />;
-              }}
+              render={this.getTrack}
           />
           <Route
               path="/album/:id"
-              render={({ match }) => {
-                const albumId = match.params.id;
-                store.dispatch(loadAlbum(albumId));
-                store.dispatch(loadSearchResult(albumId));
-                return <Album albumId={match.params.id} />;
-              }}
+              render={this.getAlbum}
           />
         </span>
       </Router>
