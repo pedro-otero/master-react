@@ -27,6 +27,7 @@ describe('Spotify actions', () => {
     setAlbum: jest.fn(),
     loadAlbum: jest.fn(),
     setTrack: jest.fn(),
+    loadSearchResult: jest.fn(),
   };
   const clearActionMocks = () => {
     actions.setArtist.mockClear();
@@ -34,6 +35,7 @@ describe('Spotify actions', () => {
     actions.setAlbum.mockClear();
     actions.loadAlbum.mockClear();
     actions.setTrack.mockClear();
+    actions.loadSearchResult.mockClear();
   };
 
   it('SET_PLAYBACK_INFO', () => {
@@ -58,9 +60,12 @@ describe('Spotify actions', () => {
       expect(response.body).toEqual(playbackInfo);
     });
 
-
     it('calls api method', () => {
       expect(successApi.getCurrentPlayback).toHaveBeenCalled();
+    });
+
+    it('calls loadSearchResult', () => {
+      expect(actions.loadSearchResult).toHaveBeenCalledWith('AL1');
     });
 
     it('informs load started', () => {

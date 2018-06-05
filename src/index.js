@@ -10,22 +10,21 @@ import registerServiceWorker from './registerServiceWorker';
 import configureStore from './redux/store';
 import App from './containers/App';
 
-import getBackend from './api/backend';
+import Backend from './api/backend';
 import getUser from './user';
 
-const Backend = getBackend(request, `${process.env.REACT_APP_BE_DOMAIN}/data/album`, 1000);
-const backend = new Backend();
+const backend = new Backend(request, `${process.env.REACT_APP_BE_DOMAIN}/data/album`, 1000);
 const user = getUser(SpotifyWebApi, window);
 
 registerServiceWorker();
 if (user.isAuthenticated()) {
-  const store = configureStore(user.getApi());
+  const store = configureStore(user.getApi(), backend);
   ReactDOM.render(
     <Provider store={store}>
       <Router>
         <Route
             path="/"
-            render={() => <App backend={backend} />}
+            render={() => <App onUnmount={backend.stopAllSearches} />}
             />
       </Router>
     </Provider>,

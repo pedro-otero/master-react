@@ -1,4 +1,4 @@
-import getBackEndConstructor from './backend';
+import Backend from './backend';
 
 let pollTimes = 0;
 const progresses = [30, 60, 100];
@@ -17,8 +17,7 @@ const getMock = jest.fn(id => ({
 const mockRequest = {
   get: getMock,
 };
-const Backend = getBackEndConstructor(mockRequest, 'http://myapp.com', 0);
-const backend = new Backend();
+const backend = new Backend(mockRequest, 'http://myapp.com', 0);
 
 describe('Backend', () => {
   it('emits error if there is an error from the server', (done) => {
@@ -81,5 +80,20 @@ describe('Backend', () => {
       );
     subscription.unsubscribe();
     expect(global.clearTimeout.mock.calls).toEqual([[undefined]]);
+  });
+
+  it('registers timers', (done) => {
+    backend.getCredits('POLL').subscribe(() => {
+      expect(backend.timers.POLL).toBeDefined();
+      done();
+    });
+  });
+
+  it('stops all searches', (done) => {
+    backend.getCredits('POLL').subscribe(() => {
+      backend.stopAllSearches();
+      expect(backend.timers.POLL).not.toBeDefined();
+      done();
+    });
   });
 });

@@ -22,24 +22,11 @@ export class App extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.creditsObservable) {
-      this.creditsObservable.unsubscribe();
-    }
+    this.props.onUnmount();
   }
 
   getPlaybackData() {
-    this.props.loadPlaybackInfo().then(({ body }) => {
-      if (body && body.item) {
-        this.getCredits(body.item.album.id);
-      }
-    }, this.addError).catch(this.addError);
-  }
-
-  getCredits(id) {
-    this.creditsObservable = this.props.backend.getCredits(id)
-      .subscribe((response) => {
-        this.props.setSearchResult(response.id, response);
-      }, this.addError);
+    this.props.loadPlaybackInfo().then(() => {}, this.addError).catch(this.addError);
   }
 
   addError({ message }) {
@@ -78,8 +65,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 App.propTypes = {
-  backend: PropTypes.object.isRequired,
   loadPlaybackInfo: PropTypes.func.isRequired,
+  onUnmount: PropTypes.func.isRequired,
   playbackInfo: PropTypes.object,
   searches: PropTypes.object.isRequired,
   setSearchResult: PropTypes.func.isRequired,

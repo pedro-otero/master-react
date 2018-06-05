@@ -8,6 +8,7 @@ export const loadPlaybackInfo = () => (dispatch, getState, { spotifyApi, actions
   return spotifyApi.getCurrentPlayback().then((response) => {
     dispatch(setPlaybackInfo(response.body));
     if (response.body) {
+      dispatch(actions.loadSearchResult(response.body.item.album.id));
       dispatch(actions.setTrack(response.body.item.id, response.body.item));
       dispatch(actions.loadArtist(response.body.item.artists[0].id));
       dispatch(actions.loadAlbum(response.body.item.album.id));
