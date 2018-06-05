@@ -88,4 +88,12 @@ describe('Backend', () => {
       done();
     });
   });
+
+  it('stops all searches', (done) => {
+    backend.getCredits('POLL').subscribe(() => {
+      backend.stopAllSearches();
+      expect(backend.timers.POLL).not.toBeDefined();
+      done();
+    });
+  });
 });

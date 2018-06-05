@@ -14,21 +14,26 @@ export default class Backend {
       const receive = (err, res) => {
         if (err) {
           subscriber.error(err);
+        } else if (res.body.progress === 100) {
+          subscriber.next(res.body);
+          subscriber.complete();
         } else {
-          if (res.body.progress === 100) {
-            subscriber.next(res.body);
-            subscriber.complete();
-          } else {
-            timer = setTimeout(() => retrieve(receive), pollFreq);
-            this.timers[albumId] = timer;
-            subscriber.next(res.body);
-          }
+          timer = setTimeout(() => retrieve(receive), pollFreq);
+          this.timers[albumId] = timer;
+          subscriber.next(res.body);
         }
       };
       retrieve(receive);
       return () => {
         clearTimeout(timer);
       };
+    });
+  }
+
+  stopAllSearches() {
+    Object.keys(this.timers).forEach((id) => {
+      clearTimeout(id);
+      delete this.timers[id];
     });
   }
 }
