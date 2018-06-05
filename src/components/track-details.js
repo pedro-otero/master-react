@@ -93,21 +93,23 @@ const mapStateToProps = ({
   const props = {};
   if (tracks[trackId]) {
     const track = tracks[trackId];
-    Object.assign(props, { track });
-    const album = albums[track.album.id];
-    if (album && album !== 'LOADING' && album !== 'FAILED') {
-      Object.assign(props, { album });
-    }
-    const artist = artists[track.artists[0].id];
-    if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
-      Object.assign(props, { artist });
-    }
-    const search = searches[track.album.id];
-    if (search && search !== 'LOADING' && search !== 'FAILED') {
-      Object.assign(props, {
-        bestMatch: search.bestMatch.tracks.find(t => t.id === track.id),
-        progress: search.progress,
-      });
+    if (track && track !== 'LOADING' && track !== 'FAILED') {
+      Object.assign(props, { track });
+      const album = albums[track.album.id];
+      if (album && album !== 'LOADING' && album !== 'FAILED') {
+        Object.assign(props, { album });
+      }
+      const artist = artists[track.artists[0].id];
+      if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
+        Object.assign(props, { artist });
+      }
+      const search = searches[track.album.id];
+      if (search && search !== 'LOADING' && search !== 'FAILED') {
+        Object.assign(props, {
+          bestMatch: search.bestMatch.tracks.find(t => t.id === track.id),
+          progress: search.progress,
+        });
+      }
     }
   }
   return props;
