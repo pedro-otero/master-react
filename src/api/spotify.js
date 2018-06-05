@@ -14,5 +14,6 @@ export default (SpotifyWebApi, location) => ({ clientId, redirectUri }) => {
     getCurrentPlayback: () => api.getMyCurrentPlaybackState().then(success, error),
     getAlbum: id => api.getAlbum(id).then(success, error),
     getArtist: id => api.getArtist(id).then(success, error),
+    getTrack: id => api.getTrack(id).then(success, error),
   };
 };
