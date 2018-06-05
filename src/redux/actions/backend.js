@@ -1,7 +1,7 @@
 export const loadSearchResult = id => (dispatch, getState, { backend, actions }) => {
   const search = getState().searches[id];
   if (!search || search === 'FAILED') {
-    dispatch(actions.setSearchResult('AL1', 'LOADING'));
+    dispatch(actions.setSearchResult(id, 'LOADING'));
     backend.getCredits(id)
       .subscribe((response) => {
         dispatch(actions.setSearchResult(id, response));
