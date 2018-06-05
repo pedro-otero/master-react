@@ -20,7 +20,7 @@ export default (ApiClass, window) => ({
   getAuthUrl: () => `${process.env.REACT_APP_SPOTIFY_AUTHORIZE_URL}?${[
     ['client_id', process.env.REACT_APP_SPOTIFY_CLIENT_ID],
     ['response_type', 'token'],
-    ['redirect_uri', window.location.href],
+    ['redirect_uri', window.location.origin],
     ['state', 'reactApp'],
     ['scope', process.env.REACT_APP_SPOTIFY_SCOPES],
     ['show_dialog', 'false'],
@@ -28,7 +28,7 @@ export default (ApiClass, window) => ({
   getApi: () => {
     const CustomApi = SpotifyCustomApiFactory(ApiClass, window.location);
     return CustomApi({
-      redirectUri: window.location.href,
+      redirectUri: window.location.origin,
       clientId: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
     });
   },

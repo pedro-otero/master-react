@@ -4,7 +4,7 @@ describe('Auth module', () => {
   const emptyHashWindow = {
     location: {
       hash: '',
-      href: 'http://frontend.org',
+      origin: 'http://frontend.org',
     },
   };
 
