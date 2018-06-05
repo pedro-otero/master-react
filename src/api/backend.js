@@ -1,6 +1,6 @@
 import * as Rx from 'rxjs';
 
-export default (request, url, pollFreq) => function Backend() {
+export default function Backend(request, url, pollFreq) {
   this.getCredits = albumId => Rx.Observable.create((subscriber) => {
     let timer;
     const retrieve = receive => request.get(`${url}/${albumId}`).end(receive);
@@ -21,4 +21,4 @@ export default (request, url, pollFreq) => function Backend() {
       clearTimeout(timer);
     };
   });
-};
+}

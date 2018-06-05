@@ -1,4 +1,4 @@
-import getBackEndConstructor from './backend';
+import Backend from './backend';
 
 let pollTimes = 0;
 const progresses = [30, 60, 100];
@@ -17,8 +17,7 @@ const getMock = jest.fn(id => ({
 const mockRequest = {
   get: getMock,
 };
-const Backend = getBackEndConstructor(mockRequest, 'http://myapp.com', 0);
-const backend = new Backend();
+const backend = new Backend(mockRequest, 'http://myapp.com', 0);
 
 describe('Backend', () => {
   it('emits error if there is an error from the server', (done) => {
