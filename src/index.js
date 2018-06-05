@@ -25,8 +25,9 @@ if (user.isAuthenticated()) {
       <Router>
         <span>
           <Route
+              exact
               path="/"
-              render={() => <CurrentPlayback onUnmount={backend.stopAllSearches} />}
+              render={() => <CurrentPlayback onUnmount={() => backend.stopAllSearches} />}
             />
           <Route
               path="/album/:id"
