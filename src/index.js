@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import configureStore from './redux/store';
-import App from './containers/App';
+import CurrentPlayback from './containers/CurrentPlayback';
 import Album from './components/album';
 
 import Backend from './api/backend';
@@ -26,7 +26,7 @@ if (user.isAuthenticated()) {
         <span>
           <Route
               path="/"
-              render={() => <App onUnmount={backend.stopAllSearches} />}
+              render={() => <CurrentPlayback onUnmount={backend.stopAllSearches} />}
             />
           <Route
               path="/album/:id"

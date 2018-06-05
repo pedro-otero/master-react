@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import TrackDetails from '../components/track-details';
-import './App.css';
+import './CurrentPlayback.css';
 import EmptyPlayback from '../components/empty-playback';
 import generateCreator from '../redux/actions/generate-creator';
 import { loadPlaybackInfo } from '../redux/actions/spotify';
 
 const setSearchResult = generateCreator('SET_SEARCH_RESULT');
 
-export class App extends React.Component {
+export class CurrentPlayback extends React.Component {
   constructor(props) {
     super(props);
     this.addError = this.addError.bind(this);
@@ -64,7 +64,7 @@ const mapDispatchToProps = dispatch => ({
   loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
 });
 
-App.propTypes = {
+CurrentPlayback.propTypes = {
   loadPlaybackInfo: PropTypes.func.isRequired,
   onUnmount: PropTypes.func.isRequired,
   playbackInfo: PropTypes.object,
@@ -72,4 +72,4 @@ App.propTypes = {
   setSearchResult: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(CurrentPlayback);
