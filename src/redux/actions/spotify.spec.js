@@ -9,11 +9,12 @@ describe('Spotify actions', () => {
       album: { id: 'AL1' },
     },
   };
+  const album = { artists: [{ id: 'AR1' }] };
   const successApi = {
     getCurrentPlayback: jest.fn(() => Promise.resolve({
       body: playbackInfo,
     })),
-    getAlbum: jest.fn(() => Promise.resolve({ body: {} })),
+    getAlbum: jest.fn(() => Promise.resolve({ body: album })),
     getArtist: jest.fn(() => Promise.resolve({ body: {} })),
     getTrack: jest.fn(() => Promise.resolve({
       body: playbackInfo.item,
@@ -204,7 +205,7 @@ describe('Spotify actions', () => {
     });
 
     it('forwards response', () => {
-      expect(response.body).toEqual({});
+      expect(response.body).toEqual(album);
     });
 
     it('calls api method', () => {
@@ -215,8 +216,12 @@ describe('Spotify actions', () => {
       expect(actions.setAlbum).toHaveBeenCalledWith('AL1', 'LOADING');
     });
 
-    it('informs load failed', () => {
-      expect(actions.setAlbum).toHaveBeenCalledWith('AL1', {});
+    it('calls actions.loadArtist', () => {
+      expect(actions.loadArtist).toHaveBeenCalledWith('AR1');
+    });
+
+    it('informs load succeded', () => {
+      expect(actions.setAlbum).toHaveBeenCalledWith('AL1', album);
     });
 
     afterAll(() => {
@@ -287,7 +292,6 @@ describe('Spotify actions', () => {
       expect(actions.setArtist).toHaveBeenCalledWith('AR1', 'LOADING');
     });
 
-
     it('informs load finished', () => {
       expect(actions.setArtist).toHaveBeenCalledWith('AR1', {});
     });
@@ -354,10 +358,6 @@ describe('Spotify actions', () => {
 
     it('calls api method', () => {
       expect(successApi.getTrack).toHaveBeenCalledWith('T1');
-    });
-
-    it('calls actions.loadArtist', () => {
-      expect(actions.loadArtist).toHaveBeenCalledWith('AR1');
     });
 
     it('calls actions.loadAlbum', () => {

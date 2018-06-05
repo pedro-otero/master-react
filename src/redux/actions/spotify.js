@@ -26,6 +26,8 @@ export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => 
     return spotifyApi
       .getAlbum(id).then((response) => {
         dispatch(actions.setAlbum(id, response.body));
+        const artistId = response.body.artists[0].id;
+        dispatch(actions.loadArtist(artistId));
         return response;
       }, () => dispatch(actions.setAlbum(id, 'FAILED')));
   }
@@ -54,8 +56,6 @@ export const loadTrack = id => (dispatch, getState, { spotifyApi, actions }) => 
         dispatch(actions.setTrack(id, response.body));
         const albumId = response.body.album.id;
         dispatch(actions.loadSearchResult(albumId));
-        const artistId = response.body.artists[0].id;
-        dispatch(actions.loadArtist(artistId));
         dispatch(actions.loadAlbum(albumId));
         return response;
       }, () => dispatch(actions.setTrack(id, 'FAILED')));
