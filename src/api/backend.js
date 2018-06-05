@@ -3,6 +3,7 @@ import * as Rx from 'rxjs';
 export default class Backend {
   constructor(request, url, pollFreq) {
     this.opts = { request, url, pollFreq };
+    this.timers = [];
   }
 
   getCredits(albumId) {
@@ -14,11 +15,13 @@ export default class Backend {
         if (err) {
           subscriber.error(err);
         } else {
-          subscriber.next(res.body);
           if (res.body.progress === 100) {
+            subscriber.next(res.body);
             subscriber.complete();
           } else {
             timer = setTimeout(() => retrieve(receive), pollFreq);
+            this.timers[albumId] = timer;
+            subscriber.next(res.body);
           }
         }
       };
