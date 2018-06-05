@@ -24,14 +24,12 @@ export default class Backend {
         }
       };
       retrieve(receive);
-      return () => {
-        clearTimeout(timer);
-      };
+      return this.stopSearch.bind(this, albumId);
     });
   }
 
   stopSearch(id) {
-    clearTimeout(id);
+    clearTimeout(this.timers[id]);
     delete this.timers[id];
   }
 
