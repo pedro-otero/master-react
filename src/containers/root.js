@@ -5,8 +5,9 @@ import { connect, Provider } from 'react-redux';
 
 import CurrentPlayback from '../containers/CurrentPlayback';
 import Album from '../components/album';
-import { loadPlaybackInfo } from '../redux/actions/spotify';
+import { loadAlbum, loadPlaybackInfo } from '../redux/actions/spotify';
 import TrackDetails from '../components/track-details';
+import { loadSearchResult } from '../redux/actions/backend';
 
 class Root extends React.Component {
   componentDidMount() {
@@ -41,7 +42,12 @@ class Root extends React.Component {
           />
           <Route
               path="/album/:id"
-              render={({ match }) => <Album albumId={match.params.id} />}
+              render={({ match }) => {
+                const albumId = match.params.id;
+                store.dispatch(loadAlbum(albumId));
+                store.dispatch(loadSearchResult(albumId));
+                return <Album albumId={match.params.id} />;
+              }}
           />
         </span>
       </Router>
