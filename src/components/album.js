@@ -32,11 +32,14 @@ export const Album = ({ artist, album, search }) => {
       {search.progress < 100 && <Progress
           size="small"
           value={search.progress} />}
-      {album.tracks.items.map((fromSpotify, i) => <TrackItem
-          key={`${album.id}-${fromSpotify.id}`}
-          fromSearch={search.bestMatch.tracks[i]}
-          fromSpotify={fromSpotify}
-          number={i + 1} />)}
+      <ol>
+        {album.tracks.items.map((fromSpotify, i) => (
+          <li key={`${album.id}-${fromSpotify.id}`}>
+            <TrackItem
+                fromSearch={search.bestMatch.tracks[i]}
+                fromSpotify={fromSpotify} />
+          </li>))}
+      </ol>
     </Fragment>}
   </Fragment>;
 };

@@ -9,16 +9,11 @@
     flex-direction: row;
 }
 
-.track-item-number {
-    text-align: right;
-    flex: 1;
-}
-
 .track-item-name {
-    flex: 17;
+    flex: 7;
     margin: 0 0.5em;
 }
 
 .track-item-duration {
-    flex: 2;
+    flex: 1;
 }

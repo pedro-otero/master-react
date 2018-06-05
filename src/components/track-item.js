@@ -11,10 +11,9 @@ function duration(millis) {
 }
 
 const TrackItem = ({
-  number, fromSpotify: { name, duration_ms: millis }, fromSearch: { composers },
+  fromSpotify: { name, duration_ms: millis }, fromSearch: { composers },
 }) => <div className="track-item-div">
   <div>
-    <div className="track-item-number">{number}</div>
     <div className="track-item-name">
       <div>{name}</div>
       <Composers list={composers} />
@@ -26,7 +25,6 @@ const TrackItem = ({
 TrackItem.propTypes = {
   fromSearch: PropTypes.object.isRequired,
   fromSpotify: PropTypes.object.isRequired,
-  number: PropTypes.number.isRequired,
 };
 
 export default TrackItem;
