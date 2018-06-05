@@ -59,14 +59,14 @@ const mapStateToProps = ({
     const album = albums[albumId];
     if (album && album !== 'LOADING' && album !== 'FAILED') {
       Object.assign(props, { album });
+      const artist = artists[album.artists[0].id];
+      if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
+        Object.assign(props, { artist });
+      }
     }
     const search = searches[albumId];
     if (search && search !== 'LOADING' && search !== 'FAILED') {
       Object.assign(props, { search });
-    }
-    const artist = artists[album.artists[0].id];
-    if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
-      Object.assign(props, { artist });
     }
   }
   return props;
