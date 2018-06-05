@@ -322,6 +322,22 @@ describe('Spotify actions', () => {
     });
   });
 
+  it('Avoids to load artists already into state', (done) => {
+    const thunk = loadArtist('AR1');
+    thunk(null, () => ({ artists: { AR1: {} } }), { spotifyApi: successApi }).then(() => {
+      expect(successApi.getArtist).not.toBeCalled();
+      done();
+    });
+  });
+
+  it('Reloads a failed artist', (done) => {
+    const thunk = loadArtist('AR1');
+    thunk(dispatch, () => ({ artists: { AR1: 'FAILED' } }), { spotifyApi: successApi, actions }).then(() => {
+      expect(successApi.getArtist).toBeCalled();
+      done();
+    });
+  });
+
   describe('Artist load failure', () => {
     beforeAll((done) => {
       const thunk = loadArtist('AR1');
