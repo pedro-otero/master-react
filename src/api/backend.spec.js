@@ -11,8 +11,6 @@ const getMock = jest.fn(id => ({
     } else if (id === 'http://myapp.com/POLL') {
       f(null, { body: { id, bestMatch: {}, progress: progresses[pollTimes] } });
       pollTimes += 1;
-    } else if (id === 'http://myapp.com/TIMERS') {
-      f(null, { body: { id, bestMatch: {}, progress: 50 } });
     }
   },
 }));
@@ -85,8 +83,8 @@ describe('Backend', () => {
   });
 
   it('registers timers', (done) => {
-    backend.getCredits('TIMERS').subscribe(() => {
-      expect(backend.timers.TIMERS).toBeDefined();
+    backend.getCredits('POLL').subscribe(() => {
+      expect(backend.timers.POLL).toBeDefined();
       done();
     });
   });
