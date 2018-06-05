@@ -249,6 +249,22 @@ describe('Spotify actions', () => {
     });
   });
 
+  it('Avoids to load albums already into state', (done) => {
+    const thunk = loadAlbum('AL1');
+    thunk(null, () => ({ albums: { AL1: {} } }), { spotifyApi: successApi }).then(() => {
+      expect(successApi.getAlbum).not.toBeCalled();
+      done();
+    });
+  });
+
+  it('Reloads a failed album', (done) => {
+    const thunk = loadAlbum('AL1');
+    thunk(dispatch, () => ({ albums: { AL1: 'FAILED' } }), { spotifyApi: successApi, actions }).then(() => {
+      expect(successApi.getAlbum).toBeCalled();
+      done();
+    });
+  });
+
   describe('Album load failure', () => {
     beforeAll((done) => {
       const thunk = loadAlbum('AL1');

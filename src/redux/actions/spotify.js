@@ -26,12 +26,16 @@ export const loadPlaybackInfo = () => (dispatch, getState, { spotifyApi, actions
 };
 
 export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => {
-  dispatch(actions.setAlbum(id, 'LOADING'));
-  return spotifyApi
-    .getAlbum(id).then((response) => {
-      dispatch(actions.setAlbum(id, response.body));
-      return response;
-    }, () => dispatch(actions.setAlbum(id, 'FAILED')));
+  const album = getState().albums[id];
+  if (!album || album === 'FAILED') {
+    dispatch(actions.setAlbum(id, 'LOADING'));
+    return spotifyApi
+      .getAlbum(id).then((response) => {
+        dispatch(actions.setAlbum(id, response.body));
+        return response;
+      }, () => dispatch(actions.setAlbum(id, 'FAILED')));
+  }
+  return Promise.resolve(album);
 };
 
 export const loadArtist = id => (dispatch, getState, { spotifyApi, actions }) => {
