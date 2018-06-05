@@ -14,7 +14,7 @@ const TrackItem = ({
   fromSpotify: { name, duration_ms: millis }, fromSearch: { composers },
 }) => <div className="track-item-div">
   <div>
-    <div>
+    <div className="track-item-center-block">
       <div className="track-item-name">{name}</div>
       <Composers list={composers} />
     </div>
