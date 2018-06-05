@@ -220,7 +220,7 @@ describe('Spotify actions', () => {
     });
   });
 
-  it('Avoids to load albums already into state', (done) => {
+  it('Avoids to load albums already in state', (done) => {
     const thunk = loadAlbum('AL1');
     thunk(null, () => ({ albums: { AL1: {} } }), { spotifyApi: successApi }).then(() => {
       expect(successApi.getAlbum).not.toBeCalled();
@@ -293,7 +293,7 @@ describe('Spotify actions', () => {
     });
   });
 
-  it('Avoids to load artists already into state', (done) => {
+  it('Avoids to load artists already in state', (done) => {
     const thunk = loadArtist('AR1');
     thunk(null, () => ({ artists: { AR1: {} } }), { spotifyApi: successApi }).then(() => {
       expect(successApi.getArtist).not.toBeCalled();
