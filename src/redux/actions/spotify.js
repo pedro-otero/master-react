@@ -44,3 +44,16 @@ export const loadArtist = id => (dispatch, getState, { spotifyApi, actions }) =>
   }
   return Promise.resolve(artist);
 };
+
+export const loadTrack = id => (dispatch, getState, { spotifyApi, actions }) => {
+  const track = getState().tracks[id];
+  if (!track || track === 'FAILED') {
+    dispatch(actions.setTrack(id, 'LOADING'));
+    return spotifyApi
+      .getTrack(id).then((response) => {
+        dispatch(actions.setTrack(id, response.body));
+        return response;
+      }, () => dispatch(actions.setTrack(id, 'FAILED')));
+  }
+  return Promise.resolve(track);
+};

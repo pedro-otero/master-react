@@ -4,7 +4,7 @@ import thunkMiddleware from 'redux-thunk';
 import generateReducer from '../reducers/generate-reducer';
 import generateCreator from '../actions/generate-creator';
 import setPlaybackInfo from '../reducers/spotify';
-import { loadArtist, loadAlbum } from '../actions/spotify';
+import { loadArtist, loadAlbum, loadTrack } from '../actions/spotify';
 import { loadSearchResult } from '../actions/backend';
 
 const setAlbum = generateCreator('SET_ALBUM');
@@ -28,6 +28,7 @@ const store = (spotifyApi, backend) => createStore(
       setAlbum,
       setArtist,
       loadArtist,
+      loadTrack,
       loadAlbum,
       loadSearchResult,
       setSearchResult,

@@ -1,4 +1,4 @@
-import { setPlaybackInfo, loadPlaybackInfo, loadAlbum, loadArtist } from './spotify';
+import {setPlaybackInfo, loadPlaybackInfo, loadAlbum, loadArtist, loadTrack} from './spotify';
 
 describe('Spotify actions', () => {
   const dispatch = jest.fn();
@@ -15,11 +15,13 @@ describe('Spotify actions', () => {
     })),
     getAlbum: jest.fn(() => Promise.resolve({ body: {} })),
     getArtist: jest.fn(() => Promise.resolve({ body: {} })),
+    getTrack: jest.fn(() => Promise.resolve({ body: {} })),
   };
   const failureApi = {
     getCurrentPlayback: jest.fn(() => Promise.reject(Error())),
     getAlbum: jest.fn(() => Promise.reject(Error())),
     getArtist: jest.fn(() => Promise.reject(Error())),
+    getTrack: jest.fn(() => Promise.reject(Error())),
   };
   const actions = {
     setArtist: jest.fn(),
@@ -41,6 +43,7 @@ describe('Spotify actions', () => {
     searches: { },
     albums: { },
     artists: { },
+    tracks: { },
   });
 
   it('SET_PLAYBACK_INFO', () => {
@@ -329,6 +332,78 @@ describe('Spotify actions', () => {
 
     afterAll(() => {
       failureApi.getArtist.mockClear();
+      clearActionMocks();
+    });
+  });
+
+  describe('Succesful track load', () => {
+    let response;
+    beforeAll((done) => {
+      const thunk = loadTrack('T1');
+      thunk(dispatch, emptyGetState, { spotifyApi: successApi, actions }).then((resolution) => {
+        response = resolution;
+        done();
+      });
+    });
+
+    it('forwards response', () => {
+      expect(response.body).toEqual({});
+    });
+
+    it('calls api method', () => {
+      expect(successApi.getTrack).toHaveBeenCalledWith('T1');
+    });
+
+    it('informs load started', () => {
+      expect(actions.setTrack).toHaveBeenCalledWith('T1', 'LOADING');
+    });
+
+    it('informs load failed', () => {
+      expect(actions.setTrack).toHaveBeenCalledWith('T1', {});
+    });
+
+    afterAll(() => {
+      successApi.getTrack.mockClear();
+      clearActionMocks();
+    });
+  });
+
+  it('Avoids to load tracks already in state', (done) => {
+    const thunk = loadTrack('T1');
+    thunk(null, () => ({ tracks: { T1: {} } }), { spotifyApi: successApi }).then(() => {
+      expect(successApi.getTrack).not.toBeCalled();
+      done();
+    });
+  });
+
+  it('Reloads a failed track', (done) => {
+    const thunk = loadTrack('T1');
+    thunk(dispatch, () => ({ tracks: { T1: 'FAILED' } }), { spotifyApi: successApi, actions }).then(() => {
+      expect(successApi.getTrack).toBeCalled();
+      done();
+    });
+  });
+
+  describe('Track load failure', () => {
+    beforeAll((done) => {
+      const thunk = loadTrack('T1');
+      thunk(dispatch, emptyGetState, { spotifyApi: failureApi, actions }).then(done);
+    });
+
+    it('calls api method', () => {
+      expect(failureApi.getTrack).toHaveBeenCalledWith('T1');
+    });
+
+    it('informs load started', () => {
+      expect(actions.setTrack).toHaveBeenCalledWith('T1', 'LOADING');
+    });
+
+    it('informs load failed', () => {
+      expect(actions.setTrack).toHaveBeenCalledWith('T1', 'FAILED');
+    });
+
+    afterAll(() => {
+      failureApi.getTrack.mockClear();
       clearActionMocks();
     });
   });
