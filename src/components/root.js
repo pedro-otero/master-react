@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect, Provider } from 'react-redux';
 
-import CurrentPlayback from '../containers/CurrentPlayback';
-import Album from '../components/album';
+import CurrentPlayback from './current-playback/CurrentPlayback';
+import Album from './album/album';
 import { loadAlbum, loadPlaybackInfo, loadTrack } from '../redux/actions/spotify';
-import TrackDetails from '../components/track-details';
+import TrackDetails from './track-details/track-details';
 import { loadSearchResult } from '../redux/actions/backend';
 
 class Root extends React.Component {

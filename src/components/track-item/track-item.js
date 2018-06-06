@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import './track-item.css';
-import Composers from './composers';
+import Composers from '../composers/composers';
 
 function duration(millis) {
   const minutes = Math.floor(millis / 60000);

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import './CurrentPlayback.css';
-import EmptyPlayback from '../components/empty-playback';
+import EmptyPlayback from '../empty-playback/empty-playback';
 
 export class CurrentPlayback extends React.Component {
   render() {

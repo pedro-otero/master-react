@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
-import JointList from './joint-list';
+import JointList from '../joint-list/joint-list';
 import './composers.css';
 
 const Composers = ({ list }) => <JointList
