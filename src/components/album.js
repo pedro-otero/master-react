@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import './album.css';
 import Banner from './banner';
 import Cover from './cover';
 import Label from './label';
@@ -12,27 +13,27 @@ export const Album = ({ artist, album, search }) => {
   const artistImg = artist && artist.images.length ? artist.images[0].url : undefined;
   return <Fragment>
     {artist && album &&
-      <Banner
-          src={artistImg}
-          className="content">
-        <Cover
-            album={album}
-            imageClass="albumCover"
-            yearClass="albumYear" />
-        <div>
-          <Label
-              className="artistName"
-              value={album.artists[0].name} />
-          <Label
-              className="trackName"
-              value={album.name} />
-        </div>
-      </Banner>}
+    <Banner
+        src={artistImg}
+        className="content">
+      <Cover
+          album={album}
+          imageClass="albumCover"
+          yearClass="albumYear" />
+      <div>
+        <Label
+            className="artistName"
+            value={album.artists[0].name} />
+        <Label
+            className="trackName"
+            value={album.name} />
+      </div>
+    </Banner>}
     {album && search && <Fragment>
       {search.progress < 100 && <Progress
           size="small"
           value={search.progress} />}
-      <ol>
+      <ol className="tracklist">
         {album.tracks.items.map((fromSpotify, i) => (
           <li key={`${album.id}-${fromSpotify.id}`}>
             <TrackItem
