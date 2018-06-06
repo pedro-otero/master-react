@@ -124,13 +124,6 @@
     }
 }
 
-body {
-    background-color: black;
-    color: white;
-    font-family: sans-serif;
-    margin: 0;
-}
-
 .albumYear {
     font-size: small;
     padding-top: 2px;
