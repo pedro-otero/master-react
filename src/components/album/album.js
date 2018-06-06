@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import './album.css';
-import Banner from './banner';
-import Cover from './cover';
-import Label from './label';
-import TrackItem from './track-item';
-import Progress from './progress';
+import Banner from '../banner/banner';
+import Cover from '../cover/cover';
+import Label from '../label/label';
+import TrackItem from '../track-item/track-item';
+import Progress from '../progress/progress';
 
 export const Album = ({ artist, album, search }) => {
   const artistImg = artist && artist.images.length ? artist.images[0].url : undefined;

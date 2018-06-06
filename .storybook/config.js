@@ -4,7 +4,7 @@ import { configure } from '@storybook/react';
 import '../src/index.css';
 
 function loadStories() {
-  require('../src/components/track-item.stories.js');
+  require('../src/components/track-item/track-item.stories.js');
 }
 
 configure(loadStories, module);

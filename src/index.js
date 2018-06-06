@@ -9,7 +9,7 @@ import configureStore from './redux/store';
 
 import Backend from './api/backend';
 import getUser from './user';
-import Root from './containers/root';
+import Root from './components/root';
 
 const backend = new Backend(request, `${process.env.REACT_APP_BE_DOMAIN}/data/album`, 1000);
 const user = getUser(SpotifyWebApi, window);

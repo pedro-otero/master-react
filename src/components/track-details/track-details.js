@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import './track-details.css';
-import LoadingCircle from './loading-circle';
-import Progress from './progress';
-import Credits from './credits';
-import Label from './label';
-import Cover from './cover';
-import Banner from './banner';
-import Composers from './composers';
-import Producers from './producers';
+import LoadingCircle from '../loading-circle/loading-circle';
+import Progress from '../progress/progress';
+import Credits from '../credits/credits';
+import Label from '../label/label';
+import Cover from '../cover/cover';
+import Banner from '../banner/banner';
+import Composers from '../composers/composers';
+import Producers from '../producers/producers';
 
 export const TrackDetails = ({
   track,
