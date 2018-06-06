@@ -3,11 +3,11 @@ import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import * as Rx from 'rxjs';
 
-import { App } from './App';
+import { CurrentPlayback } from './CurrentPlayback';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-describe('App container', () => {
+describe('Current playback component', () => {
   describe('gets all playback data', () => {
     const playbackInfo = {
       item: {
@@ -44,7 +44,7 @@ describe('App container', () => {
 
     let wrapper;
     beforeAll(() => {
-      wrapper = shallow(<App
+      wrapper = shallow(<CurrentPlayback
           loadPlaybackInfo={loadPlaybackInfo}
           setSearchResult={setSearchResult}
           searches={{}}
@@ -87,12 +87,12 @@ describe('App container', () => {
     let wrapper;
     let errorsSpy;
     beforeAll(() => {
-      wrapper = shallow(<App
+      wrapper = shallow(<CurrentPlayback
           loadPlaybackInfo={loadPlaybackInfo}
           searches={{}}
           setSearchResult={jest.fn()}
           backend={backend} />);
-      errorsSpy = jest.spyOn(App.prototype, 'addError');
+      errorsSpy = jest.spyOn(CurrentPlayback.prototype, 'addError');
     });
 
     it('Calls #getCurrentPlayback on mount', () => {

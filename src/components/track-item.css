@@ -1,0 +1,27 @@
+.track-item-div {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5em 0 1em 0;
+}
+
+.track-item-center-block {
+    display: flex;
+    flex-direction: column;
+    flex: 7;
+    margin-right: 0.5em;
+}
+
+.track-item-div > div:first-child {
+    display: flex;
+    flex-direction: row;
+}
+
+.track-item-name {
+    font-weight: bold;
+    margin-bottom: 0.3em;
+}
+
+.track-item-duration {
+    font-weight: bold;
+    flex: 1;
+}
