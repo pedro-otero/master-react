@@ -47,9 +47,10 @@ export const TrackDetails = ({
           to={`/album/${album.id}`}
           className="RR-link">
         <Cover
-            album={album}
-            imageClass="albumCover"
-            yearClass="albumYear" />
+          src={album.images[0].url}
+          imageClass="albumCover"
+          year={album.release_date.substring(0, 4)}
+          yearClass="albumYear" />
       </Link>
       <div>
         <Label

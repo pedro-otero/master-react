@@ -4,29 +4,28 @@ import PropTypes from 'prop-types';
 import './cover.css';
 
 const Cover = ({
-  album: {
-    images,
-    release_date: releaseDate,
-  },
+  src,
+  year,
   imageClass,
   yearClass,
 }) => {
   const jointImageClass = `image${imageClass ? ` ${imageClass}` : ''}`;
   const jointYearClass = `year${yearClass ? ` ${yearClass}` : ''}`;
-  const imageStyle = { backgroundImage: `url(${images[0].url})` };
+  const imageStyle = { backgroundImage: `url(${src})` };
 
   return <div
       className={jointImageClass}
       style={imageStyle}>
     <span className={jointYearClass}>
-      {releaseDate.substring(0, 4)}
+      {year}
     </span>
   </div>;
 };
 
 Cover.propTypes = {
-  album: PropTypes.object.isRequired,
   imageClass: PropTypes.string,
+  src: PropTypes.string.isRequired,
+  year: PropTypes.string.isRequired,
   yearClass: PropTypes.string,
 };
 
