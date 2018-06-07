@@ -14,14 +14,17 @@ import Composers from '../composers/composers';
 import Producers from '../producers/producers';
 
 export const TrackDetails = ({
-  track,
-  bestMatch,
+  name,
   artist,
-  album,
+  albumId,
+  image,
+  background,
+  year,
+  bestMatch,
   progress,
 }) => {
   const status = (() => {
-    if (!track && !artist && !album) {
+    if (!name) {
       return 'empty';
     }
     if (typeof progress === 'undefined') {
@@ -36,36 +39,33 @@ export const TrackDetails = ({
     return 'with-credits';
   })();
 
-  const artistImg = artist && artist.images.length ? artist.images[0].url : undefined;
-
   return <article>
-    {track && artist && album &&
     <Banner
-        src={artistImg}
+        src={background}
         className="content">
       <Link
-          to={`/album/${album.id}`}
+          to={`/album/${albumId}`}
           className="RR-link">
         <Cover
-          src={album.images[0].url}
-          imageClass="albumCover"
-          year={album.release_date.substring(0, 4)}
-          yearClass="albumYear" />
+            src={image}
+            imageClass="albumCover"
+            year={year}
+            yearClass="albumYear" />
       </Link>
       <div>
         <Label
             className="artistName"
-            value={track.artists[0].name} />
+            value={artist} />
         <Label
             className="trackName"
-            value={track.name} />
+            value={name} />
         {bestMatch && <span>
           <Composers list={bestMatch.composers} />
           <br />
           <Producers list={bestMatch.producers} />
         </span>}
       </div>
-    </Banner>}
+    </Banner>
     {status === 'empty' && <LoadingCircle message="Loading data from Spotify..." />}
     {status === 'search-not-started' && <LoadingCircle message="Starting search..." />}
     {status === 'with-credits' &&
@@ -81,11 +81,14 @@ export const TrackDetails = ({
 };
 
 TrackDetails.propTypes = {
-  album: PropTypes.object,
-  artist: PropTypes.object,
+  albumId: PropTypes.string,
+  artist: PropTypes.string,
+  background: PropTypes.string,
   bestMatch: PropTypes.object,
+  image: PropTypes.string,
+  name: PropTypes.string,
   progress: PropTypes.number,
-  track: PropTypes.object,
+  year: PropTypes.string,
 };
 
 const mapStateToProps = ({
@@ -95,14 +98,23 @@ const mapStateToProps = ({
   if (tracks[trackId]) {
     const track = tracks[trackId];
     if (track && track !== 'LOADING' && track !== 'FAILED') {
-      Object.assign(props, { track });
+      Object.assign(props, {
+        name: track.name,
+        albumId: track.album.id,
+        artist: track.artists[0].name,
+      });
       const album = albums[track.album.id];
       if (album && album !== 'LOADING' && album !== 'FAILED') {
-        Object.assign(props, { album });
+        Object.assign(props, {
+          image: album.images[0].url,
+          year: album.release_date.substring(0, 4),
+        });
       }
       const artist = artists[track.artists[0].id];
       if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
-        Object.assign(props, { artist });
+        Object.assign(props, {
+          background: artist.images.length ? artist.images[0].url : '',
+        });
       }
       const search = searches[track.album.id];
       if (search && search !== 'LOADING' && search !== 'FAILED') {
