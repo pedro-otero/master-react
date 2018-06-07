@@ -4,10 +4,7 @@ import Adapter from 'enzyme-adapter-react-16';
 
 import { TrackDetails } from './track-details';
 
-const track = { artists: [{}] };
 const credits = { composers: [], producers: [], credits: {} };
-const artist = { images: [{ url: 'ImgUrl' }] };
-const album = { release_date: '', images: [{}] };
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -31,93 +28,73 @@ describe('TrackDetails component', () => {
 
   it('displays the search not started loading circle', () => {
     wrapper.setProps({
-      track,
-      album,
-      artist,
+      name: 'Track name',
     });
     expect(wrapper.find('LoadingCircle[message="Starting search..."]')).toHaveLength(1);
   });
 
   it('displays the banner', () => {
     wrapper.setProps({
-      track,
-      album,
-      artist,
+      name: 'Track name',
+      background: 'ImgUrl',
     });
     expect(wrapper.find('Banner').prop('src')).toEqual('ImgUrl');
   });
 
   it('does not break when artist has no images', () => {
-    wrapper.setProps({
-      track,
-      artist: { images: [] },
-      album,
-    });
     expect(wrapper.find('Banner').prop('src')).toBeUndefined();
   });
 
   it('displays big progress indicator', () => {
     wrapper.setProps({
+      name: 'Track',
       bestMatch: credits,
       progress: 0,
-      track: Object.assign({}, track, { id: 'T1' }),
-      album,
-      artist,
     });
     expect(wrapper.find('Progress[size="big"]')).toHaveLength(1);
   });
 
   it('does not display small progress indicator', () => {
     wrapper.setProps({
+      name: 'Track',
       bestMatch: credits,
       progress: 0,
-      track: Object.assign({}, track, { id: 'T1' }),
-      album,
-      artist,
     });
     expect(wrapper.find('Progress[size="small"]')).toHaveLength(0);
   });
 
   it('does not display big progress indicator', () => {
     wrapper.setProps({
+      name: 'Track',
       bestMatch: Object.assign({}, credits, { credits: { P1: ['R1', 'R2'] } }),
       progress: 10,
-      track: Object.assign({}, track, { id: 'T1' }),
-      album,
-      artist,
     });
     expect(wrapper.find('Progress[size="big"]')).toHaveLength(0);
   });
 
   it('displays small progress indicator', () => {
     wrapper.setProps({
+      name: 'Track',
       bestMatch: Object.assign({}, credits, { credits: { P1: ['R1', 'R2'] } }),
       progress: 10,
-      track: Object.assign({}, track, { id: 'T1' }),
-      album,
-      artist,
     });
     expect(wrapper.find('Progress[size="small"]')).toHaveLength(1);
   });
 
   it('does not display big progress indicator', () => {
     wrapper.setProps({
+      name: 'Track',
       bestMatch: Object.assign({}, credits, { credits: { P1: ['R1', 'R2'] } }),
       progress: 100,
-      track: Object.assign({}, track, { id: 'T1' }),
-      album,
-      artist,
     });
     expect(wrapper.find('Progress[className="big-progress"]')).toHaveLength(0);
   });
 
   it('does not display small progress indicator', () => {
     wrapper.setProps({
+      name: 'Track',
       bestMatch: Object.assign({}, credits, { credits: { P1: ['R1', 'R2'] } }),
       progress: 100,
-      track: Object.assign({}, track, { id: 'T1' }),
-      album,
-      artist,
     });
     expect(wrapper.find('Progress[className="small-progress"]')).toHaveLength(0);
   });
