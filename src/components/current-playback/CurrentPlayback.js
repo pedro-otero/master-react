@@ -8,12 +8,12 @@ import EmptyPlayback from '../empty-playback/empty-playback';
 
 export class CurrentPlayback extends React.Component {
   render() {
-    const { track } = this.props;
+    const { id } = this.props;
     return (
       <div>
-        {!track && <EmptyPlayback />}
-        {track && <Redirect
-            to={`/track/${track.id}`}
+        {!id && <EmptyPlayback />}
+        {id && <Redirect
+            to={`/track/${id}`}
             push />}
       </div>
     );
@@ -21,11 +21,11 @@ export class CurrentPlayback extends React.Component {
 }
 
 const mapStateToProps = ({ playbackInfo }) => ({
-  track: playbackInfo && playbackInfo.item ? playbackInfo.item : null,
+  id: playbackInfo && playbackInfo.item ? playbackInfo.item.id : null,
 });
 
 CurrentPlayback.propTypes = {
-  track: PropTypes.object,
+  id: PropTypes.string,
 };
 
 export default connect(mapStateToProps)(CurrentPlayback);
