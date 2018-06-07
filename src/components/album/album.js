@@ -17,8 +17,9 @@ export const Album = ({ artist, album, search }) => {
         src={artistImg}
         className="content">
       <Cover
-          album={album}
+          src={album.images[0].url}
           imageClass="albumCover"
+          year={album.release_date.substring(0, 4)}
           yearClass="albumYear" />
       <div>
         <Label
