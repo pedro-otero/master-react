@@ -13,8 +13,8 @@ describe('Album component', () => {
 
   it('renders banner', () => {
     const wrapper = shallow(<Album
-        album={{ artists: [{}], images: [{}], release_date: '' }}
-        artist={{ images: [{}] }} />);
+        artist="Someone"
+        name="album" />);
     expect(wrapper.find('Banner').length).toEqual(1);
   });
 });

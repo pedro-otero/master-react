@@ -9,55 +9,58 @@ import Label from '../label/label';
 import TrackItem from '../track-item/track-item';
 import Progress from '../progress/progress';
 
-export const Album = ({ artist, album, search }) => {
-  const artistImg = artist && artist.images.length ? artist.images[0].url : undefined;
-
-  return <Fragment>
-    {artist && album &&
+export const Album = ({
+  artistImg, albumImg, tracks, progress, year, name, artist, searchTracks,
+}) => <Fragment>
+  {artist && name &&
     <Banner
         src={artistImg}
         className="content">
       <Cover
-          src={album.images[0].url}
+          src={albumImg}
           imageClass="albumCover"
-          year={album.release_date.substring(0, 4)}
+          year={year}
           yearClass="albumYear" />
       <div>
         <Label
             className="artistName"
-            value={album.artists[0].name} />
+            value={artist} />
         <Label
             className="trackName"
-            value={album.name} />
+            value={name} />
       </div>
     </Banner>}
-    {album && search && <Fragment>
-      {search.progress < 100 && <Progress
+  {name && searchTracks && <Fragment>
+      {progress < 100 && <Progress
           size="small"
-          value={search.progress} />}
-      <ol className="tracklist">
-        {album.tracks.items.map((fromSpotify, i) => {
-          const { composers } = search.bestMatch.tracks[i];
-          const { name, duration_ms: millis, id } = fromSpotify;
-          return <li key={`${album.id}-${fromSpotify.id}`}>
+          value={progress} />}
+    <ol className="tracklist">
+      {tracks.map((fromSpotify, i) => {
+          const { composers } = searchTracks[i];
+          const { name: trackName, duration_ms: millis, id } = fromSpotify;
+          return <li key={`${trackName}-${id}`}>
             <TrackItem
                 id={id}
-                name={name}
+                name={trackName}
                 millis={millis}
                 composers={composers}
             />
           </li>;
         })}
-      </ol>
+    </ol>
     </Fragment>}
-  </Fragment>;
-};
+</Fragment>;
 
 Album.propTypes = {
-  album: PropTypes.object,
-  artist: PropTypes.object,
+  albumImg: PropTypes.string,
+  artist: PropTypes.string,
+  artistImg: PropTypes.string,
   id: PropTypes.string.isRequired,
-  search: PropTypes.object,
+  name: PropTypes.string,
+  progress: PropTypes.number,
+  searchTracks: PropTypes.array,
+  tracks: PropTypes.array,
+  year: PropTypes.string,
 };
 
 const mapStateToProps = ({
@@ -67,15 +70,26 @@ const mapStateToProps = ({
   if (albums[albumId]) {
     const album = albums[albumId];
     if (album && album !== 'LOADING' && album !== 'FAILED') {
-      Object.assign(props, { album });
+      Object.assign(props, {
+        albumImg: album.images.length ? album.images[0].url : null,
+        artist: album.artists[0].name,
+        name: album.name,
+        tracks: album.tracks.items,
+        year: album.release_date.substring(0, 4),
+      });
       const artist = artists[album.artists[0].id];
       if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
-        Object.assign(props, { artist });
+        Object.assign(props, {
+          artistImg: artist.images[0].url,
+        });
       }
     }
     const search = searches[albumId];
     if (search && search !== 'LOADING' && search !== 'FAILED') {
-      Object.assign(props, { search });
+      Object.assign(props, {
+        progress: search.progress,
+        searchTracks: search.bestMatch.tracks,
+      });
     }
   }
   return props;
