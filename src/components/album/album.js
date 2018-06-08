@@ -11,6 +11,7 @@ import Progress from '../progress/progress';
 
 export const Album = ({ artist, album, search }) => {
   const artistImg = artist && artist.images.length ? artist.images[0].url : undefined;
+
   return <Fragment>
     {artist && album &&
     <Banner
@@ -35,12 +36,18 @@ export const Album = ({ artist, album, search }) => {
           size="small"
           value={search.progress} />}
       <ol className="tracklist">
-        {album.tracks.items.map((fromSpotify, i) => (
-          <li key={`${album.id}-${fromSpotify.id}`}>
+        {album.tracks.items.map((fromSpotify, i) => {
+          const { composers } = search.bestMatch.tracks[i];
+          const { name, duration_ms: millis, id } = fromSpotify;
+          return <li key={`${album.id}-${fromSpotify.id}`}>
             <TrackItem
-                fromSearch={search.bestMatch.tracks[i]}
-                fromSpotify={fromSpotify} />
-          </li>))}
+                id={id}
+                name={name}
+                millis={millis}
+                composers={composers}
+            />
+          </li>;
+        })}
       </ol>
     </Fragment>}
   </Fragment>;

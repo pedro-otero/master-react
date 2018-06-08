@@ -12,7 +12,7 @@ function duration(millis) {
 }
 
 const TrackItem = ({
-  fromSpotify: { name, duration_ms: millis, id }, fromSearch: { composers },
+  name, millis, id, composers,
 }) =>
   <Link
       to={`/track/${id}`}
@@ -29,8 +29,10 @@ const TrackItem = ({
   </Link>;
 
 TrackItem.propTypes = {
-  fromSearch: PropTypes.object.isRequired,
-  fromSpotify: PropTypes.object.isRequired,
+  composers: PropTypes.array.isRequired,
+  id: PropTypes.string.isRequired,
+  millis: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 export default TrackItem;

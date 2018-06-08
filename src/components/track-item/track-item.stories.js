@@ -11,11 +11,7 @@ storiesOf('Track item', module)
   ))
   .add('With composers', () => (
     <TrackItem
-        fromSearch={{
-      composers: ['The one', 'The other'],
-    }}
-        fromSpotify={{
-    name: 'Hot New Track',
-    duration_ms: 25693579,
-  }} />
+        composers={['The one', 'The other']}
+        name='Hot New Track'
+        millis={25693579} />
   ));

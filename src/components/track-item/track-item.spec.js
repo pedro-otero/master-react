@@ -8,8 +8,9 @@ Enzyme.configure({ adapter: new Adapter() });
 
 describe('Track item component', () => {
   const wrapper = shallow(<TrackItem
-      fromSearch={{ composers: ['C1'] }}
-      fromSpotify={{ name: 'Track', duration_ms: 1000 }} />);
+      composers={['C1']}
+      name= 'Track'
+      millis={ 1000 } />);
 
   it('renders name', () => {
     expect(wrapper.find('div[className="track-item-name"]').text()).toEqual('Track');
