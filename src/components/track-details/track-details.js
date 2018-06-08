@@ -12,6 +12,7 @@ import Cover from '../cover/cover';
 import Banner from '../banner/banner';
 import Composers from '../composers/composers';
 import Producers from '../producers/producers';
+import ArtistWork from '../artist-work/artist-work';
 
 export const TrackDetails = ({
   name,
@@ -40,32 +41,19 @@ export const TrackDetails = ({
   })();
 
   return <article>
-    <Banner
-        src={background}
-        className="content">
-      <Link
-          to={`/album/${albumId}`}
-          className="RR-link">
-        <Cover
-            src={image}
-            imageClass="albumCover"
-            year={year}
-            yearClass="albumYear" />
-      </Link>
-      <div>
-        <Label
-            className="artistName"
-            value={artist} />
-        <Label
-            className="trackName"
-            value={name} />
-        {bestMatch && <span>
-          <Composers list={bestMatch.composers} />
-          <br />
-          <Producers list={bestMatch.producers} />
-        </span>}
-      </div>
-    </Banner>
+    <ArtistWork
+        title={name}
+        artist={artist}
+        year={year}
+        image={image}
+        background={background}
+        path={`/album/${albumId}`}>
+      {bestMatch && <span>
+        <Composers list={bestMatch.composers} />
+        <br />
+        <Producers list={bestMatch.producers} />
+      </span>}
+    </ArtistWork>
     {status === 'empty' && <LoadingCircle message="Loading data from Spotify..." />}
     {status === 'search-not-started' && <LoadingCircle message="Starting search..." />}
     {status === 'with-credits' &&
