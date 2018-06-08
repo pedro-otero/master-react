@@ -1,15 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import './track-details.css';
 import LoadingCircle from '../loading-circle/loading-circle';
 import Progress from '../progress/progress';
 import Credits from '../credits/credits';
-import Label from '../label/label';
-import Cover from '../cover/cover';
-import Banner from '../banner/banner';
 import Composers from '../composers/composers';
 import Producers from '../producers/producers';
 import ArtistWork from '../artist-work/artist-work';
