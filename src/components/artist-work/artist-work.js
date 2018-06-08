@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -11,21 +11,24 @@ import './artist-work.css';
 const ArtistWork = ({
   title, artist, background, image, year, children, path,
 }) => {
+  const CustomCover = <Cover
+      src={image}
+      imageClass="image"
+      year={year}
+      yearClass="albumYear" />;
+
   const CoverWrap = path ?
-    ({ children }) => <Link
+    <Link
         to={path}
-        className="RR-link">{children}</Link> :
-    ({ children }) => <Fragment>{children}</Fragment>;
+        className="RR-link">
+      {CustomCover}
+    </Link> :
+    CustomCover;
+
   return <Banner
       src={background}
       className="content">
-    <CoverWrap>
-      <Cover
-          src={image}
-          imageClass="image"
-          year={year}
-          yearClass="albumYear" />
-    </CoverWrap>
+    {CoverWrap}
     <div>
       <Label
           className="artistName"
