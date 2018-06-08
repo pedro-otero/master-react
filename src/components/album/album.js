@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import './album.css';
-import Banner from '../banner/banner';
-import Cover from '../cover/cover';
-import Label from '../label/label';
+import ArtistWork from '../artist-work/artist-work';
 import TrackItem from '../track-item/track-item';
 import Progress from '../progress/progress';
 
@@ -13,23 +11,12 @@ export const Album = ({
   artistImg, albumImg, tracks, progress, year, name, artist, searchTracks,
 }) => <Fragment>
   {artist && name &&
-    <Banner
-        src={artistImg}
-        className="content">
-      <Cover
-          src={albumImg}
-          imageClass="albumCover"
-          year={year}
-          yearClass="albumYear" />
-      <div>
-        <Label
-            className="artistName"
-            value={artist} />
-        <Label
-            className="trackName"
-            value={name} />
-      </div>
-    </Banner>}
+  <ArtistWork
+      title={name}
+      artist={artist}
+      year={year}
+      image={artistImg}
+      background={albumImg} />}
   {name && searchTracks && <Fragment>
       {progress < 100 && <Progress
           size="small"

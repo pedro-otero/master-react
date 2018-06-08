@@ -38,11 +38,7 @@ describe('TrackDetails component', () => {
       name: 'Track name',
       background: 'ImgUrl',
     });
-    expect(wrapper.find('Banner').prop('src')).toEqual('ImgUrl');
-  });
-
-  it('does not break when artist has no images', () => {
-    expect(wrapper.find('Banner').prop('src')).toBeUndefined();
+    expect(wrapper.find('ArtistWork').prop('title')).toEqual('Track name');
   });
 
   it('displays big progress indicator', () => {

@@ -3,8 +3,10 @@ import { configure } from '@storybook/react';
 
 import '../src/index.css';
 
+const req = require.context('../src/components', true, /\.stories\.js$/)
+
 function loadStories() {
-  require('../src/components/track-item/track-item.stories.js');
+  req.keys().forEach(req);
 }
 
 configure(loadStories, module);
