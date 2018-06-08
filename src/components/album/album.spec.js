@@ -15,6 +15,6 @@ describe('Album component', () => {
     const wrapper = shallow(<Album
         artist="Someone"
         name="album" />);
-    expect(wrapper.find('Banner').length).toEqual(1);
+    expect(wrapper.find('ArtistWork').length).toEqual(1);
   });
 });
