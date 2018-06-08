@@ -17,4 +17,12 @@ storiesOf('Artist Work', module)
         background="https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a"
         year="2018"
         path="/some/place" />
+  ))
+  .add('With no path to link to', () => (
+    <ArtistWork
+        artist="The Same Band"
+        title="Another Work"
+        image="https://i.scdn.co/image/20fccd3b7b907c57a1f8a21660843bac5967b5e8"
+        background="https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a"
+        year="2018" />
   ));
