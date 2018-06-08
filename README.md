@@ -10,7 +10,7 @@ Configuration variables need to be set in a `.env.local` file. Since this projec
 
 |Name|Description|
 |----|-----------|
-|REACT_APP_BE_DOMAIN|Domain where the backend is. If you're running locally `crews-be` with the default port, is likely `localhost:3001` (this app runs on 3000). If you want to hit the one deployed at Netlify, it's `https://crews.netlify.com/`
+|REACT_APP_BE_DOMAIN|Domain where the backend is. If you're running locally `crews-be` with the default port, is likely `localhost:3001` (this app runs on 3000). If you want to hit the one deployed at Heroku, it's `https://crews-be.herokuapp.com`
 |REACT_APP_SPOTIFY_CLIENT_ID|Given by Spotify when creating a [new application][2]|
 |REACT_APP_SPOTIFY_SCOPES|Scopes to authenticate the app for. As of May 2018, `user-read-playback-state user-read-currently-playing` should suffice|
 |REACT_APP_SPOTIFY_AUTHORIZE_URL|Url where the app redirects to authenticate. As of May 2018 it should be `https://accounts.spotify.com/authorize`. If it were to change, you'd probably find it at the [Spotify docs][2]
