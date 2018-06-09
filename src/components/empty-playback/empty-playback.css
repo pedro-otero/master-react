@@ -1,4 +1,5 @@
 .emptyPlaybackMessage {
+    margin: 1em;
 }
 
 .emptyPlaybackMessage > p:first-of-type {
@@ -12,4 +13,14 @@
 
 i[class="em-svg em-thinking_face"] {
     font-size: xx-large;
+}
+
+.try-again-button {
+    width: 100%;
+    text-align: center;
+    background-color: #1db954;
+    margin: 0;
+    padding: 1em;
+    box-sizing: border-box;
+    font-weight: bold;
 }
