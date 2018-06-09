@@ -9,7 +9,7 @@ describe('Spotify actions', () => {
       album: { id: 'AL1' },
     },
   };
-  const album = { artists: [{ id: 'AR1' }] };
+  const album = { id: 'AL1', artists: [{ id: 'AR1' }], tracks: { items: [{ id: 'T1' }] } };
   const successApi = {
     getCurrentPlayback: jest.fn(() => Promise.resolve({
       body: playbackInfo,
@@ -218,6 +218,10 @@ describe('Spotify actions', () => {
 
     it('calls actions.loadArtist', () => {
       expect(actions.loadArtist).toHaveBeenCalledWith('AR1');
+    });
+
+    it('calls actions.setTrack', () => {
+      expect(actions.setTrack).toHaveBeenCalledWith('T1', { id: 'T1', album: { id: 'AL1' } });
     });
 
     it('informs load succeded', () => {
