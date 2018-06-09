@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import './cover.css';
 
@@ -9,14 +10,12 @@ const Cover = ({
   imageClass,
   yearClass,
 }) => {
-  const jointImageClass = `image${imageClass ? ` ${imageClass}` : ''}`;
-  const jointYearClass = `year${yearClass ? ` ${yearClass}` : ''}`;
   const imageStyle = { backgroundImage: `url(${src})` };
 
   return <div
-      className={jointImageClass}
+      className={classnames('image', imageClass)}
       style={imageStyle}>
-    <span className={jointYearClass}>
+    <span className={classnames('year', yearClass)}>
       {year}
     </span>
   </div>;
