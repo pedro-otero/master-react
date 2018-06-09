@@ -5,13 +5,15 @@ import { Redirect } from 'react-router-dom';
 
 import './CurrentPlayback.css';
 import EmptyPlayback from '../empty-playback/empty-playback';
+import LoadingCircle from '../loading-circle/loading-circle';
 
 export class CurrentPlayback extends React.Component {
   render() {
-    const { id } = this.props;
+    const { id, loading } = this.props;
     return (
       <div>
-        {!id && <EmptyPlayback />}
+        {loading && <LoadingCircle message="Coming..." />}
+        {(!id && !loading) && <EmptyPlayback />}
         {id && <Redirect
             to={`/track/${id}`}
             push />}
@@ -22,10 +24,12 @@ export class CurrentPlayback extends React.Component {
 
 const mapStateToProps = ({ playbackInfo }) => ({
   id: playbackInfo && playbackInfo.item ? playbackInfo.item.id : null,
+  loading: playbackInfo === 'LOADING',
 });
 
 CurrentPlayback.propTypes = {
   id: PropTypes.string,
+  loading: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(CurrentPlayback);
