@@ -15,8 +15,8 @@ export const Album = ({
       title={name}
       artist={artist}
       year={year}
-      image={artistImg}
-      background={albumImg} />}
+      image={albumImg}
+      background={artistImg} />}
   {name && searchTracks && <Fragment>
       {progress < 100 && <Progress
           size="small"
