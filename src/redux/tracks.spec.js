@@ -1,4 +1,4 @@
-import { loadTrack } from './actions/spotify';
+import { loadTrack } from './tracks';
 
 describe('REDUX: Tracks', () => {
   const dispatch = jest.fn();
