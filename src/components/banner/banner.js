@@ -11,8 +11,10 @@ const Banner = ({ src, className, children }) => {
   });
   return (
     <div className="banner-main">
-      <div className={classnames('banner-content', className)}>
-        {children}
+      <div className="banner-content">
+        <div className={classnames('banner-content', className)}>
+          {children}
+        </div>
       </div>
       <div
           className="banner-background"

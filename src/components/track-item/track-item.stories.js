@@ -9,6 +9,11 @@ storiesOf('Track item', module)
   .addDecorator(story => (
     <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
   ))
+  .add('Without composers', () => (
+    <TrackItem
+        name='Hot New Track'
+        millis={25693579} />
+  ))
   .add('With composers', () => (
     <TrackItem
         composers={['The one', 'The other']}
