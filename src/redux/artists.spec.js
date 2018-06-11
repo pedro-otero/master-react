@@ -1,4 +1,4 @@
-import { loadArtist, setArtist } from './actions/spotify';
+import { loadArtist, setArtist } from './artists';
 
 const playbackInfo = {
   item: {
