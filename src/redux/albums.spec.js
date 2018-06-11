@@ -1,4 +1,4 @@
-import { loadAlbum } from './actions/spotify';
+import { loadAlbum } from './albums';
 
 const dispatch = jest.fn();
 const playbackInfo = {

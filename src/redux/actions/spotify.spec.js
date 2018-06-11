@@ -1,4 +1,4 @@
-import { setPlaybackInfo, loadPlaybackInfo, loadAlbum, loadTrack } from './spotify';
+import { setPlaybackInfo, loadPlaybackInfo, loadTrack } from './spotify';
 
 describe('Spotify actions', () => {
   const dispatch = jest.fn();

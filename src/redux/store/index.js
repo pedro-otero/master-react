@@ -5,9 +5,10 @@ import thunkMiddleware from 'redux-thunk';
 import generateReducer from '../reducers/generate-reducer';
 import generateCreator from '../actions/generate-creator';
 import setPlaybackInfo from '../reducers/spotify';
-import { loadAlbum, loadTrack } from '../actions/spotify';
+import { loadTrack } from '../actions/spotify';
 import { setArtist, startArtistLoad, loadArtist, failArtistLoad } from '../artists';
 import { loadSearchResult } from '../actions/backend';
+import { loadAlbum } from '../albums';
 import { addError, clearErrors, reduce } from '../errors';
 
 const setAlbum = generateCreator('SET_ALBUM');
