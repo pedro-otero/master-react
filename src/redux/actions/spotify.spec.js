@@ -33,6 +33,8 @@ describe('Spotify actions', () => {
     loadAlbum: jest.fn(),
     setTrack: jest.fn(),
     loadSearchResult: jest.fn(),
+    startArtistLoad: jest.fn(),
+    failArtistLoad: jest.fn(),
     addError: jest.fn(),
     clearErrors: jest.fn(),
   };
@@ -43,6 +45,8 @@ describe('Spotify actions', () => {
     actions.loadAlbum.mockClear();
     actions.setTrack.mockClear();
     actions.loadSearchResult.mockClear();
+    actions.startArtistLoad.mockClear();
+    actions.failArtistLoad.mockClear();
     actions.addError.mockClear();
     actions.clearErrors.mockClear();
   };
@@ -305,7 +309,7 @@ describe('Spotify actions', () => {
     });
 
     it('informs load started', () => {
-      expect(actions.setArtist).toHaveBeenCalledWith('AR1', 'LOADING');
+      expect(actions.startArtistLoad).toHaveBeenCalledWith('AR1');
     });
 
     it('informs load finished', () => {
@@ -345,11 +349,11 @@ describe('Spotify actions', () => {
     });
 
     it('informs load started', () => {
-      expect(actions.setArtist).toHaveBeenCalledWith('AR1', 'LOADING');
+      expect(actions.startArtistLoad).toHaveBeenCalledWith('AR1');
     });
 
     it('informs load failed', () => {
-      expect(actions.setArtist).toHaveBeenCalledWith('AR1', 'FAILED');
+      expect(actions.failArtistLoad).toHaveBeenCalledWith('AR1');
     });
 
     it('adds error', () => {
