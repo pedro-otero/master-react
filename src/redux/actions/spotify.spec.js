@@ -452,9 +452,12 @@ describe('Spotify actions', () => {
     expect(action).toEqual({
       type: 'SET_ARTIST',
       data: {
-        name: 'The Artist',
         id: 'AR1',
-        image: 'imgUrl',
+        value: {
+          name: 'The Artist',
+          id: 'AR1',
+          image: 'imgUrl',
+        },
       },
     });
   });
@@ -467,8 +470,11 @@ describe('Spotify actions', () => {
     expect(action).toEqual({
       type: 'SET_ARTIST',
       data: {
-        name: 'The Artist',
         id: 'AR1',
+        value: {
+          name: 'The Artist',
+          id: 'AR1',
+        },
       },
     });
   });
