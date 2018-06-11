@@ -67,7 +67,7 @@ const mapStateToProps = ({
       const artist = artists[album.artists[0].id];
       if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
         Object.assign(props, {
-          artistImg: artist.images[0].url,
+          artistImg: artist.image,
         });
       }
     }

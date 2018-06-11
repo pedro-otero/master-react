@@ -49,13 +49,13 @@ export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => 
 export const loadArtist = id => (dispatch, getState, { spotifyApi, actions }) => {
   const artist = getState().artists[id];
   if (!artist || artist === 'FAILED') {
-    dispatch(actions.setArtist(id, 'LOADING'));
+    dispatch(actions.startArtistLoad(id));
     return spotifyApi
       .getArtist(id).then((response) => {
         dispatch(actions.setArtist(id, response.body));
         return response;
       }, () => {
-        dispatch(actions.setArtist(id, 'FAILED'));
+        dispatch(actions.failArtistLoad(id));
         dispatch(actions.addError('Loading artist failed'));
       });
   }

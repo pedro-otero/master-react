@@ -96,7 +96,7 @@ const mapStateToProps = ({
       const artist = artists[track.artists[0].id];
       if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
         Object.assign(props, {
-          background: artist.images.length ? artist.images[0].url : '',
+          background: artist.image,
         });
       }
       const search = searches[track.album.id];
