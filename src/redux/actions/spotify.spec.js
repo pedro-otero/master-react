@@ -1,4 +1,4 @@
-import { setPlaybackInfo, loadPlaybackInfo, loadAlbum, loadArtist, loadTrack, setArtist } from './spotify';
+import { setPlaybackInfo, loadPlaybackInfo, loadAlbum, loadTrack } from './spotify';
 
 describe('Spotify actions', () => {
   const dispatch = jest.fn();
@@ -443,43 +443,6 @@ describe('Spotify actions', () => {
     afterAll(() => {
       failureApi.getTrack.mockClear();
       clearActionMocks();
-    });
-  });
-
-  it('creates SET_ARTIST action', () => {
-    const action = setArtist('AR1', {
-      name: 'The Artist',
-      images: [{
-        url: 'imgUrl',
-      }],
-    });
-    expect(action).toEqual({
-      type: 'SET_ARTIST',
-      data: {
-        id: 'AR1',
-        value: {
-          name: 'The Artist',
-          id: 'AR1',
-          image: 'imgUrl',
-        },
-      },
-    });
-  });
-
-  it('creates SET_ARTIST action for artists without images', () => {
-    const action = setArtist('AR1', {
-      name: 'The Artist',
-      images: [],
-    });
-    expect(action).toEqual({
-      type: 'SET_ARTIST',
-      data: {
-        id: 'AR1',
-        value: {
-          name: 'The Artist',
-          id: 'AR1',
-        },
-      },
     });
   });
 });
