@@ -81,7 +81,7 @@ export const loadTrack = id => (dispatch, getState, { spotifyApi, actions }) => 
   return Promise.resolve(track);
 };
 
-export const setArtist = ({ id, name, images }) => ({
+export const setArtist = (id, { name, images }) => ({
   type: 'SET_ARTIST',
   data: {
     id, name, image: images.length ? images[0].url : undefined,

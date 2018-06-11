@@ -443,9 +443,8 @@ describe('Spotify actions', () => {
   });
 
   it('creates SET_ARTIST action', () => {
-    const action = setArtist({
+    const action = setArtist('AR1', {
       name: 'The Artist',
-      id: 'AR1',
       images: [{
         url: 'imgUrl',
       }],
@@ -461,9 +460,8 @@ describe('Spotify actions', () => {
   });
 
   it('creates SET_ARTIST action for artists without images', () => {
-    const action = setArtist({
+    const action = setArtist('AR1', {
       name: 'The Artist',
-      id: 'AR1',
       images: [],
     });
     expect(action).toEqual({
