@@ -5,7 +5,8 @@ import thunkMiddleware from 'redux-thunk';
 import generateReducer from '../reducers/generate-reducer';
 import generateCreator from '../actions/generate-creator';
 import setPlaybackInfo from '../reducers/spotify';
-import { loadArtist, loadAlbum, loadTrack, setArtist, startArtistLoad, failArtistLoad } from '../actions/spotify';
+import { loadAlbum, loadTrack, setArtist, startArtistLoad, failArtistLoad } from '../actions/spotify';
+import { loadArtist } from '../artists';
 import { loadSearchResult } from '../actions/backend';
 import { addError, clearErrors, reduce } from '../errors';
 
