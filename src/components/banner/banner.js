@@ -1,26 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import styled from 'styled-components';
 
 import './banner.css';
 
-const Banner = ({ src, className, children }) => {
-  const gradient = 'linear-gradient(rgba(0,0,0,0.1) 65%, black)';
-  const layers = image => ({
-    backgroundImage: `${gradient}, url(${image})`,
-  });
-  return (
-    <div className="banner-main">
-      <div className="banner-content">
-        <div className={classnames('banner-content', className)}>
-          {children}
-        </div>
+const Background = styled.div`
+  width: 100%;
+  margin-bottom: 10px;
+  filter: brightness(0.6) blur(10px);
+  background-position: center;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
+  background-image: linear-gradient(rgba(0,0,0,0.1) 65%, black), url(${props => props.src})
+`;
+
+const Banner = ({ src, className, children }) => (
+  <div className="banner-main">
+    <div className="banner-content">
+      <div className={classnames('banner-content', className)}>
+        {children}
       </div>
-      <div
-          className="banner-background"
-          style={layers(src)}></div>
-    </div>);
-};
+    </div>
+    <Background src={src} />
+  </div>);
 
 Banner.propTypes = {
   children: PropTypes.array.isRequired,

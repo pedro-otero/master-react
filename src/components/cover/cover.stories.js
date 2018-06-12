@@ -7,12 +7,9 @@ import './cover.stories.css';
 
 storiesOf('Cover', module)
   .add('Default', () => (
-    <Cover
-        album={{ images: [{ url: 'https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730' }], release_date: '2004' }}
-        imageClass="image-for-story" />
+    <Cover src="https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730" />
   )).add('With yearClass', () => (
     <Cover
-        album={{ images: [{ url: 'https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730' }], release_date: '2004' }}
-        imageClass="image-for-story"
+        src="https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730"
         yearClass="year-for-story" />
   ));

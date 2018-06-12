@@ -13,7 +13,6 @@ const ArtistWork = ({
 }) => {
   const CustomCover = <Cover
       src={image}
-      imageClass="image"
       year={year}
       yearClass="albumYear" />;
 
