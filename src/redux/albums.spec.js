@@ -1,4 +1,4 @@
-import { loadAlbum } from './albums';
+import { loadAlbum, setAlbum } from './albums';
 
 const dispatch = jest.fn();
 const playbackInfo = {
@@ -130,6 +130,37 @@ describe('REDUX: Albums', () => {
     afterAll(() => {
       failureApi.getAlbum.mockClear();
       clearActionMocks();
+    });
+  });
+
+  it('creates SET_ALBUM action', () => {
+    const action = setAlbum('AL1', {
+      name: 'The Album',
+      artists: [{
+        id: 'AR1',
+      }],
+      images: [{
+        url: 'imgUrl',
+      }],
+      tracks: {
+        items: [{
+          id: 'T1',
+          name: 'Track #1',
+        }],
+      },
+    });
+    expect(action).toEqual({
+      type: 'SET_ALBUM',
+      data: {
+        id: 'AL1',
+        value: {
+          id: 'AL1',
+          name: 'The Album',
+          artist: 'AR1',
+          image: 'imgUrl',
+          tracks: ['T1'],
+        },
+      },
     });
   });
 });

@@ -18,3 +18,25 @@ export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => 
   }
   return Promise.resolve(album);
 };
+
+export const setAlbum = (id, album) => {
+  const {
+    name, artists, images, tracks: { items: pagedTracks },
+  } = album;
+  const image = images[0].url;
+  const artist = artists[0].id;
+  const tracks = pagedTracks.map(track => track.id);
+  return {
+    type: 'SET_ALBUM',
+    data: {
+      id,
+      value: {
+        id,
+        name,
+        artist,
+        image,
+        tracks,
+      },
+    },
+  };
+};
