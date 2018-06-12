@@ -51,23 +51,23 @@ Album.propTypes = {
 };
 
 const mapStateToProps = ({
-  albums, artists, searches,
+  albums, artists, searches, tracks,
 }, { albumId }) => {
   const props = {};
   if (albums[albumId]) {
     const album = albums[albumId];
     if (album && album !== 'LOADING' && album !== 'FAILED') {
       Object.assign(props, {
-        albumImg: album.images.length ? album.images[0].url : null,
-        artist: album.artists[0].name,
+        albumImg: album.image,
         name: album.name,
-        tracks: album.tracks.items,
-        year: album.release_date.substring(0, 4),
+        tracks: album.tracks.map(id => tracks[id]),
+        year: album.year,
       });
-      const artist = artists[album.artists[0].id];
+      const artist = artists[album.artist];
       if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
         Object.assign(props, {
           artistImg: artist.image,
+          artist: artist.name,
         });
       }
     }
