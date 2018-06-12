@@ -8,10 +8,9 @@ import setPlaybackInfo from '../reducers/spotify';
 import { setArtist, startArtistLoad, loadArtist, failArtistLoad } from '../artists';
 import { loadSearchResult } from '../actions/backend';
 import { loadAlbum, startAlbumLoad, failAlbumLoad, setAlbum } from '../albums';
-import { loadTrack } from '../tracks';
+import { loadTrack, setTrack, startTrackLoad, failTrackLoad } from '../tracks';
 import { addError, clearErrors, reduce } from '../errors';
 
-const setTrack = generateCreator('SET_TRACK');
 const setSearchResult = generateCreator('SET_SEARCH_RESULT');
 
 const devTools = global.window.__REDUX_DEVTOOLS_EXTENSION__ &&
@@ -43,6 +42,8 @@ const store = (spotifyApi, backend) => createStore(
       failAlbumLoad,
       loadSearchResult,
       setSearchResult,
+      startTrackLoad,
+      failTrackLoad,
       addError,
       clearErrors,
     },

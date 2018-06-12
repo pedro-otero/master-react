@@ -83,23 +83,23 @@ const mapStateToProps = ({
     if (track && track !== 'LOADING' && track !== 'FAILED') {
       Object.assign(props, {
         name: track.name,
-        albumId: track.album.id,
+        albumId: track.album,
       });
-      const album = albums[track.album.id];
+      const album = albums[track.album];
       if (album && album !== 'LOADING' && album !== 'FAILED') {
         Object.assign(props, {
           image: album.image,
           year: album.year,
         });
       }
-      const artist = artists[track.artists[0].id];
+      const artist = artists[track.artist];
       if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
         Object.assign(props, {
           background: artist.image,
           artist: artist.name,
         });
       }
-      const search = searches[track.album.id];
+      const search = searches[track.album];
       if (search && search !== 'LOADING' && search !== 'FAILED') {
         Object.assign(props, {
           bestMatch: search.bestMatch.tracks.find(t => t.id === track.id),

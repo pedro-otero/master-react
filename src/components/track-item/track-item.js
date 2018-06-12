@@ -6,14 +6,8 @@ import styles from './track-item.css';
 import globalStyles from '../../index.css';
 import Composers from '../composers/composers';
 
-function duration(millis) {
-  const minutes = Math.floor(millis / 60000);
-  const seconds = ((millis % 60000) / 1000).toFixed(0);
-  return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-}
-
 const TrackItem = ({
-  name, millis, id, composers,
+  name, duration, id, composers,
 }) =>
   <Link
       to={`/track/${id}`}
@@ -23,14 +17,14 @@ const TrackItem = ({
         <div className={styles.name}>{name}</div>
         <Composers list={composers} />
       </div>
-      <div className={styles.duration}>{duration(millis)}</div>
+      <div className={styles.duration}>{duration}</div>
     </div>
   </Link>;
 
 TrackItem.propTypes = {
   composers: PropTypes.array.isRequired,
+  duration: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  millis: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
 };
 

@@ -24,12 +24,12 @@ export const Album = ({
     <ol className={styles.tracklist}>
       {tracks.map((fromSpotify, i) => {
           const { composers } = searchTracks[i];
-          const { name: trackName, duration_ms: millis, id } = fromSpotify;
+          const { name: trackName, duration, id } = fromSpotify;
           return <li key={`${trackName}-${id}`}>
             <TrackItem
                 id={id}
                 name={trackName}
-                millis={millis}
+                duration={duration}
                 composers={composers}
             />
           </li>;
