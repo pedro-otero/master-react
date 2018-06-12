@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
@@ -12,6 +13,9 @@ const setArtist = generateCreator('SET_ARTIST');
 const setTrack = generateCreator('SET_TRACK');
 const setSearchResult = generateCreator('SET_SEARCH_RESULT');
 
+const devTools = global.window.__REDUX_DEVTOOLS_EXTENSION__ &&
+  global.window.__REDUX_DEVTOOLS_EXTENSION__();
+
 const store = (spotifyApi, backend) => createStore(
   combineReducers({
     searches: generateReducer('SET_SEARCH_RESULT'),
@@ -20,6 +24,7 @@ const store = (spotifyApi, backend) => createStore(
     artists: generateReducer('SET_ARTIST'),
     playbackInfo: setPlaybackInfo,
   }),
+  devTools,
   applyMiddleware(thunkMiddleware.withExtraArgument({
     spotifyApi,
     backend,
