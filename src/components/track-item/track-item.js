@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import './track-item.css';
+import styles from './track-item.css';
+import globalStyles from '../../index.css';
 import Composers from '../composers/composers';
 
 function duration(millis) {
@@ -16,13 +17,15 @@ const TrackItem = ({
 }) =>
   <Link
       to={`/track/${id}`}
-      className="RR-link">
-    <div className="track-item-div">
-      <div className="track-item-center-block">
-        <div className="track-item-name">{name}</div>
-        <Composers list={composers} />
+      className={globalStyles.RRlink}>
+    <div className={styles.div}>
+      <div>
+        <div className={styles.centerBlock}>
+          <div className={styles.name}>{name}</div>
+          <Composers list={composers} />
+        </div>
+        <div className={styles.duration}>{duration(millis)}</div>
       </div>
-      <div className="track-item-duration">{duration(millis)}</div>
     </div>
   </Link>;
 

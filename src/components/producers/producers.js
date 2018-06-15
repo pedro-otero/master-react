@@ -2,10 +2,10 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import JointList from '../joint-list/joint-list';
-import './producers.css';
+import styles from './producers.css';
 
 const Producers = ({ list }) => <JointList
-    className="producers"
+    className={styles.producers}
     start="["
     values={list}
     end="]" />;

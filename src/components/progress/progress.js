@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
-import './progress.css';
+import styles from './progress.css';
 
 const Progress = ({ size, value }) => (
-  <div className={`progress ${size}-progress`}>
-    <div className="progress-all"></div>
+  <div className={classnames(styles.progress, styles[`${size}-progress`])}>
+    <div className={styles.progressAll}></div>
     <div
-        className="progress-done"
+        className={styles.progressDone}
         style={{ width: `${value}%` }}></div>
   </div>);
 

@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-import './empty-playback.css';
+import styles from './empty-playback.css';
+import globalStyles from '../../index.css';
 
 const EmptyPlayback = () => (
-  <div className="emptyPlaybackMessage">
+  <div className={styles.emptyPlaybackMessage}>
     <div>
       <i className="em-svg em-thinking_face"></i>
     </div>
@@ -13,8 +14,8 @@ const EmptyPlayback = () => (
     <p>Start playing a song, dust it off and...</p>
     <Link
         to="/"
-        className="RR-link">
-      <p className="try-again-button">Try again</p>
+        className={globalStyles.RRlink}>
+      <p className={styles.tryAgainButton}>Try again</p>
     </Link>
   </div>
 );
