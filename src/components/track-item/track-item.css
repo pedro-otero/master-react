@@ -1,6 +1,6 @@
 .track-item-div {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin: 0.5em 0 1em 0;
 }
 
@@ -9,11 +9,6 @@
     flex-direction: column;
     flex: 7;
     margin-right: 0.5em;
-}
-
-.track-item-div > div:first-child {
-    display: flex;
-    flex-direction: row;
 }
 
 .track-item-name {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const JointList = ({
   values, start, end, className,
 }) => {
-  if (!values.length) {
+  if (!values || !values.length) {
     return null;
   }
   return (
@@ -16,7 +16,7 @@ JointList.propTypes = {
   className: PropTypes.string,
   end: PropTypes.string,
   start: PropTypes.string,
-  values: PropTypes.array.isRequired,
+  values: PropTypes.array,
 };
 
 export default JointList;
