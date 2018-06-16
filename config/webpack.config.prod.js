@@ -12,6 +12,7 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
+const scopedCssConfig = require('./scopedCssConfig');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -136,19 +137,7 @@ module.exports = {
               compact: true,
             },
           },
-          {
-            test: /\.css$/,
-            use: [
-              { loader: 'style-loader' },
-              {
-                loader: require.resolve('css-loader'),
-                options: {
-                  modules: true,
-                  localIdentName: '[path]___[name]__[local]___[hash:base64:5]',
-                },
-              },
-            ],
-          },
+          scopedCssConfig,
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.
           // This loader doesn't use a "test" so it will catch all modules

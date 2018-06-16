@@ -11,6 +11,7 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
+const scopedCssConfig = require('./scopedCssConfig');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -21,6 +22,7 @@ const publicPath = '/';
 const publicUrl = '';
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
+
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
@@ -134,19 +136,7 @@ module.exports = {
               cacheDirectory: true,
             },
           },
-          {
-            test: /\.css$/,
-            use: [
-              { loader: 'style-loader' },
-              {
-                loader: require.resolve('css-loader'),
-                options: {
-                  modules: true,
-                  localIdentName: '[path]___[name]__[local]___[hash:base64:5]',
-                },
-              },
-            ],
-          },
+          scopedCssConfig,
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.
           // In production, they would get copied to the `build` folder.
