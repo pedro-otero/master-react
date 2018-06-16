@@ -18,13 +18,11 @@ const TrackItem = ({
       to={`/track/${id}`}
       className="RR-link">
     <div className="track-item-div">
-      <div>
-        <div className="track-item-center-block">
-          <div className="track-item-name">{name}</div>
-          <Composers list={composers} />
-        </div>
-        <div className="track-item-duration">{duration(millis)}</div>
+      <div className="track-item-center-block">
+        <div className="track-item-name">{name}</div>
+        <Composers list={composers} />
       </div>
+      <div className="track-item-duration">{duration(millis)}</div>
     </div>
   </Link>;
 
