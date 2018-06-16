@@ -16,14 +16,9 @@ describe('Banner component', () => {
     expect(wrapper.find('div[className="banner-main"]').length).toEqual(1);
   });
 
-  it('renders the background', () => {
-    const wrapper = shallow(<Banner src="..."></Banner>);
-    expect(wrapper.find('div[className="banner-background"]').length).toEqual(1);
-  });
-
   it('renders the content', () => {
     const wrapper = shallow(<Banner src="..."></Banner>);
-    expect(wrapper.find('div[className="banner-content"]').length).toEqual(1);
+    expect(wrapper.find('div[className="banner-content"]').length).toEqual(2);
   });
 
   it('renders the content with an additional class', () => {
