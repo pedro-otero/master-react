@@ -19,13 +19,11 @@ const TrackItem = ({
       to={`/track/${id}`}
       className={globalStyles.RRlink}>
     <div className={styles.div}>
-      <div>
-        <div className={styles.centerBlock}>
-          <div className={styles.name}>{name}</div>
-          <Composers list={composers} />
-        </div>
-        <div className={styles.duration}>{duration(millis)}</div>
+      <div className={styles.centerBlock}>
+        <div className={styles.name}>{name}</div>
+        <Composers list={composers} />
       </div>
+      <div className={styles.duration}>{duration(millis)}</div>
     </div>
   </Link>;
 
