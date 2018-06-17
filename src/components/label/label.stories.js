@@ -2,7 +2,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import './label.stories.css';
+import styles from './label.stories.css';
 import Label from './label';
 
 storiesOf('Label', module)
@@ -12,5 +12,5 @@ storiesOf('Label', module)
   .add('With class', () => (
     <Label
         value="Another label"
-        className="story" />
+        className={styles.story} />
   ));
