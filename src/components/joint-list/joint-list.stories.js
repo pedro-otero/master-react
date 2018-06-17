@@ -3,7 +3,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import JointList from './joint-list';
-import './joint-list.stories.css';
+import styles from './joint-list.stories.css';
 
 storiesOf('Joint List', module)
   .add('Just values', () => (
@@ -19,5 +19,5 @@ storiesOf('Joint List', module)
         start="("
         values={['And', 'pass', 'a', 'modifier', 'class']}
         end=")"
-        className="story" />
+        className={styles.story} />
   ));

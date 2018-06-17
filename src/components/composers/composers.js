@@ -2,10 +2,10 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import JointList from '../joint-list/joint-list';
-import './composers.css';
+import styles from './composers.css';
 
 const Composers = ({ list }) => <JointList
-    className="composers"
+    className={styles.composers}
     start="("
     values={list}
     end=")" />;

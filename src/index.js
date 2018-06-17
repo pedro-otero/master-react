@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import SpotifyWebApi from 'spotify-web-api-node';
 import request from 'superagent';
 
-import './index.css';
+import styles from './/index.css';
 import registerServiceWorker from './registerServiceWorker';
 import configureStore from './redux/store';
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './collaborator.css';
+import styles from './collaborator.css';
 
 const Collaborator = ({ name, roles }) => <div>
-  <h3 className="collaboratorName">
+  <h3 className={styles.collaboratorName}>
     {name}:
   </h3>
   <p>{roles.join(', ')}</p>

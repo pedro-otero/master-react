@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styled from 'styled-components';
 
-import './cover.css';
+import styles from './cover.css';
 
 const Image = styled.div`
   background-image: url(${props => props.src});
@@ -59,7 +59,7 @@ const Cover = ({
 }) => <Image
     src={src}
     className={imageClass}>
-  <span className={classnames('year', yearClass)}>
+  <span className={classnames(styles.year, yearClass)}>
     {year}
   </span>
 </Image>;

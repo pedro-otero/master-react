@@ -1,23 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
-import './loading-circle.css';
+import styles from './loading-circle.css';
 
 const LoadingCircle = ({ message }) => (
-  <div className="main">
-    <div className="sk-fading-circle">
-      <div className="sk-circle1 sk-circle"></div>
-      <div className="sk-circle2 sk-circle"></div>
-      <div className="sk-circle3 sk-circle"></div>
-      <div className="sk-circle4 sk-circle"></div>
-      <div className="sk-circle5 sk-circle"></div>
-      <div className="sk-circle6 sk-circle"></div>
-      <div className="sk-circle7 sk-circle"></div>
-      <div className="sk-circle8 sk-circle"></div>
-      <div className="sk-circle9 sk-circle"></div>
-      <div className="sk-circle10 sk-circle"></div>
-      <div className="sk-circle11 sk-circle"></div>
-      <div className="sk-circle12 sk-circle"></div>
+  <div className={styles.main}>
+    <div className={styles.skFadingCircle}>
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(n => (
+        <div
+            key={`sk-circle${n}`}
+            className={classNames(styles[`sk-circle${n}`], styles.skCircle)}>
+        </div>))}
     </div>
     <h1>{message}</h1>
   </div>

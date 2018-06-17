@@ -1,22 +1,22 @@
-.track-item-div {
+.div {
     display: flex;
     flex-direction: row;
     margin: 0.5em 0 1em 0;
 }
 
-.track-item-center-block {
+.centerBlock {
     display: flex;
     flex-direction: column;
     flex: 7;
     margin-right: 0.5em;
 }
 
-.track-item-name {
+.name {
     font-weight: bold;
     margin-bottom: 0.3em;
 }
 
-.track-item-duration {
+.duration {
     font-weight: bold;
     flex: 1;
 }

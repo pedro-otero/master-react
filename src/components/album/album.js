@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import './album.css';
+import styles from './album.css';
 import ArtistWork from '../artist-work/artist-work';
 import TrackItem from '../track-item/track-item';
 import Progress from '../progress/progress';
@@ -21,7 +21,7 @@ export const Album = ({
       {progress < 100 && <Progress
           size="small"
           value={progress} />}
-    <ol className="tracklist">
+    <ol className={styles.tracklist}>
       {tracks.map((fromSpotify, i) => {
           const { composers } = searchTracks[i];
           const { name: trackName, duration_ms: millis, id } = fromSpotify;

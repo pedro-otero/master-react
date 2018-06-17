@@ -3,7 +3,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import Banner from './banner';
-import './banner.stories.css';
+import styles from './banner.stories.css';
 
 storiesOf('Banner', module)
   .add('Without class name', () => (
@@ -18,7 +18,7 @@ storiesOf('Banner', module)
   .add('With class name', () => (
     <Banner
         src="https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730"
-        className="banner-story-margins">
+        className={styles['banner-story-margins']}>
       <p>
         <strong>You can pass a classname. </strong>In this example, margins are added.
         <br />

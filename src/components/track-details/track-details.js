@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import './track-details.css';
 import LoadingCircle from '../loading-circle/loading-circle';
 import Progress from '../progress/progress';
 import Credits from '../credits/credits';

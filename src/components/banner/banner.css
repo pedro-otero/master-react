@@ -1,8 +1,8 @@
-.banner-main {
+.main {
     position: relative;
 }
 
-.banner-content {
+.content {
     position: relative;
     z-index: 1;
     display: flex;

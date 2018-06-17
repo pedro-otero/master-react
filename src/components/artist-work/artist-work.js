@@ -6,7 +6,8 @@ import Banner from '../banner/banner';
 import Cover from '../cover/cover';
 import Label from '../label/label';
 
-import './artist-work.css';
+import styles from './artist-work.css';
+import globalStyles from '../../index.css';
 
 const ArtistWork = ({
   title, artist, background, image, year, children, path,
@@ -14,26 +15,26 @@ const ArtistWork = ({
   const CustomCover = <Cover
       src={image}
       year={year}
-      yearClass="albumYear" />;
+      yearClass={styles.albumYear} />;
 
   const CoverWrap = path ?
     <Link
         to={path}
-        className="RR-link">
+        className={globalStyles.RRlink}>
       {CustomCover}
     </Link> :
     CustomCover;
 
   return <Banner
       src={background}
-      className="content">
+      className={styles.content}>
     {CoverWrap}
     <div>
       <Label
-          className="artistName"
+          className={styles.artistName}
           value={artist} />
       <Label
-          className="title"
+          className={styles.title}
           value={title} />
       {children}
     </div>

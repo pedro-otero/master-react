@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styled from 'styled-components';
 
-import './banner.css';
+import styles from './banner.css';
 
 const Background = styled.div`
   width: 100%;
@@ -19,9 +19,9 @@ const Background = styled.div`
 `;
 
 const Banner = ({ src, className, children }) => (
-  <div className="banner-main">
-    <div className="banner-content">
-      <div className={classnames('banner-content', className)}>
+  <div className={styles.main}>
+    <div className={styles.content}>
+      <div className={classnames(styles.content, className)}>
         {children}
       </div>
     </div>
