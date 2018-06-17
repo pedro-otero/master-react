@@ -3,7 +3,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import Cover from './cover';
-import './cover.stories.css';
+import styles from './cover.stories.css';
 
 storiesOf('Cover', module)
   .add('Default', () => (
@@ -11,5 +11,6 @@ storiesOf('Cover', module)
   )).add('With yearClass', () => (
     <Cover
         src="https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730"
-        yearClass="year-for-story" />
+        year={2008}
+        yearClass={styles.year} />
   ));
