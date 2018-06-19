@@ -7,6 +7,7 @@ import generateCreator from '../actions/generate-creator';
 import setPlaybackInfo from '../reducers/spotify';
 import { loadArtist, loadAlbum, loadTrack } from '../actions/spotify';
 import { loadSearchResult } from '../actions/backend';
+import { addError, clearErrors, reduce } from '../errors';
 
 const setAlbum = generateCreator('SET_ALBUM');
 const setArtist = generateCreator('SET_ARTIST');
@@ -23,6 +24,7 @@ const store = (spotifyApi, backend) => createStore(
     albums: generateReducer('SET_ALBUM'),
     artists: generateReducer('SET_ARTIST'),
     playbackInfo: setPlaybackInfo,
+    errors: reduce,
   }),
   devTools,
   applyMiddleware(thunkMiddleware.withExtraArgument({
@@ -37,6 +39,8 @@ const store = (spotifyApi, backend) => createStore(
       loadAlbum,
       loadSearchResult,
       setSearchResult,
+      addError,
+      clearErrors,
     },
   })),
 );

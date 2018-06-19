@@ -16,7 +16,10 @@ export const loadPlaybackInfo = () => (dispatch, getState, { spotifyApi, actions
       dispatch(actions.loadAlbum(albumId));
     }
     return response;
-  }, () => dispatch(setPlaybackInfo('FAILED')));
+  }, () => {
+    dispatch(setPlaybackInfo('FAILED'));
+    dispatch(actions.addError('Loading playback info failed'));
+  });
 };
 
 export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => {
@@ -35,7 +38,10 @@ export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => 
         const artistId = response.body.artists[0].id;
         dispatch(actions.loadArtist(artistId));
         return response;
-      }, () => dispatch(actions.setAlbum(id, 'FAILED')));
+      }, () => {
+        dispatch(actions.setAlbum(id, 'FAILED'));
+        dispatch(actions.addError('Loading album failed'));
+      });
   }
   return Promise.resolve(album);
 };
@@ -48,7 +54,10 @@ export const loadArtist = id => (dispatch, getState, { spotifyApi, actions }) =>
       .getArtist(id).then((response) => {
         dispatch(actions.setArtist(id, response.body));
         return response;
-      }, () => dispatch(actions.setArtist(id, 'FAILED')));
+      }, () => {
+        dispatch(actions.setArtist(id, 'FAILED'));
+        dispatch(actions.addError('Loading artist failed'));
+      });
   }
   return Promise.resolve(artist);
 };
@@ -64,7 +73,10 @@ export const loadTrack = id => (dispatch, getState, { spotifyApi, actions }) => 
         dispatch(actions.loadSearchResult(albumId));
         dispatch(actions.loadAlbum(albumId));
         return response;
-      }, () => dispatch(actions.setTrack(id, 'FAILED')));
+      }, () => {
+        dispatch(actions.setTrack(id, 'FAILED'));
+        dispatch(actions.addError('Loading track failed'));
+      });
   }
   return Promise.resolve(track);
 };

@@ -37,6 +37,7 @@ describe('Backend actions', () => {
     const dispatch = jest.fn();
     const actions = {
       setSearchResult: jest.fn(),
+      addError: jest.fn(),
     };
     const backend = {
       getCredits: jest.fn(() => Rx.Observable.create((subscriber) => {
@@ -59,6 +60,10 @@ describe('Backend actions', () => {
 
     it('informs load failed', () => {
       expect(actions.setSearchResult).toHaveBeenCalledWith('AL1', 'FAILED');
+    });
+
+    it('adds error', () => {
+      expect(actions.addError).toBeCalled();
     });
   });
 
