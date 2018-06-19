@@ -2,7 +2,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import Errors from './errors';
+import { Errors } from './errors';
 
 storiesOf('Errors list', module)
   .add('Default', () => (
