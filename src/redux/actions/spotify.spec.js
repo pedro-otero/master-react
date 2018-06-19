@@ -33,6 +33,8 @@ describe('Spotify actions', () => {
     loadAlbum: jest.fn(),
     setTrack: jest.fn(),
     loadSearchResult: jest.fn(),
+    addError: jest.fn(),
+    clearErrors: jest.fn(),
   };
   const clearActionMocks = () => {
     actions.setArtist.mockClear();
@@ -41,6 +43,8 @@ describe('Spotify actions', () => {
     actions.loadAlbum.mockClear();
     actions.setTrack.mockClear();
     actions.loadSearchResult.mockClear();
+    actions.addError.mockClear();
+    actions.clearErrors.mockClear();
   };
   const emptyGetState = () => ({
     searches: { },
@@ -188,6 +192,10 @@ describe('Spotify actions', () => {
       });
     });
 
+    it('adds error', () => {
+      expect(actions.addError).toBeCalled();
+    });
+
     afterAll(() => {
       failureApi.getCurrentPlayback.mockClear();
       clearActionMocks();
@@ -268,6 +276,10 @@ describe('Spotify actions', () => {
       expect(actions.setAlbum).toHaveBeenCalledWith('AL1', 'FAILED');
     });
 
+    it('adds error', () => {
+      expect(actions.addError).toBeCalled();
+    });
+
     afterAll(() => {
       failureApi.getAlbum.mockClear();
       clearActionMocks();
@@ -338,6 +350,10 @@ describe('Spotify actions', () => {
 
     it('informs load failed', () => {
       expect(actions.setArtist).toHaveBeenCalledWith('AR1', 'FAILED');
+    });
+
+    it('adds error', () => {
+      expect(actions.addError).toBeCalled();
     });
 
     afterAll(() => {
@@ -414,6 +430,10 @@ describe('Spotify actions', () => {
 
     it('informs load failed', () => {
       expect(actions.setTrack).toHaveBeenCalledWith('T1', 'FAILED');
+    });
+
+    it('adds error', () => {
+      expect(actions.addError).toBeCalled();
     });
 
     afterAll(() => {
