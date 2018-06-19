@@ -8,4 +8,9 @@ describe('Errors duck', () => {
     });
     expect(errors[0]).toEqual('Some error');
   });
+
+  it('clears errors', () => {
+    const errors = reduce(['bla', 'bla', 'bla'], { type: 'CLEAR_ERRORS' });
+    expect(errors).toEqual([]);
+  });
 });

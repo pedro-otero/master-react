@@ -3,6 +3,9 @@ export const reduce = (state = [], action) => {
     case 'ADD_ERROR': {
       return [...state, action.data];
     }
+    case 'CLEAR_ERRORS': {
+      return [];
+    }
     default: {
       return state;
     }
