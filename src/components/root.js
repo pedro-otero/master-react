@@ -8,6 +8,7 @@ import Album from './album/album';
 import { loadAlbum, loadPlaybackInfo, loadTrack } from '../redux/actions/spotify';
 import TrackDetails from './track-details/track-details';
 import { loadSearchResult } from '../redux/actions/backend';
+import { clearErrors } from '../redux/errors';
 
 class Root extends React.Component {
   constructor(props) {
@@ -17,11 +18,13 @@ class Root extends React.Component {
     this.getPlaybackData = this.getPlaybackData.bind(this);
   }
   getPlaybackData() {
+    this.props.clearErrors();
     this.props.loadPlaybackInfo();
     return <CurrentPlayback />;
   }
 
   getAlbum({ match }) {
+    this.props.clearErrors();
     const { store } = this.props;
     const albumId = match.params.id;
     store.dispatch(loadAlbum(albumId));
@@ -30,6 +33,7 @@ class Root extends React.Component {
   }
 
   getTrack({ match }) {
+    this.props.clearErrors();
     const { store } = this.props;
     store.dispatch(loadTrack(match.params.id));
     return <TrackDetails trackId={match.params.id} />;
@@ -59,6 +63,7 @@ class Root extends React.Component {
 }
 
 Root.propTypes = {
+  clearErrors: PropTypes.func.isRequired,
   loadPlaybackInfo: PropTypes.func.isRequired,
   onUnmount: PropTypes.func.isRequired,
   store: PropTypes.object.isRequired,
@@ -66,6 +71,7 @@ Root.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
   loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
+  clearErrors: () => dispatch(clearErrors()),
 });
 
 export default connect(() => ({}), mapDispatchToProps)(Root);
