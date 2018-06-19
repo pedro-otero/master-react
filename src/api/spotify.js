@@ -2,18 +2,19 @@ export default (SpotifyWebApi, location) => ({ clientId, redirectUri }) => {
   const api = new SpotifyWebApi({ clientId, redirectUri });
   api.setAccessToken(localStorage.getItem('token'));
 
-  const success = response => response;
-
-  const error = ({ statusCode }) => {
+  const error = (e) => {
+    const { statusCode } = e;
     if (statusCode === 401) {
       location.reload();
+      return;
     }
+    throw e;
   };
 
   return {
-    getCurrentPlayback: () => api.getMyCurrentPlaybackState().then(success, error),
-    getAlbum: id => api.getAlbum(id).then(success, error),
-    getArtist: id => api.getArtist(id).then(success, error),
-    getTrack: id => api.getTrack(id).then(success, error),
+    getCurrentPlayback: () => api.getMyCurrentPlaybackState().catch(error),
+    getAlbum: id => api.getAlbum(id).catch(error),
+    getArtist: id => api.getArtist(id).catch(error),
+    getTrack: id => api.getTrack(id).catch(error),
   };
 };
