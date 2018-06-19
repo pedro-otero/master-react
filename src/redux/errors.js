@@ -11,3 +11,10 @@ export const reduce = (state = [], action) => {
     }
   }
 };
+
+export const addError = error => ({
+  type: 'ADD_ERROR',
+  data: error,
+});
+
+export const clearErrors = () => ({ type: 'CLEAR_ERRORS' });
