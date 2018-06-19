@@ -9,6 +9,7 @@ import { loadAlbum, loadPlaybackInfo, loadTrack } from '../redux/actions/spotify
 import TrackDetails from './track-details/track-details';
 import { loadSearchResult } from '../redux/actions/backend';
 import { clearErrors } from '../redux/errors';
+import Errors from './errors/errors';
 
 class Root extends React.Component {
   constructor(props) {
@@ -43,6 +44,7 @@ class Root extends React.Component {
     return <Provider store={this.props.store}>
       <Router>
         <span>
+          <Errors />
           <Route
               exact
               path="/"
