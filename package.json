@@ -68,7 +68,11 @@
     "whatwg-fetch": "2.0.3"
   },
   "babel": {
-    "presets": ["react-app"],
-    "plugins": ["react-css-modules"]
+    "presets": [
+      "react-app"
+    ],
+    "plugins": [
+      "react-css-modules"
+    ]
   }
 }
