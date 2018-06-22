@@ -9,17 +9,6 @@ describe('Spotify module', () => {
     expect(webApi.mock.instances.length).toEqual(1);
   });
 
-  it('forwards results of the api if requests are succesful', () => {
-    global.localStorage = { getItem: jest.fn(() => 'fakeToken') };
-    const webApi = jest.fn(() => ({
-      setAccessToken: jest.fn(),
-      getMyCurrentPlaybackState: jest.fn(() => Promise.resolve('OK')),
-    }));
-    const getSpotifyModule = Spotify(webApi);
-    const api = getSpotifyModule(1, 2);
-    api.getCurrentPlayback().then(value => expect(value).toEqual('OK'), () => expect(undefined));
-  });
-
   it('reloads app (to authenticate again) if it gets 401 error', (done) => {
     global.localStorage = { getItem: jest.fn(() => 'fakeToken') };
     const webApi = jest.fn(() => ({
@@ -44,7 +33,7 @@ describe('Spotify module', () => {
     const getSpotifyModule = Spotify(webApi, null);
     const api = getSpotifyModule(1, 2);
     api.getArtist().then(() => {
-      done('with error');
+      throw Error('This should not have happened');
     }, (err) => {
       expect(err.statusCode === 404);
       done();

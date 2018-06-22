@@ -1,0 +1,22 @@
+.div {
+    display: flex;
+    flex-direction: row;
+    margin: 0.5em 0 1em 0;
+}
+
+.centerBlock {
+    display: flex;
+    flex-direction: column;
+    flex: 7;
+    margin-right: 0.5em;
+}
+
+.name {
+    font-weight: bold;
+    margin-bottom: 0.3em;
+}
+
+.duration {
+    font-weight: bold;
+    flex: 1;
+}

@@ -6,7 +6,8 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "airbnb-base"
+    "airbnb-base",
+    "react-app"
   ],
   "rules": {
     "react/sort-prop-types": [
@@ -32,6 +33,9 @@
     ],
     "react/react-in-jsx-scope": [
       "error"
+    ],
+    "import/no-named-as-default": [
+      "off"
     ]
   }
 }

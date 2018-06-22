@@ -21,7 +21,12 @@ Configuration variables need to be set in a `.env.local` file. Since this projec
 
 You'll be redirected to authenticate with Spotify first. After that, app should display the song you're listening to and the results or progress of the search.
 
+# Component Stories
+
+Components have stories using [storybok][4]. Run `yarn run storybook` and an instance of Storybook will run on `localhost:9001`.
+
 
 [1]:https://crews.netlify.com/
 [2]:https://beta.developer.spotify.com/documentation/web-api/
 [3]:https://github.com/facebook/create-react-app
+[4]:https://github.com/storybooks/storybook
