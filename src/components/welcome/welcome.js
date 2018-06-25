@@ -2,6 +2,10 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+const Main = styled.div`
+  padding: 1em;
+`;
+
 const Button = styled.a`
   width: 100%;
   text-align: center;
@@ -13,10 +17,12 @@ const Button = styled.a`
 `;
 
 const Welcome = ({ loginUrl }) => (
-  <Fragment>
-    You need to login to Spotify to use this app.
+  <Main>
+    <h1>Welcome</h1>
+    <p>You need to login to Spotify to use this app.</p>
+    <br />
     <Button href={loginUrl}>Login</Button>
-  </Fragment>
+  </Main>
 );
 
 Welcome.propTypes = {
