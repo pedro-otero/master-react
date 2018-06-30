@@ -3,21 +3,30 @@ export const setPlaybackInfo = data => ({
   data,
 });
 
-export const loadPlaybackInfo = () => (dispatch, getState, { spotifyApi, actions }) => {
-  dispatch(actions.setPlaybackInfo('LOADING'));
+export const loadPlaybackInfo = () => (dispatch, getState, {
+  spotifyApi, actions: {
+    setPlaybackInfo,
+    loadSearchResult,
+    setTrack,
+    loadArtist,
+    loadAlbum,
+    addError,
+  },
+}) => {
+  dispatch(setPlaybackInfo('LOADING'));
   return spotifyApi.getCurrentPlayback().then((response) => {
-    dispatch(actions.setPlaybackInfo(response.body));
+    dispatch(setPlaybackInfo(response.body));
     if (response.body) {
       const albumId = response.body.item.album.id;
-      dispatch(actions.loadSearchResult(albumId));
-      dispatch(actions.setTrack(response.body.item.id, response.body.item));
+      dispatch(loadSearchResult(albumId));
+      dispatch(setTrack(response.body.item.id, response.body.item));
       const artistId = response.body.item.artists[0].id;
-      dispatch(actions.loadArtist(artistId));
-      dispatch(actions.loadAlbum(albumId));
+      dispatch(loadArtist(artistId));
+      dispatch(loadAlbum(albumId));
     }
     return response;
   }, () => {
-    dispatch(actions.setPlaybackInfo('FAILED'));
-    dispatch(actions.addError('Loading playback info failed'));
+    dispatch(setPlaybackInfo('FAILED'));
+    dispatch(addError('Loading playback info failed'));
   });
 };
