@@ -32,6 +32,8 @@ const actions = {
   loadAlbum: jest.fn(),
   setTrack: jest.fn(),
   loadSearchResult: jest.fn(),
+  startAlbumLoad: jest.fn(),
+  failAlbumLoad: jest.fn(),
   startArtistLoad: jest.fn(),
   failArtistLoad: jest.fn(),
 };
@@ -72,7 +74,7 @@ describe('REDUX: Albums', () => {
     });
 
     it('informs load started', () => {
-      expect(actions.setAlbum).toHaveBeenCalledWith('AL1', 'LOADING');
+      expect(actions.startAlbumLoad).toHaveBeenCalledWith('AL1');
     });
 
     it('calls actions.loadArtist', () => {
@@ -120,11 +122,11 @@ describe('REDUX: Albums', () => {
     });
 
     it('informs load started', () => {
-      expect(actions.setAlbum).toHaveBeenCalledWith('AL1', 'LOADING');
+      expect(actions.startAlbumLoad).toHaveBeenCalledWith('AL1');
     });
 
     it('informs load failed', () => {
-      expect(actions.setAlbum).toHaveBeenCalledWith('AL1', 'FAILED');
+      expect(actions.failAlbumLoad).toHaveBeenCalledWith('AL1');
     });
 
     afterAll(() => {
@@ -148,6 +150,7 @@ describe('REDUX: Albums', () => {
           name: 'Track #1',
         }],
       },
+      release_date: '2004',
     });
     expect(action).toEqual({
       type: 'SET_ALBUM',
@@ -159,6 +162,7 @@ describe('REDUX: Albums', () => {
           artist: 'AR1',
           image: 'imgUrl',
           tracks: ['T1'],
+          year: '2004',
         },
       },
     });
