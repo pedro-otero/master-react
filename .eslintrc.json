@@ -21,7 +21,11 @@
       "error"
     ],
     "react/jsx-max-props-per-line": [
-      "error"
+      "error",
+      {
+        "maximum": 1,
+        "when": "multiline"
+      }
     ],
     "react/jsx-first-prop-new-line":[
       "error",
