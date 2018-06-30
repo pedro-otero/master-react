@@ -15,15 +15,11 @@ const backend = new Backend(request, `${process.env.REACT_APP_BE_DOMAIN}/data/al
 const user = getUser(SpotifyWebApi, window);
 
 registerServiceWorker();
-if (user.isAuthenticated()) {
-  const store = configureStore(user.getApi(), backend);
-  ReactDOM.render(
-    <Root
-        store={store}
-        user={user}
-        onUnmount={() => backend.stopAllSearches} />,
-    document.getElementById('root'),
-  );
-} else {
-  window.location = user.getAuthUrl();
-}
+const store = configureStore(user.getApi(), backend);
+ReactDOM.render(
+  <Root
+      store={store}
+      user={user}
+      onUnmount={() => backend.stopAllSearches} />,
+  document.getElementById('root'),
+);
