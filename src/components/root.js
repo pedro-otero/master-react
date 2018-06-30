@@ -5,7 +5,7 @@ import { connect, Provider } from 'react-redux';
 
 import CurrentPlayback from './current-playback/CurrentPlayback';
 import Album from './album/album';
-import { loadPlaybackInfo } from '../redux/actions/spotify';
+import { loadPlaybackInfo } from '../redux/playbackInfo';
 import TrackDetails from './track-details/track-details';
 import { loadSearchResult } from '../redux/actions/backend';
 import { loadAlbum } from '../redux/albums';

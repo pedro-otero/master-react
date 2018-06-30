@@ -1,4 +1,4 @@
-import { setPlaybackInfo, loadPlaybackInfo, loadTrack } from './spotify';
+import { setPlaybackInfo, loadPlaybackInfo, reduce } from './playbackInfo';
 
 describe('Spotify actions', () => {
   const dispatch = jest.fn();
@@ -178,5 +178,14 @@ describe('Spotify actions', () => {
       failureApi.getCurrentPlayback.mockClear();
       clearActionMocks();
     });
+  });
+});
+
+describe('Playback info reducer', () => {
+  it('sets playback info', () => {
+    const playbackInfo = reduce(null, {
+      type: 'SET_PLAYBACK_INFO', data: 'val',
+    });
+    expect(playbackInfo).toEqual('val');
   });
 });
