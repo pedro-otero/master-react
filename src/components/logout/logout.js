@@ -2,11 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Button = styled.button`
-  outline: none;
+  all: unset;
   width: 100%;
   font-weight: bold;
-  background-color: #a9a9a9;
+  background-color: #3d3d3d;
   color: #181818;
+  text-align: center;
+  padding: 0.5em 0;
 `;
 
 const Logout = () => (
