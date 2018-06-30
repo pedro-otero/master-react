@@ -34,7 +34,9 @@ describe('REDUX: Tracks', () => {
     setTrack: jest.fn(),
     loadSearchResult: jest.fn(),
     startArtistLoad: jest.fn(),
+    startTrackLoad: jest.fn(),
     failArtistLoad: jest.fn(),
+    failTrackLoad: jest.fn(),
   };
   const clearActionMocks = () => {
     actions.setArtist.mockClear();
@@ -45,6 +47,8 @@ describe('REDUX: Tracks', () => {
     actions.loadSearchResult.mockClear();
     actions.startArtistLoad.mockClear();
     actions.failArtistLoad.mockClear();
+    actions.startTrackLoad.mockClear();
+    actions.failTrackLoad.mockClear();
   };
   const emptyGetState = () => ({
     searches: {},
@@ -76,7 +80,7 @@ describe('REDUX: Tracks', () => {
     });
 
     it('informs load started', () => {
-      expect(actions.setTrack).toHaveBeenCalledWith('T1', 'LOADING');
+      expect(actions.startTrackLoad).toHaveBeenCalledWith('T1');
     });
 
     it('informs load failed', () => {
@@ -116,11 +120,11 @@ describe('REDUX: Tracks', () => {
     });
 
     it('informs load started', () => {
-      expect(actions.setTrack).toHaveBeenCalledWith('T1', 'LOADING');
+      expect(actions.startTrackLoad).toHaveBeenCalledWith('T1');
     });
 
     it('informs load failed', () => {
-      expect(actions.setTrack).toHaveBeenCalledWith('T1', 'FAILED');
+      expect(actions.failTrackLoad).toHaveBeenCalledWith('T1');
     });
 
     afterAll(() => {
