@@ -1,36 +1,13 @@
 import { loadArtist, setArtist } from './artists';
 
-const playbackInfo = {
-  item: {
-    id: 'T1',
-    artists: [{ id: 'AR1' }],
-    album: { id: 'AL1' },
-  },
-};
-const album = { id: 'AL1', artists: [{ id: 'AR1' }], tracks: { items: [{ id: 'T1' }] } };
 const successApi = {
-  getCurrentPlayback: jest.fn(() => Promise.resolve({
-    body: playbackInfo,
-  })),
-  getAlbum: jest.fn(() => Promise.resolve({ body: album })),
   getArtist: jest.fn(() => Promise.resolve({ body: {} })),
-  getTrack: jest.fn(() => Promise.resolve({
-    body: playbackInfo.item,
-  })),
 };
 const failureApi = {
-  getCurrentPlayback: jest.fn(() => Promise.reject(Error())),
-  getAlbum: jest.fn(() => Promise.reject(Error())),
   getArtist: jest.fn(() => Promise.reject(Error())),
-  getTrack: jest.fn(() => Promise.reject(Error())),
 };
 const actions = {
   setArtist: jest.fn(),
-  loadArtist: jest.fn(),
-  setAlbum: jest.fn(),
-  loadAlbum: jest.fn(),
-  setTrack: jest.fn(),
-  loadSearchResult: jest.fn(),
   startArtistLoad: jest.fn(),
   failArtistLoad: jest.fn(),
 };
