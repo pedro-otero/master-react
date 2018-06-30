@@ -27,28 +27,18 @@ describe('Spotify actions', () => {
     getTrack: jest.fn(() => Promise.reject(Error())),
   };
   const actions = {
-    setArtist: jest.fn(),
     loadArtist: jest.fn(),
-    setAlbum: jest.fn(),
     loadAlbum: jest.fn(),
     setTrack: jest.fn(),
     loadSearchResult: jest.fn(),
-    startArtistLoad: jest.fn(),
-    failArtistLoad: jest.fn(),
     addError: jest.fn(),
-    clearErrors: jest.fn(),
   };
   const clearActionMocks = () => {
-    actions.setArtist.mockClear();
     actions.loadArtist.mockClear();
-    actions.setAlbum.mockClear();
     actions.loadAlbum.mockClear();
     actions.setTrack.mockClear();
     actions.loadSearchResult.mockClear();
-    actions.startArtistLoad.mockClear();
-    actions.failArtistLoad.mockClear();
     actions.addError.mockClear();
-    actions.clearErrors.mockClear();
   };
   const emptyGetState = () => ({
     searches: { },
