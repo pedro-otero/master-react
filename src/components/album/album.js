@@ -6,6 +6,7 @@ import styles from './album.css';
 import ArtistWork from '../artist-work/artist-work';
 import TrackItem from '../track-item/track-item';
 import Progress from '../progress/progress';
+import Logout from '../logout/logout';
 
 export const Album = ({
   artistImg, albumImg, tracks, progress, year, name, artist, searchTracks,
@@ -35,6 +36,7 @@ export const Album = ({
           </li>;
         })}
     </ol>
+    <Logout />
     </Fragment>}
 </Fragment>;
 
