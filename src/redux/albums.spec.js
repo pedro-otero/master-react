@@ -1,48 +1,22 @@
 import { loadAlbum, setAlbum } from './albums';
 
 const dispatch = jest.fn();
-const playbackInfo = {
-  item: {
-    id: 'T1',
-    artists: [{ id: 'AR1' }],
-    album: { id: 'AL1' },
-  },
-};
 const album = { id: 'AL1', artists: [{ id: 'AR1' }], tracks: { items: [{ id: 'T1' }] } };
 const successApi = {
-  getCurrentPlayback: jest.fn(() => Promise.resolve({
-    body: playbackInfo,
-  })),
   getAlbum: jest.fn(() => Promise.resolve({ body: album })),
-  getArtist: jest.fn(() => Promise.resolve({ body: {} })),
-  getTrack: jest.fn(() => Promise.resolve({
-    body: playbackInfo.item,
-  })),
 };
 const failureApi = {
-  getCurrentPlayback: jest.fn(() => Promise.reject(Error())),
   getAlbum: jest.fn(() => Promise.reject(Error())),
-  getArtist: jest.fn(() => Promise.reject(Error())),
-  getTrack: jest.fn(() => Promise.reject(Error())),
 };
 const actions = {
   loadArtist: jest.fn(),
-  loadAlbum: jest.fn(),
   setTrack: jest.fn(),
   setAlbum: jest.fn(),
-  loadSearchResult: jest.fn(),
   startAlbumLoad: jest.fn(),
   failAlbumLoad: jest.fn(),
 };
-const clearActionMocks = () => {
-  actions.loadArtist.mockClear();
-  actions.loadAlbum.mockClear();
-  actions.setTrack.mockClear();
-  actions.setAlbum.mockClear();
-  actions.loadSearchResult.mockClear();
-  actions.startAlbumLoad.mockClear();
-  actions.failAlbumLoad.mockClear();
-};
+const clearActionMocks = () => Object.entries(actions)
+  .forEach(([_, action]) => action.mockClear());
 const emptyGetState = () => ({
   searches: { },
   albums: { },

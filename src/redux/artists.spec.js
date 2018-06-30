@@ -34,16 +34,8 @@ const actions = {
   startArtistLoad: jest.fn(),
   failArtistLoad: jest.fn(),
 };
-const clearActionMocks = () => {
-  actions.setArtist.mockClear();
-  actions.loadArtist.mockClear();
-  actions.setAlbum.mockClear();
-  actions.loadAlbum.mockClear();
-  actions.setTrack.mockClear();
-  actions.loadSearchResult.mockClear();
-  actions.startArtistLoad.mockClear();
-  actions.failArtistLoad.mockClear();
-};
+const clearActionMocks = () => Object.entries(actions)
+  .forEach(([_, action]) => action.mockClear());
 const emptyGetState = () => ({
   searches: { },
   albums: { },
