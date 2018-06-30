@@ -19,6 +19,7 @@ class Root extends React.Component {
     this.getTrack = this.getTrack.bind(this);
     this.getPlaybackData = this.getPlaybackData.bind(this);
   }
+
   getPlaybackData() {
     this.props.clearErrors();
     this.props.loadPlaybackInfo();
