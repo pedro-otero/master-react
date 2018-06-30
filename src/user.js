@@ -1,16 +1,15 @@
 import SpotifyCustomApiFactory from './api/spotify';
 
 export default (ApiClass, window) => ({
+  saveToken(hash) {
+    const pairs = hash.substring(1).split('&').map(pair => pair.split('='));
+    const token = pairs.filter(pair => pair[0] === 'access_token')[0][1];
+    const expiresIn = pairs.filter(pair => pair[0] === 'expires_in')[0][1];
+    const expiry = new Date(Date.now() + (expiresIn * 1000)).toISOString();
+    localStorage.setItem('token', token);
+    localStorage.setItem('expiry', expiry);
+  },
   isAuthenticated: () => {
-    if (window.location.hash) {
-      const pairs = window.location.hash.substring(1).split('&').map(pair => pair.split('='));
-      const token = pairs.filter(pair => pair[0] === 'access_token')[0][1];
-      const expiresIn = pairs.filter(pair => pair[0] === 'expires_in')[0][1];
-      const expiry = new Date(Date.now() + (expiresIn * 1000)).toISOString();
-      localStorage.setItem('token', token);
-      localStorage.setItem('expiry', expiry);
-      window.history.pushState({}, '', '/');
-    }
     const token = localStorage.getItem('token');
     const expiry = new Date(localStorage.getItem('expiry'));
     const now = Date.now();

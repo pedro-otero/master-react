@@ -13,6 +13,10 @@ import Root from './components/root';
 
 const backend = new Backend(request, `${process.env.REACT_APP_BE_DOMAIN}/data/album`, 1000);
 const user = getUser(SpotifyWebApi, window);
+if (window.location.hash) {
+  user.saveToken(window.location.hash);
+  window.history.pushState({}, '', '/');
+}
 
 registerServiceWorker();
 const store = configureStore(user.getApi(), backend);
