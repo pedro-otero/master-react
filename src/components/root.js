@@ -10,6 +10,7 @@ import TrackDetails from './track-details/track-details';
 import { loadSearchResult } from '../redux/actions/backend';
 import { clearErrors } from '../redux/errors';
 import Errors from './errors/errors';
+import Welcome from './welcome/welcome';
 
 class Root extends React.Component {
   constructor(props) {
@@ -44,6 +45,9 @@ class Root extends React.Component {
   }
 
   render() {
+    if (this.props.user.isNew()) {
+      return <Welcome loginUrl={this.props.user.getAuthUrl()} />;
+    }
     return <Provider store={this.props.store}>
       <Router>
         <span>

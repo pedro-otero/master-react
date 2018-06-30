@@ -17,6 +17,11 @@ export default (ApiClass, window) => ({
     const difference = now - expiry.getTime();
     return typeof token !== 'undefined' && difference <= 0;
   },
+  isNew: () => {
+    const token = localStorage.getItem('token');
+    const expiry = new Date(localStorage.getItem('expiry'));
+    return !token && !expiry;
+  },
   getAuthUrl: () => `${process.env.REACT_APP_SPOTIFY_AUTHORIZE_URL}?${[
     ['client_id', process.env.REACT_APP_SPOTIFY_CLIENT_ID],
     ['response_type', 'token'],
