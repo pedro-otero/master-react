@@ -17,6 +17,9 @@ class Root extends React.Component {
     this.getAlbum = this.getAlbum.bind(this);
     this.getTrack = this.getTrack.bind(this);
     this.getPlaybackData = this.getPlaybackData.bind(this);
+    if (!props.user.isAuthenticated()) {
+      window.location = props.user.getAuthUrl();
+    }
   }
   getPlaybackData() {
     this.props.clearErrors();
