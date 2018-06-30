@@ -18,9 +18,6 @@ class Root extends React.Component {
     this.getAlbum = this.getAlbum.bind(this);
     this.getTrack = this.getTrack.bind(this);
     this.getPlaybackData = this.getPlaybackData.bind(this);
-    if (!props.user.isAuthenticated()) {
-      window.location = props.user.getAuthUrl();
-    }
   }
   getPlaybackData() {
     this.props.clearErrors();
@@ -48,6 +45,8 @@ class Root extends React.Component {
     const { user, store } = this.props;
     if (user.isNew()) {
       return <Welcome loginUrl={user.getAuthUrl()} />;
+    } else if (!user.isAuthenticated()) {
+      window.location = user.getAuthUrl();
     }
     return <Provider store={store}>
       <Router>
