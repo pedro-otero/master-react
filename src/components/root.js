@@ -45,10 +45,11 @@ class Root extends React.Component {
   }
 
   render() {
-    if (this.props.user.isNew()) {
-      return <Welcome loginUrl={this.props.user.getAuthUrl()} />;
+    const { user, store } = this.props;
+    if (user.isNew()) {
+      return <Welcome loginUrl={user.getAuthUrl()} />;
     }
-    return <Provider store={this.props.store}>
+    return <Provider store={store}>
       <Router>
         <span>
           <Errors />
