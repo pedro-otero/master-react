@@ -26,26 +26,22 @@ const failureApi = {
   getTrack: jest.fn(() => Promise.reject(Error())),
 };
 const actions = {
-  setArtist: jest.fn(),
   loadArtist: jest.fn(),
-  setAlbum: jest.fn(),
   loadAlbum: jest.fn(),
   setTrack: jest.fn(),
+  setAlbum: jest.fn(),
   loadSearchResult: jest.fn(),
   startAlbumLoad: jest.fn(),
   failAlbumLoad: jest.fn(),
-  startArtistLoad: jest.fn(),
-  failArtistLoad: jest.fn(),
 };
 const clearActionMocks = () => {
-  actions.setArtist.mockClear();
   actions.loadArtist.mockClear();
-  actions.setAlbum.mockClear();
   actions.loadAlbum.mockClear();
   actions.setTrack.mockClear();
+  actions.setAlbum.mockClear();
   actions.loadSearchResult.mockClear();
-  actions.startArtistLoad.mockClear();
-  actions.failArtistLoad.mockClear();
+  actions.startAlbumLoad.mockClear();
+  actions.failAlbumLoad.mockClear();
 };
 const emptyGetState = () => ({
   searches: { },
