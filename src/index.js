@@ -20,6 +20,7 @@ if (user.isAuthenticated()) {
   ReactDOM.render(
     <Root
         store={store}
+        user={user}
         onUnmount={() => backend.stopAllSearches} />,
     document.getElementById('root'),
   );
