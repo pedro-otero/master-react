@@ -10,6 +10,7 @@ import TrackDetails from './track-details/track-details';
 import { loadSearchResult } from '../redux/actions/backend';
 import { clearErrors } from '../redux/errors';
 import Errors from './errors/errors';
+import Welcome from './welcome/welcome';
 
 class Root extends React.Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class Root extends React.Component {
     this.getTrack = this.getTrack.bind(this);
     this.getPlaybackData = this.getPlaybackData.bind(this);
   }
+
   getPlaybackData() {
     this.props.clearErrors();
     this.props.loadPlaybackInfo();
@@ -41,7 +43,13 @@ class Root extends React.Component {
   }
 
   render() {
-    return <Provider store={this.props.store}>
+    const { user, store } = this.props;
+    if (user.isNew()) {
+      return <Welcome loginUrl={user.getAuthUrl()} />;
+    } else if (!user.isAuthenticated()) {
+      window.location = user.getAuthUrl();
+    }
+    return <Provider store={store}>
       <Router>
         <span>
           <Errors />
@@ -69,6 +77,7 @@ Root.propTypes = {
   loadPlaybackInfo: PropTypes.func.isRequired,
   onUnmount: PropTypes.func.isRequired,
   store: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({

@@ -8,6 +8,7 @@ import Credits from '../credits/credits';
 import Composers from '../composers/composers';
 import Producers from '../producers/producers';
 import ArtistWork from '../artist-work/artist-work';
+import Logout from '../logout/logout';
 
 export const TrackDetails = ({
   name,
@@ -60,6 +61,7 @@ export const TrackDetails = ({
     <Progress
         size="big"
         value={progress} />}
+    <Logout />
   </article>;
 };
 
