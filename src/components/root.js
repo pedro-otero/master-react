@@ -53,19 +53,9 @@ class Root extends React.Component {
       <Router>
         <span>
           <Errors />
-          <Route
-              exact
-              path="/"
-              render={this.getPlaybackData}
-          />
-          <Route
-              path="/track/:id"
-              render={this.getTrack}
-          />
-          <Route
-              path="/album/:id"
-              render={this.getAlbum}
-          />
+          <Route exact path="/" render={this.getPlaybackData} />
+          <Route path="/track/:id" render={this.getTrack} />
+          <Route path="/album/:id" render={this.getAlbum} />
         </span>
       </Router>
     </Provider>;
