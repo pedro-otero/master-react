@@ -18,7 +18,7 @@ export default (ApiClass, window) => ({
   },
   isNew: () => {
     const token = localStorage.getItem('token');
-    const expiry = new Date(localStorage.getItem('expiry'));
+    const expiry = localStorage.getItem('expiry');
     return !token && !expiry;
   },
   getAuthUrl: () => `${process.env.REACT_APP_SPOTIFY_AUTHORIZE_URL}?${[
