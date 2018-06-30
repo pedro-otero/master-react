@@ -1,6 +1,6 @@
 import { setPlaybackInfo, loadPlaybackInfo, reduce } from './playbackInfo';
 
-describe('Spotify actions', () => {
+describe('Playback info', () => {
   const dispatch = jest.fn();
   const playbackInfo = {
     item: {
@@ -179,13 +179,12 @@ describe('Spotify actions', () => {
       clearActionMocks();
     });
   });
-});
 
-describe('Playback info reducer', () => {
-  it('sets playback info', () => {
-    const playbackInfo = reduce(null, {
+  it('Reduces SET_PLAYBACK_INFO action', () => {
+    const info = reduce(null, {
       type: 'SET_PLAYBACK_INFO', data: 'val',
     });
-    expect(playbackInfo).toEqual('val');
+    expect(info).toEqual('val');
   });
 });
+
