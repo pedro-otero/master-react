@@ -1,4 +1,4 @@
-import { loadTrack } from './tracks';
+import { loadTrack, reduce } from './tracks';
 
 describe('REDUX: Tracks', () => {
   const dispatch = jest.fn();
@@ -104,6 +104,19 @@ describe('REDUX: Tracks', () => {
     afterAll(() => {
       failureApi.getTrack.mockClear();
       clearActionMocks();
+    });
+  });
+
+  describe('reducer', () => {
+    it('adds tracks', () => {
+      const tracks = reduce({}, {
+        type: 'SET_TRACK',
+        data: {
+          id: track.id,
+          value: track,
+        },
+      });
+      expect(tracks.T1).toEqual(track);
     });
   });
 });

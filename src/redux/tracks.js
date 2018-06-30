@@ -51,3 +51,16 @@ export const failTrackLoad = id => ({
     value: 'FAILED',
   },
 });
+
+export function reduce(state = {}, { type, data }) {
+  switch (type) {
+    case 'SET_TRACK': {
+      const track = { ...(state[data.id] || {}) };
+      Object.assign(track, { ...data.value });
+      return Object.assign({ ...state }, { [data.id]: track });
+    }
+    default: {
+      return state;
+    }
+  }
+}
