@@ -32,6 +32,7 @@ describe('Spotify actions', () => {
     setTrack: jest.fn(),
     loadSearchResult: jest.fn(),
     addError: jest.fn(),
+    setPlaybackInfo: jest.fn(),
   };
   const clearActionMocks = () => {
     actions.loadArtist.mockClear();
@@ -39,6 +40,7 @@ describe('Spotify actions', () => {
     actions.setTrack.mockClear();
     actions.loadSearchResult.mockClear();
     actions.addError.mockClear();
+    actions.setPlaybackInfo.mockClear();
   };
   const emptyGetState = () => ({
     searches: { },
@@ -78,17 +80,11 @@ describe('Spotify actions', () => {
     });
 
     it('informs load started', () => {
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SET_PLAYBACK_INFO',
-        data: 'LOADING',
-      });
+      expect(actions.setPlaybackInfo).toHaveBeenCalledWith('LOADING');
     });
 
     it('informs load finished', () => {
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SET_PLAYBACK_INFO',
-        data: playbackInfo,
-      });
+      expect(actions.setPlaybackInfo).toHaveBeenCalledWith(playbackInfo);
     });
 
     it('calls actions.loadArtist', () => {
@@ -134,17 +130,11 @@ describe('Spotify actions', () => {
     });
 
     it('informs load started', () => {
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SET_PLAYBACK_INFO',
-        data: 'LOADING',
-      });
+      expect(actions.setPlaybackInfo).toHaveBeenCalledWith('LOADING');
     });
 
     it('informs load finished', () => {
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SET_PLAYBACK_INFO',
-        data: null,
-      });
+      expect(actions.setPlaybackInfo).toHaveBeenCalledWith(null);
     });
 
     it('does not call actions.loadArtist', () => {
@@ -173,17 +163,11 @@ describe('Spotify actions', () => {
     });
 
     it('informs load started', () => {
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SET_PLAYBACK_INFO',
-        data: 'LOADING',
-      });
+      expect(actions.setPlaybackInfo).toHaveBeenCalledWith('LOADING');
     });
 
     it('informs load failed', () => {
-      expect(dispatch).toHaveBeenCalledWith({
-        type: 'SET_PLAYBACK_INFO',
-        data: 'FAILED',
-      });
+      expect(actions.setPlaybackInfo).toHaveBeenCalledWith('FAILED');
     });
 
     it('adds error', () => {

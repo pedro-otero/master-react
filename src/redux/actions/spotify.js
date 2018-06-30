@@ -4,9 +4,9 @@ export const setPlaybackInfo = data => ({
 });
 
 export const loadPlaybackInfo = () => (dispatch, getState, { spotifyApi, actions }) => {
-  dispatch(setPlaybackInfo('LOADING'));
+  dispatch(actions.setPlaybackInfo('LOADING'));
   return spotifyApi.getCurrentPlayback().then((response) => {
-    dispatch(setPlaybackInfo(response.body));
+    dispatch(actions.setPlaybackInfo(response.body));
     if (response.body) {
       const albumId = response.body.item.album.id;
       dispatch(actions.loadSearchResult(albumId));
@@ -17,7 +17,7 @@ export const loadPlaybackInfo = () => (dispatch, getState, { spotifyApi, actions
     }
     return response;
   }, () => {
-    dispatch(setPlaybackInfo('FAILED'));
+    dispatch(actions.setPlaybackInfo('FAILED'));
     dispatch(actions.addError('Loading playback info failed'));
   });
 };
