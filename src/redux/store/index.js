@@ -4,7 +4,8 @@ import thunkMiddleware from 'redux-thunk';
 
 import generateReducer from '../reducers/generate-reducer';
 import generateCreator from '../actions/generate-creator';
-import setPlaybackInfo from '../reducers/spotify';
+import playbackInfo from '../reducers/spotify';
+import { setPlaybackInfo } from '../actions/spotify';
 import { setArtist, startArtistLoad, loadArtist, failArtistLoad } from '../artists';
 import { loadSearchResult } from '../actions/backend';
 import { loadAlbum, startAlbumLoad, failAlbumLoad, setAlbum } from '../albums';
@@ -22,7 +23,7 @@ const store = (spotifyApi, backend) => createStore(
     tracks: generateReducer('SET_TRACK'),
     albums: generateReducer('SET_ALBUM'),
     artists: generateReducer('SET_ARTIST'),
-    playbackInfo: setPlaybackInfo,
+    playbackInfo,
     errors: reduce,
   }),
   devTools,
@@ -46,6 +47,7 @@ const store = (spotifyApi, backend) => createStore(
       failTrackLoad,
       addError,
       clearErrors,
+      setPlaybackInfo,
     },
   })),
 );
