@@ -7,6 +7,7 @@ const Main = styled.div`
 `;
 
 const Button = styled.a`
+  all: unset;
   width: 100%;
   text-align: center;
   background-color: #1db954;
