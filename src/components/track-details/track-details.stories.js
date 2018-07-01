@@ -36,6 +36,7 @@ storiesOf('Track details', module)
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
         background="https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a"
         year="2016"
+        searchStarted={true}
         progress={0} />
   ))
   .add('Search progressing', () => (
@@ -45,6 +46,7 @@ storiesOf('Track details', module)
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
         background="https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a"
         year="2016"
+        searchStarted={true}
         progress={15} />
   ))
   .add('Found composers', () => (
@@ -55,6 +57,7 @@ storiesOf('Track details', module)
         background="https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a"
         year="2016"
         composers={['Realname Ofpopmaster', 'Goto Producer']}
+        searchStarted={true}
         progress={21} />
   ))
   .add('Found credits', () => (
@@ -69,6 +72,7 @@ storiesOf('Track details', module)
           'Goto Producer': ['Backing Vocals'],
           'Guy Bass': ['Bass'],
         }}
+        searchStarted={true}
         progress={41} />
   ))
   .add('Finished', () => (
