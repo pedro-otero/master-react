@@ -63,7 +63,7 @@ export const failTrackLoad = id => ({
 
 export function reduce(state = {}, { type, data }) {
   const update = (tracks) => {
-    const defaultTrack = { loading: false, failed: false };
+    const defaultTrack = { loading: false, failed: false, searchStarted: false };
     return tracks.reduce((all, track) => {
       const merged = Object.assign(
         { ...(all[track.id] || defaultTrack) },
