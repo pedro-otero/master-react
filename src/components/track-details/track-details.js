@@ -16,94 +16,85 @@ export const TrackDetails = ({
   image,
   background,
   year,
-  bestMatch,
   progress,
-}) => {
-  const status = (() => {
-    if (!name) {
-      return 'empty';
-    }
-    if (typeof progress === 'undefined') {
-      return 'search-not-started';
-    }
-    if (progress === 100) {
-      return 'finished';
-    }
-    if (!Object.keys(bestMatch.credits).length) {
-      return 'no-credits';
-    }
-    return 'with-credits';
-  })();
-
-  return <article>
-    <ArtistWork
-        title={name}
-        artist={artist}
-        year={year}
-        image={image}
-        background={background}
-        path={`/album/${albumId}`}>
-      {bestMatch && <span>
-        <Composers list={bestMatch.composers} />
-        <br />
-        <Producers list={bestMatch.producers} />
-      </span>}
-    </ArtistWork>
-    {status === 'empty' && <LoadingCircle message="Loading data from Spotify..." />}
-    {status === 'search-not-started' && <LoadingCircle message="Starting search..." />}
-    {status === 'with-credits' &&
+  credits,
+  composers,
+  producers,
+  loading,
+  searchStarted,
+}) => <article>
+  <ArtistWork
+      title={name}
+      artist={artist}
+      year={year}
+      image={image}
+      background={background}
+      path={`/album/${albumId}`}>
+    <span>
+      <Composers list={composers} />
+      <br />
+      <Producers list={producers} />
+    </span>
+  </ArtistWork>
+  {loading && <LoadingCircle message="Loading data from Spotify..." />}
+  {!searchStarted && <LoadingCircle message="Starting search..." />}
+  <Credits data={credits} />
+  {searchStarted && progress !== 100 &&
     <Progress
-        size="small"
+        size={Object.keys(credits).length === 0 ? 'big' : 'small'}
         value={progress} />}
-    {bestMatch && <Credits data={bestMatch.credits} />}
-    {status === 'no-credits' &&
-    <Progress
-        size="big"
-        value={progress} />}
-  </article>;
-};
+</article>;
 
 TrackDetails.propTypes = {
   albumId: PropTypes.string,
   artist: PropTypes.string,
   background: PropTypes.string,
-  bestMatch: PropTypes.object,
+  composers: PropTypes.array,
+  credits: PropTypes.object,
   image: PropTypes.string,
+  loading: PropTypes.bool,
   name: PropTypes.string,
+  producers: PropTypes.array,
   progress: PropTypes.number,
+  searchStarted: PropTypes.bool,
   year: PropTypes.string,
 };
 
+TrackDetails.defaultProps = {
+  credits: {},
+  composers: [],
+  producers: [],
+};
+
 const mapStateToProps = ({
-  tracks, albums, artists, searches,
+  tracks, albums, artists,
 }, { trackId }) => {
   const props = {};
   if (tracks[trackId]) {
     const track = tracks[trackId];
-    if (track && track !== 'LOADING' && track !== 'FAILED') {
+    if (!track.loading && !track.failed) {
       Object.assign(props, {
         name: track.name,
+        loading: track.loading,
         albumId: track.album,
+        composers: track.composers,
+        producers: track.producers,
+        credits: track.credits,
+        progress: track.progress,
+        searchStarted: typeof track.progress !== 'undefined',
       });
       const album = albums[track.album];
-      if (album && album !== 'LOADING' && album !== 'FAILED') {
+      if (album && !album.loading && !album.failed) {
         Object.assign(props, {
           image: album.image,
           year: album.year,
         });
       }
       const artist = artists[track.artist];
-      if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
+      if (artist && !artist.loading && !artist.failed) {
         Object.assign(props, {
           background: artist.image,
           artist: artist.name,
-        });
-      }
-      const search = searches[track.album];
-      if (search && search !== 'LOADING' && search !== 'FAILED') {
-        Object.assign(props, {
-          bestMatch: search.bestMatch.tracks.find(t => t.id === track.id),
-          progress: search.progress,
         });
       }
     }
