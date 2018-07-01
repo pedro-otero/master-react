@@ -128,5 +128,15 @@ describe('REDUX: Tracks', () => {
       });
       expect(tracks.T1).toEqual({ loading: true, failed: false });
     });
+
+    it('sets track as failed', () => {
+      const tracks = reduce({}, {
+        type: 'FAIL_TRACK_LOAD',
+        data: {
+          id: track.id,
+        },
+      });
+      expect(tracks.T1).toEqual({ loading: false, failed: true });
+    });
   });
 });
