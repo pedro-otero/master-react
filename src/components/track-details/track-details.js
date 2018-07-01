@@ -71,27 +71,24 @@ TrackDetails.defaultProps = {
 };
 
 const mapStateToProps = ({ tracks }, { trackId }) => {
-  const props = {};
-  if (tracks[trackId]) {
-    const track = tracks[trackId];
-    if (!track.loading && !track.failed) {
-      Object.assign(props, {
-        name: track.name,
-        loading: track.loading,
-        albumId: track.album,
-        composers: track.composers,
-        producers: track.producers,
-        credits: track.credits,
-        progress: track.progress,
-        searchStarted: typeof track.progress !== 'undefined',
-        image: track.image,
-        year: track.year,
-        background: track.background,
-        artist: track.artistName,
-      });
-    }
+  const track = tracks[trackId];
+  if (track && !track.loading && !track.failed) {
+    return {
+      name: track.name,
+      loading: track.loading,
+      albumId: track.album,
+      composers: track.composers,
+      producers: track.producers,
+      credits: track.credits,
+      progress: track.progress,
+      searchStarted: typeof track.progress !== 'undefined',
+      image: track.image,
+      year: track.year,
+      background: track.background,
+      artist: track.artistName,
+    };
   }
-  return props;
+  return {};
 };
 
 export default connect(mapStateToProps)(TrackDetails);
