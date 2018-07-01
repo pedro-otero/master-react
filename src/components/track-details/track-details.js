@@ -94,7 +94,7 @@ const mapStateToProps = ({ tracks }, { trackId }) => {
       image: track.image,
       year: track.year,
       background: track.background,
-      artist: track.artistName,
+      artist: track.artist,
     };
   }
   return {};
