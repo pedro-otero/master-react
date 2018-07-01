@@ -42,7 +42,6 @@ Album.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
   progress: PropTypes.number,
-  searchTracks: PropTypes.array,
   tracks: PropTypes.array,
   year: PropTypes.string,
 };
