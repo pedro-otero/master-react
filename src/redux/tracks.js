@@ -75,6 +75,13 @@ export function reduce(state = {}, { type, data }) {
     case 'SET_TRACK': {
       return update([{ id: data.id, value: { ...data.value, loading: false, failed: false } }]);
     }
+    case 'SET_ALBUM': {
+      const { value: { image, year, tracks } } = data;
+      return update(tracks.map(id => ({
+        id,
+        value: { image, year },
+      })));
+    }
     case 'START_TRACK_LOAD': {
       return update([{ id: data.id, value: { loading: true, failed: false } }]);
     }
