@@ -1,4 +1,4 @@
-import { loadArtist, setArtist } from './artists';
+import { loadArtist, reduce, setArtist } from './artists';
 
 const artist = { id: 'AR1' };
 const successApi = {
@@ -128,6 +128,39 @@ describe('REDUX: Artists', () => {
     afterAll(() => {
       failureApi.getArtist.mockClear();
       clearActionMocks();
+    });
+  });
+
+  describe('reducer', () => {
+    it('adds artists', () => {
+      const artists = reduce({}, {
+        type: 'SET_ARTIST',
+        data: {
+          id: artist.id,
+          value: artist,
+        },
+      });
+      expect(artists.AR1).toEqual(Object.assign({ loading: false, failed: false }, artist));
+    });
+
+    it('sets artist as loading', () => {
+      const artists = reduce({}, {
+        type: 'START_ARTIST_LOAD',
+        data: {
+          id: artist.id,
+        },
+      });
+      expect(artists.AR1).toEqual({ loading: true, failed: false });
+    });
+
+    it('sets artist as failed', () => {
+      const artists = reduce({}, {
+        type: 'FAIL_ARTIST_LOAD',
+        data: {
+          id: artist.id,
+        },
+      });
+      expect(artists.AR1).toEqual({ loading: false, failed: true });
     });
   });
 });

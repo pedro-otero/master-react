@@ -38,3 +38,27 @@ export const failArtistLoad = id => ({
     value: 'FAILED',
   },
 });
+
+export function reduce(state = {}, { type, data }) {
+  const defaultArtist = { loading: false, failed: false };
+  switch (type) {
+    case 'SET_ARTIST': {
+      const artist = { ...(state[data.id] || defaultArtist) };
+      Object.assign(artist, { ...data.value, ...defaultArtist });
+      return Object.assign({ ...state }, { [data.id]: artist });
+    }
+    case 'START_ARTIST_LOAD': {
+      const artist = { ...(state[data.id] || defaultArtist) };
+      Object.assign(artist, { loading: true, failed: false });
+      return Object.assign({ ...state }, { [data.id]: artist });
+    }
+    case 'FAIL_ARTIST_LOAD': {
+      const artist = { ...(state[data.id] || defaultArtist) };
+      Object.assign(artist, { loading: false, failed: true });
+      return Object.assign({ ...state }, { [data.id]: artist });
+    }
+    default: {
+      return state;
+    }
+  }
+}
