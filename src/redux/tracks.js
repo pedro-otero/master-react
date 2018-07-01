@@ -40,7 +40,9 @@ export const addTrackCredits = (id, { composers, producers, credits }, progress)
   type: 'SET_TRACK',
   data: {
     id,
-    value: { composers, producers, credits, progress },
+    value: {
+      composers, producers, credits, progress,
+    },
   },
 });
 
@@ -59,22 +61,25 @@ export const failTrackLoad = id => ({
 });
 
 export function reduce(state = {}, { type, data }) {
-  const defaultTrack = { loading: false, failed: false };
+  const update = (tracks) => {
+    const defaultTrack = { loading: false, failed: false };
+    return tracks.reduce((all, track) => {
+      const merged = Object.assign(
+        { ...(all[track.id] || defaultTrack) },
+        track.value,
+      );
+      return Object.assign({ ...all }, { [track.id]: merged });
+    }, state);
+  };
   switch (type) {
     case 'SET_TRACK': {
-      const track = { ...(state[data.id] || defaultTrack) };
-      Object.assign(track, { ...data.value, ...defaultTrack });
-      return Object.assign({ ...state }, { [data.id]: track });
+      return update([{ id: data.id, value: { ...data.value, loading: false, failed: false } }]);
     }
     case 'START_TRACK_LOAD': {
-      const track = { ...(state[data.id] || defaultTrack) };
-      Object.assign(track, { loading: true, failed: false });
-      return Object.assign({ ...state }, { [data.id]: track });
+      return update([{ id: data.id, value: { loading: true, failed: false } }]);
     }
     case 'FAIL_TRACK_LOAD': {
-      const track = { ...(state[data.id] || defaultTrack) };
-      Object.assign(track, { loading: false, failed: true });
-      return Object.assign({ ...state }, { [data.id]: track });
+      return update([{ id: data.id, value: { loading: false, failed: true } }]);
     }
     default: {
       return state;
