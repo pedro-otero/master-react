@@ -1,7 +1,8 @@
 import { loadArtist, setArtist } from './artists';
 
+const artist = { id: 'AR1' };
 const successApi = {
-  getArtist: jest.fn(() => Promise.resolve({ body: {} })),
+  getArtist: jest.fn(() => Promise.resolve({ body: artist })),
 };
 const failureApi = {
   getArtist: jest.fn(() => Promise.reject(Error())),
@@ -69,7 +70,7 @@ describe('REDUX: Artists', () => {
     });
 
     it('forwards response', () => {
-      expect(response.body).toEqual({});
+      expect(response.body).toEqual(artist);
     });
 
     it('calls api method', () => {
@@ -81,7 +82,7 @@ describe('REDUX: Artists', () => {
     });
 
     it('informs load finished', () => {
-      expect(actions.setArtist).toHaveBeenCalledWith('AR1', {});
+      expect(actions.setArtist).toHaveBeenCalledWith('AR1', artist);
     });
 
     afterAll(() => {
