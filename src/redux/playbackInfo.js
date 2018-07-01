@@ -21,8 +21,7 @@ export const loadPlaybackInfo = () => (dispatch, getState, {
       dispatch(loadSearchResult(albumId));
       dispatch(setTrack(response.body.item.id, response.body.item));
       const artistId = response.body.item.artists[0].id;
-      dispatch(loadArtist(artistId));
-      dispatch(loadAlbum(albumId));
+      dispatch(loadAlbum(albumId)).then(() => dispatch(loadArtist(artistId)));
     }
     return response;
   }, () => {
