@@ -80,10 +80,6 @@ describe('Playback info', () => {
       expect(actions.loadAlbum).toHaveBeenCalledWith('AL1');
     });
 
-    it('calls actions.setTrack', () => {
-      expect(actions.setTrack).toHaveBeenCalledWith('T1', playbackInfo.item);
-    });
-
     afterAll(() => {
       successApi.getCurrentPlayback.mockClear();
       clearActionMocks();

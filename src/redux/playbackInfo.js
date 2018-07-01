@@ -19,7 +19,6 @@ export const loadPlaybackInfo = () => (dispatch, getState, {
     if (response.body) {
       const albumId = response.body.item.album.id;
       dispatch(loadSearchResult(albumId));
-      dispatch(setTrack(response.body.item.id, response.body.item));
       const artistId = response.body.item.artists[0].id;
       dispatch(loadAlbum(albumId)).then(() => dispatch(loadArtist(artistId)));
     }
