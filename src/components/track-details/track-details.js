@@ -66,9 +66,7 @@ TrackDetails.defaultProps = {
   producers: [],
 };
 
-const mapStateToProps = ({
-  tracks, albums, artists,
-}, { trackId }) => {
+const mapStateToProps = ({ tracks }, { trackId }) => {
   const props = {};
   if (tracks[trackId]) {
     const track = tracks[trackId];
