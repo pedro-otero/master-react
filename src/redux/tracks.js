@@ -88,8 +88,7 @@ export function reduce(state = {}, { type, data }) {
       return update(Object.entries(state)
         .filter(([id, track]) => track.artist === artistId)
         .map(([id, track]) => ({
-          id,
-          value: { background: image, artistName: name },
+          id, value: { background: image },
         })));
     }
     case 'START_TRACK_LOAD': {
