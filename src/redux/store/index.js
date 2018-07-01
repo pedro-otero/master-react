@@ -8,7 +8,7 @@ import * as playbackInfo from '../playbackInfo';
 import { loadSearchResult } from '../actions/backend';
 import { setArtist, startArtistLoad, loadArtist, failArtistLoad, reduce as artists } from '../artists';
 import { loadAlbum, startAlbumLoad, failAlbumLoad, setAlbum, reduce as albums } from '../albums';
-import { loadTrack, setTrack, startTrackLoad, failTrackLoad, reduce as tracks } from '../tracks';
+import { addTrackCredits, loadTrack, setTrack, startTrackLoad, failTrackLoad, reduce as tracks } from '../tracks';
 import { addError, clearErrors, reduce } from '../errors';
 
 const setSearchResult = generateCreator('SET_SEARCH_RESULT');
@@ -43,6 +43,7 @@ const store = (spotifyApi, backend) => createStore(
       ...artistActions,
       ...albumActions,
       ...trackActions,
+      addTrackCredits,
       loadSearchResult,
       setSearchResult,
       addError,

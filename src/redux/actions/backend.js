@@ -5,6 +5,9 @@ export const loadSearchResult = id => (dispatch, getState, { backend, actions })
     backend.getCredits(id)
       .subscribe((response) => {
         dispatch(actions.setSearchResult(id, response));
+        response.bestMatch.tracks
+          .map(track => actions.addTrackCredits(track.id, track))
+          .reduce((_, action) => dispatch(action));
       }, () => {
         dispatch(actions.setSearchResult(id, 'FAILED'));
         dispatch(actions.addError('Loading credits failed'));
