@@ -116,7 +116,7 @@ describe('REDUX: Tracks', () => {
           value: track,
         },
       });
-      expect(tracks.T1).toEqual(track);
+      expect(tracks.T1).toEqual(Object.assign({ loading: false, failed: false }, track));
     });
 
     it('sets track as loading', () => {
