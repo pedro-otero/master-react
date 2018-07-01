@@ -37,16 +37,6 @@ export const setTrack = (id, track) => {
   };
 };
 
-export const addTrackCredits = (id, { composers, producers, credits }, progress) => ({
-  type: 'SET_TRACK',
-  data: {
-    id,
-    value: {
-      composers, producers, credits, progress,
-    },
-  },
-});
-
 export const startTrackLoad = id => ({
   type: 'START_TRACK_LOAD',
   data: {
@@ -82,6 +72,9 @@ export function reduce(state = {}, { type, data }) {
         id,
         value: { image, year },
       })));
+    }
+    case 'SET_SEARCH_RESULT': {
+      return update(data.tracks);
     }
     case 'SET_ARTIST': {
       const { value: { image, id: artistId } } = data;

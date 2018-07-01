@@ -90,7 +90,7 @@ const mapStateToProps = ({ tracks }, { trackId }) => {
       producers: track.producers,
       credits: track.credits,
       progress: track.progress,
-      searchStarted: typeof track.progress !== 'undefined',
+      searchStarted: track.searchStarted,
       image: track.image,
       year: track.year,
       background: track.background,
