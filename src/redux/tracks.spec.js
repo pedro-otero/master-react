@@ -116,7 +116,11 @@ describe('REDUX: Tracks', () => {
           value: track,
         },
       });
-      expect(tracks.T1).toEqual(Object.assign({ loading: false, failed: false }, track));
+      expect(tracks.T1).toEqual(Object.assign({
+        loading: false,
+        failed: false,
+        searchStarted: false,
+      }, track));
     });
 
     it('sets track as loading', () => {
@@ -126,7 +130,7 @@ describe('REDUX: Tracks', () => {
           id: track.id,
         },
       });
-      expect(tracks.T1).toEqual({ loading: true, failed: false });
+      expect(tracks.T1).toEqual({ loading: true, failed: false, searchStarted: false });
     });
 
     it('sets track as failed', () => {
@@ -136,7 +140,7 @@ describe('REDUX: Tracks', () => {
           id: track.id,
         },
       });
-      expect(tracks.T1).toEqual({ loading: false, failed: true });
+      expect(tracks.T1).toEqual({ loading: false, failed: true, searchStarted: false });
     });
   });
 });
