@@ -10,7 +10,7 @@ storiesOf('Track details', module)
     <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
   ))
   .add('Just started', () => (
-    <TrackDetails />
+    <TrackDetails loading={true} />
   ))
   .add('With Spotify track info', () => (
     <TrackDetails name="Char Topper Everybody's Sick Of" />

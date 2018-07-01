@@ -22,28 +22,32 @@ export const TrackDetails = ({
   producers,
   loading,
   searchStarted,
-}) => <article>
-  <ArtistWork
-      title={name}
-      artist={artist}
-      year={year}
-      image={image}
-      background={background}
-      path={`/album/${albumId}`}>
-    <span>
-      <Composers list={composers} />
-      <br />
-      <Producers list={producers} />
-    </span>
-  </ArtistWork>
-  {loading && <LoadingCircle message="Loading data from Spotify..." />}
-  {!searchStarted && <LoadingCircle message="Starting search..." />}
-  <Credits data={credits} />
-  {searchStarted && progress !== 100 &&
-    <Progress
-        size={Object.keys(credits).length === 0 ? 'big' : 'small'}
-        value={progress} />}
-</article>;
+}) => {
+  if (loading) {
+    return <LoadingCircle message="Loading data from Spotify..." />;
+  }
+  return <article>
+    <ArtistWork
+        title={name}
+        artist={artist}
+        year={year}
+        image={image}
+        background={background}
+        path={`/album/${albumId}`}>
+      <span>
+        <Composers list={composers} />
+        <br />
+        <Producers list={producers} />
+      </span>
+    </ArtistWork>
+    {!searchStarted && <LoadingCircle message="Starting search..." />}
+    <Credits data={credits} />
+    {searchStarted && progress !== 100 &&
+      <Progress
+          size={Object.keys(credits).length === 0 ? 'big' : 'small'}
+          value={progress} />}
+  </article>;
+};
 
 TrackDetails.propTypes = {
   albumId: PropTypes.string,
