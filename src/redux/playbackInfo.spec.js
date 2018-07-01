@@ -1,7 +1,7 @@
 import { setPlaybackInfo, loadPlaybackInfo, reduce } from './playbackInfo';
 
 describe('Playback info', () => {
-  const dispatch = jest.fn();
+  const dispatch = jest.fn(action => action);
   const playbackInfo = {
     item: {
       id: 'T1',
@@ -19,7 +19,7 @@ describe('Playback info', () => {
   };
   const actions = {
     loadArtist: jest.fn(),
-    loadAlbum: jest.fn(),
+    loadAlbum: jest.fn(() => Promise.resolve()),
     setTrack: jest.fn(),
     loadSearchResult: jest.fn(),
     addError: jest.fn(),
