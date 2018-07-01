@@ -77,7 +77,11 @@ describe('REDUX: Tracks', () => {
 
   it('Reloads a failed track', (done) => {
     const thunk = loadTrack('T1');
-    thunk(dispatch, () => ({ tracks: { T1: 'FAILED' } }), { spotifyApi: successApi, actions }).then(() => {
+    thunk(dispatch, () => ({
+      tracks: { T1: { failed: true } },
+    }), {
+      spotifyApi: successApi, actions,
+    }).then(() => {
       expect(successApi.getTrack).toBeCalled();
       done();
     });

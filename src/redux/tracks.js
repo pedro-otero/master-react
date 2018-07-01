@@ -1,6 +1,6 @@
 export const loadTrack = id => (dispatch, getState, { spotifyApi, actions }) => {
   const track = getState().tracks[id];
-  if (!track || track === 'FAILED') {
+  if (!track || track.failed) {
     dispatch(actions.startTrackLoad(id));
     return spotifyApi
       .getTrack(id).then((response) => {
