@@ -85,7 +85,7 @@ const mapStateToProps = ({ tracks }, { trackId }) => {
       name: track.name,
       loading: track.loading,
       failed: track.failed,
-      albumId: track.album,
+      albumId: track.albumId,
       composers: track.composers,
       producers: track.producers,
       credits: track.credits,

@@ -24,7 +24,7 @@ export const setTrack = (id, track) => {
       id,
       value: {
         id,
-        album: track.album.id,
+        albumId: track.album.id,
         name: track.name,
         artistId: track.artists[0].id,
         artist: track.artists[0].name,
