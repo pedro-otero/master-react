@@ -36,11 +36,11 @@ export const setTrack = (id, track) => {
   };
 };
 
-export const addTrackCredits = (id, { composers, producers, credits }) => ({
+export const addTrackCredits = (id, { composers, producers, credits }, progress) => ({
   type: 'SET_TRACK',
   data: {
     id,
-    value: { composers, producers, credits },
+    value: { composers, producers, credits, progress },
   },
 });
 
