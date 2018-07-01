@@ -8,7 +8,7 @@ import TrackItem from '../track-item/track-item';
 import Progress from '../progress/progress';
 
 export const Album = ({
-  artistImg, albumImg, tracks, progress, year, name, artist, searchTracks,
+  artistImg, albumImg, tracks, progress, year, name, artist,
 }) => <Fragment>
   {artist && name &&
   <ArtistWork
@@ -17,23 +17,20 @@ export const Album = ({
       year={year}
       image={albumImg}
       background={artistImg} />}
-  {name && searchTracks && <Fragment>
+  {name && <Fragment>
       {progress < 100 && <Progress
           size="small"
           value={progress} />}
     <ol className={styles.tracklist}>
-      {tracks.map((fromSpotify, i) => {
-          const { composers } = searchTracks[i];
-          const { name: trackName, duration, id } = fromSpotify;
-          return <li key={`${trackName}-${id}`}>
-            <TrackItem
-                id={id}
-                name={trackName}
-                duration={duration}
-                composers={composers}
+      {tracks.map(track => (
+        <li key={`${track.name}-${track.id}`}>
+          <TrackItem
+              id={track.id}
+              name={track.name}
+              duration={track.duration}
+              composers={track.composers}
             />
-          </li>;
-        })}
+        </li>))}
     </ol>
     </Fragment>}
 </Fragment>;
@@ -51,7 +48,7 @@ Album.propTypes = {
 };
 
 const mapStateToProps = ({
-  albums, artists, searches, tracks,
+  albums, artists, tracks,
 }, { albumId }) => {
   const props = {};
   if (albums[albumId]) {
@@ -70,13 +67,6 @@ const mapStateToProps = ({
           artist: artist.name,
         });
       }
-    }
-    const search = searches[albumId];
-    if (search && search !== 'LOADING' && search !== 'FAILED') {
-      Object.assign(props, {
-        progress: search.progress,
-        searchTracks: search.bestMatch.tracks,
-      });
     }
   }
   return props;
