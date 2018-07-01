@@ -24,18 +24,16 @@ export const setArtist = (id, { name, images }) => ({
 });
 
 export const startArtistLoad = id => ({
-  type: 'SET_ARTIST',
+  type: 'START_ARTIST_LOAD',
   data: {
     id,
-    value: 'LOADING',
   },
 });
 
 export const failArtistLoad = id => ({
-  type: 'SET_ARTIST',
+  type: 'FAIL_ARTIST_LOAD',
   data: {
     id,
-    value: 'FAILED',
   },
 });
 
