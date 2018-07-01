@@ -92,4 +92,7 @@ storiesOf('Track details', module)
           'Goto Producer': ['Backing Vocals'],
           'Guy Bass': ['Bass'],
         }} />
+  ))
+  .add('Failed', () => (
+    <TrackDetails failed={true} />
   ));

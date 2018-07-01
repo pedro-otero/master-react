@@ -22,9 +22,16 @@ export const TrackDetails = ({
   producers,
   loading,
   searchStarted,
+  failed,
 }) => {
   if (loading) {
     return <LoadingCircle message="Loading data from Spotify..." />;
+  }
+  if (failed) {
+    return <div>
+      <i className="em em--1"></i>
+      <h1>Could not load this track</h1>
+    </div>;
   }
   return <article>
     <ArtistWork
@@ -55,6 +62,7 @@ TrackDetails.propTypes = {
   background: PropTypes.string,
   composers: PropTypes.array,
   credits: PropTypes.object,
+  failed: PropTypes.bool,
   image: PropTypes.string,
   loading: PropTypes.bool,
   name: PropTypes.string,
@@ -72,10 +80,11 @@ TrackDetails.defaultProps = {
 
 const mapStateToProps = ({ tracks }, { trackId }) => {
   const track = tracks[trackId];
-  if (track && !track.loading && !track.failed) {
+  if (track) {
     return {
       name: track.name,
       loading: track.loading,
+      failed: track.failed,
       albumId: track.album,
       composers: track.composers,
       producers: track.producers,
