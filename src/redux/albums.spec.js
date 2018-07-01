@@ -52,7 +52,7 @@ describe('REDUX: Albums', () => {
     });
 
     it('calls actions.setTrack', () => {
-      expect(actions.setTrack).toHaveBeenCalledWith('T1', { id: 'T1', album: { id: 'AL1' } });
+      expect(actions.setTrack).toHaveBeenCalledWith({ id: 'T1', album: { id: 'AL1' } });
     });
 
     it('informs load succeded', () => {

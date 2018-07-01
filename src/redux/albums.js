@@ -6,7 +6,7 @@ export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => 
       .getAlbum(id).then((response) => {
         dispatch(actions.setAlbum(id, response.body));
         response.body.tracks.items
-          .forEach(track => dispatch(actions.setTrack(track.id, Object.assign({}, track, {
+          .forEach(track => dispatch(actions.setTrack(Object.assign({}, track, {
             album: {
               id: response.body.id,
             },

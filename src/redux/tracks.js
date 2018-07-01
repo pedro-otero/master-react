@@ -4,7 +4,7 @@ export const loadTrack = id => (dispatch, getState, { spotifyApi, actions }) => 
     dispatch(actions.startTrackLoad(id));
     return spotifyApi
       .getTrack(id).then((response) => {
-        dispatch(actions.setTrack(id, response.body));
+        dispatch(actions.setTrack(response.body));
         const albumId = response.body.album.id;
         dispatch(actions.loadSearchResult(albumId));
         dispatch(actions.loadAlbum(albumId));
@@ -14,25 +14,22 @@ export const loadTrack = id => (dispatch, getState, { spotifyApi, actions }) => 
   return Promise.resolve(track);
 };
 
-export const setTrack = (id, track) => {
+export const setTrack = (track) => {
   const minutes = Math.floor(track.duration_ms / 60000);
   const seconds = ((track.duration_ms % 60000) / 1000).toFixed(0);
   const duration = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   return {
     type: 'SET_TRACK',
     data: {
-      id,
-      value: {
-        id,
-        albumId: track.album.id,
-        name: track.name,
-        artistId: track.artists[0].id,
-        artist: track.artists[0].name,
-        duration,
-        composers: [],
-        producers: [],
-        credits: {},
-      },
+      id: track.id,
+      albumId: track.album.id,
+      name: track.name,
+      artistId: track.artists[0].id,
+      artist: track.artists[0].name,
+      duration,
+      composers: [],
+      producers: [],
+      credits: {},
     },
   };
 };
@@ -64,7 +61,7 @@ export function reduce(state = {}, { type, data }) {
   };
   switch (type) {
     case 'SET_TRACK': {
-      return update([{ id: data.id, value: { ...data.value, loading: false, failed: false } }]);
+      return update([{ id: data.id, value: { ...data, loading: false, failed: false } }]);
     }
     case 'SET_ALBUM': {
       const { value: { image, year, tracks } } = data;

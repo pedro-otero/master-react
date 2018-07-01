@@ -58,7 +58,7 @@ describe('REDUX: Tracks', () => {
     });
 
     it('informs load failed', () => {
-      expect(actions.setTrack).toHaveBeenCalledWith('T1', track);
+      expect(actions.setTrack).toHaveBeenCalledWith(track);
     });
 
     afterAll(() => {
@@ -111,10 +111,7 @@ describe('REDUX: Tracks', () => {
     it('adds tracks', () => {
       const tracks = reduce({}, {
         type: 'SET_TRACK',
-        data: {
-          id: track.id,
-          value: track,
-        },
+        data: track,
       });
       expect(tracks.T1).toEqual(Object.assign({
         loading: false,
