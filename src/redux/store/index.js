@@ -6,7 +6,7 @@ import generateReducer from '../reducers/generate-reducer';
 import generateCreator from '../actions/generate-creator';
 import * as playbackInfo from '../playbackInfo';
 import { loadSearchResult } from '../actions/backend';
-import { setArtist, startArtistLoad, loadArtist, failArtistLoad } from '../artists';
+import { setArtist, startArtistLoad, loadArtist, failArtistLoad, reduce as artists } from '../artists';
 import { loadAlbum, startAlbumLoad, failAlbumLoad, setAlbum, reduce as albums } from '../albums';
 import { loadTrack, setTrack, startTrackLoad, failTrackLoad, reduce as tracks } from '../tracks';
 import { addError, clearErrors, reduce } from '../errors';
@@ -31,7 +31,7 @@ const store = (spotifyApi, backend) => createStore(
     searches: generateReducer('SET_SEARCH_RESULT'),
     tracks,
     albums,
-    artists: generateReducer('SET_ARTIST'),
+    artists,
     playbackInfo: playbackInfo.reduce,
     errors: reduce,
   }),
