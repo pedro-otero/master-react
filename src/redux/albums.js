@@ -58,3 +58,27 @@ export const failAlbumLoad = id => ({
     value: 'FAILED',
   },
 });
+
+export function reduce(state = {}, { type, data }) {
+  const defaultAlbum = { loading: false, failed: false };
+  switch (type) {
+    case 'SET_ALBUM': {
+      const album = { ...(state[data.id] || defaultAlbum) };
+      Object.assign(album, { ...data.value, ...defaultAlbum });
+      return Object.assign({ ...state }, { [data.id]: album });
+    }
+    case 'START_ALBUM_LOAD': {
+      const album = { ...(state[data.id] || defaultAlbum) };
+      Object.assign(album, { loading: true, failed: false });
+      return Object.assign({ ...state }, { [data.id]: album });
+    }
+    case 'FAIL_ALBUM_LOAD': {
+      const album = { ...(state[data.id] || defaultAlbum) };
+      Object.assign(album, { loading: false, failed: true });
+      return Object.assign({ ...state }, { [data.id]: album });
+    }
+    default: {
+      return state;
+    }
+  }
+}

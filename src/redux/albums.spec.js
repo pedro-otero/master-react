@@ -1,4 +1,4 @@
-import { loadAlbum, setAlbum } from './albums';
+import { loadAlbum, reduce, setAlbum } from './albums';
 
 const dispatch = jest.fn();
 const album = { id: 'AL1', artists: [{ id: 'AR1' }], tracks: { items: [{ id: 'T1' }] } };
@@ -135,6 +135,39 @@ describe('REDUX: Albums', () => {
           year: '2004',
         },
       },
+    });
+  });
+
+  describe('reducer', () => {
+    it('adds albums', () => {
+      const albums = reduce({}, {
+        type: 'SET_ALBUM',
+        data: {
+          id: album.id,
+          value: album,
+        },
+      });
+      expect(albums.AL1).toEqual(Object.assign({ loading: false, failed: false }, album));
+    });
+
+    it('sets album as loading', () => {
+      const albums = reduce({}, {
+        type: 'START_ALBUM_LOAD',
+        data: {
+          id: album.id,
+        },
+      });
+      expect(albums.AL1).toEqual({ loading: true, failed: false });
+    });
+
+    it('sets album as failed', () => {
+      const albums = reduce({}, {
+        type: 'FAIL_ALBUM_LOAD',
+        data: {
+          id: album.id,
+        },
+      });
+      expect(albums.AL1).toEqual({ loading: false, failed: true });
     });
   });
 });
