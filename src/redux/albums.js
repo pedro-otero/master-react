@@ -44,18 +44,16 @@ export const setAlbum = (id, album) => {
 };
 
 export const startAlbumLoad = id => ({
-  type: 'SET_ALBUM',
+  type: 'START_ALBUM_LOAD',
   data: {
     id,
-    value: 'LOADING',
   },
 });
 
 export const failAlbumLoad = id => ({
-  type: 'SET_ALBUM',
+  type: 'FAIL_ALBUM_LOAD',
   data: {
     id,
-    value: 'FAILED',
   },
 });
 
