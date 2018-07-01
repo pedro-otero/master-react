@@ -82,6 +82,15 @@ export function reduce(state = {}, { type, data }) {
         value: { image, year },
       })));
     }
+    case 'SET_ARTIST': {
+      const { value: { image, name, id: artistId } } = data;
+      return update(Object.entries(state)
+        .filter(([id, track]) => track.artist === artistId)
+        .map(([id, track]) => ({
+          id,
+          value: { background: image, artistName: name },
+        })));
+    }
     case 'START_TRACK_LOAD': {
       return update([{ id: data.id, value: { loading: true, failed: false } }]);
     }

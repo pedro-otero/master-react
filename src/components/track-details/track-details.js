@@ -84,14 +84,9 @@ const mapStateToProps = ({
         searchStarted: typeof track.progress !== 'undefined',
         image: track.image,
         year: track.year,
+        background: track.background,
+        artist: track.artistName,
       });
-      const artist = artists[track.artist];
-      if (artist && !artist.loading && !artist.failed) {
-        Object.assign(props, {
-          background: artist.image,
-          artist: artist.name,
-        });
-      }
     }
   }
   return props;
