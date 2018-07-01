@@ -9,7 +9,7 @@ storiesOf('Track details', module)
   .addDecorator(story => (
     <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
   ))
-  .add('Default', () => (
+  .add('Finished', () => (
     <TrackDetails
         name="Char Topper Everybody's Sick Of"
         artist="Pop Master"
