@@ -82,14 +82,9 @@ const mapStateToProps = ({
         credits: track.credits,
         progress: track.progress,
         searchStarted: typeof track.progress !== 'undefined',
+        image: track.image,
+        year: track.year,
       });
-      const album = albums[track.album];
-      if (album && !album.loading && !album.failed) {
-        Object.assign(props, {
-          image: album.image,
-          year: album.year,
-        });
-      }
       const artist = artists[track.artist];
       if (artist && !artist.loading && !artist.failed) {
         Object.assign(props, {
