@@ -37,26 +37,35 @@ export const setTrack = (id, track) => {
 };
 
 export const startTrackLoad = id => ({
-  type: 'SET_TRACK',
+  type: 'START_TRACK_LOAD',
   data: {
     id,
-    value: 'LOADING',
   },
 });
 
 export const failTrackLoad = id => ({
-  type: 'SET_TRACK',
+  type: 'FAIL_TRACK_LOAD',
   data: {
     id,
-    value: 'FAILED',
   },
 });
 
 export function reduce(state = {}, { type, data }) {
+  const defaultTrack = { loading: false, failed: false };
   switch (type) {
     case 'SET_TRACK': {
-      const track = { ...(state[data.id] || {}) };
-      Object.assign(track, { ...data.value });
+      const track = { ...(state[data.id] || defaultTrack) };
+      Object.assign(track, { ...data.value, ...defaultTrack });
+      return Object.assign({ ...state }, { [data.id]: track });
+    }
+    case 'START_TRACK_LOAD': {
+      const track = { ...(state[data.id] || defaultTrack) };
+      Object.assign(track, { loading: true, failed: false });
+      return Object.assign({ ...state }, { [data.id]: track });
+    }
+    case 'FAIL_TRACK_LOAD': {
+      const track = { ...(state[data.id] || defaultTrack) };
+      Object.assign(track, { loading: false, failed: true });
       return Object.assign({ ...state }, { [data.id]: track });
     }
     default: {
