@@ -17,7 +17,7 @@ export const Album = ({
   if (failed) {
     return <div>
       <i className="em em--1"></i>
-      <h1>Could not load this track</h1>
+      <h1>Could not load this album</h1>
     </div>;
   }
   return <Fragment>
