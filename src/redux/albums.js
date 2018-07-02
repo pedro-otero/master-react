@@ -73,6 +73,9 @@ export function reduce(state = {}, { type, data }) {
         .filter(([id, album]) => album.artistId === artistId)
         .map(([id]) => ({ id, value: { background: image, artist: name } })));
     }
+    case 'SET_SEARCH_RESULT': {
+      return update([{ id: data.id, value: { searchStarted: true } }]);
+    }
     case 'START_ALBUM_LOAD': {
       return update([{ id: data.id, value: { loading: true, failed: false } }]);
     }
