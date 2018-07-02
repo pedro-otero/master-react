@@ -20,7 +20,7 @@ export const setAlbum = (id, album) => {
     name, artists, images, tracks: { items: tracks }, release_date: releaseDate,
   } = album;
   const image = images[0].url;
-  const artist = artists[0].id;
+  const artistId = artists[0].id;
   const year = releaseDate.substring(0, 4);
   return {
     type: 'SET_ALBUM',
@@ -29,7 +29,7 @@ export const setAlbum = (id, album) => {
       value: {
         id,
         name,
-        artist,
+        artistId,
         image,
         tracks: tracks.map(track => Object.assign({ album: { id } }, track)),
         year,

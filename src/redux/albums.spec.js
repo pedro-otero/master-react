@@ -125,7 +125,7 @@ describe('REDUX: Albums', () => {
         value: {
           id: 'AL1',
           name: 'The Album',
-          artist: 'AR1',
+          artistId: 'AR1',
           image: 'imgUrl',
           tracks: [{
             album: { id: 'AL1' },
