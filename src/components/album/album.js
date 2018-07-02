@@ -8,15 +8,15 @@ import TrackItem from '../track-item/track-item';
 import Progress from '../progress/progress';
 
 export const Album = ({
-  artistImg, albumImg, tracks, progress, year, name, artist,
+  background, image, tracks, progress, year, name, artist,
 }) => <Fragment>
   {artist && name &&
   <ArtistWork
       title={name}
       artist={artist}
       year={year}
-      image={albumImg}
-      background={artistImg} />}
+      image={image}
+      background={background} />}
   {name && <Fragment>
       {progress < 100 && <Progress
           size="small"
@@ -36,10 +36,10 @@ export const Album = ({
 </Fragment>;
 
 Album.propTypes = {
-  albumImg: PropTypes.string,
   artist: PropTypes.string,
-  artistImg: PropTypes.string,
+  background: PropTypes.string,
   id: PropTypes.string.isRequired,
+  image: PropTypes.string,
   name: PropTypes.string,
   progress: PropTypes.number,
   tracks: PropTypes.array,
@@ -50,11 +50,11 @@ const mapStateToProps = ({ albums, tracks }, { albumId }) => {
   const album = albums[albumId];
   if (album) {
     return {
-      albumImg: album.image,
+      image: album.image,
       name: album.name,
       tracks: album.tracks.map(id => tracks[id]),
       year: album.year,
-      artistImg: album.artistImg,
+      background: album.background,
       artist: album.artist,
     };
   }
