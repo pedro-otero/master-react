@@ -127,7 +127,11 @@ describe('REDUX: Albums', () => {
           name: 'The Album',
           artist: 'AR1',
           image: 'imgUrl',
-          tracks: ['T1'],
+          tracks: [{
+            album: { id: 'AL1' },
+            id: 'T1',
+            name: 'Track #1',
+          }],
           year: '2004',
         },
       },
@@ -140,10 +144,10 @@ describe('REDUX: Albums', () => {
         type: 'SET_ALBUM',
         data: {
           id: album.id,
-          value: album,
+          value: Object.assign(album, { tracks: [{ id: 'T1' }] }),
         },
       });
-      expect(albums.AL1).toEqual(Object.assign({ loading: false, failed: false }, album));
+      expect(albums.AL1).toEqual(Object.assign({ loading: false, failed: false }, album, { tracks: ['T1'] }));
     });
 
     it('sets album as loading', () => {
