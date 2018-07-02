@@ -59,6 +59,10 @@ Album.propTypes = {
   year: PropTypes.string,
 };
 
+Album.defaultProps = {
+  tracks: [],
+};
+
 const mapStateToProps = ({ albums, tracks }, { albumId }) => {
   const album = albums[albumId];
   if (album) {
