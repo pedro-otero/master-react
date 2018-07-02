@@ -67,6 +67,7 @@ const mapStateToProps = ({ albums, tracks }, { albumId }) => {
       failed: album.failed,
       loading: album.loading,
       name: album.name,
+      progress: album.progress,
       tracks: album.tracks.map(id => tracks[id]),
       year: album.year,
       background: album.background,
