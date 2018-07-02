@@ -6,22 +6,19 @@ export const loadArtist = id => (dispatch, getState, { spotifyApi, actions }) =>
     dispatch(actions.startArtistLoad(id));
     return spotifyApi
       .getArtist(id).then((response) => {
-        dispatch(actions.setArtist(id, response.body));
+        dispatch(actions.setArtist(response.body));
         return response;
       }, () => dispatch(actions.failArtistLoad(id)));
   }
   return Promise.resolve(artist);
 };
 
-export const setArtist = (id, { name, images }) => ({
+export const setArtist = ({ id, name, images }) => ({
   type: 'SET_ARTIST',
   data: {
     id,
-    value: {
-      id,
-      name,
-      image: images.length ? images[0].url : undefined,
-    },
+    name,
+    image: images.length ? images[0].url : undefined,
   },
 });
 
@@ -44,7 +41,7 @@ export function reduce(state = {}, { type, data }) {
   const update = updateState(state, defaultArtist);
   switch (type) {
     case 'SET_ARTIST': {
-      return update([{ id: data.id, value: { ...data.value, loading: false, failed: false } }]);
+      return update([{ id: data.id, value: { ...data, loading: false, failed: false } }]);
     }
     case 'START_ARTIST_LOAD': {
       return update([{ id: data.id, value: { loading: true, failed: false } }]);

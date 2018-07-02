@@ -23,7 +23,7 @@ const emptyGetState = () => ({
 
 describe('REDUX: Artists', () => {
   it('creates SET_ARTIST action for artists without images', () => {
-    const action = setArtist('AR1', {
+    const action = setArtist({
       name: 'The Artist',
       images: [],
     });
@@ -40,7 +40,7 @@ describe('REDUX: Artists', () => {
   });
 
   it('creates SET_ARTIST action', () => {
-    const action = setArtist('AR1', {
+    const action = setArtist({
       name: 'The Artist',
       images: [{
         url: 'imgUrl',
@@ -82,7 +82,7 @@ describe('REDUX: Artists', () => {
     });
 
     it('informs load finished', () => {
-      expect(actions.setArtist).toHaveBeenCalledWith('AR1', artist);
+      expect(actions.setArtist).toHaveBeenCalledWith(artist);
     });
 
     afterAll(() => {

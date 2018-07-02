@@ -65,7 +65,7 @@ export function reduce(state = {}, { type, data }) {
       }]);
     }
     case 'SET_ARTIST': {
-      const { value: { name, image, id: artistId } } = data;
+      const { name, image, id: artistId } = data;
       return update(Object.entries(state)
         .filter(([id, album]) => album.artistId === artistId)
         .map(([id]) => ({ id, value: { background: image, artist: name } })));
