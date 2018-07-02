@@ -24,23 +24,22 @@ const emptyGetState = () => ({
 describe('REDUX: Artists', () => {
   it('creates SET_ARTIST action for artists without images', () => {
     const action = setArtist({
+      id: 'AR1',
       name: 'The Artist',
       images: [],
     });
     expect(action).toEqual({
       type: 'SET_ARTIST',
       data: {
+        name: 'The Artist',
         id: 'AR1',
-        value: {
-          name: 'The Artist',
-          id: 'AR1',
-        },
       },
     });
   });
 
   it('creates SET_ARTIST action', () => {
     const action = setArtist({
+      id: 'AR1',
       name: 'The Artist',
       images: [{
         url: 'imgUrl',
@@ -50,11 +49,8 @@ describe('REDUX: Artists', () => {
       type: 'SET_ARTIST',
       data: {
         id: 'AR1',
-        value: {
-          name: 'The Artist',
-          id: 'AR1',
-          image: 'imgUrl',
-        },
+        name: 'The Artist',
+        image: 'imgUrl',
       },
     });
   });
@@ -137,10 +133,7 @@ describe('REDUX: Artists', () => {
     it('adds artists', () => {
       const artists = reduce({}, {
         type: 'SET_ARTIST',
-        data: {
-          id: artist.id,
-          value: artist,
-        },
+        data: artist,
       });
       expect(artists.AR1).toEqual(Object.assign({ loading: false, failed: false }, artist));
     });
