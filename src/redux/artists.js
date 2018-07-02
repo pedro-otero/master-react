@@ -1,3 +1,5 @@
+import { updateState } from './helpers';
+
 export const loadArtist = id => (dispatch, getState, { spotifyApi, actions }) => {
   const artist = getState().artists[id];
   if (!artist || artist === 'FAILED') {
@@ -39,21 +41,16 @@ export const failArtistLoad = id => ({
 
 export function reduce(state = {}, { type, data }) {
   const defaultArtist = { loading: false, failed: false };
+  const update = updateState(state, defaultArtist);
   switch (type) {
     case 'SET_ARTIST': {
-      const artist = { ...(state[data.id] || defaultArtist) };
-      Object.assign(artist, { ...data.value, ...defaultArtist });
-      return Object.assign({ ...state }, { [data.id]: artist });
+      return update([{ id: data.id, value: { ...data.value, loading: false, failed: false } }]);
     }
     case 'START_ARTIST_LOAD': {
-      const artist = { ...(state[data.id] || defaultArtist) };
-      Object.assign(artist, { loading: true, failed: false });
-      return Object.assign({ ...state }, { [data.id]: artist });
+      return update([{ id: data.id, value: { loading: true, failed: false } }]);
     }
     case 'FAIL_ARTIST_LOAD': {
-      const artist = { ...(state[data.id] || defaultArtist) };
-      Object.assign(artist, { loading: false, failed: true });
-      return Object.assign({ ...state }, { [data.id]: artist });
+      return update([{ id: data.id, value: { loading: false, failed: true } }]);
     }
     default: {
       return state;
