@@ -14,25 +14,27 @@ export const loadTrack = id => (dispatch, getState, { spotifyApi, actions }) => 
   return Promise.resolve(track);
 };
 
-export const setTrack = (track) => {
+function trackToState(track) {
   const minutes = Math.floor(track.duration_ms / 60000);
   const seconds = ((track.duration_ms % 60000) / 1000).toFixed(0);
   const duration = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   return {
-    type: 'SET_TRACK',
-    data: {
-      id: track.id,
-      albumId: track.album.id,
-      name: track.name,
-      artistId: track.artists[0].id,
-      artist: track.artists[0].name,
-      duration,
-      composers: [],
-      producers: [],
-      credits: {},
-    },
+    id: track.id,
+    albumId: track.album.id,
+    name: track.name,
+    artistId: track.artists[0].id,
+    artist: track.artists[0].name,
+    duration,
+    composers: [],
+    producers: [],
+    credits: {},
   };
-};
+}
+
+export const setTrack = track => ({
+  type: 'SET_TRACK',
+  data: trackToState(track),
+});
 
 export const startTrackLoad = id => ({
   type: 'START_TRACK_LOAD',
@@ -64,10 +66,14 @@ export function reduce(state = {}, { type, data }) {
       return update([{ id: data.id, value: { ...data, loading: false, failed: false } }]);
     }
     case 'SET_ALBUM': {
-      const { value: { image, year, tracks } } = data;
-      return update(tracks.map(id => ({
-        id,
-        value: { image, year },
+      const {
+        value: {
+          id, image, year, tracks,
+        },
+      } = data;
+      return update(tracks.map(track => ({
+        id: track.id,
+        value: Object.assign({ image, year }, trackToState(track)),
       })));
     }
     case 'SET_SEARCH_RESULT': {

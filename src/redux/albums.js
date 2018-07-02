@@ -15,11 +15,10 @@ export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => 
 
 export const setAlbum = (id, album) => {
   const {
-    name, artists, images, tracks: { items: pagedTracks }, release_date: releaseDate,
+    name, artists, images, tracks: { items: tracks }, release_date: releaseDate,
   } = album;
   const image = images[0].url;
   const artist = artists[0].id;
-  const tracks = pagedTracks.map(track => track.id);
   const year = releaseDate.substring(0, 4);
   return {
     type: 'SET_ALBUM',
@@ -30,7 +29,7 @@ export const setAlbum = (id, album) => {
         name,
         artist,
         image,
-        tracks,
+        tracks: tracks.map(track => Object.assign({ album: { id } }, track)),
         year,
       },
     },
@@ -56,7 +55,11 @@ export function reduce(state = {}, { type, data }) {
   switch (type) {
     case 'SET_ALBUM': {
       const album = { ...(state[data.id] || defaultAlbum) };
-      Object.assign(album, { ...data.value, ...defaultAlbum });
+      Object.assign(album, {
+        ...data.value,
+        ...defaultAlbum,
+        tracks: data.value.tracks.map(({ id }) => id),
+      });
       return Object.assign({ ...state }, { [data.id]: album });
     }
     case 'START_ALBUM_LOAD': {
