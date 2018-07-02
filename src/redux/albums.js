@@ -26,14 +26,11 @@ export const setAlbum = (id, album) => {
     type: 'SET_ALBUM',
     data: {
       id,
-      value: {
-        id,
-        name,
-        artistId,
-        image,
-        tracks: tracks.map(track => Object.assign({ album: { id } }, track)),
-        year,
-      },
+      name,
+      artistId,
+      image,
+      tracks: tracks.map(track => Object.assign({ album: { id } }, track)),
+      year,
     },
   };
 };
@@ -60,8 +57,8 @@ export function reduce(state = {}, { type, data }) {
       return update([{
         id: data.id,
         value: {
-          ...data.value,
-          tracks: data.value.tracks.map(({ id }) => id),
+          ...data,
+          tracks: data.tracks.map(({ id }) => id),
           loading: false,
           failed: false,
         },

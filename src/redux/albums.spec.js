@@ -122,18 +122,15 @@ describe('REDUX: Albums', () => {
       type: 'SET_ALBUM',
       data: {
         id: 'AL1',
-        value: {
-          id: 'AL1',
-          name: 'The Album',
-          artistId: 'AR1',
-          image: 'imgUrl',
-          tracks: [{
-            album: { id: 'AL1' },
-            id: 'T1',
-            name: 'Track #1',
-          }],
-          year: '2004',
-        },
+        name: 'The Album',
+        artistId: 'AR1',
+        image: 'imgUrl',
+        tracks: [{
+          album: { id: 'AL1' },
+          id: 'T1',
+          name: 'Track #1',
+        }],
+        year: '2004',
       },
     });
   });
@@ -142,10 +139,7 @@ describe('REDUX: Albums', () => {
     it('adds albums', () => {
       const albums = reduce({}, {
         type: 'SET_ALBUM',
-        data: {
-          id: album.id,
-          value: Object.assign(album, { tracks: [{ id: 'T1' }] }),
-        },
+        data: Object.assign(album, { tracks: [{ id: 'T1' }] }),
       });
       expect(albums.AL1).toEqual(Object.assign({ loading: false, failed: false }, album, { tracks: ['T1'] }));
     });
