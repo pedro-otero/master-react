@@ -47,7 +47,7 @@ Album.propTypes = {
 };
 
 const mapStateToProps = ({
-  albums, artists, tracks,
+  albums, tracks,
 }, { albumId }) => {
   const props = {};
   if (albums[albumId]) {
