@@ -157,7 +157,7 @@ describe('REDUX: Albums', () => {
           id: album.id,
         },
       });
-      expect(albums.AL1).toEqual({ loading: true, failed: false });
+      expect(albums.AL1).toEqual({ loading: true, failed: false, tracks: [] });
     });
 
     it('sets album as failed', () => {
@@ -167,7 +167,7 @@ describe('REDUX: Albums', () => {
           id: album.id,
         },
       });
-      expect(albums.AL1).toEqual({ loading: false, failed: true });
+      expect(albums.AL1).toEqual({ loading: false, failed: true, tracks: [] });
     });
   });
 });
