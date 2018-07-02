@@ -66,10 +66,10 @@ export function reduce(state = {}, { type, data }) {
       }]);
     }
     case 'START_ALBUM_LOAD': {
-      update([{ id: data.id, value: { loading: true, failed: false } }]);
+      return update([{ id: data.id, value: { loading: true, failed: false } }]);
     }
     case 'FAIL_ALBUM_LOAD': {
-      update([{ id: data.id, value: { loading: false, failed: true } }]);
+      return update([{ id: data.id, value: { loading: false, failed: true } }]);
     }
     default: {
       return state;
