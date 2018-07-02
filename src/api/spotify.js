@@ -27,10 +27,11 @@ export default (SpotifyWebApi, location) => ({ clientId, redirectUri, throttle }
   const pushCommand = (method, args) => new Promise((resolve, reject) =>
     commands.push([method, args, resolve, reject]));
 
-  return {
-    getCurrentPlayback: () => pushCommand('getMyCurrentPlaybackState', []),
-    getAlbum: id => pushCommand('getAlbum', [id]),
-    getArtist: id => pushCommand('getArtist', [id]),
-    getTrack: id => pushCommand('getTrack', [id]),
-  };
+  const methods = ['getMyCurrentPlaybackState', 'getAlbum', 'getArtist', 'getTrack'];
+
+  return methods.reduce((publicApi, method) => Object.assign({}, publicApi, {
+    [method](...args) {
+      return pushCommand(method, args);
+    },
+  }), {});
 };

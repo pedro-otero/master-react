@@ -14,7 +14,7 @@ export const loadPlaybackInfo = () => (dispatch, getState, {
   },
 }) => {
   dispatch(setPlaybackInfo('LOADING'));
-  return spotifyApi.getCurrentPlayback().then((response) => {
+  return spotifyApi.getMyCurrentPlaybackState().then((response) => {
     dispatch(setPlaybackInfo(response.body));
     if (response.body) {
       const albumId = response.body.item.album.id;
