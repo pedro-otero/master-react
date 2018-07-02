@@ -15,21 +15,13 @@ describe('Backend actions', () => {
       })),
     };
 
-    beforeAll((done) => {
+    beforeAll(() => {
       const thunk = loadSearchResult('AL1');
-      thunk(dispatch, () => ({ searches: { } }), { backend, actions }).then(done);
-    });
-
-    it('informs data is loading', () => {
-      expect(actions.setSearchResult).toHaveBeenCalledWith('AL1', 'LOADING');
+      thunk(dispatch, () => ({ searches: { } }), { backend, actions });
     });
 
     it('calls backend', () => {
       expect(backend.getCredits).toHaveBeenCalledWith('AL1');
-    });
-
-    it('informs load finished', () => {
-      expect(actions.setSearchResult).toHaveBeenCalledWith('AL1', {});
     });
   });
 
@@ -45,21 +37,13 @@ describe('Backend actions', () => {
       })),
     };
 
-    beforeAll((done) => {
+    beforeAll(() => {
       const thunk = loadSearchResult('AL1');
-      thunk(dispatch, () => ({ searches: { } }), { backend, actions }).then(done);
-    });
-
-    it('informs data is loading', () => {
-      expect(actions.setSearchResult).toHaveBeenCalledWith('AL1', 'LOADING');
+      thunk(dispatch, () => ({ searches: { } }), { backend, actions });
     });
 
     it('calls backend', () => {
       expect(backend.getCredits).toHaveBeenCalledWith('AL1');
-    });
-
-    it('informs load failed', () => {
-      expect(actions.setSearchResult).toHaveBeenCalledWith('AL1', 'FAILED');
     });
 
     it('adds error', () => {
