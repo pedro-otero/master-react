@@ -103,6 +103,7 @@ describe('REDUX: Albums', () => {
 
   it('creates SET_ALBUM action', () => {
     const action = setAlbum({
+      id: 'AL1',
       name: 'The Album',
       artists: [{
         id: 'AR1',
