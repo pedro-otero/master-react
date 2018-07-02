@@ -1,6 +1,19 @@
-export default (SpotifyWebApi, location) => ({ clientId, redirectUri }) => {
+export default (SpotifyWebApi, location) => ({ clientId, redirectUri, throttle }) => {
+  const commands = [];
   const api = new SpotifyWebApi({ clientId, redirectUri });
   api.setAccessToken(localStorage.getItem('token'));
+
+  setInterval(() => {
+    if (commands.length) {
+      const [
+        method, args, resolve, reject,
+      ] = commands.shift();
+      api[method](...args).then(resolve, (e) => {
+        error(e);
+        reject(e);
+      });
+    }
+  }, throttle);
 
   const error = (e) => {
     const { statusCode } = e;
@@ -11,10 +24,13 @@ export default (SpotifyWebApi, location) => ({ clientId, redirectUri }) => {
     throw e;
   };
 
+  const pushCommand = (method, args) => new Promise((resolve, reject) =>
+    commands.push([method, args, resolve, reject]));
+
   return {
-    getCurrentPlayback: () => api.getMyCurrentPlaybackState().catch(error),
-    getAlbum: id => api.getAlbum(id).catch(error),
-    getArtist: id => api.getArtist(id).catch(error),
-    getTrack: id => api.getTrack(id).catch(error),
+    getCurrentPlayback: () => pushCommand('getMyCurrentPlaybackState', []),
+    getAlbum: id => pushCommand('getAlbum', [id]),
+    getArtist: id => pushCommand('getArtist', [id]),
+    getTrack: id => pushCommand('getTrack', [id]),
   };
 };
