@@ -21,29 +21,26 @@ export const Album = ({
     </div>;
   }
   return <Fragment>
-    {artist && name &&
     <ArtistWork
         title={name}
         artist={artist}
         year={year}
         image={image}
-        background={background} />}
-    {name && <Fragment>
-      {progress < 100 && <Progress
-          size="small"
-          value={progress} />}
-      <ol className={styles.tracklist}>
-        {tracks.map(track => (
-          <li key={`${track.name}-${track.id}`}>
-            <TrackItem
-                id={track.id}
-                name={track.name}
-                duration={track.duration}
-                composers={track.composers}
+        background={background} />
+    {progress < 100 && <Progress
+        size="small"
+        value={progress} />}
+    <ol className={styles.tracklist}>
+      {tracks.map(track => (
+        <li key={`${track.name}-${track.id}`}>
+          <TrackItem
+              id={track.id}
+              name={track.name}
+              duration={track.duration}
+              composers={track.composers}
             />
-          </li>))}
-      </ol>
-    </Fragment>}
+        </li>))}
+    </ol>
   </Fragment>;
 };
 
