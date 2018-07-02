@@ -101,7 +101,9 @@ describe('REDUX: Artists', () => {
 
   it('Reloads a failed artist', (done) => {
     const thunk = loadArtist('AR1');
-    thunk(jest.fn(), () => ({ artists: { AR1: 'FAILED' } }), { spotifyApi: successApi, actions }).then(() => {
+    thunk(jest.fn(), () => ({ artists: { AR1: { failed: true } } }), {
+      spotifyApi: successApi, actions,
+    }).then(() => {
       expect(successApi.getArtist).toBeCalled();
       done();
     });
