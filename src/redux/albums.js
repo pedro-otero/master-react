@@ -1,3 +1,5 @@
+import { updateState } from './helpers';
+
 export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => {
   const album = getState().albums[id];
   if (!album || album === 'FAILED') {
@@ -52,25 +54,22 @@ export const failAlbumLoad = id => ({
 
 export function reduce(state = {}, { type, data }) {
   const defaultAlbum = { loading: false, failed: false };
+  const update = updateState(state, defaultAlbum);
   switch (type) {
     case 'SET_ALBUM': {
-      const album = { ...(state[data.id] || defaultAlbum) };
-      Object.assign(album, {
-        ...data.value,
-        ...defaultAlbum,
-        tracks: data.value.tracks.map(({ id }) => id),
-      });
-      return Object.assign({ ...state }, { [data.id]: album });
+      return update([{
+        id: data.id,
+        value: {
+          ...data.value,
+          tracks: data.value.tracks.map(({ id }) => id),
+        },
+      }]);
     }
     case 'START_ALBUM_LOAD': {
-      const album = { ...(state[data.id] || defaultAlbum) };
-      Object.assign(album, { loading: true, failed: false });
-      return Object.assign({ ...state }, { [data.id]: album });
+      update([{ id: data.id, value: { loading: true, failed: false } }]);
     }
     case 'FAIL_ALBUM_LOAD': {
-      const album = { ...(state[data.id] || defaultAlbum) };
-      Object.assign(album, { loading: false, failed: true });
-      return Object.assign({ ...state }, { [data.id]: album });
+      update([{ id: data.id, value: { loading: false, failed: true } }]);
     }
     default: {
       return state;
