@@ -62,6 +62,8 @@ export function reduce(state = {}, { type, data }) {
         value: {
           ...data.value,
           tracks: data.value.tracks.map(({ id }) => id),
+          loading: false,
+          failed: false,
         },
       }]);
     }
