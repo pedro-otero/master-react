@@ -1,3 +1,5 @@
+import { updateState } from './helpers';
+
 export const loadTrack = id => (dispatch, getState, { spotifyApi, actions }) => {
   const track = getState().tracks[id];
   if (!track || track.failed) {
@@ -50,20 +52,12 @@ export const failTrackLoad = id => ({
   },
 });
 
-const update = (state, defaultItem) => tracks => tracks.reduce((all, track) => {
-  const merged = Object.assign(
-    { ...(all[track.id] || defaultItem) },
-    track.value,
-  );
-  return Object.assign({ ...all }, { [track.id]: merged });
-}, state);
-
 export function reduce(state = {}, { type, data }) {
   const defaultTrack = { loading: false, failed: false, searchStarted: false };
-  const updateState = update(state, defaultTrack);
+  const update = updateState(state, defaultTrack);
   switch (type) {
     case 'SET_TRACK': {
-      return updateState([{ id: data.id, value: { ...data, loading: false, failed: false } }]);
+      return update([{ id: data.id, value: { ...data, loading: false, failed: false } }]);
     }
     case 'SET_ALBUM': {
       const {
@@ -71,25 +65,25 @@ export function reduce(state = {}, { type, data }) {
           id, image, year, tracks,
         },
       } = data;
-      return updateState(tracks.map(track => ({
+      return update(tracks.map(track => ({
         id: track.id,
         value: Object.assign({ image, year }, trackToState(track)),
       })));
     }
     case 'SET_SEARCH_RESULT': {
-      return updateState(data.tracks);
+      return update(data.tracks);
     }
     case 'SET_ARTIST': {
       const { value: { image, id: artistId } } = data;
-      return updateState(Object.entries(state)
+      return update(Object.entries(state)
         .filter(([id, track]) => track.artistId === artistId)
         .map(([id]) => ({ id, value: { background: image } })));
     }
     case 'START_TRACK_LOAD': {
-      return updateState([{ id: data.id, value: { loading: true, failed: false } }]);
+      return update([{ id: data.id, value: { loading: true, failed: false } }]);
     }
     case 'FAIL_TRACK_LOAD': {
-      return updateState([{ id: data.id, value: { loading: false, failed: true } }]);
+      return update([{ id: data.id, value: { loading: false, failed: true } }]);
     }
     default: {
       return state;
