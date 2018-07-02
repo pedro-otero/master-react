@@ -58,14 +58,9 @@ const mapStateToProps = ({
         name: album.name,
         tracks: album.tracks.map(id => tracks[id]),
         year: album.year,
+        artistImg: album.artistImg,
+        artist: album.artist,
       });
-      const artist = artists[album.artist];
-      if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
-        Object.assign(props, {
-          artistImg: artist.image,
-          artist: artist.name,
-        });
-      }
     }
   }
   return props;

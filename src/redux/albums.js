@@ -53,7 +53,7 @@ export const failAlbumLoad = id => ({
 });
 
 export function reduce(state = {}, { type, data }) {
-  const defaultAlbum = { loading: false, failed: false };
+  const defaultAlbum = { loading: false, failed: false, tracks: [] };
   const update = updateState(state, defaultAlbum);
   switch (type) {
     case 'SET_ALBUM': {
@@ -64,6 +64,12 @@ export function reduce(state = {}, { type, data }) {
           tracks: data.value.tracks.map(({ id }) => id),
         },
       }]);
+    }
+    case 'SET_ARTIST': {
+      const { value: { name, image, id: artistId } } = data;
+      return update(Object.entries(state)
+        .filter(([id, album]) => album.artistId === artistId)
+        .map(([id]) => ({ id, value: { artistImg: image, artist: name } })));
     }
     case 'START_ALBUM_LOAD': {
       return update([{ id: data.id, value: { loading: true, failed: false } }]);
