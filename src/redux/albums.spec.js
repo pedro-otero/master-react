@@ -71,7 +71,9 @@ describe('REDUX: Albums', () => {
 
   it('Reloads a failed album', (done) => {
     const thunk = loadAlbum('AL1');
-    thunk(dispatch, () => ({ albums: { AL1: 'FAILED' } }), { spotifyApi: successApi, actions }).then(() => {
+    thunk(dispatch, () => ({ albums: { AL1: { failed: true } } }), {
+      spotifyApi: successApi, actions,
+    }).then(() => {
       expect(successApi.getAlbum).toBeCalled();
       done();
     });

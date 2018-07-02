@@ -2,7 +2,7 @@ import { updateState } from './helpers';
 
 export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => {
   const album = getState().albums[id];
-  if (!album || album === 'FAILED') {
+  if (!album || album.failed) {
     dispatch(actions.startAlbumLoad(id));
     return spotifyApi
       .getAlbum(id).then((response) => {
