@@ -7,24 +7,24 @@ import { Album } from './album';
 
 const tracks = [{
   name: 'Dark Opening',
-  duration_ms: 354784,
+  duration: '3:01',
 }, {
   name: 'Inspiring Ballad',
-  duration_ms: 254784,
+  duration: '3:29',
 }, {
   name: 'Departure',
-  duration_ms: 199750,
+  duration: '4:51',
 }, {
   name: 'Song Where Another Band Member Sings',
-  duration_ms: 236750,
+  duration: '2:56',
 }, {
   name: 'Filler',
-  duration_ms: 200750,
+  duration: '3:46',
 }, {
   name: 'Track About The End Of Something',
-  duration_ms: 243750,
+  duration: '5:17',
 }];
-const searchTracks = [{
+const composers = [{
   composers: ['Mr. Frontman', 'Goto Producer'],
 }, {
   composers: ['Mr. Frontman', 'The Drummer'],
@@ -42,14 +42,61 @@ storiesOf('Album', module)
   .addDecorator(story => (
     <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
   ))
-  .add('Default', () => (
+  .add('Just started', () => (
+    <Album loading={true} />
+  ))
+  .add('Album loaded', () => (
     <Album
-        name="Hyped EP"
         artist="The Band"
-        albumImg="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
-        artistImg="https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a"
+        name="Hyped EP"
+        image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
         year="2017"
-        progress={100}
         tracks={tracks}
-        searchTracks={searchTracks} />
+        loading={false} />
+  ))
+  .add('Artist loaded', () => (
+    <Album
+        artist="The Band"
+        name="Hyped EP"
+        image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
+        year="2017"
+        tracks={tracks}
+        background="https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a"
+        loading={false} />
+  ))
+  .add('Search started', () => (
+    <Album
+        artist="The Band"
+        name="Hyped EP"
+        image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
+        year="2017"
+        tracks={tracks}
+        searchStarted={true}
+        progress={35}
+        background="https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a"
+        loading={false} />
+  ))
+  .add('Some credits found', () => (
+    <Album
+        artist="The Band"
+        name="Hyped EP"
+        image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
+        year="2017"
+        tracks={Object.assign(tracks, { 0: Object.assign({}, tracks[0], composers[0]) })}
+        searchStarted={true}
+        progress={70}
+        background="https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a"
+        loading={false} />
+  ))
+  .add('Finished', () => (
+    <Album
+        artist="The Band"
+        name="Hyped EP"
+        image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
+        year="2017"
+        tracks={tracks.map((track, i) => Object.assign({}, track, composers[i]))}
+        searchStarted={true}
+        progress={100}
+        background="https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a"
+        loading={false} />
   ));

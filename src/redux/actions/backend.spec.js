@@ -15,21 +15,13 @@ describe('Backend actions', () => {
       })),
     };
 
-    beforeAll((done) => {
+    beforeAll(() => {
       const thunk = loadSearchResult('AL1');
-      thunk(dispatch, () => ({ searches: { } }), { backend, actions }).then(done);
-    });
-
-    it('informs data is loading', () => {
-      expect(actions.setSearchResult).toHaveBeenCalledWith('AL1', 'LOADING');
+      thunk(dispatch, () => ({ albums: { } }), { backend, actions });
     });
 
     it('calls backend', () => {
       expect(backend.getCredits).toHaveBeenCalledWith('AL1');
-    });
-
-    it('informs load finished', () => {
-      expect(actions.setSearchResult).toHaveBeenCalledWith('AL1', {});
     });
   });
 
@@ -45,21 +37,13 @@ describe('Backend actions', () => {
       })),
     };
 
-    beforeAll((done) => {
+    beforeAll(() => {
       const thunk = loadSearchResult('AL1');
-      thunk(dispatch, () => ({ searches: { } }), { backend, actions }).then(done);
-    });
-
-    it('informs data is loading', () => {
-      expect(actions.setSearchResult).toHaveBeenCalledWith('AL1', 'LOADING');
+      thunk(dispatch, () => ({ albums: { } }), { backend, actions });
     });
 
     it('calls backend', () => {
       expect(backend.getCredits).toHaveBeenCalledWith('AL1');
-    });
-
-    it('informs load failed', () => {
-      expect(actions.setSearchResult).toHaveBeenCalledWith('AL1', 'FAILED');
     });
 
     it('adds error', () => {
@@ -67,27 +51,12 @@ describe('Backend actions', () => {
     });
   });
 
-  it('Avoids to load searches already in state', (done) => {
+  it('Avoids to load searches already in state', () => {
     const backend = {
       getCredits: jest.fn(),
     };
     const thunk = loadSearchResult('AL1');
-    thunk(jest.fn(), () => ({ searches: { AL1: {} } }), { backend }).then(() => {
-      expect(backend.getCredits).not.toBeCalled();
-      done();
-    });
-  });
-
-  it('Reloads a failed album', (done) => {
-    const backend = {
-      getCredits: jest.fn(() => Rx.Observable.create((subscriber) => {
-        subscriber.error();
-      })),
-    };
-    const thunk = loadSearchResult('AL1');
-    thunk(jest.fn(), () => ({ searches: { AL1: 'FAILED' } }), { backend, actions: { setSearchResult: jest.fn() } }).then(() => {
-      expect(backend.getCredits).toBeCalled();
-      done();
-    });
+    thunk(jest.fn(), () => ({ albums: { AL1: { searchStarted: true, progress: 100 } } }), { backend });
+    expect(backend.getCredits).not.toBeCalled();
   });
 });

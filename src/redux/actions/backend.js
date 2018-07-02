@@ -1,15 +1,31 @@
 export const loadSearchResult = id => (dispatch, getState, { backend, actions }) => {
-  const search = getState().searches[id];
-  if (!search || search === 'FAILED') {
-    dispatch(actions.setSearchResult(id, 'LOADING'));
-    backend.getCredits(id)
-      .subscribe((response) => {
-        dispatch(actions.setSearchResult(id, response));
-      }, () => {
-        dispatch(actions.setSearchResult(id, 'FAILED'));
-        dispatch(actions.addError('Loading credits failed'));
-      }, () => {
-      });
+  const album = getState().albums[id];
+  if (album && album.searchStarted && album.progress === 100) {
+    return;
   }
-  return Promise.resolve({});
+  backend.getCredits(id)
+    .subscribe((response) => {
+      dispatch(actions.setSearchResult(response));
+    }, () => {
+      dispatch(actions.addError('Loading credits failed'));
+    }, () => {
+    });
 };
+
+export function setSearchResult(result) {
+  return {
+    type: 'SET_SEARCH_RESULT',
+    data: {
+      id: result.id,
+      progress: result.progress,
+      tracks: result.bestMatch.tracks.map(({
+        id, composers, producers, credits,
+      }) => ({
+        id,
+        value: {
+          composers, producers, credits, progress: result.progress, searchStarted: true,
+        },
+      })),
+    },
+  };
+}
