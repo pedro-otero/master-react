@@ -12,6 +12,8 @@ export function setSearchResult(result) {
   return {
     type: 'SET_SEARCH_RESULT',
     data: {
+      id: result.id,
+      progress: result.progress,
       tracks: result.bestMatch.tracks.map(({
         id, composers, producers, credits,
       }) => ({
