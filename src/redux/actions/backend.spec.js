@@ -59,17 +59,4 @@ describe('Backend actions', () => {
     thunk(jest.fn(), () => ({ albums: { AL1: { searchStarted: true, progress: 100 } } }), { backend });
     expect(backend.getCredits).not.toBeCalled();
   });
-
-  it('Reloads a failed album', (done) => {
-    const backend = {
-      getCredits: jest.fn(() => Rx.Observable.create((subscriber) => {
-        subscriber.error();
-      })),
-    };
-    const thunk = loadSearchResult('AL1');
-    thunk(jest.fn(), () => ({ albums: { AL1: 'FAILED' } }), { backend, actions: { setSearchResult: jest.fn() } }).then(() => {
-      expect(backend.getCredits).toBeCalled();
-      done();
-    });
-  });
 });
