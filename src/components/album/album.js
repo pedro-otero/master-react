@@ -9,7 +9,7 @@ import Progress from '../progress/progress';
 import LoadingCircle from '../loading-circle/loading-circle';
 
 export const Album = ({
-  background, image, tracks, progress, year, name, artist, failed, loading,
+  background, image, tracks, progress, year, name, artist, failed, loading, searchStarted,
 }) => {
   if (loading) {
     return <LoadingCircle message="Loading data from Spotify..." />;
@@ -27,6 +27,7 @@ export const Album = ({
         year={year}
         image={image}
         background={background} />
+    {!searchStarted && <LoadingCircle message="Starting search..." />}
     {progress < 100 && <Progress
         size="small"
         value={progress} />}
@@ -53,6 +54,7 @@ Album.propTypes = {
   loading: PropTypes.bool,
   name: PropTypes.string,
   progress: PropTypes.number,
+  searchStarted: PropTypes.bool,
   tracks: PropTypes.array,
   year: PropTypes.string,
 };
@@ -69,6 +71,7 @@ const mapStateToProps = ({ albums, tracks }, { albumId }) => {
       year: album.year,
       background: album.background,
       artist: album.artist,
+      searchStarted: album.searchStarted,
     };
   }
   return {};
