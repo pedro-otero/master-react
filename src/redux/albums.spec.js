@@ -52,7 +52,7 @@ describe('REDUX: Albums', () => {
     });
 
     it('informs load succeded', () => {
-      expect(actions.setAlbum).toHaveBeenCalledWith('AL1', album);
+      expect(actions.setAlbum).toHaveBeenCalledWith(album);
     });
 
     afterAll(() => {
@@ -102,7 +102,7 @@ describe('REDUX: Albums', () => {
   });
 
   it('creates SET_ALBUM action', () => {
-    const action = setAlbum('AL1', {
+    const action = setAlbum({
       name: 'The Album',
       artists: [{
         id: 'AR1',

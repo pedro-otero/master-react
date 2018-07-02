@@ -6,7 +6,7 @@ export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => 
     dispatch(actions.startAlbumLoad(id));
     return spotifyApi
       .getAlbum(id).then((response) => {
-        dispatch(actions.setAlbum(id, response.body));
+        dispatch(actions.setAlbum(response.body));
         const artistId = response.body.artists[0].id;
         dispatch(actions.loadArtist(artistId));
         return response;
@@ -15,9 +15,9 @@ export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => 
   return Promise.resolve(album);
 };
 
-export const setAlbum = (id, album) => {
+export const setAlbum = (album) => {
   const {
-    name, artists, images, tracks: { items: tracks }, release_date: releaseDate,
+    id, name, artists, images, tracks: { items: tracks }, release_date: releaseDate,
   } = album;
   const image = images[0].url;
   const artistId = artists[0].id;
