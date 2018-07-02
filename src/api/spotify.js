@@ -9,20 +9,15 @@ export default (SpotifyWebApi, location) => ({ clientId, redirectUri, throttle }
         method, args, resolve, reject,
       ] = commands.shift();
       api[method](...args).then(resolve, (e) => {
-        error(e);
+        const { statusCode } = e;
+        if (statusCode === 401) {
+          location.reload();
+          return;
+        }
         reject(e);
       });
     }
   }, throttle);
-
-  const error = (e) => {
-    const { statusCode } = e;
-    if (statusCode === 401) {
-      location.reload();
-      return;
-    }
-    throw e;
-  };
 
   const pushCommand = (method, args) => new Promise((resolve, reject) =>
     commands.push([method, args, resolve, reject]));
