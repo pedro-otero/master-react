@@ -21,6 +21,7 @@ export const setAlbum = (album) => {
   } = album;
   const image = images[0].url;
   const artistId = artists[0].id;
+  const artist = artists[0].name;
   const year = releaseDate.substring(0, 4);
   return {
     type: 'SET_ALBUM',
@@ -28,6 +29,7 @@ export const setAlbum = (album) => {
       id,
       name,
       artistId,
+      artist,
       image,
       tracks: tracks.map(track => Object.assign({ album: { id } }, track)),
       year,
@@ -65,10 +67,10 @@ export function reduce(state = {}, { type, data }) {
       }]);
     }
     case 'SET_ARTIST': {
-      const { name, image, id: artistId } = data;
+      const { image, id: artistId } = data;
       return update(Object.entries(state)
         .filter(([id, album]) => album.artistId === artistId)
-        .map(([id]) => ({ id, value: { background: image, artist: name } })));
+        .map(([id]) => ({ id, value: { background: image } })));
     }
     case 'SET_SEARCH_RESULT': {
       return update([{ id: data.id, value: { searchStarted: true, progress: data.progress } }]);
