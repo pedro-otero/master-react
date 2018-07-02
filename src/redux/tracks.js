@@ -27,9 +27,6 @@ function trackToState(track) {
     artistId: track.artists[0].id,
     artist: track.artists[0].name,
     duration,
-    composers: [],
-    producers: [],
-    credits: {},
   };
 }
 
