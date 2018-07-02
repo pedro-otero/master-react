@@ -17,7 +17,7 @@ describe('Backend actions', () => {
 
     beforeAll(() => {
       const thunk = loadSearchResult('AL1');
-      thunk(dispatch, () => ({ searches: { } }), { backend, actions });
+      thunk(dispatch, () => ({ albums: { } }), { backend, actions });
     });
 
     it('calls backend', () => {
@@ -39,7 +39,7 @@ describe('Backend actions', () => {
 
     beforeAll(() => {
       const thunk = loadSearchResult('AL1');
-      thunk(dispatch, () => ({ searches: { } }), { backend, actions });
+      thunk(dispatch, () => ({ albums: { } }), { backend, actions });
     });
 
     it('calls backend', () => {
@@ -51,15 +51,13 @@ describe('Backend actions', () => {
     });
   });
 
-  it('Avoids to load searches already in state', (done) => {
+  it('Avoids to load searches already in state', () => {
     const backend = {
       getCredits: jest.fn(),
     };
     const thunk = loadSearchResult('AL1');
-    thunk(jest.fn(), () => ({ searches: { AL1: {} } }), { backend }).then(() => {
-      expect(backend.getCredits).not.toBeCalled();
-      done();
-    });
+    thunk(jest.fn(), () => ({ albums: { AL1: { searchStarted: true, progress: 100 } } }), { backend });
+    expect(backend.getCredits).not.toBeCalled();
   });
 
   it('Reloads a failed album', (done) => {
@@ -69,7 +67,7 @@ describe('Backend actions', () => {
       })),
     };
     const thunk = loadSearchResult('AL1');
-    thunk(jest.fn(), () => ({ searches: { AL1: 'FAILED' } }), { backend, actions: { setSearchResult: jest.fn() } }).then(() => {
+    thunk(jest.fn(), () => ({ albums: { AL1: 'FAILED' } }), { backend, actions: { setSearchResult: jest.fn() } }).then(() => {
       expect(backend.getCredits).toBeCalled();
       done();
     });

@@ -1,4 +1,8 @@
 export const loadSearchResult = id => (dispatch, getState, { backend, actions }) => {
+  const album = getState().albums[id];
+  if (album && album.searchStarted && album.progress === 100) {
+    return;
+  }
   backend.getCredits(id)
     .subscribe((response) => {
       dispatch(actions.setSearchResult(response));
