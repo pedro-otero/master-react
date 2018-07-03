@@ -31,7 +31,7 @@ const Title = styled.span`
   font-weight: bold;
 `;
 
-const Link = styled.a`
+const Anchor = styled.a`
   padding: 0 0.5em;
   flex: 0 0 0;
   
@@ -42,13 +42,13 @@ const Link = styled.a`
 
 const TitleBar = ({ avatar, title, onLogout }) => (
   <Row>
-    <Link>
+    <Anchor>
       <i className="em em-arrow_forward"></i>
-    </Link>
+    </Anchor>
     <Title>{title}</Title>
-    <Link onClick={onLogout}>
+    <Anchor onClick={onLogout}>
       <i className="em em-x"></i>
-    </Link>
+    </Anchor>
   </Row>
 );
 
