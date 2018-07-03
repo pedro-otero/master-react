@@ -72,6 +72,13 @@ Root.propTypes = {
   user: PropTypes.object.isRequired,
 };
 
+const mapStateToProps = ({ user: { token, expiry } }) => ({
+  user: {
+    isNew: !token && !expiry,
+    isAuthenticated: typeof token !== 'undefined' && (Date.now() - expiry.getTime()) <= 0,
+  },
+});
+
 const mapDispatchToProps = dispatch => ({
   loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
   clearErrors: () => dispatch(clearErrors()),
