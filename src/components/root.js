@@ -62,7 +62,7 @@ class Root extends React.Component {
             window.location.reload();
           }} />
           <Errors />
-          <Route exact path="/" render={this.getPlaybackData} />
+          <Route exact path="/player" render={this.getPlaybackData} />
           <Route path="/track/:id" render={this.getTrack} />
           <Route path="/album/:id" render={this.getAlbum} />
         </span>
