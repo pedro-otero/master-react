@@ -13,6 +13,7 @@ const Row = styled.div`
   border-bottom: 1px solid ${BORDER_COLOR};
 `;
 
+// To use after avatar is available
 const Avatar = styled.div`
   border-radius: 100%;
   background-image: url(${({ src }) => src});
@@ -30,7 +31,7 @@ const Title = styled.span`
   font-weight: bold;
 `;
 
-const Logout = styled.a`
+const Link = styled.a`
   padding: 0 0.5em;
   flex: 0 0 0;
   
@@ -41,11 +42,13 @@ const Logout = styled.a`
 
 const TitleBar = ({ avatar, title, onLogout }) => (
   <Row>
-    <Avatar src={avatar} />
+    <Link>
+      <i className="em em-arrow_forward"></i>
+    </Link>
     <Title>{title}</Title>
-    <Logout onClick={onLogout}>
+    <Link onClick={onLogout}>
       <i className="em em-x"></i>
-    </Logout>
+    </Link>
   </Row>
 );
 
