@@ -9,6 +9,7 @@ const BORDER_COLOR = '#7f7f7f';
 const Row = styled.div`
   display: flex;
   position: sticky;
+  z-index: 500;
   top: 0;
   background-color: ${BG_COLOR};
   line-height: 3em;
