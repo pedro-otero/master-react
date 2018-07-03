@@ -44,12 +44,23 @@ class Root extends React.Component {
     return <TrackDetails trackId={match.params.id} />;
   }
 
+  getAuthUrl() {
+    return `${process.env.REACT_APP_SPOTIFY_AUTHORIZE_URL}?${[
+      ['client_id', process.env.REACT_APP_SPOTIFY_CLIENT_ID],
+      ['response_type', 'token'],
+      ['redirect_uri', window.location.origin],
+      ['state', 'reactApp'],
+      ['scope', process.env.REACT_APP_SPOTIFY_SCOPES],
+      ['show_dialog', 'false'],
+    ].map(pair => `${pair[0]}=${pair[1]}`).join('&')}`;
+  }
+
   render() {
-    const { user, store } = this.props;
-    if (user.isNew()) {
-      return <Welcome loginUrl={user.getAuthUrl()} />;
-    } else if (!user.isAuthenticated()) {
-      window.location = user.getAuthUrl();
+    const { isNewUser, isAuthenticated, store } = this.props;
+    if (isNewUser) {
+      return <Welcome loginUrl={this.getAuthUrl()} />;
+    } else if (!isAuthenticated) {
+      window.location = this.getAuthUrl();
     }
     return <Provider store={store}>
       <Router>
@@ -66,17 +77,16 @@ class Root extends React.Component {
 
 Root.propTypes = {
   clearErrors: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+  isNewUser: PropTypes.bool,
   loadPlaybackInfo: PropTypes.func.isRequired,
   onUnmount: PropTypes.func.isRequired,
   store: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = ({ user: { token, expiry } }) => ({
-  user: {
-    isNew: !token && !expiry,
-    isAuthenticated: typeof token !== 'undefined' && (Date.now() - expiry.getTime()) <= 0,
-  },
+const mapStateToProps = ({ user: { token, expiry } }, { user }) => ({
+  isNewUser: !token && !expiry,
+  isAuthenticated: typeof token !== 'undefined' && (Date.now() - (new Date(expiry)).getTime()) <= 0,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -84,4 +94,4 @@ const mapDispatchToProps = dispatch => ({
   clearErrors: () => dispatch(clearErrors()),
 });
 
-export default connect(() => ({}), mapDispatchToProps)(Root);
+export default connect(mapStateToProps, mapDispatchToProps)(Root);
