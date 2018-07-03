@@ -7,14 +7,19 @@ import registerServiceWorker from './registerServiceWorker';
 import configureStore from './redux/store';
 
 import Backend from './api/backend';
-import getUser from './user';
 import Root from './components/root';
 import { parseToken, setToken } from './redux/user';
+import SpotifyCustomApiFactory from './api/spotify';
 
 const backend = new Backend(request, `${process.env.REACT_APP_BE_DOMAIN}/data/album`, 1000);
-const user = getUser(SpotifyWebApi, window);
 
-const store = configureStore(user.getApi(), backend);
+const CustomApi = SpotifyCustomApiFactory(SpotifyWebApi, window.location);
+const spotifyApi = CustomApi({
+  redirectUri: window.location.origin,
+  clientId: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
+});
+
+const store = configureStore(spotifyApi, backend);
 if (window.location.hash) {
   const tokenAction = parseToken(window.location.hash);
   window.history.pushState({}, '', '/');
