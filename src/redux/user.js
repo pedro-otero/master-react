@@ -6,11 +6,18 @@ export function setToken(hash) {
   return { type: 'SET_TOKEN', data: { token, expiry } };
 }
 
+export function logout() {
+  return { type: 'LOGOUT' };
+}
+
 export function reduce(state = {}, { type, data }) {
   switch (type) {
     case 'SET_TOKEN': {
       const { token, expiry } = data;
       return Object.assign({}, state, { token, expiry });
+    }
+    case 'LOGOUT': {
+      return {};
     }
   }
   return state;
