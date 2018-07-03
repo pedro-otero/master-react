@@ -1,5 +1,6 @@
 export default (SpotifyWebApi, location) => ({ clientId, redirectUri, throttle }) => {
   const commands = [];
+  let timer;
   const methods = ['getMyCurrentPlaybackState', 'getAlbum', 'getArtist', 'getTrack'];
   const api = new SpotifyWebApi({ clientId, redirectUri });
   api.setAccessToken(localStorage.getItem('token'));
@@ -9,18 +10,27 @@ export default (SpotifyWebApi, location) => ({ clientId, redirectUri, throttle }
     if (statusCode === 401) {
       location.reload();
       return;
+    } else if (statusCode === 429) {
+      clearInterval(timer);
+      setTimeout(start, 500);
+      return;
     }
     reject(e);
   };
 
-  setInterval(() => {
-    if (commands.length) {
-      const [
-        method, args, resolve, reject,
-      ] = commands.shift();
-      api[method](...args).then(resolve, processRejection(reject));
-    }
-  }, throttle);
+  function start() {
+    timer = setInterval(() => {
+      if (commands.length) {
+        const [method, args, resolve, reject] = commands[0];
+        api[method](...args).then((response) => {
+          commands.shift();
+          resolve(response);
+        }, processRejection(reject));
+      }
+    }, throttle);
+  }
+
+  start();
 
   return methods.reduce((publicApi, method) => Object.assign({}, publicApi, {
     [method]: (...args) => new Promise((resolve, reject) =>

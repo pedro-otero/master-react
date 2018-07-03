@@ -36,4 +36,25 @@ describe('Spotify module', () => {
       done();
     });
   });
+
+  it('pauses queue if error is 429', (done) => {
+    global.localStorage = { getItem: jest.fn(() => 'fakeToken') };
+    const clearTimerSpy = jest.spyOn(global.window, 'clearInterval');
+    const getArtist = jest.fn()
+      .mockReturnValueOnce(Promise.reject({ statusCode: 429 }))
+      .mockReturnValueOnce(Promise.resolve({}));
+    const webApi = jest.fn(() => ({
+      setAccessToken: jest.fn(),
+      getArtist,
+    }));
+    const getSpotifyModule = Spotify(webApi, null);
+    const api = getSpotifyModule({ throttle: 500 }, 2);
+    api.getArtist().then(() => {
+      expect(getArtist.mock.calls).toHaveLength(2);
+      expect(clearTimerSpy).toBeCalled();
+      done();
+    }, () => {
+      throw Error('This should not have happened');
+    });
+  });
 });
