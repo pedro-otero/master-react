@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const BG_COLOR = '#474747';
 const BORDER_COLOR = '#7f7f7f';
@@ -42,9 +43,11 @@ const Anchor = styled.a`
 
 const TitleBar = ({ avatar, title, onLogout }) => (
   <Row>
-    <Anchor>
-      <i className="em em-arrow_forward"></i>
-    </Anchor>
+    <Link to="/player">
+      <Anchor>
+        <i className="em em-arrow_forward"></i>
+      </Anchor>
+    </Link>
     <Title>{title}</Title>
     <Anchor onClick={onLogout}>
       <i className="em em-x"></i>
