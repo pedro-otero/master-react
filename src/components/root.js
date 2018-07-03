@@ -61,10 +61,12 @@ class Root extends React.Component {
             window.localStorage.clear();
             window.location.reload();
           }} />
-          <Errors />
-          <Route exact path="/player" render={this.getPlaybackData} />
-          <Route path="/track/:id" render={this.getTrack} />
-          <Route path="/album/:id" render={this.getAlbum} />
+          <div style={{ position: 'relative' }}>
+            <Errors />
+            <Route exact path="/player" render={this.getPlaybackData} />
+            <Route path="/track/:id" render={this.getTrack} />
+            <Route path="/album/:id" render={this.getAlbum} />
+          </div>
         </span>
       </Router>
     </Provider>;
