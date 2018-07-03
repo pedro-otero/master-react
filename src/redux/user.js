@@ -10,6 +10,10 @@ export function parseToken(hash) {
   return { type: PARSE_TOKEN, data: { token, expiry } };
 }
 
+export function setToken(token, expiry) {
+  return { type: PARSE_TOKEN, data: { token, expiry } };
+}
+
 export function logout() {
   return { type: LOGOUT };
 }
@@ -17,6 +21,10 @@ export function logout() {
 export function reduce(state = {}, { type, data }) {
   switch (type) {
     case PARSE_TOKEN: {
+      const { token, expiry } = data;
+      return Object.assign({}, state, { token, expiry });
+    }
+    case SET_TOKEN: {
       const { token, expiry } = data;
       return Object.assign({}, state, { token, expiry });
     }
