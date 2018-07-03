@@ -13,7 +13,7 @@ const EmptyPlayback = () => (
     <p>{"When asked for the song you're currently listening to, Spotify said it's got nothing!"}</p>
     <p>Start playing a song, dust it off and...</p>
     <Link
-        to="/"
+        to="/player"
         className={globalStyles.RRlink}>
       <p className={styles.tryAgainButton}>Try again</p>
     </Link>
