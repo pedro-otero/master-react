@@ -14,8 +14,7 @@ export class CurrentPlayback extends React.Component {
         {loading && <LoadingCircle message="Coming..." />}
         {(!id && !loading) && <EmptyPlayback />}
         {id && <Redirect
-            to={`/track/${id}`}
-            push />}
+            to={`/track/${id}`} />}
       </div>
     );
   }
