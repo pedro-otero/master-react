@@ -34,6 +34,7 @@ export default (ApiClass, window) => ({
     return CustomApi({
       redirectUri: window.location.origin,
       clientId: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
+      throttle: process.env.REACT_APP_SPOTIFY_THROTTLE,
     });
   },
 });
