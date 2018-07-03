@@ -13,6 +13,7 @@ import { loadTrack } from '../redux/tracks';
 import { clearErrors } from '../redux/errors';
 import Errors from './errors/errors';
 import Welcome from './welcome/welcome';
+import TitleBar from './title-bar/title-bar';
 
 class Root extends React.Component {
   constructor(props) {
@@ -54,6 +55,12 @@ class Root extends React.Component {
     return <Provider store={store}>
       <Router>
         <span>
+          <TitleBar
+              title="Crews"
+              onLogout={() => {
+            window.localStorage.clear();
+            window.location.reload();
+          }} />
           <Errors />
           <Route exact path="/" render={this.getPlaybackData} />
           <Route path="/track/:id" render={this.getTrack} />
