@@ -12,6 +12,9 @@ export default (SpotifyWebApi, location) => ({ clientId, redirectUri, throttle }
       return;
     } else if (statusCode === 429) {
       clearInterval(timer);
+      // This fixed 500 value HAS TO BE CHANGED for the one in the Retry-After header
+      // that is not exposed by the Spotify Web API wrapper.
+      // See issue https://github.com/thelinmichael/spotify-web-api-node/issues/217
       setTimeout(start, 500);
       return;
     }
