@@ -25,7 +25,7 @@ export function reduce(state = {}, { type, data }) {
       return { failed: false, loading: true };
     }
     case SET_PROFILE: {
-      return Object.assign({ ...state }, { ...data });
+      return Object.assign({ failed: false, loading: false }, { ...data });
     }
     case FAIL_PROFILE_LOAD: {
       return { failed: true, loading: false };
