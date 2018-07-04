@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const BORDER_COLOR = 'rgba(128, 128, 128, 0.2)';
 
@@ -20,6 +21,8 @@ const Avatar = styled.div`
   border-radius: 100%;
   background-image: url(${({ src }) => src});
   background-size: cover;
+  margin-top: 0.5em;
+  width: 2em;
   height: 2em;
   flex: 0 0 2em;
 `;
@@ -42,22 +45,29 @@ const LinkTemplate = `
 const Anchor = styled.a`${LinkTemplate}`;
 const WrappedLink = styled(Link)`${LinkTemplate}`;
 
-const TitleBar = ({ avatar, title, onLogout }) => (
-  <Row>
+export const TitleBar = ({
+  loading, avatar, name, onLogout,
+}) => {
+  const title = loading ? 'Crews' : name;
+  return <Row>
     <WrappedLink to="/player">
-      <i className="em em-arrow_forward"></i>
+      <Avatar src={avatar} />
     </WrappedLink>
     <Title>{title}</Title>
     <Anchor onClick={onLogout}>
       <i className="em em-x"></i>
     </Anchor>
-  </Row>
-);
+  </Row>;
+};
 
 TitleBar.propTypes = {
   avatar: PropTypes.string,
+  loading: PropTypes.bool,
+  name: PropTypes.string,
   onLogout: PropTypes.func,
-  title: PropTypes.string,
 };
 
-export default TitleBar;
+const mapStateToProps = ({ user: { profile: { loading, avatar, name } } }) =>
+  ({ loading, avatar, name });
+
+export default connect(mapStateToProps)(TitleBar);

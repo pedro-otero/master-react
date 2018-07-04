@@ -3,7 +3,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import TitleBar from './title-bar';
+import { TitleBar } from './title-bar';
 
 storiesOf('Title Bar', module)
   .addDecorator(story => (
