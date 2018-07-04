@@ -44,9 +44,10 @@ const Anchor = styled.a`${LinkTemplate}`;
 const WrappedLink = styled(Link)`${LinkTemplate}`;
 
 export const TitleBar = ({
-  loading, avatar, title, onLogout,
-}) => (
-  <Row>
+  loading, avatar, name, onLogout,
+}) => {
+  const title = loading ? 'Crews' : name;
+  return <Row>
     <WrappedLink to="/player">
       <i className="em em-arrow_forward"></i>
     </WrappedLink>
@@ -54,13 +55,14 @@ export const TitleBar = ({
     <Anchor onClick={onLogout}>
       <i className="em em-x"></i>
     </Anchor>
-  </Row>
-);
+  </Row>;
+};
 
 TitleBar.propTypes = {
   avatar: PropTypes.string,
+  loading: PropTypes.bool,
+  name: PropTypes.string,
   onLogout: PropTypes.func,
-  title: PropTypes.string,
 };
 
 const mapStateToProps = ({ user: { profile: { loading, avatar, name } } }) =>
