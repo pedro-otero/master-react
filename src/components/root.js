@@ -26,7 +26,9 @@ class Root extends React.Component {
   }
 
   componentWillMount() {
-    this.props.loadProfile();
+    if (this.props.isAuthenticated) {
+      this.props.loadProfile();
+    }
   }
 
   getPlaybackData() {
