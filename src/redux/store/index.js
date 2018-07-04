@@ -2,12 +2,12 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
-import * as playbackInfo from '../playbackInfo';
+import { setPlaybackInfo, reduce as playbackInfo } from '../playbackInfo';
 import { loadSearchResult, setSearchResult } from '../actions/backend';
 import { setArtist, startArtistLoad, loadArtist, failArtistLoad, reduce as artists } from '../artists';
 import { loadAlbum, startAlbumLoad, failAlbumLoad, setAlbum, reduce as albums } from '../albums';
 import { loadTrack, setTrack, startTrackLoad, failTrackLoad, reduce as tracks } from '../tracks';
-import { reduce as user } from '../user';
+import { reduce as auth } from '../user';
 import { addError, clearErrors, reduce } from '../errors';
 
 const devTools = global.window.__REDUX_DEVTOOLS_EXTENSION__ &&
@@ -28,8 +28,7 @@ const store = (spotifyApi, backend) => createStore(
     tracks,
     albums,
     artists,
-    playbackInfo: playbackInfo.reduce,
-    user,
+    user: combineReducers({ auth, playbackInfo }),
     errors: reduce,
   }),
   devTools,
@@ -44,7 +43,7 @@ const store = (spotifyApi, backend) => createStore(
       setSearchResult,
       addError,
       clearErrors,
-      setPlaybackInfo: playbackInfo.setPlaybackInfo,
+      setPlaybackInfo,
     },
   })),
 );
