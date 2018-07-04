@@ -15,8 +15,7 @@ const Home = ({ loading, id, name }) => {
   return <Container>
     <h1>Hey {name.split(' ')[0]}</h1>
     <h3>AKA {id}</h3>
-    <p>{"If you want to check the credits of the song you're listening to, click on "}<i
-        className="em em-arrow_forward"></i></p>
+    <p>{"If you want to check the credits of the song you're listening to, click on your avatar (top left)"}</p>
     <p>To logout, click on <i className="em em-x"></i></p>
   </Container>;
 };
