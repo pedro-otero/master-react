@@ -7,7 +7,7 @@ import styles from './banner.css';
 
 const Background = styled.div`
   width: 100%;
-  margin-bottom: 10px;
+  margin: -3em 0 10px 0;
   filter: brightness(0.6) blur(10px);
   background-position: center;
   background-size: cover;

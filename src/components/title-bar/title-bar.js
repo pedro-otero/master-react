@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const BG_COLOR = '#474747';
 const BORDER_COLOR = '#7f7f7f';
 
 const Row = styled.div`
@@ -11,10 +10,9 @@ const Row = styled.div`
   position: sticky;
   z-index: 500;
   top: 0;
-  background-color: ${BG_COLOR};
+  background-color: rgba(0, 0, 0, 0.5);
   line-height: 3em;
   vertical-align: middle;
-  border-bottom: 1px solid ${BORDER_COLOR};
 `;
 
 // To use after avatar is available
@@ -23,14 +21,11 @@ const Avatar = styled.div`
   background-image: url(${({ src }) => src});
   background-size: cover;
   height: 2em;
-  border: 0.5em solid ${BG_COLOR};
   flex: 0 0 2em;
 `;
 
 const Title = styled.span`
   flex: 1 1 0;
-  border-left: 1px solid ${BORDER_COLOR};
-  border-right: 1px solid ${BORDER_COLOR};
   padding: 0 1em;
   font-weight: bold;
 `;
