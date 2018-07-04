@@ -35,7 +35,7 @@ const Title = styled.span`
   font-weight: bold;
 `;
 
-const Anchor = styled.a`
+const LinkTemplate = `
   padding: 0 0.5em;
   flex: 0 0 0;
   
@@ -43,15 +43,8 @@ const Anchor = styled.a`
     background-color: ${BORDER_COLOR};
   }
 `;
-
-const WrappedLink = styled(Link)`
-  padding: 0 0.5em;
-  flex: 0 0 0;
-  
-  :hover {
-    background-color: ${BORDER_COLOR};
-  }
-`;
+const Anchor = styled.a`${LinkTemplate}`;
+const WrappedLink = styled(Link)`${LinkTemplate}`;
 
 const TitleBar = ({ avatar, title, onLogout }) => (
   <Row>
