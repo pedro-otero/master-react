@@ -2,10 +2,12 @@ export const START_PROFILE_LOAD = 'START_PROFILE_LOAD';
 export const FAIL_PROFILE_LOAD = 'FAIL_PROFILE_LOAD';
 export const SET_PROFILE = 'SET_PROFILE';
 
-export function setProfile(profile) {
+export function setProfile({ display_name: name, id, images }) {
   return {
     type: SET_PROFILE,
-    data: profile,
+    data: {
+      name, id, image: images.length ? images[0].url : null,
+    },
   };
 }
 
