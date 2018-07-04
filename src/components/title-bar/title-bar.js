@@ -21,6 +21,8 @@ const Avatar = styled.div`
   border-radius: 100%;
   background-image: url(${({ src }) => src});
   background-size: cover;
+  margin-top: 0.5em;
+  width: 2em;
   height: 2em;
   flex: 0 0 2em;
 `;
@@ -49,7 +51,7 @@ export const TitleBar = ({
   const title = loading ? 'Crews' : name;
   return <Row>
     <WrappedLink to="/player">
-      <i className="em em-arrow_forward"></i>
+      <Avatar src={avatar} />
     </WrappedLink>
     <Title>{title}</Title>
     <Anchor onClick={onLogout}>
