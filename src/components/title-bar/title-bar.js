@@ -44,13 +44,20 @@ const Anchor = styled.a`
   }
 `;
 
+const WrappedLink = styled(Link)`
+  padding: 0 0.5em;
+  flex: 0 0 0;
+  
+  :hover {
+    background-color: ${BORDER_COLOR};
+  }
+`;
+
 const TitleBar = ({ avatar, title, onLogout }) => (
   <Row>
-    <Link to="/player">
-      <Anchor>
-        <i className="em em-arrow_forward"></i>
-      </Anchor>
-    </Link>
+    <WrappedLink to="/player">
+      <i className="em em-arrow_forward"></i>
+    </WrappedLink>
     <Title>{title}</Title>
     <Anchor onClick={onLogout}>
       <i className="em em-x"></i>
