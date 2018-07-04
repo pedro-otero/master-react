@@ -24,7 +24,7 @@ export const loadTrack = id => (dispatch, getState, { spotifyApi, actions }) => 
 
 function trackToState(track) {
   const minutes = Math.floor(track.duration_ms / 60000);
-  const seconds = ((track.duration_ms % 60000) / 1000).toFixed(0);
+  const seconds = Math.floor((track.duration_ms % 60000) / 1000);
   const duration = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   return {
     id: track.id,

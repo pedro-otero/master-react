@@ -1,4 +1,4 @@
-import { FAIL_TRACK_LOAD, loadTrack, reduce, SET_TRACK, START_TRACK_LOAD } from './tracks';
+import { FAIL_TRACK_LOAD, loadTrack, reduce, SET_TRACK, setTrack, START_TRACK_LOAD } from './tracks';
 
 describe('REDUX: Tracks', () => {
   const dispatch = jest.fn();
@@ -6,6 +6,7 @@ describe('REDUX: Tracks', () => {
     id: 'T1',
     artists: [{ id: 'AR1' }],
     album: { id: 'AL1' },
+    duration_ms: 299500,
   };
   const successApi = {
     getTrack: jest.fn(() => Promise.resolve({
@@ -142,6 +143,21 @@ describe('REDUX: Tracks', () => {
         },
       });
       expect(tracks.T1).toEqual({ loading: false, failed: true, searchStarted: false });
+    });
+  });
+
+  describe('Actions', () => {
+    it('setTrack', () => {
+      const action = setTrack(track);
+      expect(action).toEqual({
+        type: SET_TRACK,
+        data: {
+          id: 'T1',
+          artistId: 'AR1',
+          albumId: 'AL1',
+          duration: '4:59',
+        },
+      });
     });
   });
 });
