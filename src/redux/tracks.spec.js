@@ -1,4 +1,4 @@
-import { loadTrack, reduce } from './tracks';
+import { FAIL_TRACK_LOAD, loadTrack, reduce, SET_TRACK, START_TRACK_LOAD } from './tracks';
 
 describe('REDUX: Tracks', () => {
   const dispatch = jest.fn();
@@ -114,7 +114,7 @@ describe('REDUX: Tracks', () => {
   describe('reducer', () => {
     it('adds tracks', () => {
       const tracks = reduce({}, {
-        type: 'SET_TRACK',
+        type: SET_TRACK,
         data: track,
       });
       expect(tracks.T1).toEqual(Object.assign({
@@ -126,7 +126,7 @@ describe('REDUX: Tracks', () => {
 
     it('sets track as loading', () => {
       const tracks = reduce({}, {
-        type: 'START_TRACK_LOAD',
+        type: START_TRACK_LOAD,
         data: {
           id: track.id,
         },
@@ -136,7 +136,7 @@ describe('REDUX: Tracks', () => {
 
     it('sets track as failed', () => {
       const tracks = reduce({}, {
-        type: 'FAIL_TRACK_LOAD',
+        type: FAIL_TRACK_LOAD,
         data: {
           id: track.id,
         },

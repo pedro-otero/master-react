@@ -1,4 +1,10 @@
 import { updateState } from './helpers';
+import { SET_ARTIST } from './artists';
+
+export const START_ALBUM_LOAD = 'START_ALBUM_LOAD';
+export const SET_ALBUM = 'SET_ALBUM';
+export const FAIL_ALBUM_LOAD = 'FAIL_ALBUM_LOAD';
+export const SET_SEARCH_RESULT = 'SET_SEARCH_RESULT';
 
 export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => {
   const album = getState().albums[id];
@@ -24,7 +30,7 @@ export const setAlbum = (album) => {
   const artist = artists[0].name;
   const year = releaseDate.substring(0, 4);
   return {
-    type: 'SET_ALBUM',
+    type: SET_ALBUM,
     data: {
       id,
       name,
@@ -38,14 +44,14 @@ export const setAlbum = (album) => {
 };
 
 export const startAlbumLoad = id => ({
-  type: 'START_ALBUM_LOAD',
+  type: START_ALBUM_LOAD,
   data: {
     id,
   },
 });
 
 export const failAlbumLoad = id => ({
-  type: 'FAIL_ALBUM_LOAD',
+  type: FAIL_ALBUM_LOAD,
   data: {
     id,
   },
@@ -55,7 +61,7 @@ export function reduce(state = {}, { type, data }) {
   const defaultAlbum = { loading: false, failed: false, tracks: [] };
   const update = updateState(state, defaultAlbum);
   switch (type) {
-    case 'SET_ALBUM': {
+    case SET_ALBUM: {
       return update([{
         id: data.id,
         value: {
@@ -66,19 +72,19 @@ export function reduce(state = {}, { type, data }) {
         },
       }]);
     }
-    case 'SET_ARTIST': {
+    case SET_ARTIST: {
       const { image, id: artistId } = data;
       return update(Object.entries(state)
         .filter(([id, album]) => album.artistId === artistId)
         .map(([id]) => ({ id, value: { background: image } })));
     }
-    case 'SET_SEARCH_RESULT': {
+    case SET_SEARCH_RESULT: {
       return update([{ id: data.id, value: { searchStarted: true, progress: data.progress } }]);
     }
-    case 'START_ALBUM_LOAD': {
+    case START_ALBUM_LOAD: {
       return update([{ id: data.id, value: { loading: true, failed: false } }]);
     }
-    case 'FAIL_ALBUM_LOAD': {
+    case FAIL_ALBUM_LOAD: {
       return update([{ id: data.id, value: { loading: false, failed: true } }]);
     }
     default: {
