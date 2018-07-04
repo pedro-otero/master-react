@@ -65,7 +65,7 @@ class Root extends React.Component {
           <div style={{ position: 'relative' }}>
             <Errors />
             <Route exact path="/" component={Home} />
-            <Route exact path="/player" render={this.getPlaybackData} />
+            <Route path="/player" render={this.getPlaybackData} />
             <Route path="/track/:id" render={this.getTrack} />
             <Route path="/album/:id" render={this.getAlbum} />
           </div>
