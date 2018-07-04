@@ -7,7 +7,6 @@ import ArtistWork from '../artist-work/artist-work';
 import TrackItem from '../track-item/track-item';
 import Progress from '../progress/progress';
 import LoadingCircle from '../loading-circle/loading-circle';
-import Logout from '../logout/logout';
 
 export const Album = ({
   background, image, tracks, progress, year, name, artist, failed, loading, searchStarted,
@@ -43,7 +42,6 @@ export const Album = ({
             />
         </li>))}
     </ol>
-    <Logout />
   </Fragment>;
 };
 
