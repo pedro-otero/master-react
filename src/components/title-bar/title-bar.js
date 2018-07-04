@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const BORDER_COLOR = 'rgba(128, 128, 128, 0.2)';
 
@@ -42,7 +43,9 @@ const LinkTemplate = `
 const Anchor = styled.a`${LinkTemplate}`;
 const WrappedLink = styled(Link)`${LinkTemplate}`;
 
-const TitleBar = ({ avatar, title, onLogout }) => (
+export const TitleBar = ({
+  loading, avatar, title, onLogout,
+}) => (
   <Row>
     <WrappedLink to="/player">
       <i className="em em-arrow_forward"></i>
@@ -60,4 +63,7 @@ TitleBar.propTypes = {
   title: PropTypes.string,
 };
 
-export default TitleBar;
+const mapStateToProps = ({ user: { profile: { loading, avatar, name } } }) =>
+  ({ loading, avatar, name });
+
+export default connect(mapStateToProps)(TitleBar);
