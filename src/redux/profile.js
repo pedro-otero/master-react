@@ -6,7 +6,7 @@ export function setProfile({ display_name: name, id, images }) {
   return {
     type: SET_PROFILE,
     data: {
-      name, id, image: images.length ? images[0].url : null,
+      name, id, avatar: images.length ? images[0].url : null,
     },
   };
 }
