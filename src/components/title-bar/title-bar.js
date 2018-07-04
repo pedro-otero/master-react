@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const BORDER_COLOR = '#7f7f7f';
+const BORDER_COLOR = 'rgba(128, 128, 128, 0.2)';
 
 const Row = styled.div`
   display: flex;
@@ -36,6 +36,7 @@ const LinkTemplate = `
   
   :hover {
     background-color: ${BORDER_COLOR};
+    filter: brightness(130%);
   }
 `;
 const Anchor = styled.a`${LinkTemplate}`;
