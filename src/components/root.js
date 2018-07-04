@@ -84,7 +84,7 @@ Root.propTypes = {
   store: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = ({ user: { token, expiry } }, { user }) => ({
+const mapStateToProps = ({ user: { token, expiry } }) => ({
   isNewUser: !token && !expiry,
   isAuthenticated: typeof token !== 'undefined' && (Date.now() - (new Date(expiry)).getTime()) <= 0,
 });
