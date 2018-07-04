@@ -14,7 +14,8 @@ import { clearErrors } from '../redux/errors';
 import Errors from './errors/errors';
 import Welcome from './welcome/welcome';
 import TitleBar from './title-bar/title-bar';
-import Home from "./home/home";
+import Home from './home/home';
+import { loadProfile } from '../redux/profile';
 
 class Root extends React.Component {
   constructor(props) {
@@ -22,6 +23,10 @@ class Root extends React.Component {
     this.getAlbum = this.getAlbum.bind(this);
     this.getTrack = this.getTrack.bind(this);
     this.getPlaybackData = this.getPlaybackData.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.loadProfile();
   }
 
   getPlaybackData() {
@@ -91,6 +96,7 @@ Root.propTypes = {
   isAuthenticated: PropTypes.bool,
   isNewUser: PropTypes.bool,
   loadPlaybackInfo: PropTypes.func.isRequired,
+  loadProfile: PropTypes.func.isRequired,
   onUnmount: PropTypes.func.isRequired,
   store: PropTypes.object.isRequired,
 };
@@ -103,6 +109,7 @@ const mapStateToProps = ({ user: { auth: { token, expiry } } }) => ({
 const mapDispatchToProps = dispatch => ({
   loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
   clearErrors: () => dispatch(clearErrors()),
+  loadProfile: () => dispatch(loadProfile()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Root);
