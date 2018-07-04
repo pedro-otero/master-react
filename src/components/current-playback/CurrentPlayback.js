@@ -21,7 +21,7 @@ export class CurrentPlayback extends React.Component {
   }
 }
 
-const mapStateToProps = ({ playbackInfo }) => ({
+const mapStateToProps = ({ user: { playbackInfo } }) => ({
   id: playbackInfo && playbackInfo.item ? playbackInfo.item.id : null,
   loading: playbackInfo === 'LOADING',
 });
