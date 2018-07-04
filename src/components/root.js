@@ -14,6 +14,7 @@ import { clearErrors } from '../redux/errors';
 import Errors from './errors/errors';
 import Welcome from './welcome/welcome';
 import TitleBar from './title-bar/title-bar';
+import Home from "./home/home";
 
 class Root extends React.Component {
   constructor(props) {
@@ -63,6 +64,7 @@ class Root extends React.Component {
           }} />
           <div style={{ position: 'relative' }}>
             <Errors />
+            <Route exact path="/" component={Home} />
             <Route exact path="/player" render={this.getPlaybackData} />
             <Route path="/track/:id" render={this.getTrack} />
             <Route path="/album/:id" render={this.getAlbum} />
