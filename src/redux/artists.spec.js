@@ -1,4 +1,4 @@
-import { loadArtist, reduce, setArtist } from './artists';
+import { FAIL_ARTIST_LOAD, loadArtist, reduce, SET_ARTIST, setArtist, START_ARTIST_LOAD } from './artists';
 
 const artist = { id: 'AR1' };
 const successApi = {
@@ -29,7 +29,7 @@ describe('REDUX: Artists', () => {
       images: [],
     });
     expect(action).toEqual({
-      type: 'SET_ARTIST',
+      type: SET_ARTIST,
       data: {
         name: 'The Artist',
         id: 'AR1',
@@ -46,7 +46,7 @@ describe('REDUX: Artists', () => {
       }],
     });
     expect(action).toEqual({
-      type: 'SET_ARTIST',
+      type: SET_ARTIST,
       data: {
         id: 'AR1',
         name: 'The Artist',
@@ -132,7 +132,7 @@ describe('REDUX: Artists', () => {
   describe('reducer', () => {
     it('adds artists', () => {
       const artists = reduce({}, {
-        type: 'SET_ARTIST',
+        type: SET_ARTIST,
         data: artist,
       });
       expect(artists.AR1).toEqual(Object.assign({ loading: false, failed: false }, artist));
@@ -140,7 +140,7 @@ describe('REDUX: Artists', () => {
 
     it('sets artist as loading', () => {
       const artists = reduce({}, {
-        type: 'START_ARTIST_LOAD',
+        type: START_ARTIST_LOAD,
         data: {
           id: artist.id,
         },
@@ -150,7 +150,7 @@ describe('REDUX: Artists', () => {
 
     it('sets artist as failed', () => {
       const artists = reduce({}, {
-        type: 'FAIL_ARTIST_LOAD',
+        type: FAIL_ARTIST_LOAD,
         data: {
           id: artist.id,
         },

@@ -1,5 +1,9 @@
 import { updateState } from './helpers';
 
+export const START_ARTIST_LOAD = 'START_ARTIST_LOAD';
+export const SET_ARTIST = 'SET_ARTIST';
+export const FAIL_ARTIST_LOAD = 'FAIL_ARTIST_LOAD';
+
 export const loadArtist = id => (dispatch, getState, { spotifyApi, actions }) => {
   const artist = getState().artists[id];
   if (!artist || artist.failed) {
@@ -14,7 +18,7 @@ export const loadArtist = id => (dispatch, getState, { spotifyApi, actions }) =>
 };
 
 export const setArtist = ({ id, name, images }) => ({
-  type: 'SET_ARTIST',
+  type: SET_ARTIST,
   data: {
     id,
     name,
@@ -23,14 +27,14 @@ export const setArtist = ({ id, name, images }) => ({
 });
 
 export const startArtistLoad = id => ({
-  type: 'START_ARTIST_LOAD',
+  type: START_ARTIST_LOAD,
   data: {
     id,
   },
 });
 
 export const failArtistLoad = id => ({
-  type: 'FAIL_ARTIST_LOAD',
+  type: FAIL_ARTIST_LOAD,
   data: {
     id,
   },
@@ -40,13 +44,13 @@ export function reduce(state = {}, { type, data }) {
   const defaultArtist = { loading: false, failed: false };
   const update = updateState(state, defaultArtist);
   switch (type) {
-    case 'SET_ARTIST': {
+    case SET_ARTIST: {
       return update([{ id: data.id, value: { ...data, loading: false, failed: false } }]);
     }
-    case 'START_ARTIST_LOAD': {
+    case START_ARTIST_LOAD: {
       return update([{ id: data.id, value: { loading: true, failed: false } }]);
     }
-    case 'FAIL_ARTIST_LOAD': {
+    case FAIL_ARTIST_LOAD: {
       return update([{ id: data.id, value: { loading: false, failed: true } }]);
     }
     default: {

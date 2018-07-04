@@ -1,4 +1,4 @@
-import { setPlaybackInfo, loadPlaybackInfo, reduce } from './playbackInfo';
+import { setPlaybackInfo, loadPlaybackInfo, reduce, SET_PLAYBACK_INFO } from './playbackInfo';
 
 describe('Playback info', () => {
   const dispatch = jest.fn(action => action);
@@ -37,7 +37,7 @@ describe('Playback info', () => {
   it('SET_PLAYBACK_INFO', () => {
     const action = setPlaybackInfo('val');
     expect(action).toEqual({
-      type: 'SET_PLAYBACK_INFO',
+      type: SET_PLAYBACK_INFO,
       data: 'val',
     });
   });
@@ -163,7 +163,7 @@ describe('Playback info', () => {
 
   it('Reduces SET_PLAYBACK_INFO action', () => {
     const info = reduce(null, {
-      type: 'SET_PLAYBACK_INFO', data: 'val',
+      type: SET_PLAYBACK_INFO, data: 'val',
     });
     expect(info).toEqual('val');
   });

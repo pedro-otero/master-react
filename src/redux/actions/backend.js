@@ -1,3 +1,5 @@
+import { SET_SEARCH_RESULT } from '../albums';
+
 export const loadSearchResult = id => (dispatch, getState, { backend, actions }) => {
   const album = getState().albums[id];
   if (album && album.searchStarted && album.progress === 100) {
@@ -14,7 +16,7 @@ export const loadSearchResult = id => (dispatch, getState, { backend, actions })
 
 export function setSearchResult(result) {
   return {
-    type: 'SET_SEARCH_RESULT',
+    type: SET_SEARCH_RESULT,
     data: {
       id: result.id,
       progress: result.progress,

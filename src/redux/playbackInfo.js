@@ -1,5 +1,7 @@
+export const SET_PLAYBACK_INFO = 'SET_PLAYBACK_INFO';
+
 export const setPlaybackInfo = data => ({
-  type: 'SET_PLAYBACK_INFO',
+  type: SET_PLAYBACK_INFO,
   data,
 });
 
@@ -31,7 +33,7 @@ export const loadPlaybackInfo = () => (dispatch, getState, {
 
 export const reduce = (state = null, action) => {
   switch (action.type) {
-    case 'SET_PLAYBACK_INFO': {
+    case SET_PLAYBACK_INFO: {
       return action.data;
     }
     default:
