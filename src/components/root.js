@@ -6,7 +6,6 @@ import { connect, Provider } from 'react-redux';
 import CurrentPlayback from './current-playback/CurrentPlayback';
 import Album from './album/album';
 import { loadPlaybackInfo } from '../redux/playbackInfo';
-import TrackDetails from './track-details/track-details';
 import { loadSearchResult } from '../redux/actions/backend';
 import { loadAlbum } from '../redux/albums';
 import { loadTrack } from '../redux/tracks';
@@ -16,12 +15,12 @@ import Welcome from './welcome/welcome';
 import TitleBar from './title-bar/title-bar';
 import Home from './home/home';
 import { loadProfile } from '../redux/profile';
+import TrackContainer from './track-container/track-container';
 
 class Root extends React.Component {
   constructor(props) {
     super(props);
     this.getAlbum = this.getAlbum.bind(this);
-    this.getTrack = this.getTrack.bind(this);
     this.getPlaybackData = this.getPlaybackData.bind(this);
   }
 
@@ -44,13 +43,6 @@ class Root extends React.Component {
     store.dispatch(loadAlbum(albumId));
     store.dispatch(loadSearchResult(albumId));
     return <Album albumId={match.params.id} />;
-  }
-
-  getTrack({ match }) {
-    this.props.clearErrors();
-    const { store } = this.props;
-    store.dispatch(loadTrack(match.params.id));
-    return <TrackDetails trackId={match.params.id} />;
   }
 
   getAuthUrl() {
@@ -84,7 +76,7 @@ class Root extends React.Component {
           <div style={{ position: 'relative' }}>
             <Route exact path="/" component={Home} />
             <Route path="/player" render={this.getPlaybackData} />
-            <Route path="/track/:id" render={this.getTrack} />
+            <Route path="/track/:id" render={({ match }) => <TrackContainer trackId={match.params.id} />} />
             <Route path="/album/:id" render={this.getAlbum} />
           </div>
         </span>
