@@ -21,7 +21,6 @@ class Root extends React.Component {
   constructor(props) {
     super(props);
     this.getAlbum = this.getAlbum.bind(this);
-    this.getTrack = this.getTrack.bind(this);
     this.getPlaybackData = this.getPlaybackData.bind(this);
   }
 
@@ -44,10 +43,6 @@ class Root extends React.Component {
     store.dispatch(loadAlbum(albumId));
     store.dispatch(loadSearchResult(albumId));
     return <Album albumId={match.params.id} />;
-  }
-
-  getTrack({ match }) {
-    return <TrackContainer trackId={match.params.id} />;
   }
 
   getAuthUrl() {
@@ -81,7 +76,7 @@ class Root extends React.Component {
             <Errors />
             <Route exact path="/" component={Home} />
             <Route path="/player" render={this.getPlaybackData} />
-            <Route path="/track/:id" render={this.getTrack} />
+            <Route path="/track/:id" render={({ match }) => <TrackContainer trackId={match.params.id} />} />
             <Route path="/album/:id" render={this.getAlbum} />
           </div>
         </span>
