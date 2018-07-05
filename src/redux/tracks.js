@@ -63,10 +63,9 @@ export function reduce(state = {}, { type, data }) {
       return update([{ id: data.id, value: { ...data, loading: false, failed: false } }]);
     }
     case SET_ALBUM: {
-      const { image, year, tracks } = data;
-      return update(tracks.map(track => ({
+      return update(data.tracks.map(track => ({
         id: track.id,
-        value: Object.assign({ image, year }, trackToState(track)),
+        value: trackToState(track),
       })));
     }
     case SET_SEARCH_RESULT: {
