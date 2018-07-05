@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import styles from './album.css';
 import ArtistWork from '../artist-work/artist-work';
@@ -8,7 +7,7 @@ import TrackItem from '../track-item/track-item';
 import Progress from '../progress/progress';
 import LoadingCircle from '../loading-circle/loading-circle';
 
-export const Album = ({
+const Album = ({
   background, image, tracks, progress, year, name, artist, failed, loading, searchStarted,
 }) => {
   if (loading) {
@@ -63,24 +62,4 @@ Album.defaultProps = {
   tracks: [],
 };
 
-const mapStateToProps = ({ albums, tracks, artists }, { albumId }) => {
-  const album = albums[albumId] || {};
-  const artist = artists[album.artistId] || {};
-  if (album) {
-    return {
-      image: album.image,
-      failed: album.failed,
-      loading: album.loading,
-      name: album.name,
-      progress: album.progress,
-      tracks: album.tracks.map(id => tracks[id]),
-      year: album.year,
-      background: artist.image,
-      artist: artist.name,
-      searchStarted: album.searchStarted,
-    };
-  }
-  return {};
-};
-
-export default connect(mapStateToProps)(Album);
+export default Album;
