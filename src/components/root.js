@@ -47,7 +47,6 @@ class Root extends React.Component {
   }
 
   getTrack({ match }) {
-    this.props.clearErrors();
     return <TrackContainer trackId={match.params.id} />;
   }
 

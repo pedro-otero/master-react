@@ -5,9 +5,11 @@ import { connect } from 'react-redux';
 import { loadTrack } from '../../redux/tracks';
 import { stopAlbumSearch } from '../../redux/albums';
 import { TrackDetails } from '../track-details/track-details';
+import { clearErrors } from '../../redux/errors';
 
 export class TrackContainer extends React.Component {
   componentDidMount() {
+    this.props.clearErrors();
     this.props.loadTrack();
   }
 
@@ -24,6 +26,7 @@ export class TrackContainer extends React.Component {
 }
 
 TrackContainer.propTypes = {
+  clearErrors: PropTypes.func,
   loadTrack: PropTypes.func,
   stopAlbumSearch: PropTypes.func,
   track: PropTypes.object,
@@ -32,6 +35,7 @@ TrackContainer.propTypes = {
 const mapStateToProps = ({ tracks }, { trackId }) => ({ track: tracks[trackId] });
 
 const mapDispatchToProps = (dispatch, { trackId }) => ({
+  clearErrors: () => dispatch(clearErrors()),
   loadTrack: () => dispatch(loadTrack(trackId)),
   stopAlbumSearch: albumId => dispatch(stopAlbumSearch(albumId)),
 });
