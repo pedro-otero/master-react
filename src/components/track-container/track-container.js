@@ -20,19 +20,32 @@ export class TrackContainer extends React.Component {
   }
 
   render() {
-    const { track } = this.props;
-    return <TrackDetails {...track } />;
+    const {
+      track,
+      artist,
+    } = this.props;
+    const props = {
+      ...track, background: artist.image,
+    };
+    return <TrackDetails {...props } />;
   }
 }
 
 TrackContainer.propTypes = {
+  artist: PropTypes.object,
   clearErrors: PropTypes.func,
   loadTrack: PropTypes.func,
   stopAlbumSearch: PropTypes.func,
   track: PropTypes.object,
 };
 
-const mapStateToProps = ({ tracks }, { trackId }) => ({ track: tracks[trackId] });
+const mapStateToProps = ({ tracks, artists }, { trackId }) => {
+  const track = tracks[trackId] || {};
+  return {
+    track,
+    artist: artists[track.artistId] || {},
+  };
+};
 
 const mapDispatchToProps = (dispatch, { trackId }) => ({
   clearErrors: () => dispatch(clearErrors()),

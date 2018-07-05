@@ -72,12 +72,6 @@ export function reduce(state = {}, { type, data }) {
     case SET_SEARCH_RESULT: {
       return update(data.tracks);
     }
-    case SET_ARTIST: {
-      const { image, id: artistId } = data;
-      return update(Object.entries(state)
-        .filter(([id, track]) => track.artistId === artistId)
-        .map(([id]) => ({ id, value: { background: image } })));
-    }
     case START_TRACK_LOAD: {
       return update([{ id: data.id, value: { loading: true, failed: false } }]);
     }
