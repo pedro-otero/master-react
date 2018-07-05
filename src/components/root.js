@@ -6,7 +6,6 @@ import { connect, Provider } from 'react-redux';
 import CurrentPlayback from './current-playback/CurrentPlayback';
 import Album from './album/album';
 import { loadPlaybackInfo } from '../redux/playbackInfo';
-import TrackDetails from './track-details/track-details';
 import { loadSearchResult } from '../redux/actions/backend';
 import { loadAlbum } from '../redux/albums';
 import { loadTrack } from '../redux/tracks';
@@ -16,6 +15,7 @@ import Welcome from './welcome/welcome';
 import TitleBar from './title-bar/title-bar';
 import Home from './home/home';
 import { loadProfile } from '../redux/profile';
+import TrackContainer from './track-container/track-container';
 
 class Root extends React.Component {
   constructor(props) {
@@ -48,9 +48,7 @@ class Root extends React.Component {
 
   getTrack({ match }) {
     this.props.clearErrors();
-    const { store } = this.props;
-    store.dispatch(loadTrack(match.params.id));
-    return <TrackDetails trackId={match.params.id} />;
+    return <TrackContainer trackId={match.params.id} />;
   }
 
   getAuthUrl() {
