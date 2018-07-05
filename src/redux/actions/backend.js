@@ -9,7 +9,7 @@ export const loadSearchResult = id => (dispatch, getState, { backend, actions })
     .subscribe((response) => {
       dispatch(actions.setSearchResult(response));
       const updatedAlbum = getState().albums[id];
-      if (updatedAlbum && updatedAlbum.searchStarted) {
+      if (updatedAlbum && !updatedAlbum.searchStarted) {
         backend.stopSearch(id);
       }
     }, () => {
