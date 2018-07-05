@@ -8,68 +8,53 @@ import Credits from '../credits/credits';
 import Composers from '../composers/composers';
 import Producers from '../producers/producers';
 import ArtistWork from '../artist-work/artist-work';
-import { loadTrack } from '../../redux/tracks';
-import { stopAlbumSearch } from '../../redux/albums';
 
-export class TrackDetails extends React.Component {
-  componentDidMount() {
-    this.props.loadTrack();
+export const TrackDetails = ({
+  name,
+  artist,
+  albumId,
+  image,
+  background,
+  year,
+  progress,
+  credits,
+  composers,
+  producers,
+  loading,
+  searchStarted,
+  failed,
+}) => {
+  if (loading) {
+    return <LoadingCircle message="Loading data from Spotify..." />;
   }
-
-  componentWillUnmount() {
-    if (this.props.albumId) {
-      this.props.stopAlbumSearch(this.props.albumId);
-    }
+  if (failed) {
+    return <div>
+      <i className="em em--1"></i>
+      <h1>Could not load this track</h1>
+    </div>;
   }
-
-  render() {
-    const {
-      name,
-      artist,
-      albumId,
-      image,
-      background,
-      year,
-      progress,
-      credits,
-      composers,
-      producers,
-      loading,
-      searchStarted,
-      failed,
-    } = this.props;
-    if (loading) {
-      return <LoadingCircle message="Loading data from Spotify..." />;
-    }
-    if (failed) {
-      return <div>
-        <i className="em em--1"></i>
-        <h1>Could not load this track</h1>
-      </div>;
-    }
-    return <article>
-      <ArtistWork
-          title={name}
-          artist={artist}
-          year={year}
-          image={image}
-          background={background}
-          path={`/album/${albumId}`}>
-        <span>
-          <Composers list={composers} />
-          <br />
-          <Producers list={producers} />
-        </span>
-      </ArtistWork>
-      {!searchStarted && <LoadingCircle message="Starting search..." />}
-      <Credits data={credits} />
-      {searchStarted && progress !== 100 &&
+  return <article>
+    <ArtistWork
+        title={name}
+        artist={artist}
+        year={year}
+        image={image}
+        background={background}
+        path={`/album/${albumId}`}>
+      <span>
+        <Composers list={composers} />
+        <br />
+        <Producers list={producers} />
+      </span>
+    </ArtistWork>
+    {!searchStarted && <LoadingCircle message="Starting search..." />}
+    <Credits data={credits} />
+    {searchStarted && progress !== 100 &&
       <Progress
           size={Object.keys(credits).length === 0 ? 'big' : 'small'}
           value={progress} />}
-    </article>;
-  }
-}
+  </article>;
+};
 
 TrackDetails.propTypes = {
   albumId: PropTypes.string,
@@ -79,13 +64,11 @@ TrackDetails.propTypes = {
   credits: PropTypes.object,
   failed: PropTypes.bool,
   image: PropTypes.string,
-  loadTrack: PropTypes.func,
   loading: PropTypes.bool,
   name: PropTypes.string,
   producers: PropTypes.array,
   progress: PropTypes.number,
   searchStarted: PropTypes.bool,
-  stopAlbumSearch: PropTypes.func,
   year: PropTypes.string,
 };
 
@@ -117,9 +100,4 @@ const mapStateToProps = ({ tracks }, { trackId }) => {
   return {};
 };
 
-const mapDispatchToProps = (dispatch, { trackId }) => ({
-  loadTrack: () => dispatch(loadTrack(trackId)),
-  stopAlbumSearch: (albumId) => dispatch(stopAlbumSearch(albumId)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(TrackDetails);
+export default connect(mapStateToProps)(TrackDetails);
