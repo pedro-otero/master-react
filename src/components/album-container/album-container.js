@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 
 import { loadAlbum, stopAlbumSearch } from '../../redux/albums';
 import { clearErrors } from '../../redux/errors';
-import { Album } from '../album/album';
+import Album from '../album/album';
+import { loadSearchResult } from '../../redux/actions/backend';
 
 export class AlbumContainer extends React.Component {
   componentDidMount() {
@@ -50,7 +51,7 @@ AlbumContainer.propTypes = {
 };
 
 const mapStateToProps = ({ tracks, albums, artists }, { albumId }) => {
-  const album = albums[albumId] || {};
+  const album = albums[albumId] || { tracks: [] };
   return {
     tracks: album.tracks.map(id => tracks[id]),
     album,
@@ -60,7 +61,10 @@ const mapStateToProps = ({ tracks, albums, artists }, { albumId }) => {
 
 const mapDispatchToProps = (dispatch, { albumId }) => ({
   clearErrors: () => dispatch(clearErrors()),
-  loadAlbum: () => dispatch(loadAlbum(albumId)),
+  loadAlbum: () => {
+    dispatch(loadAlbum(albumId));
+    dispatch(loadSearchResult(albumId));
+  },
   stopAlbumSearch: () => dispatch(stopAlbumSearch(albumId)),
 });
 
