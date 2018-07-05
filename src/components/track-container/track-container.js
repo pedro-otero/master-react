@@ -21,17 +21,30 @@ export class TrackContainer extends React.Component {
 
   render() {
     const {
-      track,
-      album,
-      artist,
+      track: {
+        name, composers, producers, credits, loading, failed,
+      },
+      album: {
+        id: albumId, year, image, searchStarted, progress,
+      },
+      artist: { name: artistName, image: background },
     } = this.props;
     const props = {
-      ...track,
-      background: artist.image,
-      year: album.year,
-      image: album.image,
+      name,
+      composers,
+      producers,
+      credits,
+      loading,
+      failed,
+      albumId,
+      image,
+      year,
+      searchStarted,
+      progress,
+      artist: artistName,
+      background,
     };
-    return <TrackDetails {...props } />;
+    return <TrackDetails {...props} />;
   }
 }
 
