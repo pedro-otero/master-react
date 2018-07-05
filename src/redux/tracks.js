@@ -31,7 +31,6 @@ function trackToState(track) {
     albumId: track.album.id,
     name: track.name,
     artistId: track.artists[0].id,
-    artist: track.artists[0].name,
     duration,
   };
 }
@@ -56,7 +55,7 @@ export const failTrackLoad = id => ({
 });
 
 export function reduce(state = {}, { type, data }) {
-  const defaultTrack = { loading: false, failed: false, searchStarted: false };
+  const defaultTrack = { loading: false, failed: false };
   const update = updateState(state, defaultTrack);
   switch (type) {
     case SET_TRACK: {

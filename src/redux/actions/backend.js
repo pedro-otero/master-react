@@ -29,7 +29,7 @@ export function setSearchResult(result) {
       }) => ({
         id,
         value: {
-          composers, producers, credits, progress: result.progress, searchStarted: true,
+          composers, producers, credits,
         },
       })),
     },
