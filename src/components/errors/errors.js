@@ -7,6 +7,8 @@ const Error = styled.div`
   background-color: red;
   font-weight: bold;
   padding: 10px;
+  z-index: 2000;
+  position: relative;
 `;
 
 export const Errors = ({ list }) => (
