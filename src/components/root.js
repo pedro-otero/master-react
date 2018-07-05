@@ -78,7 +78,7 @@ class Root extends React.Component {
               title="Crews"
               onLogout={() => {
             window.localStorage.clear();
-            window.location.reload();
+            window.location = '/';
           }} />
           <div style={{ position: 'relative' }}>
             <Errors />
