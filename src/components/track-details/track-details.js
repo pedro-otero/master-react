@@ -9,8 +9,19 @@ import Composers from '../composers/composers';
 import Producers from '../producers/producers';
 import ArtistWork from '../artist-work/artist-work';
 import { loadTrack } from '../../redux/tracks';
+import { stopAlbumSearch } from '../../redux/albums';
 
 export class TrackDetails extends React.Component {
+  componentDidMount() {
+    this.props.loadTrack();
+  }
+
+  componentWillUnmount() {
+    if (this.props.albumId) {
+      this.props.stopAlbumSearch(this.props.albumId);
+    }
+  }
+
   render() {
     const {
       name,
@@ -74,6 +85,7 @@ TrackDetails.propTypes = {
   producers: PropTypes.array,
   progress: PropTypes.number,
   searchStarted: PropTypes.bool,
+  stopAlbumSearch: PropTypes.func,
   year: PropTypes.string,
 };
 
@@ -107,6 +119,7 @@ const mapStateToProps = ({ tracks }, { trackId }) => {
 
 const mapDispatchToProps = (dispatch, { trackId }) => ({
   loadTrack: () => dispatch(loadTrack(trackId)),
+  stopAlbumSearch: (albumId) => dispatch(stopAlbumSearch(albumId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TrackDetails);
