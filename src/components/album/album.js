@@ -63,8 +63,9 @@ Album.defaultProps = {
   tracks: [],
 };
 
-const mapStateToProps = ({ albums, tracks }, { albumId }) => {
-  const album = albums[albumId];
+const mapStateToProps = ({ albums, tracks, artists }, { albumId }) => {
+  const album = albums[albumId] || {};
+  const artist = artists[album.artistId] || {};
   if (album) {
     return {
       image: album.image,
@@ -74,8 +75,8 @@ const mapStateToProps = ({ albums, tracks }, { albumId }) => {
       progress: album.progress,
       tracks: album.tracks.map(id => tracks[id]),
       year: album.year,
-      background: album.background,
-      artist: album.artist,
+      background: artist.image,
+      artist: artist.name,
       searchStarted: album.searchStarted,
     };
   }
