@@ -96,7 +96,7 @@ export function reduce(state = {}, { type, data }) {
       return update([{ id: data.id, value: { loading: false, failed: true } }]);
     }
     case STOP_ALBUM_SEARCH: {
-      return update([{ id: data.id, value: { loading: false, failed: false, searchStarted: true } }]);
+      return update([{ id: data.id, value: { loading: false, failed: false, searchStarted: false } }]);
     }
     default: {
       return state;
