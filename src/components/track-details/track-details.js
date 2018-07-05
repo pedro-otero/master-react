@@ -10,52 +10,55 @@ import Producers from '../producers/producers';
 import ArtistWork from '../artist-work/artist-work';
 import { loadTrack } from '../../redux/tracks';
 
-export const TrackDetails = ({
-  name,
-  artist,
-  albumId,
-  image,
-  background,
-  year,
-  progress,
-  credits,
-  composers,
-  producers,
-  loading,
-  searchStarted,
-  failed,
-}) => {
-  if (loading) {
-    return <LoadingCircle message="Loading data from Spotify..." />;
-  }
-  if (failed) {
-    return <div>
-      <i className="em em--1"></i>
-      <h1>Could not load this track</h1>
-    </div>;
-  }
-  return <article>
-    <ArtistWork
-        title={name}
-        artist={artist}
-        year={year}
-        image={image}
-        background={background}
-        path={`/album/${albumId}`}>
-      <span>
-        <Composers list={composers} />
-        <br />
-        <Producers list={producers} />
-      </span>
-    </ArtistWork>
-    {!searchStarted && <LoadingCircle message="Starting search..." />}
-    <Credits data={credits} />
-    {searchStarted && progress !== 100 &&
+export class TrackDetails extends React.Component {
+  render() {
+    const {
+      name,
+      artist,
+      albumId,
+      image,
+      background,
+      year,
+      progress,
+      credits,
+      composers,
+      producers,
+      loading,
+      searchStarted,
+      failed,
+    } = this.props;
+    if (loading) {
+      return <LoadingCircle message="Loading data from Spotify..." />;
+    }
+    if (failed) {
+      return <div>
+        <i className="em em--1"></i>
+        <h1>Could not load this track</h1>
+      </div>;
+    }
+    return <article>
+      <ArtistWork
+          title={name}
+          artist={artist}
+          year={year}
+          image={image}
+          background={background}
+          path={`/album/${albumId}`}>
+        <span>
+          <Composers list={composers} />
+          <br />
+          <Producers list={producers} />
+        </span>
+      </ArtistWork>
+      {!searchStarted && <LoadingCircle message="Starting search..." />}
+      <Credits data={credits} />
+      {searchStarted && progress !== 100 &&
       <Progress
           size={Object.keys(credits).length === 0 ? 'big' : 'small'}
           value={progress} />}
-  </article>;
-};
+    </article>;
+  }
+}
 
 TrackDetails.propTypes = {
   albumId: PropTypes.string,
