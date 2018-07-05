@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import LoadingCircle from '../loading-circle/loading-circle';
 import Progress from '../progress/progress';
@@ -9,7 +8,7 @@ import Composers from '../composers/composers';
 import Producers from '../producers/producers';
 import ArtistWork from '../artist-work/artist-work';
 
-export const TrackDetails = ({
+const TrackDetails = ({
   name,
   artist,
   albumId,
@@ -78,26 +77,4 @@ TrackDetails.defaultProps = {
   producers: [],
 };
 
-const mapStateToProps = ({ tracks }, { trackId }) => {
-  const track = tracks[trackId];
-  if (track) {
-    return {
-      name: track.name,
-      loading: track.loading,
-      failed: track.failed,
-      albumId: track.albumId,
-      composers: track.composers,
-      producers: track.producers,
-      credits: track.credits,
-      progress: track.progress,
-      searchStarted: track.searchStarted,
-      image: track.image,
-      year: track.year,
-      background: track.background,
-      artist: track.artist,
-    };
-  }
-  return {};
-};
-
-export default connect(mapStateToProps)(TrackDetails);
+export default TrackDetails;

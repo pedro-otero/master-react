@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { loadTrack } from '../../redux/tracks';
 import { stopAlbumSearch } from '../../redux/albums';
-import { TrackDetails } from '../track-details/track-details';
+import TrackDetails from '../track-details/track-details';
 import { clearErrors } from '../../redux/errors';
 
 export class TrackContainer extends React.Component {
