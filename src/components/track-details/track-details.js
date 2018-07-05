@@ -8,6 +8,7 @@ import Credits from '../credits/credits';
 import Composers from '../composers/composers';
 import Producers from '../producers/producers';
 import ArtistWork from '../artist-work/artist-work';
+import { loadTrack } from '../../redux/tracks';
 
 export const TrackDetails = ({
   name,
@@ -64,6 +65,7 @@ TrackDetails.propTypes = {
   credits: PropTypes.object,
   failed: PropTypes.bool,
   image: PropTypes.string,
+  loadTrack: PropTypes.func,
   loading: PropTypes.bool,
   name: PropTypes.string,
   producers: PropTypes.array,
@@ -100,4 +102,8 @@ const mapStateToProps = ({ tracks }, { trackId }) => {
   return {};
 };
 
-export default connect(mapStateToProps)(TrackDetails);
+const mapDispatchToProps = (dispatch, { trackId }) => ({
+  loadTrack: () => dispatch(loadTrack(trackId)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TrackDetails);
