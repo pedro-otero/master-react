@@ -74,6 +74,7 @@ class Root extends React.Component {
     return <Provider store={store}>
       <Router>
         <span>
+          <Errors />
           <TitleBar
               title="Crews"
               onLogout={() => {
@@ -81,7 +82,6 @@ class Root extends React.Component {
             window.location = '/';
           }} />
           <div style={{ position: 'relative' }}>
-            <Errors />
             <Route exact path="/" component={Home} />
             <Route path="/player" render={this.getPlaybackData} />
             <Route path="/track/:id" render={this.getTrack} />
