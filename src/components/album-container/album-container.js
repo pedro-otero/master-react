@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { loadAlbum, stopAlbumSearch } from '../../redux/albums';
+import { loadAlbum } from '../../redux/albums';
 import { clearErrors } from '../../redux/errors';
 import Album from '../album/album';
 import { loadSearchResult } from '../../redux/actions/backend';
@@ -10,11 +10,13 @@ import { loadArtist } from '../../redux/artists';
 
 export class AlbumContainer extends React.Component {
   componentDidMount() {
-    this.props.load();
+    this.albumSearch = this.props.load();
   }
 
   componentWillUnmount() {
-    this.props.stopAlbumSearch();
+    if (this.albumSearch) {
+      this.albumSearch.unsubscribe();
+    }
   }
 
   render() {
@@ -67,7 +69,6 @@ const mapDispatchToProps = (dispatch, { albumId }) => ({
     });
     dispatch(loadSearchResult(albumId));
   },
-  stopAlbumSearch: () => dispatch(stopAlbumSearch(albumId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlbumContainer);
