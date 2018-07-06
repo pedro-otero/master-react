@@ -2,7 +2,7 @@ import { SET_SEARCH_RESULT } from '../albums';
 
 export const loadSearchResult = id => (dispatch, getState, { backend, actions }) => {
   const album = getState().albums[id];
-  if (album && album.searchStarted && album.progress === 100) {
+  if (album && album.progress === 100) {
     return;
   }
   backend.getCredits(id)

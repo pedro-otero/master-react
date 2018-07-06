@@ -26,7 +26,7 @@ export class TrackContainer extends React.Component {
         name, composers, producers, credits, loading, failed,
       },
       album: {
-        id: albumId, year, image, searchStarted, progress,
+        id: albumId, year, image, progress,
       },
       artist: { name: artistName, image: background },
     } = this.props;
@@ -40,7 +40,7 @@ export class TrackContainer extends React.Component {
       albumId,
       image,
       year,
-      searchStarted,
+      searchStarted: !!progress,
       progress,
       artist: artistName,
       background,
