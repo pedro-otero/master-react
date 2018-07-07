@@ -6,7 +6,6 @@ import { loadTrack } from '../../redux/tracks';
 import { loadAlbum } from '../../redux/albums';
 import TrackDetails from '../track-details/track-details';
 import { clearErrors } from '../../redux/errors';
-import { loadSearchResult } from '../../redux/actions/backend';
 import { loadArtist } from '../../redux/artists';
 import EntityContainer from '../entity-container/entity-container';
 
@@ -63,7 +62,6 @@ const mapDispatchToProps = (dispatch, { trackId }) => ({
       dispatch(loadArtist(artistId));
     });
   },
-  loadSearchResult: id => dispatch(loadSearchResult(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityContainer(TrackContainer));

@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-export default Component => class Wrapped extends React.Component {
+import { loadSearchResult } from '../../redux/actions/backend';
+
+export default (Component) => {
+  class Wrapped extends React.Component {
   static propTypes = {
     album: PropTypes.object,
     clearErrors: PropTypes.func,
@@ -28,4 +32,9 @@ export default Component => class Wrapped extends React.Component {
   render() {
     return <Component {...this.props} />;
   }
+  }
+
+  return connect(() => ({}), dispatch => ({
+    loadSearchResult: id => dispatch(loadSearchResult(id)),
+  }))(Wrapped);
 };

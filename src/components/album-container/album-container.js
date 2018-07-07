@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { loadAlbum } from '../../redux/albums';
 import { clearErrors } from '../../redux/errors';
 import Album from '../album/album';
-import { loadSearchResult } from '../../redux/actions/backend';
 import { loadArtist } from '../../redux/artists';
 import EntityContainer from '../entity-container/entity-container';
 
@@ -56,7 +55,6 @@ const mapDispatchToProps = (dispatch, { albumId }) => ({
       dispatch(loadArtist(artistId));
     });
   },
-  loadSearchResult: id => dispatch(loadSearchResult(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityContainer(AlbumContainer));
