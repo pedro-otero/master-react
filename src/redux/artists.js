@@ -1,21 +1,18 @@
-import { updateState } from './helpers';
+import { loadThunk, updateState } from './helpers';
 
 export const START_ARTIST_LOAD = 'START_ARTIST_LOAD';
 export const SET_ARTIST = 'SET_ARTIST';
 export const FAIL_ARTIST_LOAD = 'FAIL_ARTIST_LOAD';
 
-export const loadArtist = id => (dispatch, getState, { spotifyApi, actions }) => {
-  const artist = getState().artists[id];
-  if (!artist || artist.failed) {
-    dispatch(actions.startArtistLoad(id));
-    return spotifyApi
-      .getArtist(id).then((response) => {
-        dispatch(actions.setArtist(response.body));
-        return response;
-      }, () => dispatch(actions.failArtistLoad(id)));
-  }
-  return Promise.resolve(artist);
-};
+export const loadArtist = id => (dispatch, getState, { spotifyApi, actions }) => loadThunk(
+  id,
+  getState().artists,
+  dispatch,
+  actions.startArtistLoad,
+  spotifyApi.getArtist,
+  actions.setArtist,
+  actions.failArtistLoad,
+);
 
 export const setArtist = ({ id, name, images }) => ({
   type: SET_ARTIST,

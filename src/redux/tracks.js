@@ -1,23 +1,19 @@
-import { updateState } from './helpers';
+import { loadThunk, updateState } from './helpers';
 import { SET_ALBUM, SET_SEARCH_RESULT } from './albums';
 
 export const START_TRACK_LOAD = 'START_TRACK_LOAD';
 export const SET_TRACK = 'SET_TRACK';
 export const FAIL_TRACK_LOAD = 'FAIL_TRACK_LOAD';
 
-export const loadTrack = id => (dispatch, getState, { spotifyApi, actions }) => {
-  const track = getState().tracks[id];
-  if (!track || track.failed) {
-    dispatch(actions.startTrackLoad(id));
-    return spotifyApi.getTrack(id).then(
-      response =>
-        dispatch(actions.setTrack(response.body)).data,
-      () =>
-        dispatch(actions.failTrackLoad(id)),
-    );
-  }
-  return Promise.resolve(track);
-};
+export const loadTrack = id => (dispatch, getState, { spotifyApi, actions }) => loadThunk(
+  id,
+  getState().tracks,
+  dispatch,
+  actions.startTrackLoad,
+  spotifyApi.getTrack,
+  actions.setTrack,
+  actions.failTrackLoad,
+);
 
 function trackToState(track) {
   const minutes = Math.floor(track.duration_ms / 60000);
