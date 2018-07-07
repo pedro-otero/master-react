@@ -8,24 +8,9 @@ import TrackDetails from '../track-details/track-details';
 import { clearErrors } from '../../redux/errors';
 import { loadSearchResult } from '../../redux/actions/backend';
 import { loadArtist } from '../../redux/artists';
+import EntityContainer from '../entity-container/entity-container';
 
 export class TrackContainer extends React.Component {
-  componentDidMount() {
-    this.props.load();
-  }
-
-  componentDidUpdate() {
-    if (this.props.album.id && !this.albumSearch) {
-      this.albumSearch = this.props.loadSearchResult(this.props.album.id);
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.albumSearch) {
-      this.albumSearch.unsubscribe();
-    }
-  }
-
   render() {
     const {
       track: {
@@ -58,9 +43,6 @@ export class TrackContainer extends React.Component {
 TrackContainer.propTypes = {
   album: PropTypes.object,
   artist: PropTypes.object,
-  clearErrors: PropTypes.func,
-  load: PropTypes.func,
-  loadSearchResult: PropTypes.func,
   track: PropTypes.object,
 };
 
@@ -84,4 +66,4 @@ const mapDispatchToProps = (dispatch, { trackId }) => ({
   loadSearchResult: id => dispatch(loadSearchResult(id)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TrackContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(EntityContainer(TrackContainer));
