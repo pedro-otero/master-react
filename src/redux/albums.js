@@ -4,7 +4,6 @@ export const START_ALBUM_LOAD = 'START_ALBUM_LOAD';
 export const SET_ALBUM = 'SET_ALBUM';
 export const FAIL_ALBUM_LOAD = 'FAIL_ALBUM_LOAD';
 export const SET_SEARCH_RESULT = 'SET_SEARCH_RESULT';
-export const STOP_ALBUM_SEARCH = 'STOP_ALBUM_SEARCH';
 
 export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => loadThunk(
   id,
@@ -50,13 +49,6 @@ export const failAlbumLoad = id => ({
   },
 });
 
-export const stopAlbumSearch = id => ({
-  type: STOP_ALBUM_SEARCH,
-  data: {
-    id,
-  },
-});
-
 export function reduce(state = {}, { type, data }) {
   const defaultAlbum = { loading: false, failed: false, tracks: [] };
   const update = updateState(state, defaultAlbum);
@@ -73,16 +65,13 @@ export function reduce(state = {}, { type, data }) {
       }]);
     }
     case SET_SEARCH_RESULT: {
-      return update([{ id: data.id, value: { searchStarted: true, progress: data.progress } }]);
+      return update([{ id: data.id, value: { progress: data.progress } }]);
     }
     case START_ALBUM_LOAD: {
       return update([{ id: data.id, value: { loading: true, failed: false } }]);
     }
     case FAIL_ALBUM_LOAD: {
       return update([{ id: data.id, value: { loading: false, failed: true } }]);
-    }
-    case STOP_ALBUM_SEARCH: {
-      return update([{ id: data.id, value: { loading: false, failed: false, searchStarted: false } }]);
     }
     default: {
       return state;

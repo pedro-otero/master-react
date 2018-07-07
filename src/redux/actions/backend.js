@@ -2,16 +2,12 @@ import { SET_SEARCH_RESULT } from '../albums';
 
 export const loadSearchResult = id => (dispatch, getState, { backend, actions }) => {
   const album = getState().albums[id];
-  if (album && album.searchStarted && album.progress === 100) {
+  if (album && album.progress === 100) {
     return;
   }
-  backend.getCredits(id)
+  return backend.getCredits(id)
     .subscribe((response) => {
       dispatch(actions.setSearchResult(response));
-      const updatedAlbum = getState().albums[id];
-      if (updatedAlbum && !updatedAlbum.searchStarted) {
-        backend.stopSearch(id);
-      }
     }, () => {
       dispatch(actions.addError('Loading credits failed'));
     }, () => {

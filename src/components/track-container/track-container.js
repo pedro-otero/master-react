@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { loadTrack } from '../../redux/tracks';
-import { loadAlbum, stopAlbumSearch } from '../../redux/albums';
+import { loadAlbum } from '../../redux/albums';
 import TrackDetails from '../track-details/track-details';
 import { clearErrors } from '../../redux/errors';
 import { loadSearchResult } from '../../redux/actions/backend';
@@ -14,9 +14,15 @@ export class TrackContainer extends React.Component {
     this.props.load();
   }
 
+  componentDidUpdate() {
+    if (this.props.album.id && !this.albumSearch) {
+      this.albumSearch = this.props.loadSearchResult(this.props.album.id);
+    }
+  }
+
   componentWillUnmount() {
-    if (this.props.track.albumId) {
-      this.props.stopAlbumSearch(this.props.track.albumId);
+    if (this.albumSearch) {
+      this.albumSearch.unsubscribe();
     }
   }
 
@@ -26,7 +32,7 @@ export class TrackContainer extends React.Component {
         name, composers, producers, credits, loading, failed,
       },
       album: {
-        id: albumId, year, image, searchStarted, progress,
+        id: albumId, year, image, progress,
       },
       artist: { name: artistName, image: background },
     } = this.props;
@@ -40,7 +46,7 @@ export class TrackContainer extends React.Component {
       albumId,
       image,
       year,
-      searchStarted,
+      searchStarted: !!progress,
       progress,
       artist: artistName,
       background,
@@ -54,7 +60,7 @@ TrackContainer.propTypes = {
   artist: PropTypes.object,
   clearErrors: PropTypes.func,
   load: PropTypes.func,
-  stopAlbumSearch: PropTypes.func,
+  loadSearchResult: PropTypes.func,
   track: PropTypes.object,
 };
 
@@ -71,12 +77,11 @@ const mapDispatchToProps = (dispatch, { trackId }) => ({
   load: () => {
     dispatch(clearErrors());
     dispatch(loadTrack(trackId)).then(({ albumId, artistId }) => {
-      dispatch(loadSearchResult(albumId));
       dispatch(loadAlbum(albumId));
       dispatch(loadArtist(artistId));
     });
   },
-  stopAlbumSearch: albumId => dispatch(stopAlbumSearch(albumId)),
+  loadSearchResult: id => dispatch(loadSearchResult(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TrackContainer);
