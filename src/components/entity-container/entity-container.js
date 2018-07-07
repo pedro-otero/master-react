@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { loadSearchResult } from '../../redux/actions/backend';
+import { clearErrors } from '../../redux/errors';
 
 export default (Component) => {
   class Wrapped extends React.Component {
@@ -14,6 +15,7 @@ export default (Component) => {
   };
 
   componentDidMount() {
+    this.props.clearErrors();
     this.props.load();
   }
 
@@ -35,6 +37,7 @@ export default (Component) => {
   }
 
   return connect(() => ({}), dispatch => ({
+    clearErrors: () => dispatch(clearErrors()),
     loadSearchResult: id => dispatch(loadSearchResult(id)),
   }))(Wrapped);
 };

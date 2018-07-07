@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { loadAlbum } from '../../redux/albums';
-import { clearErrors } from '../../redux/errors';
 import Album from '../album/album';
 import { loadArtist } from '../../redux/artists';
 import EntityContainer from '../entity-container/entity-container';
@@ -50,7 +49,6 @@ const mapStateToProps = ({ tracks, albums, artists }, { albumId }) => {
 
 const mapDispatchToProps = (dispatch, { albumId }) => ({
   load: () => {
-    dispatch(clearErrors());
     dispatch(loadAlbum(albumId)).then(({ artistId }) => {
       dispatch(loadArtist(artistId));
     });

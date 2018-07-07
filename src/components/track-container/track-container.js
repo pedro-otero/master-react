@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { loadTrack } from '../../redux/tracks';
 import { loadAlbum } from '../../redux/albums';
 import TrackDetails from '../track-details/track-details';
-import { clearErrors } from '../../redux/errors';
 import { loadArtist } from '../../redux/artists';
 import EntityContainer from '../entity-container/entity-container';
 
@@ -56,7 +55,6 @@ const mapStateToProps = ({ tracks, albums, artists }, { trackId }) => {
 
 const mapDispatchToProps = (dispatch, { trackId }) => ({
   load: () => {
-    dispatch(clearErrors());
     dispatch(loadTrack(trackId)).then(({ albumId, artistId }) => {
       dispatch(loadAlbum(albumId));
       dispatch(loadArtist(artistId));
