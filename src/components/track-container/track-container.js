@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { loadTrack } from '../../redux/tracks';
-import { stopAlbumSearch } from '../../redux/albums';
+import { loadAlbum, stopAlbumSearch } from '../../redux/albums';
 import TrackDetails from '../track-details/track-details';
 import { clearErrors } from '../../redux/errors';
+import { loadSearchResult } from '../../redux/actions/backend';
 
 export class TrackContainer extends React.Component {
   componentDidMount() {
-    this.props.clearErrors();
-    this.props.loadTrack();
+    this.props.load();
   }
 
   componentWillUnmount() {
@@ -52,7 +52,7 @@ TrackContainer.propTypes = {
   album: PropTypes.object,
   artist: PropTypes.object,
   clearErrors: PropTypes.func,
-  loadTrack: PropTypes.func,
+  load: PropTypes.func,
   stopAlbumSearch: PropTypes.func,
   track: PropTypes.object,
 };
@@ -67,8 +67,13 @@ const mapStateToProps = ({ tracks, albums, artists }, { trackId }) => {
 };
 
 const mapDispatchToProps = (dispatch, { trackId }) => ({
-  clearErrors: () => dispatch(clearErrors()),
-  loadTrack: () => dispatch(loadTrack(trackId)),
+  load: () => {
+    dispatch(clearErrors());
+    dispatch(loadTrack(trackId)).then(({ album: { id: albumId } }) => {
+      dispatch(loadSearchResult(albumId));
+      dispatch(loadAlbum(albumId));
+    });
+  },
   stopAlbumSearch: albumId => dispatch(stopAlbumSearch(albumId)),
 });
 

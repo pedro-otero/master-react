@@ -50,10 +50,6 @@ describe('REDUX: Tracks', () => {
       expect(successApi.getTrack).toHaveBeenCalledWith('T1');
     });
 
-    it('calls actions.loadAlbum', () => {
-      expect(actions.loadAlbum).toHaveBeenCalledWith('AL1');
-    });
-
     it('informs load started', () => {
       expect(actions.startTrackLoad).toHaveBeenCalledWith('T1');
     });
