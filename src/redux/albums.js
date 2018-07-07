@@ -11,10 +11,12 @@ export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => 
   const album = getState().albums[id];
   if (!album || album.failed) {
     dispatch(actions.startAlbumLoad(id));
-    return spotifyApi.getAlbum(id).then((response) => {
-      dispatch(actions.setAlbum(response.body));
-      return response.body;
-    }, () => dispatch(actions.failAlbumLoad(id)));
+    return spotifyApi.getAlbum(id).then(
+      response =>
+        dispatch(actions.setAlbum(response.body)).data,
+      () =>
+        dispatch(actions.failAlbumLoad(id)),
+    );
   }
   return Promise.resolve(album);
 };

@@ -62,7 +62,7 @@ const mapStateToProps = ({ tracks, albums, artists }, { albumId }) => {
 const mapDispatchToProps = (dispatch, { albumId }) => ({
   load: () => {
     dispatch(clearErrors());
-    dispatch(loadAlbum(albumId)).then(({ artists: [{ id: artistId }] }) => {
+    dispatch(loadAlbum(albumId)).then(({ artistId }) => {
       dispatch(loadArtist(artistId));
     });
     dispatch(loadSearchResult(albumId));

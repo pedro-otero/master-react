@@ -7,7 +7,7 @@ import { loadAlbum, stopAlbumSearch } from '../../redux/albums';
 import TrackDetails from '../track-details/track-details';
 import { clearErrors } from '../../redux/errors';
 import { loadSearchResult } from '../../redux/actions/backend';
-import {loadArtist} from "../../redux/artists";
+import { loadArtist } from '../../redux/artists';
 
 export class TrackContainer extends React.Component {
   componentDidMount() {
@@ -70,7 +70,7 @@ const mapStateToProps = ({ tracks, albums, artists }, { trackId }) => {
 const mapDispatchToProps = (dispatch, { trackId }) => ({
   load: () => {
     dispatch(clearErrors());
-    dispatch(loadTrack(trackId)).then(({ album: { id: albumId }, artists: [{ id: artistId }] }) => {
+    dispatch(loadTrack(trackId)).then(({ albumId, artistId }) => {
       dispatch(loadSearchResult(albumId));
       dispatch(loadAlbum(albumId));
       dispatch(loadArtist(artistId));

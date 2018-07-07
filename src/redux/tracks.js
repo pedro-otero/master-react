@@ -10,10 +10,12 @@ export const loadTrack = id => (dispatch, getState, { spotifyApi, actions }) => 
   const track = getState().tracks[id];
   if (!track || track.failed) {
     dispatch(actions.startTrackLoad(id));
-    return spotifyApi.getTrack(id).then((response) => {
-      dispatch(actions.setTrack(response.body));
-      return response.body;
-    }, () => dispatch(actions.failTrackLoad(id)));
+    return spotifyApi.getTrack(id).then(
+      response =>
+        dispatch(actions.setTrack(response.body)).data,
+      () =>
+        dispatch(actions.failTrackLoad(id)),
+    );
   }
   return Promise.resolve(track);
 };
