@@ -1,6 +1,5 @@
 import { updateState } from './helpers';
 import { SET_ALBUM, SET_SEARCH_RESULT } from './albums';
-import { SET_ARTIST } from './artists';
 
 export const START_TRACK_LOAD = 'START_TRACK_LOAD';
 export const SET_TRACK = 'SET_TRACK';

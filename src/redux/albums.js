@@ -1,5 +1,4 @@
 import { updateState } from './helpers';
-import { SET_ARTIST } from './artists';
 
 export const START_ALBUM_LOAD = 'START_ALBUM_LOAD';
 export const SET_ALBUM = 'SET_ALBUM';
