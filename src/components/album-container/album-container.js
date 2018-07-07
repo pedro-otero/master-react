@@ -6,11 +6,11 @@ import { loadAlbum, stopAlbumSearch } from '../../redux/albums';
 import { clearErrors } from '../../redux/errors';
 import Album from '../album/album';
 import { loadSearchResult } from '../../redux/actions/backend';
+import { loadArtist } from '../../redux/artists';
 
 export class AlbumContainer extends React.Component {
   componentDidMount() {
-    this.props.clearErrors();
-    this.props.loadAlbum();
+    this.props.load();
   }
 
   componentWillUnmount() {
@@ -45,7 +45,7 @@ AlbumContainer.propTypes = {
   album: PropTypes.object,
   artist: PropTypes.object,
   clearErrors: PropTypes.func,
-  loadAlbum: PropTypes.func,
+  load: PropTypes.func,
   stopAlbumSearch: PropTypes.func,
   tracks: PropTypes.array,
 };
@@ -60,9 +60,11 @@ const mapStateToProps = ({ tracks, albums, artists }, { albumId }) => {
 };
 
 const mapDispatchToProps = (dispatch, { albumId }) => ({
-  clearErrors: () => dispatch(clearErrors()),
-  loadAlbum: () => {
-    dispatch(loadAlbum(albumId));
+  load: () => {
+    dispatch(clearErrors());
+    dispatch(loadAlbum(albumId)).then(({ artists: [{ id: artistId }] }) => {
+      dispatch(loadArtist(artistId));
+    });
     dispatch(loadSearchResult(albumId));
   },
   stopAlbumSearch: () => dispatch(stopAlbumSearch(albumId)),

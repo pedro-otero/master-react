@@ -47,10 +47,6 @@ describe('REDUX: Albums', () => {
       expect(actions.startAlbumLoad).toHaveBeenCalledWith('AL1');
     });
 
-    it('calls actions.loadArtist', () => {
-      expect(actions.loadArtist).toHaveBeenCalledWith('AR1');
-    });
-
     it('informs load succeded', () => {
       expect(actions.setAlbum).toHaveBeenCalledWith(album);
     });
