@@ -14,9 +14,15 @@ export class TrackContainer extends React.Component {
     this.props.load();
   }
 
+  componentDidUpdate() {
+    if (this.props.album.id && !this.albumSearch) {
+      this.albumSearch = this.props.loadSearchResult(this.props.album.id);
+    }
+  }
+
   componentWillUnmount() {
-    if (this.props.track.albumId) {
-      this.props.stopAlbumSearch(this.props.track.albumId);
+    if (this.albumSearch) {
+      this.albumSearch.unsubscribe();
     }
   }
 
@@ -54,7 +60,7 @@ TrackContainer.propTypes = {
   artist: PropTypes.object,
   clearErrors: PropTypes.func,
   load: PropTypes.func,
-  stopAlbumSearch: PropTypes.func,
+  loadSearchResult: PropTypes.func,
   track: PropTypes.object,
 };
 
@@ -71,12 +77,11 @@ const mapDispatchToProps = (dispatch, { trackId }) => ({
   load: () => {
     dispatch(clearErrors());
     dispatch(loadTrack(trackId)).then(({ albumId, artistId }) => {
-      dispatch(loadSearchResult(albumId));
       dispatch(loadAlbum(albumId));
       dispatch(loadArtist(artistId));
     });
   },
-  stopAlbumSearch: albumId => dispatch(stopAlbumSearch(albumId)),
+  loadSearchResult: id => dispatch(loadSearchResult(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TrackContainer);
