@@ -1,7 +1,7 @@
 import { FAIL_TRACK_LOAD, loadTrack, reduce, SET_TRACK, setTrack, START_TRACK_LOAD } from './tracks';
 
 describe('REDUX: Tracks', () => {
-  const dispatch = jest.fn();
+  const dispatch = jest.fn(v => v);
   const track = {
     id: 'T1',
     artists: [{ id: 'AR1' }],
@@ -18,7 +18,9 @@ describe('REDUX: Tracks', () => {
   };
   const actions = {
     loadAlbum: jest.fn(),
-    setTrack: jest.fn(),
+    setTrack: jest.fn(() => ({
+      data: { id: 'T1' },
+    })),
     startTrackLoad: jest.fn(),
     failTrackLoad: jest.fn(),
     loadSearchResult: jest.fn(),
@@ -43,15 +45,11 @@ describe('REDUX: Tracks', () => {
     });
 
     it('forwards response', () => {
-      expect(response.body).toEqual(track);
+      expect(response.id).toEqual('T1');
     });
 
     it('calls api method', () => {
       expect(successApi.getTrack).toHaveBeenCalledWith('T1');
-    });
-
-    it('calls actions.loadAlbum', () => {
-      expect(actions.loadAlbum).toHaveBeenCalledWith('AL1');
     });
 
     it('informs load started', () => {

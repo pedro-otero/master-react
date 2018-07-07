@@ -1,5 +1,4 @@
 import { updateState } from './helpers';
-import { SET_ARTIST } from './artists';
 
 export const START_ALBUM_LOAD = 'START_ALBUM_LOAD';
 export const SET_ALBUM = 'SET_ALBUM';
@@ -11,13 +10,12 @@ export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => 
   const album = getState().albums[id];
   if (!album || album.failed) {
     dispatch(actions.startAlbumLoad(id));
-    return spotifyApi
-      .getAlbum(id).then((response) => {
-        dispatch(actions.setAlbum(response.body));
-        const artistId = response.body.artists[0].id;
-        dispatch(actions.loadArtist(artistId));
-        return response;
-      }, () => dispatch(actions.failAlbumLoad(id)));
+    return spotifyApi.getAlbum(id).then(
+      response =>
+        dispatch(actions.setAlbum(response.body)).data,
+      () =>
+        dispatch(actions.failAlbumLoad(id)),
+    );
   }
   return Promise.resolve(album);
 };

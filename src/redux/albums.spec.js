@@ -1,6 +1,6 @@
 import { FAIL_ALBUM_LOAD, loadAlbum, reduce, SET_ALBUM, setAlbum, START_ALBUM_LOAD } from './albums';
 
-const dispatch = jest.fn();
+const dispatch = jest.fn(v => v);
 const album = { id: 'AL1', artists: [{ id: 'AR1' }], tracks: { items: [{ id: 'T1' }] } };
 const successApi = {
   getAlbum: jest.fn(() => Promise.resolve({ body: album })),
@@ -11,7 +11,9 @@ const failureApi = {
 const actions = {
   loadArtist: jest.fn(),
   setTrack: jest.fn(),
-  setAlbum: jest.fn(),
+  setAlbum: jest.fn(() => ({
+    data: { id: 'AL1' },
+  })),
   startAlbumLoad: jest.fn(),
   failAlbumLoad: jest.fn(),
 };
@@ -36,7 +38,7 @@ describe('REDUX: Albums', () => {
     });
 
     it('forwards response', () => {
-      expect(response.body).toEqual(album);
+      expect(response.id).toEqual('AL1');
     });
 
     it('calls api method', () => {
@@ -45,10 +47,6 @@ describe('REDUX: Albums', () => {
 
     it('informs load started', () => {
       expect(actions.startAlbumLoad).toHaveBeenCalledWith('AL1');
-    });
-
-    it('calls actions.loadArtist', () => {
-      expect(actions.loadArtist).toHaveBeenCalledWith('AR1');
     });
 
     it('informs load succeded', () => {

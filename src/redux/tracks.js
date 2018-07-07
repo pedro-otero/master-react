@@ -1,6 +1,5 @@
 import { updateState } from './helpers';
 import { SET_ALBUM, SET_SEARCH_RESULT } from './albums';
-import { SET_ARTIST } from './artists';
 
 export const START_TRACK_LOAD = 'START_TRACK_LOAD';
 export const SET_TRACK = 'SET_TRACK';
@@ -10,14 +9,12 @@ export const loadTrack = id => (dispatch, getState, { spotifyApi, actions }) => 
   const track = getState().tracks[id];
   if (!track || track.failed) {
     dispatch(actions.startTrackLoad(id));
-    return spotifyApi
-      .getTrack(id).then((response) => {
-        dispatch(actions.setTrack(response.body));
-        const albumId = response.body.album.id;
-        dispatch(actions.loadSearchResult(albumId));
-        dispatch(actions.loadAlbum(albumId));
-        return response;
-      }, () => dispatch(actions.failTrackLoad(id)));
+    return spotifyApi.getTrack(id).then(
+      response =>
+        dispatch(actions.setTrack(response.body)).data,
+      () =>
+        dispatch(actions.failTrackLoad(id)),
+    );
   }
   return Promise.resolve(track);
 };
