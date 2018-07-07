@@ -56,7 +56,7 @@ describe('Backend actions', () => {
       getCredits: jest.fn(),
     };
     const thunk = loadSearchResult('AL1');
-    thunk(jest.fn(), () => ({ albums: { AL1: { searchStarted: true, progress: 100 } } }), { backend });
+    thunk(jest.fn(), () => ({ albums: { AL1: { progress: 100 } } }), { backend });
     expect(backend.getCredits).not.toBeCalled();
   });
 });
