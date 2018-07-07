@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { loadTrack } from '../../redux/tracks';
-import { loadAlbum, stopAlbumSearch } from '../../redux/albums';
+import { loadAlbum } from '../../redux/albums';
 import TrackDetails from '../track-details/track-details';
 import { clearErrors } from '../../redux/errors';
 import { loadSearchResult } from '../../redux/actions/backend';
