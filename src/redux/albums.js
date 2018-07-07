@@ -1,4 +1,4 @@
-import { updateState } from './helpers';
+import { loadThunk, updateState } from './helpers';
 
 export const START_ALBUM_LOAD = 'START_ALBUM_LOAD';
 export const SET_ALBUM = 'SET_ALBUM';
@@ -6,19 +6,15 @@ export const FAIL_ALBUM_LOAD = 'FAIL_ALBUM_LOAD';
 export const SET_SEARCH_RESULT = 'SET_SEARCH_RESULT';
 export const STOP_ALBUM_SEARCH = 'STOP_ALBUM_SEARCH';
 
-export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => {
-  const album = getState().albums[id];
-  if (!album || album.failed) {
-    dispatch(actions.startAlbumLoad(id));
-    return spotifyApi.getAlbum(id).then(
-      response =>
-        dispatch(actions.setAlbum(response.body)).data,
-      () =>
-        dispatch(actions.failAlbumLoad(id)),
-    );
-  }
-  return Promise.resolve(album);
-};
+export const loadAlbum = id => (dispatch, getState, { spotifyApi, actions }) => loadThunk(
+  id,
+  getState().albums,
+  dispatch,
+  actions.startAlbumLoad,
+  spotifyApi.getAlbum,
+  actions.setAlbum,
+  actions.failAlbumLoad,
+);
 
 export const setAlbum = (album) => {
   const {
