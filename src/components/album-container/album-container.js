@@ -3,28 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { loadAlbum } from '../../redux/albums';
-import { clearErrors } from '../../redux/errors';
 import Album from '../album/album';
-import { loadSearchResult } from '../../redux/actions/backend';
 import { loadArtist } from '../../redux/artists';
+import EntityContainer from '../entity-container/entity-container';
 
 export class AlbumContainer extends React.Component {
-  componentDidMount() {
-    this.props.load();
-  }
-
-  componentDidUpdate() {
-    if (this.props.album.id && !this.albumSearch) {
-      this.albumSearch = this.props.loadSearchResult(this.props.album.id);
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.albumSearch) {
-      this.albumSearch.unsubscribe();
-    }
-  }
-
   render() {
     const {
       tracks,
@@ -52,9 +35,6 @@ export class AlbumContainer extends React.Component {
 AlbumContainer.propTypes = {
   album: PropTypes.object,
   artist: PropTypes.object,
-  clearErrors: PropTypes.func,
-  load: PropTypes.func,
-  loadSearchResult: PropTypes.func,
   tracks: PropTypes.array,
 };
 
@@ -69,12 +49,10 @@ const mapStateToProps = ({ tracks, albums, artists }, { albumId }) => {
 
 const mapDispatchToProps = (dispatch, { albumId }) => ({
   load: () => {
-    dispatch(clearErrors());
     dispatch(loadAlbum(albumId)).then(({ artistId }) => {
       dispatch(loadArtist(artistId));
     });
   },
-  loadSearchResult: id => dispatch(loadSearchResult(id)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AlbumContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(EntityContainer(AlbumContainer));
