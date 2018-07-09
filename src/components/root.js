@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect, Provider } from 'react-redux';
 
 import { loadPlaybackInfo } from '../redux/playbackInfo';
-import { clearErrors } from '../redux/errors';
+import { addError, clearErrors } from '../redux/errors';
 import Errors from './errors/errors';
 import Welcome from './welcome/welcome';
 import TitleBar from './title-bar/title-bar';
@@ -28,7 +28,11 @@ class Root extends React.Component {
   getPlaybackData() {
     this.props.clearErrors();
     this.props.loadPlaybackInfo().then((data) => {
-      window.location = `/track/${data.body.item.id}`;
+      if (data.body) {
+        window.location = `/track/${data.body.item.id}`;
+      } else {
+        this.props.addError('Playback stopped. Please start playback and retry.');
+      }
     });
   }
 
@@ -73,6 +77,7 @@ class Root extends React.Component {
 }
 
 Root.propTypes = {
+  addError: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
   isNewUser: PropTypes.bool,
@@ -90,6 +95,7 @@ const mapStateToProps = ({ user: { auth: { token, expiry } } }) => ({
 const mapDispatchToProps = dispatch => ({
   loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
   clearErrors: () => dispatch(clearErrors()),
+  addError: error => dispatch(addError(error)),
   loadProfile: () => dispatch(loadProfile()),
 });
 
