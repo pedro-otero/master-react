@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 const BORDER_COLOR = 'rgba(128, 128, 128, 0.2)';
@@ -33,7 +32,7 @@ const Title = styled.span`
   font-weight: bold;
 `;
 
-const LinkTemplate = `
+const Anchor = styled.a`
   padding: 0 0.5em;
   flex: 0 0 0;
   
@@ -42,17 +41,15 @@ const LinkTemplate = `
     filter: brightness(130%);
   }
 `;
-const Anchor = styled.a`${LinkTemplate}`;
-const WrappedLink = styled(Link)`${LinkTemplate}`;
 
 export const TitleBar = ({
-  loading, avatar, name, onLogout,
+  loading, avatar, name, onAvatarClick, onLogout,
 }) => {
   const title = loading ? 'Crews' : name;
   return <Row>
-    <WrappedLink to="/player">
+    <Anchor onClick={onAvatarClick}>
       <Avatar src={avatar} />
-    </WrappedLink>
+    </Anchor>
     <Title>{title}</Title>
     <Anchor onClick={onLogout}>
       <i className="em em-x"></i>
@@ -64,6 +61,7 @@ TitleBar.propTypes = {
   avatar: PropTypes.string,
   loading: PropTypes.bool,
   name: PropTypes.string,
+  onAvatarClick: PropTypes.func,
   onLogout: PropTypes.func,
 };
 

@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect, Provider } from 'react-redux';
 
-import CurrentPlayback from './current-playback/CurrentPlayback';
 import { loadPlaybackInfo } from '../redux/playbackInfo';
-import { clearErrors } from '../redux/errors';
+import { addError, clearErrors } from '../redux/errors';
 import Errors from './errors/errors';
 import Welcome from './welcome/welcome';
 import TitleBar from './title-bar/title-bar';
@@ -28,8 +27,13 @@ class Root extends React.Component {
 
   getPlaybackData() {
     this.props.clearErrors();
-    this.props.loadPlaybackInfo();
-    return <CurrentPlayback />;
+    this.props.loadPlaybackInfo().then((data) => {
+      if (data.body) {
+        window.location = `/track/${data.body.item.id}`;
+      } else {
+        this.props.addError('Playback stopped. Please start playback and retry.');
+      }
+    });
   }
 
   getAuthUrl() {
@@ -59,10 +63,10 @@ class Root extends React.Component {
               onLogout={() => {
             window.localStorage.clear();
             window.location = '/';
-          }} />
+          }}
+              onAvatarClick={this.getPlaybackData} />
           <div style={{ position: 'relative' }}>
             <Route exact path="/" component={Home} />
-            <Route path="/player" render={this.getPlaybackData} />
             <Route path="/track/:id" render={({ match }) => <TrackContainer trackId={match.params.id} />} />
             <Route path="/album/:id" render={({ match }) => <AlbumContainer albumId={match.params.id} />} />
           </div>
@@ -73,6 +77,7 @@ class Root extends React.Component {
 }
 
 Root.propTypes = {
+  addError: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
   isNewUser: PropTypes.bool,
@@ -90,6 +95,7 @@ const mapStateToProps = ({ user: { auth: { token, expiry } } }) => ({
 const mapDispatchToProps = dispatch => ({
   loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
   clearErrors: () => dispatch(clearErrors()),
+  addError: error => dispatch(addError(error)),
   loadProfile: () => dispatch(loadProfile()),
 });
 
