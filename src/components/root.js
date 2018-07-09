@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect, Provider } from 'react-redux';
 
-import CurrentPlayback from './current-playback/CurrentPlayback';
 import { loadPlaybackInfo } from '../redux/playbackInfo';
 import { clearErrors } from '../redux/errors';
 import Errors from './errors/errors';
@@ -28,8 +27,9 @@ class Root extends React.Component {
 
   getPlaybackData() {
     this.props.clearErrors();
-    this.props.loadPlaybackInfo();
-    return <CurrentPlayback />;
+    this.props.loadPlaybackInfo().then((data) => {
+      window.location = `/track/${data.body.item.id}`;
+    });
   }
 
   getAuthUrl() {
@@ -59,10 +59,10 @@ class Root extends React.Component {
               onLogout={() => {
             window.localStorage.clear();
             window.location = '/';
-          }} />
+          }}
+              onAvatarClick={this.getPlaybackData} />
           <div style={{ position: 'relative' }}>
             <Route exact path="/" component={Home} />
-            <Route path="/player" render={this.getPlaybackData} />
             <Route path="/track/:id" render={({ match }) => <TrackContainer trackId={match.params.id} />} />
             <Route path="/album/:id" render={({ match }) => <AlbumContainer albumId={match.params.id} />} />
           </div>
