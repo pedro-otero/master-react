@@ -60,24 +60,12 @@ describe('Playback info', () => {
       expect(successApi.getCurrentPlayback).toHaveBeenCalled();
     });
 
-    it('calls loadSearchResult', () => {
-      expect(actions.loadSearchResult).toHaveBeenCalledWith('AL1');
-    });
-
     it('informs load started', () => {
       expect(actions.setPlaybackInfo).toHaveBeenCalledWith('LOADING');
     });
 
     it('informs load finished', () => {
       expect(actions.setPlaybackInfo).toHaveBeenCalledWith(playbackInfo);
-    });
-
-    it('calls actions.loadArtist', () => {
-      expect(actions.loadArtist).toHaveBeenCalledWith('AR1');
-    });
-
-    it('calls actions.loadAlbum', () => {
-      expect(actions.loadAlbum).toHaveBeenCalledWith('AL1');
     });
 
     afterAll(() => {
@@ -116,18 +104,6 @@ describe('Playback info', () => {
 
     it('informs load finished', () => {
       expect(actions.setPlaybackInfo).toHaveBeenCalledWith(null);
-    });
-
-    it('does not call actions.loadArtist', () => {
-      expect(actions.loadArtist).not.toHaveBeenCalled();
-    });
-
-    it('does not call actions.loadAlbum', () => {
-      expect(actions.loadAlbum).not.toHaveBeenCalled();
-    });
-
-    it('does not call actions.setTrack', () => {
-      expect(actions.setTrack).not.toHaveBeenCalled();
     });
 
     afterAll(clearActionMocks);
