@@ -46,16 +46,13 @@ const Anchor = styled.a`
 `;
 
 export const TitleBar = ({
-  loading, avatar, name, onLogout, loadPlaybackInfo, history, addError, clearErrors,
+  loading, avatar, name, onLogout, load, history,
 }) => {
   const title = loading ? 'Crews' : name;
   const onAvatarClick = () => {
-    clearErrors();
-    loadPlaybackInfo().then((data) => {
-      if (data.body) {
-        history.push(`/track/${data.body.item.id}`);
-      } else {
-        addError('Playback stopped. Please start playback and retry.');
+    load().then((trackId) => {
+      if (trackId) {
+        history.push(`/track/${trackId}`);
       }
     });
   };
@@ -71,10 +68,9 @@ export const TitleBar = ({
 };
 
 TitleBar.propTypes = {
-  addError: PropTypes.func,
   avatar: PropTypes.string,
   history: PropTypes.object,
-  loadPlaybackInfo: PropTypes.func,
+  load: PropTypes.func,
   loading: PropTypes.bool,
   name: PropTypes.string,
   onLogout: PropTypes.func,
@@ -84,9 +80,16 @@ const mapStateToProps = ({ user: { profile: { loading, avatar, name } } }) =>
   ({ loading, avatar, name });
 
 const mapDispatchToProps = dispatch => ({
-  loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
-  addError: message => dispatch(addError(message)),
-  clearErrors: () => dispatch(clearErrors()),
+  load: () => {
+    dispatch(clearErrors());
+    return dispatch(loadPlaybackInfo()).then((data) => {
+      if (data.body) {
+        return data.body.item.id;
+      }
+      dispatch(addError('Playback stopped. Please start playback and retry.'));
+      return null;
+    });
+  },
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TitleBar));
