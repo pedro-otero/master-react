@@ -25,6 +25,7 @@ export default (Component, mainId) => {
 
     componentDidUpdate(prev) {
       if (prev[mainId] !== this.props[mainId] && !!this.props[mainId]) {
+        this.stopSearch();
         this.callLoad();
       }
       if (this.props.album.id && !this.albumSearch) {
@@ -33,8 +34,13 @@ export default (Component, mainId) => {
     }
 
     componentWillUnmount() {
+      this.stopSearch();
+    }
+
+    stopSearch() {
       if (this.albumSearch) {
         this.albumSearch.unsubscribe();
+        this.albumSearch = null;
       }
     }
 
