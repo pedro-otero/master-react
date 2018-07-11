@@ -11,7 +11,7 @@ Enzyme.configure({ adapter: new Adapter() });
 describe('TrackDetails component', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = shallow(<TrackDetails />);
+    wrapper = shallow(<TrackDetails loading={true} />);
   });
 
   it('hides composers and producers list', () => {
@@ -25,6 +25,7 @@ describe('TrackDetails component', () => {
   it('displays the search not started loading circle', () => {
     wrapper.setProps({
       name: 'Track name',
+      loading: false,
     });
     expect(wrapper.find('LoadingCircle[message="Starting search..."]')).toHaveLength(1);
   });
