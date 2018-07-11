@@ -55,4 +55,4 @@ const mapDispatchToProps = (dispatch, { albumId }) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EntityContainer(AlbumContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(EntityContainer(AlbumContainer, 'albumId'));

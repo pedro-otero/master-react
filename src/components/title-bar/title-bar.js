@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { loadPlaybackInfo } from '../../redux/playbackInfo';
 
 const BORDER_COLOR = 'rgba(128, 128, 128, 0.2)';
 
@@ -43,9 +45,18 @@ const Anchor = styled.a`
 `;
 
 export const TitleBar = ({
-  loading, avatar, name, onAvatarClick, onLogout,
+  loading, avatar, name, onLogout, loadPlaybackInfo, history,
 }) => {
   const title = loading ? 'Crews' : name;
+  const onAvatarClick = () => {
+    loadPlaybackInfo().then((data) => {
+      if (data.body) {
+        history.push(`/track/${data.body.item.id}`);
+      } else {
+        this.props.addError('Playback stopped. Please start playback and retry.');
+      }
+    });
+  };
   return <Row>
     <Anchor onClick={onAvatarClick}>
       <Avatar src={avatar} />
@@ -59,13 +70,18 @@ export const TitleBar = ({
 
 TitleBar.propTypes = {
   avatar: PropTypes.string,
+  history: PropTypes.object,
+  loadPlaybackInfo: PropTypes.func,
   loading: PropTypes.bool,
   name: PropTypes.string,
-  onAvatarClick: PropTypes.func,
   onLogout: PropTypes.func,
 };
 
 const mapStateToProps = ({ user: { profile: { loading, avatar, name } } }) =>
   ({ loading, avatar, name });
 
-export default connect(mapStateToProps)(TitleBar);
+const mapDispatchToProps = dispatch => ({
+  loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TitleBar));

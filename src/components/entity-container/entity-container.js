@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { loadSearchResult } from '../../redux/actions/backend';
 import { clearErrors } from '../../redux/errors';
 
-export default (Component) => {
+export default (Component, mainId) => {
   class Wrapped extends React.Component {
     static propTypes = {
       album: PropTypes.object,
@@ -15,11 +15,18 @@ export default (Component) => {
     };
 
     componentDidMount() {
+      this.callLoad();
+    }
+
+    callLoad() {
       this.props.clearErrors();
       this.props.load();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prev) {
+      if (prev[mainId] !== this.props[mainId] && !!this.props[mainId]) {
+        this.callLoad();
+      }
       if (this.props.album.id && !this.albumSearch) {
         this.albumSearch = this.props.loadSearchResult(this.props.album.id);
       }
