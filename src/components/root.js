@@ -14,26 +14,10 @@ import TrackContainer from './track-container/track-container';
 import AlbumContainer from './album-container/album-container';
 
 class Root extends React.Component {
-  constructor(props) {
-    super(props);
-    this.getPlaybackData = this.getPlaybackData.bind(this);
-  }
-
   componentWillMount() {
     if (this.props.isAuthenticated) {
       this.props.loadProfile();
     }
-  }
-
-  getPlaybackData() {
-    this.props.clearErrors();
-    this.props.loadPlaybackInfo().then((data) => {
-      if (data.body) {
-        window.location = `/track/${data.body.item.id}`;
-      } else {
-        this.props.addError('Playback stopped. Please start playback and retry.');
-      }
-    });
   }
 
   getAuthUrl() {
@@ -58,13 +42,7 @@ class Root extends React.Component {
       <Router>
         <span>
           <Errors />
-          <TitleBar
-              title="Crews"
-              onLogout={() => {
-            window.localStorage.clear();
-            window.location = '/';
-          }}
-              onAvatarClick={this.getPlaybackData} />
+          <TitleBar title="Crews" />
           <div style={{ position: 'relative' }}>
             <Route exact path="/" component={Home} />
             <Route path="/track/:id" render={({ match }) => <TrackContainer trackId={match.params.id} />} />

@@ -62,4 +62,4 @@ const mapDispatchToProps = (dispatch, { trackId }) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EntityContainer(TrackContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(EntityContainer(TrackContainer, 'trackId'));
