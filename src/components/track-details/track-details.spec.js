@@ -14,12 +14,8 @@ describe('TrackDetails component', () => {
     wrapper = shallow(<TrackDetails />);
   });
 
-  it('hides composers list', () => {
-    expect(wrapper.find('JointList[className="composers"]')).toHaveLength(0);
-  });
-
-  it('hides producers list', () => {
-    expect(wrapper.find('JointList[className="producers"]')).toHaveLength(0);
+  it('hides composers and producers list', () => {
+    expect(wrapper.find('JointList')).toHaveLength(0);
   });
 
   it('shows spotify info loading circle', () => {
