@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { loadPlaybackInfo } from '../../redux/playbackInfo';
-import { addError } from '../../redux/errors';
+import { addError, clearErrors } from '../../redux/errors';
 
 const BORDER_COLOR = 'rgba(128, 128, 128, 0.2)';
 
@@ -46,10 +46,11 @@ const Anchor = styled.a`
 `;
 
 export const TitleBar = ({
-  loading, avatar, name, onLogout, loadPlaybackInfo, history, addError,
+  loading, avatar, name, onLogout, loadPlaybackInfo, history, addError, clearErrors,
 }) => {
   const title = loading ? 'Crews' : name;
   const onAvatarClick = () => {
+    clearErrors();
     loadPlaybackInfo().then((data) => {
       if (data.body) {
         history.push(`/track/${data.body.item.id}`);
@@ -85,6 +86,7 @@ const mapStateToProps = ({ user: { profile: { loading, avatar, name } } }) =>
 const mapDispatchToProps = dispatch => ({
   loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
   addError: message => dispatch(addError(message)),
+  clearErrors: () => dispatch(clearErrors()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TitleBar));
