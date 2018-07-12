@@ -13,7 +13,7 @@ describe('Track item component', () => {
       millis={ 1000 } />);
 
   it('renders name', () => {
-    expect(wrapper.find('div[className="track-item-name"]').text()).toEqual('Track');
+    expect(wrapper.find('div[className="name"]').text()).toEqual('Track');
   });
 
   it('renders composers', () => {
