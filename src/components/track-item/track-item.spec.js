@@ -9,8 +9,8 @@ Enzyme.configure({ adapter: new Adapter() });
 describe('Track item component', () => {
   const wrapper = shallow(<TrackItem
       composers={['C1']}
-      name= 'Track'
-      millis={ 1000 } />);
+      name='Track'
+      duration="0:01" />);
 
   it('renders name', () => {
     expect(wrapper.find('div[className="name"]').text()).toEqual('Track');
@@ -21,6 +21,6 @@ describe('Track item component', () => {
   });
 
   it('renders duration', () => {
-    expect(wrapper.find('div[className="track-item-duration"]').text()).toEqual('0:01');
+    expect(wrapper.find('div[className="duration"]').text()).toEqual('0:01');
   });
 });
