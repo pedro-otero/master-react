@@ -129,7 +129,7 @@ describe('REDUX: Tracks', () => {
           id: track.id,
         },
       });
-      expect(tracks.T1).toEqual({ loading: true, failed: false, searchStarted: false });
+      expect(tracks.T1).toEqual({ loading: true, failed: false });
     });
 
     it('sets track as failed', () => {
