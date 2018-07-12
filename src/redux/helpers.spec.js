@@ -2,13 +2,11 @@ import { loadThunk } from './helpers';
 
 describe('Redux helpers', () => {
   describe('Load thunk', () => {
-    const mocks = [jest.fn(v => v), jest.fn(), jest.fn(), jest.fn()];
-    const [dispatch, start, set, fail] = mocks;
+    const mocks = [jest.fn(v => v), jest.fn(), jest.fn(), jest.fn(), jest.fn(() => Promise.resolve({ body: 'success' }))];
+    const [dispatch, start, set, fail, successfulLoad] = mocks;
     const resetMocks = () => mocks.forEach(mock => mock.mockClear());
 
     describe('Success', () => {
-      const successfulLoad = jest.fn(() => Promise.resolve({ body: 'success' }));
-
       beforeAll(() => {
         loadThunk('itemId', {}, dispatch, start, successfulLoad, set, fail);
       });
@@ -56,6 +54,11 @@ describe('Redux helpers', () => {
       });
 
       afterAll(resetMocks);
+    });
+
+    it('reloads item that failed previously', () => {
+      loadThunk('itemId', { itemId: { failed: true } }, dispatch, start, successfulLoad, set, fail);
+      expect(successfulLoad).toHaveBeenCalledWith('itemId');
     });
   });
 });
