@@ -59,6 +59,13 @@ describe('Redux helpers', () => {
     it('reloads item that failed previously', () => {
       loadThunk('itemId', { itemId: { failed: true } }, dispatch, start, successfulLoad, set, fail);
       expect(successfulLoad).toHaveBeenCalledWith('itemId');
+      successfulLoad.mockClear();
+    });
+
+    it('resolves with item that is already loaded', () => {
+      loadThunk('itemId', { itemId: { failed: false } }, dispatch, start, successfulLoad, set, fail);
+      expect(successfulLoad).not.toBeCalled();
+      successfulLoad.mockClear();
     });
   });
 });
