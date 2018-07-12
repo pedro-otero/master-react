@@ -89,7 +89,7 @@ describe('REDUX: Artists', () => {
 
   it('Avoids to load artists already in state', (done) => {
     const thunk = loadArtist('AR1');
-    thunk(null, () => ({ artists: { AR1: {} } }), { spotifyApi: successApi }).then(() => {
+    thunk(null, () => ({ artists: { AR1: {} } }), { spotifyApi: successApi, actions }).then(() => {
       expect(successApi.getArtist).not.toBeCalled();
       done();
     });

@@ -61,7 +61,7 @@ describe('REDUX: Albums', () => {
 
   it('Avoids to load albums already in state', (done) => {
     const thunk = loadAlbum('AL1');
-    thunk(null, () => ({ albums: { AL1: {} } }), { spotifyApi: successApi }).then(() => {
+    thunk(null, () => ({ albums: { AL1: {} } }), { spotifyApi: successApi, actions }).then(() => {
       expect(successApi.getAlbum).not.toBeCalled();
       done();
     });
