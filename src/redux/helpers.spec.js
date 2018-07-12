@@ -33,8 +33,7 @@ describe('Redux helpers', () => {
     });
 
     describe('Failure', () => {
-      const rejection = Error('error');
-      const failedLoad = jest.fn(() => Promise.reject(rejection));
+      const failedLoad = jest.fn(() => Promise.reject(Error()));
 
       beforeAll(() => {
         loadThunk('itemId', {}, dispatch, start, failedLoad, set, fail);
