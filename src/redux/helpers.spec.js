@@ -31,5 +31,30 @@ describe('Redux helpers', () => {
 
       afterAll(resetMocks);
     });
+
+    describe('Failure', () => {
+      const rejection = Error('error');
+      const failedLoad = jest.fn(() => Promise.reject(rejection));
+
+      beforeAll(() => {
+        loadThunk('itemId', {}, dispatch, start, failedLoad, set, fail);
+      });
+
+      it('calls start action', () => {
+        expect(start).toBeCalledWith('itemId');
+      });
+
+      it('calls load action', () => {
+        expect(failedLoad).toBeCalledWith('itemId');
+      });
+
+      it('does not call set action', () => {
+        expect(set).not.toBeCalled();
+      });
+
+      it('calls fail action', () => {
+        expect(fail).toBeCalledWith('itemId');
+      });
+    });
   });
 });
