@@ -34,6 +34,7 @@ describe('TrackDetails component', () => {
     wrapper.setProps({
       name: 'Track name',
       background: 'ImgUrl',
+      loading: false,
     });
     expect(wrapper.find('ArtistWork').prop('title')).toEqual('Track name');
   });
@@ -41,8 +42,9 @@ describe('TrackDetails component', () => {
   it('displays big progress indicator', () => {
     wrapper.setProps({
       name: 'Track',
-      bestMatch: credits,
+      loading: false,
       progress: 0,
+      searchStarted: true,
     });
     expect(wrapper.find('Progress[size="big"]')).toHaveLength(1);
   });
@@ -50,7 +52,6 @@ describe('TrackDetails component', () => {
   it('does not display small progress indicator', () => {
     wrapper.setProps({
       name: 'Track',
-      bestMatch: credits,
       progress: 0,
     });
     expect(wrapper.find('Progress[size="small"]')).toHaveLength(0);
@@ -59,7 +60,6 @@ describe('TrackDetails component', () => {
   it('does not display big progress indicator', () => {
     wrapper.setProps({
       name: 'Track',
-      bestMatch: Object.assign({}, credits, { credits: { P1: ['R1', 'R2'] } }),
       progress: 10,
     });
     expect(wrapper.find('Progress[size="big"]')).toHaveLength(0);
@@ -68,8 +68,10 @@ describe('TrackDetails component', () => {
   it('displays small progress indicator', () => {
     wrapper.setProps({
       name: 'Track',
-      bestMatch: Object.assign({}, credits, { credits: { P1: ['R1', 'R2'] } }),
+      credits: { P1: ['R1', 'R2'] },
+      loading: false,
       progress: 10,
+      searchStarted: true,
     });
     expect(wrapper.find('Progress[size="small"]')).toHaveLength(1);
   });
@@ -77,7 +79,6 @@ describe('TrackDetails component', () => {
   it('does not display big progress indicator', () => {
     wrapper.setProps({
       name: 'Track',
-      bestMatch: Object.assign({}, credits, { credits: { P1: ['R1', 'R2'] } }),
       progress: 100,
     });
     expect(wrapper.find('Progress[className="big-progress"]')).toHaveLength(0);
@@ -86,7 +87,6 @@ describe('TrackDetails component', () => {
   it('does not display small progress indicator', () => {
     wrapper.setProps({
       name: 'Track',
-      bestMatch: Object.assign({}, credits, { credits: { P1: ['R1', 'R2'] } }),
       progress: 100,
     });
     expect(wrapper.find('Progress[className="small-progress"]')).toHaveLength(0);
