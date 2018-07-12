@@ -1,27 +1,30 @@
 import { FAIL_ARTIST_LOAD, loadArtist, reduce, SET_ARTIST, setArtist, START_ARTIST_LOAD } from './artists';
 
-const artist = { id: 'AR1' };
-const successApi = {
-  getArtist: jest.fn(() => Promise.resolve({ body: artist })),
-};
-const failureApi = {
-  getArtist: jest.fn(() => Promise.reject(Error())),
-};
-const actions = {
-  setArtist: jest.fn(),
-  startArtistLoad: jest.fn(),
-  failArtistLoad: jest.fn(),
-};
-const clearActionMocks = () => Object.entries(actions)
-  .forEach(([_, action]) => action.mockClear());
-const emptyGetState = () => ({
-  searches: { },
-  albums: { },
-  artists: { },
-  tracks: { },
-});
-
 describe('REDUX: Artists', () => {
+  const dispatch = jest.fn(v => v);
+  const artist = { id: 'AR1' };
+  const successApi = {
+    getArtist: jest.fn(() => Promise.resolve({ body: artist })),
+  };
+  const failureApi = {
+    getArtist: jest.fn(() => Promise.reject(Error())),
+  };
+  const actions = {
+    setArtist: jest.fn(() => ({
+      data: { id: 'AR1' },
+    })),
+    startArtistLoad: jest.fn(),
+    failArtistLoad: jest.fn(),
+  };
+  const clearActionMocks = () => Object.entries(actions)
+    .forEach(([_, action]) => action.mockClear());
+  const emptyGetState = () => ({
+    searches: { },
+    albums: { },
+    artists: { },
+    tracks: { },
+  });
+
   it('creates SET_ARTIST action for artists without images', () => {
     const action = setArtist({
       id: 'AR1',
@@ -55,18 +58,18 @@ describe('REDUX: Artists', () => {
     });
   });
 
-  describe('Succesful artist load', () => {
+  describe('Successful artist load', () => {
     let response;
     beforeAll((done) => {
       const thunk = loadArtist('AR1');
-      thunk(jest.fn(), emptyGetState, { spotifyApi: successApi, actions }).then((resolution) => {
+      thunk(dispatch, emptyGetState, { spotifyApi: successApi, actions }).then((resolution) => {
         response = resolution;
         done();
       });
     });
 
     it('forwards response', () => {
-      expect(response.body).toEqual(artist);
+      expect(response.id).toEqual('AR1');
     });
 
     it('calls api method', () => {
@@ -89,7 +92,7 @@ describe('REDUX: Artists', () => {
 
   it('Avoids to load artists already in state', (done) => {
     const thunk = loadArtist('AR1');
-    thunk(null, () => ({ artists: { AR1: {} } }), { spotifyApi: successApi }).then(() => {
+    thunk(null, () => ({ artists: { AR1: {} } }), { spotifyApi: successApi, actions }).then(() => {
       expect(successApi.getArtist).not.toBeCalled();
       done();
     });
@@ -97,7 +100,7 @@ describe('REDUX: Artists', () => {
 
   it('Reloads a failed artist', (done) => {
     const thunk = loadArtist('AR1');
-    thunk(jest.fn(), () => ({ artists: { AR1: { failed: true } } }), {
+    thunk(dispatch, () => ({ artists: { AR1: { failed: true } } }), {
       spotifyApi: successApi, actions,
     }).then(() => {
       expect(successApi.getArtist).toBeCalled();

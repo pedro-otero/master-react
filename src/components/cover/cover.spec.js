@@ -11,7 +11,7 @@ describe('Cover', () => {
     const wrapper = shallow(<Cover
         src='img.jpg'
         year='2004' />);
-    expect(wrapper.find('span[className="year"]').length).toEqual(1);
+    expect(wrapper.find('span').text()).toEqual('2004');
   });
 
   it('displays year with applied class for year label', () => {

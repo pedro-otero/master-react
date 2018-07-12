@@ -68,7 +68,7 @@ describe('REDUX: Tracks', () => {
 
   it('Avoids to load tracks already in state', (done) => {
     const thunk = loadTrack('T1');
-    thunk(null, () => ({ tracks: { T1: {} } }), { spotifyApi: successApi }).then(() => {
+    thunk(null, () => ({ tracks: { T1: {} } }), { spotifyApi: successApi, actions }).then(() => {
       expect(successApi.getTrack).not.toBeCalled();
       done();
     });
@@ -129,7 +129,7 @@ describe('REDUX: Tracks', () => {
           id: track.id,
         },
       });
-      expect(tracks.T1).toEqual({ loading: true, failed: false, searchStarted: false });
+      expect(tracks.T1).toEqual({ loading: true, failed: false });
     });
 
     it('sets track as failed', () => {

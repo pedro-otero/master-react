@@ -10,7 +10,7 @@ describe('Credits component', () => {
   const wrapper = shallow(<Credits data={{}} />);
 
   it('has main div', () => {
-    expect(wrapper.find('div[className="credits"]')).toHaveLength(1);
+    expect(wrapper.find('div')).toHaveLength(1);
   });
 
   it('has no Collaborators component', () => {

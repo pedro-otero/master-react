@@ -15,6 +15,6 @@ describe('Banner component', () => {
     const wrapper = shallow(<Banner
         src="..."
         className="someClass"></Banner>);
-    expect(wrapper.find('div[className="someClass"]').length).toEqual(1);
+    expect(wrapper.find('div[className="content someClass"]').length).toEqual(1);
   });
 });

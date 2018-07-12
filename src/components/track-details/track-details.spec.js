@@ -2,7 +2,7 @@ import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import { TrackDetails } from './track-details';
+import TrackDetails from './track-details';
 
 const credits = { composers: [], producers: [], credits: {} };
 
@@ -11,15 +11,11 @@ Enzyme.configure({ adapter: new Adapter() });
 describe('TrackDetails component', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = shallow(<TrackDetails />);
+    wrapper = shallow(<TrackDetails loading={true} />);
   });
 
-  it('hides composers list', () => {
-    expect(wrapper.find('JointList[className="composers"]')).toHaveLength(0);
-  });
-
-  it('hides producers list', () => {
-    expect(wrapper.find('JointList[className="producers"]')).toHaveLength(0);
+  it('hides composers and producers list', () => {
+    expect(wrapper.find('JointList')).toHaveLength(0);
   });
 
   it('shows spotify info loading circle', () => {
@@ -29,6 +25,7 @@ describe('TrackDetails component', () => {
   it('displays the search not started loading circle', () => {
     wrapper.setProps({
       name: 'Track name',
+      loading: false,
     });
     expect(wrapper.find('LoadingCircle[message="Starting search..."]')).toHaveLength(1);
   });
@@ -37,6 +34,7 @@ describe('TrackDetails component', () => {
     wrapper.setProps({
       name: 'Track name',
       background: 'ImgUrl',
+      loading: false,
     });
     expect(wrapper.find('ArtistWork').prop('title')).toEqual('Track name');
   });
@@ -44,8 +42,9 @@ describe('TrackDetails component', () => {
   it('displays big progress indicator', () => {
     wrapper.setProps({
       name: 'Track',
-      bestMatch: credits,
+      loading: false,
       progress: 0,
+      searchStarted: true,
     });
     expect(wrapper.find('Progress[size="big"]')).toHaveLength(1);
   });
@@ -53,7 +52,6 @@ describe('TrackDetails component', () => {
   it('does not display small progress indicator', () => {
     wrapper.setProps({
       name: 'Track',
-      bestMatch: credits,
       progress: 0,
     });
     expect(wrapper.find('Progress[size="small"]')).toHaveLength(0);
@@ -62,7 +60,6 @@ describe('TrackDetails component', () => {
   it('does not display big progress indicator', () => {
     wrapper.setProps({
       name: 'Track',
-      bestMatch: Object.assign({}, credits, { credits: { P1: ['R1', 'R2'] } }),
       progress: 10,
     });
     expect(wrapper.find('Progress[size="big"]')).toHaveLength(0);
@@ -71,8 +68,10 @@ describe('TrackDetails component', () => {
   it('displays small progress indicator', () => {
     wrapper.setProps({
       name: 'Track',
-      bestMatch: Object.assign({}, credits, { credits: { P1: ['R1', 'R2'] } }),
+      credits: { P1: ['R1', 'R2'] },
+      loading: false,
       progress: 10,
+      searchStarted: true,
     });
     expect(wrapper.find('Progress[size="small"]')).toHaveLength(1);
   });
@@ -80,7 +79,6 @@ describe('TrackDetails component', () => {
   it('does not display big progress indicator', () => {
     wrapper.setProps({
       name: 'Track',
-      bestMatch: Object.assign({}, credits, { credits: { P1: ['R1', 'R2'] } }),
       progress: 100,
     });
     expect(wrapper.find('Progress[className="big-progress"]')).toHaveLength(0);
@@ -89,7 +87,6 @@ describe('TrackDetails component', () => {
   it('does not display small progress indicator', () => {
     wrapper.setProps({
       name: 'Track',
-      bestMatch: Object.assign({}, credits, { credits: { P1: ['R1', 'R2'] } }),
       progress: 100,
     });
     expect(wrapper.find('Progress[className="small-progress"]')).toHaveLength(0);
