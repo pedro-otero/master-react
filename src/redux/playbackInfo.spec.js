@@ -10,12 +10,12 @@ describe('Playback info', () => {
     },
   };
   const successApi = {
-    getCurrentPlayback: jest.fn(() => Promise.resolve({
+    getMyCurrentPlaybackState: jest.fn(() => Promise.resolve({
       body: playbackInfo,
     })),
   };
   const failureApi = {
-    getCurrentPlayback: jest.fn(() => Promise.reject(Error())),
+    getMyCurrentPlaybackState: jest.fn(() => Promise.reject(Error())),
   };
   const actions = {
     loadArtist: jest.fn(),
@@ -57,7 +57,7 @@ describe('Playback info', () => {
     });
 
     it('calls api method', () => {
-      expect(successApi.getCurrentPlayback).toHaveBeenCalled();
+      expect(successApi.getMyCurrentPlaybackState).toHaveBeenCalled();
     });
 
     it('informs load started', () => {
@@ -69,7 +69,7 @@ describe('Playback info', () => {
     });
 
     afterAll(() => {
-      successApi.getCurrentPlayback.mockClear();
+      successApi.getMyCurrentPlaybackState.mockClear();
       clearActionMocks();
     });
   });
@@ -77,7 +77,7 @@ describe('Playback info', () => {
   describe('Succesful empty playback info load', () => {
     let response;
     const api = {
-      getCurrentPlayback: jest.fn(() => Promise.resolve({
+      getMyCurrentPlaybackState: jest.fn(() => Promise.resolve({
         body: null,
       })),
     };
@@ -95,7 +95,7 @@ describe('Playback info', () => {
 
 
     it('calls api method', () => {
-      expect(api.getCurrentPlayback).toHaveBeenCalled();
+      expect(api.getMyCurrentPlaybackState).toHaveBeenCalled();
     });
 
     it('informs load started', () => {
@@ -116,7 +116,7 @@ describe('Playback info', () => {
     });
 
     it('calls api method', () => {
-      expect(failureApi.getCurrentPlayback).toHaveBeenCalled();
+      expect(failureApi.getMyCurrentPlaybackState).toHaveBeenCalled();
     });
 
     it('informs load started', () => {
@@ -132,7 +132,7 @@ describe('Playback info', () => {
     });
 
     afterAll(() => {
-      failureApi.getCurrentPlayback.mockClear();
+      failureApi.getMyCurrentPlaybackState.mockClear();
       clearActionMocks();
     });
   });
