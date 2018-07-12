@@ -55,7 +55,7 @@ describe('REDUX: Artists', () => {
     });
   });
 
-  describe('Succesful artist load', () => {
+  describe('Successful artist load', () => {
     let response;
     beforeAll((done) => {
       const thunk = loadArtist('AR1');
