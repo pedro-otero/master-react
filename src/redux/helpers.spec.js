@@ -55,6 +55,8 @@ describe('Redux helpers', () => {
       it('calls fail action', () => {
         expect(fail).toBeCalledWith('itemId');
       });
+
+      afterAll(resetMocks);
     });
   });
 });
