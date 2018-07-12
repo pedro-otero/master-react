@@ -19,6 +19,6 @@ describe('Cover', () => {
         src='img.jpg'
         year='2004'
         yearClass="someClass" />);
-    expect(wrapper.find('span[className="someClass"]').length).toEqual(1);
+    expect(wrapper.find('span[className="year someClass"]').length).toEqual(1);
   });
 });
