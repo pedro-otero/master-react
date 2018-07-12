@@ -2,11 +2,12 @@ import { loadThunk } from './helpers';
 
 describe('Redux helpers', () => {
   describe('Load thunk', () => {
+    const mocks = [jest.fn(v => v), jest.fn(), jest.fn()];
+    const [dispatch, start, set] = mocks;
+    const resetMocks = () => mocks.forEach(mock => mock.mockClear());
+
     describe('Success', () => {
-      const dispatch = jest.fn(v => v);
-      const start = jest.fn();
       const successfulLoad = jest.fn(() => Promise.resolve({ body: 'success' }));
-      const set = jest.fn();
 
       beforeAll(() => {
         loadThunk('itemId', {}, dispatch, start, successfulLoad, set);
@@ -23,6 +24,8 @@ describe('Redux helpers', () => {
       it('calls set action', () => {
         expect(set).toBeCalledWith('success');
       });
+
+      afterAll(resetMocks);
     });
   });
 });
