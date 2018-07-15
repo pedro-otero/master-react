@@ -1,4 +1,4 @@
-import { loadThunk } from './helpers';
+import { loadThunk, updateState } from './helpers';
 
 describe('Redux helpers', () => {
   describe('Load thunk', () => {
@@ -66,6 +66,52 @@ describe('Redux helpers', () => {
       loadThunk('itemId', { itemId: { failed: false } }, dispatch, start, successfulLoad, set, fail);
       expect(successfulLoad).not.toBeCalled();
       successfulLoad.mockClear();
+    });
+  });
+
+  describe('State updater', () => {
+    it('Updates state', () => {
+      const state = {
+        item1: {
+          shouldItChange: false,
+          value: 'something',
+        },
+        item2: {
+          shouldItChange: true,
+          itemToChange: 'before',
+        },
+        item3: {
+          shouldItChange: true,
+          value: 'else',
+        },
+      };
+      const update = updateState(state, { defaultValue: 1 });
+
+      update([
+        { id: 'item2', value: { itemToChange: 'after' } },
+        { id: 'item3', value: { keyToAdd: 2 } },
+        { id: 'newItem', value: { anotherKey: 3 } },
+      ]);
+
+      expect(state).toEqual({
+        item1: {
+          shouldItChange: false,
+          value: 'something',
+        },
+        item2: {
+          shouldItChange: true,
+          itemToChange: 'after',
+        },
+        item3: {
+          shouldItChange: true,
+          value: 'else',
+          keyToAdd: 2,
+        },
+        newItem: {
+          defaultValue: 1,
+          anotherKey: 3,
+        },
+      });
     });
   });
 });
