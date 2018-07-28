@@ -32,4 +32,21 @@ describe('Root component', () => {
     const wrapper = shallow(<Root isNewUser={false} isAuthenticated={false} />);
     expect(wrapper.html()).toEqual(null);
   });
+
+  it('renders app when user is authenticated', () => {
+    const store = {
+      getState: () => ({
+        errors: [],
+        user: {
+          profile: { name: '' },
+        },
+      }),
+    };
+    const wrapper = shallow(<Root
+        isNewUser={false}
+        isAuthenticated={true}
+        loadProfile={jest.fn()}
+        store={store} />);
+    expect(wrapper.find('Provider')).toHaveLength(1);
+  });
 });
