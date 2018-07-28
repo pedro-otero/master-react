@@ -37,6 +37,7 @@ export class Root extends React.Component {
       return <Welcome loginUrl={this.getAuthUrl()} />;
     } else if (!isAuthenticated) {
       window.location = this.getAuthUrl();
+      return null;
     }
     return <Provider store={store}>
       <Router>

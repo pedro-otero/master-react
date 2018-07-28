@@ -27,4 +27,9 @@ describe('Root component', () => {
     const wrapper = shallow(<Root isNewUser={true} />);
     expect(wrapper.find('Welcome')).toHaveLength(1);
   });
+
+  it('Does not render anything if user is not authenticated', () => {
+    const wrapper = shallow(<Root isNewUser={false} isAuthenticated={false} />);
+    expect(wrapper.html()).toEqual(null);
+  });
 });
