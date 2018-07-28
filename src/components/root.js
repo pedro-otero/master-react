@@ -24,7 +24,7 @@ export class Root extends React.Component {
     return `${process.env.REACT_APP_SPOTIFY_AUTHORIZE_URL}?${[
       ['client_id', process.env.REACT_APP_SPOTIFY_CLIENT_ID],
       ['response_type', 'token'],
-      ['redirect_uri', window.location.origin],
+      ['redirect_uri', this.props.redirectUri],
       ['state', 'reactApp'],
       ['scope', process.env.REACT_APP_SPOTIFY_SCOPES],
       ['show_dialog', 'false'],
@@ -62,6 +62,7 @@ Root.propTypes = {
   loadPlaybackInfo: PropTypes.func.isRequired,
   loadProfile: PropTypes.func.isRequired,
   onUnmount: PropTypes.func.isRequired,
+  redirectUri: PropTypes.string.isRequired,
   store: PropTypes.object.isRequired,
 };
 

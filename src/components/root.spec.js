@@ -12,4 +12,14 @@ describe('Root component', () => {
     shallow(<Root isAuthenticated={true} loadProfile={mock} />);
     expect(mock).toBeCalled();
   });
+
+  it('generate auth url', () => {
+    Object.assign(process.env, {
+      REACT_APP_SPOTIFY_AUTHORIZE_URL: 'http://auth.org',
+      REACT_APP_SPOTIFY_CLIENT_ID: 'clientId',
+      REACT_APP_SPOTIFY_SCOPES: 'scopesList',
+    });
+    const wrapper = shallow(<Root redirectUri="http://localhost.com" />);
+    expect(wrapper.instance().getAuthUrl()).toEqual('http://auth.org?client_id=clientId&response_type=token&redirect_uri=http://localhost.com&state=reactApp&scope=scopesList&show_dialog=false');
+  });
 });
