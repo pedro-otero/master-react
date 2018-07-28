@@ -1,106 +1,7 @@
-import { FAIL_ALBUM_LOAD, loadAlbum, reduce, SET_ALBUM, setAlbum, START_ALBUM_LOAD } from './albums';
+import { FAIL_ALBUM_LOAD, reduce, SET_ALBUM, setAlbum, START_ALBUM_LOAD } from './albums';
 
-const dispatch = jest.fn(v => v);
-const album = { id: 'AL1', artists: [{ id: 'AR1' }], tracks: { items: [{ id: 'T1' }] } };
-const successApi = {
-  getAlbum: jest.fn(() => Promise.resolve({ body: album })),
-};
-const failureApi = {
-  getAlbum: jest.fn(() => Promise.reject(Error())),
-};
-const actions = {
-  loadArtist: jest.fn(),
-  setTrack: jest.fn(),
-  setAlbum: jest.fn(() => ({
-    data: { id: 'AL1' },
-  })),
-  startAlbumLoad: jest.fn(),
-  failAlbumLoad: jest.fn(),
-};
-const clearActionMocks = () => Object.entries(actions)
-  .forEach(([_, action]) => action.mockClear());
-const emptyGetState = () => ({
-  searches: { },
-  albums: { },
-  artists: { },
-  tracks: { },
-});
 
 describe('REDUX: Albums', () => {
-  describe('Succesful album load', () => {
-    let response;
-    beforeAll((done) => {
-      const thunk = loadAlbum('AL1');
-      thunk(dispatch, emptyGetState, { spotifyApi: successApi, actions }).then((resolution) => {
-        response = resolution;
-        done();
-      });
-    });
-
-    it('forwards response', () => {
-      expect(response.id).toEqual('AL1');
-    });
-
-    it('calls api method', () => {
-      expect(successApi.getAlbum).toHaveBeenCalledWith('AL1');
-    });
-
-    it('informs load started', () => {
-      expect(actions.startAlbumLoad).toHaveBeenCalledWith('AL1');
-    });
-
-    it('informs load succeded', () => {
-      expect(actions.setAlbum).toHaveBeenCalledWith(album);
-    });
-
-    afterAll(() => {
-      successApi.getAlbum.mockClear();
-      clearActionMocks();
-    });
-  });
-
-  it('Avoids to load albums already in state', (done) => {
-    const thunk = loadAlbum('AL1');
-    thunk(null, () => ({ albums: { AL1: {} } }), { spotifyApi: successApi, actions }).then(() => {
-      expect(successApi.getAlbum).not.toBeCalled();
-      done();
-    });
-  });
-
-  it('Reloads a failed album', (done) => {
-    const thunk = loadAlbum('AL1');
-    thunk(dispatch, () => ({ albums: { AL1: { failed: true } } }), {
-      spotifyApi: successApi, actions,
-    }).then(() => {
-      expect(successApi.getAlbum).toBeCalled();
-      done();
-    });
-  });
-
-  describe('Album load failure', () => {
-    beforeAll((done) => {
-      const thunk = loadAlbum('AL1');
-      thunk(dispatch, emptyGetState, { spotifyApi: failureApi, actions }).then(done);
-    });
-
-    it('calls api method', () => {
-      expect(failureApi.getAlbum).toHaveBeenCalledWith('AL1');
-    });
-
-    it('informs load started', () => {
-      expect(actions.startAlbumLoad).toHaveBeenCalledWith('AL1');
-    });
-
-    it('informs load failed', () => {
-      expect(actions.failAlbumLoad).toHaveBeenCalledWith('AL1');
-    });
-
-    afterAll(() => {
-      failureApi.getAlbum.mockClear();
-      clearActionMocks();
-    });
-  });
-
   it('creates SET_ALBUM action', () => {
     const action = setAlbum({
       id: 'AL1',
@@ -137,6 +38,8 @@ describe('REDUX: Albums', () => {
   });
 
   describe('reducer', () => {
+    const album = { id: 'AL1', artists: [{ id: 'AR1' }], tracks: { items: [{ id: 'T1' }] } };
+
     it('adds albums', () => {
       const albums = reduce({}, {
         type: SET_ALBUM,
