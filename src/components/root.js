@@ -13,7 +13,7 @@ import { loadProfile } from '../redux/profile';
 import TrackContainer from './track-container/track-container';
 import AlbumContainer from './album-container/album-container';
 
-class Root extends React.Component {
+export class Root extends React.Component {
   componentWillMount() {
     if (this.props.isAuthenticated) {
       this.props.loadProfile();
