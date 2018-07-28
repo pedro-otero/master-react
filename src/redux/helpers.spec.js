@@ -87,13 +87,13 @@ describe('Redux helpers', () => {
       };
       const update = updateState(state, { defaultValue: 1 });
 
-      update([
+      const result = update([
         { id: 'item2', value: { itemToChange: 'after' } },
         { id: 'item3', value: { keyToAdd: 2 } },
         { id: 'newItem', value: { anotherKey: 3 } },
       ]);
 
-      expect(state).toEqual({
+      expect(result).toEqual({
         item1: {
           shouldItChange: false,
           value: 'something',
