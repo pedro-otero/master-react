@@ -28,7 +28,7 @@ export class Root extends React.Component {
       ['state', 'reactApp'],
       ['scope', process.env.REACT_APP_SPOTIFY_SCOPES],
       ['show_dialog', 'false'],
-    ].map(pair => `${pair[0]}=${pair[1]}`).join('&')}`;
+    ].map(([key, value]) => `${key}=${value}`).join('&')}`;
   }
 
   render() {
