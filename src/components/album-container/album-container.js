@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import Album from 'components/album/album';
+import EntityContainer from 'components/entity-container/entity-container';
 import { loadAlbum } from '../../redux/albums';
-import Album from '../album/album';
 import { loadArtist } from '../../redux/artists';
-import EntityContainer from '../entity-container/entity-container';
 
 export class AlbumContainer extends React.Component {
   render() {
