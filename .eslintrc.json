@@ -9,6 +9,13 @@
     "airbnb-base",
     "react-app"
   ],
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "./config/webpack.config.dev.js"
+      }
+    }
+  },
   "rules": {
     "react/sort-prop-types": [
       "error"
