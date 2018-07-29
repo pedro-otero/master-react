@@ -38,6 +38,7 @@ registerServiceWorker();
 ReactDOM.render(
   <Root
       store={store}
-      onUnmount={() => backend.stopAllSearches} />,
+      onUnmount={() => backend.stopAllSearches}
+      redirectUri={window.location.origin} />,
   document.getElementById('root'),
 );

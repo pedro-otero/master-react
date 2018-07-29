@@ -13,7 +13,7 @@ import { loadProfile } from '../redux/profile';
 import TrackContainer from './track-container/track-container';
 import AlbumContainer from './album-container/album-container';
 
-class Root extends React.Component {
+export class Root extends React.Component {
   componentWillMount() {
     if (this.props.isAuthenticated) {
       this.props.loadProfile();
@@ -24,11 +24,11 @@ class Root extends React.Component {
     return `${process.env.REACT_APP_SPOTIFY_AUTHORIZE_URL}?${[
       ['client_id', process.env.REACT_APP_SPOTIFY_CLIENT_ID],
       ['response_type', 'token'],
-      ['redirect_uri', window.location.origin],
+      ['redirect_uri', this.props.redirectUri],
       ['state', 'reactApp'],
       ['scope', process.env.REACT_APP_SPOTIFY_SCOPES],
       ['show_dialog', 'false'],
-    ].map(pair => `${pair[0]}=${pair[1]}`).join('&')}`;
+    ].map(([key, value]) => `${key}=${value}`).join('&')}`;
   }
 
   render() {
@@ -37,6 +37,7 @@ class Root extends React.Component {
       return <Welcome loginUrl={this.getAuthUrl()} />;
     } else if (!isAuthenticated) {
       window.location = this.getAuthUrl();
+      return null;
     }
     return <Provider store={store}>
       <Router>
@@ -62,6 +63,7 @@ Root.propTypes = {
   loadPlaybackInfo: PropTypes.func.isRequired,
   loadProfile: PropTypes.func.isRequired,
   onUnmount: PropTypes.func.isRequired,
+  redirectUri: PropTypes.string.isRequired,
   store: PropTypes.object.isRequired,
 };
 
