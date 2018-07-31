@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Album from 'components/album/album';
-import EntityContainer from 'components/entity-container/entity-container';
+import Album from 'components/Album';
+import EntityContainer from 'components/EntityContainer';
 import { loadAlbum } from '../../redux/albums';
 import { loadArtist } from '../../redux/artists';
 

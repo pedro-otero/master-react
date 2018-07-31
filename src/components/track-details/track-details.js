@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import LoadingCircle from '../loading-circle/loading-circle';
-import Progress from '../progress/progress';
-import Credits from '../credits/credits';
-import Composers from '../composers/composers';
-import Producers from '../producers/producers';
-import ArtistWork from '../artist-work/artist-work';
+import LoadingCircle from 'components/LoadingCircle';
+import Progress from 'components/Progress';
+import Credits from 'components/Credits';
+import Composers from 'components/Composers';
+import Producers from 'components/Producers';
+import ArtistWork from 'components/ArtistWork';
 
 const TrackDetails = ({
   name,

@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import ArtistWork from 'components/artist-work/artist-work';
-import TrackItem from 'components/track-item/track-item';
-import Progress from 'components/progress/progress';
-import LoadingCircle from 'components/loading-circle/loading-circle';
+import ArtistWork from 'components/ArtistWork';
+import TrackItem from 'components/TrackItem';
+import Progress from 'components/Progress';
+import LoadingCircle from 'components/LoadingCircle';
 import styles from './album.css';
 
 const Album = ({

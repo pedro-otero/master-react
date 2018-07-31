@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import Banner from 'components/banner/banner';
-import Cover from 'components/cover/cover';
-import Label from 'components/label/label';
+import Banner from 'components/Banner';
+import Cover from 'components/Cover';
+import Label from 'components/Label';
 
 import styles from './artist-work.css';
 import globalStyles from '../../index.css';

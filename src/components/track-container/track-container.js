@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import TrackDetails from 'components/TrackDetails';
+import EntityContainer from 'components/EntityContainer';
 import { loadTrack } from '../../redux/tracks';
 import { loadAlbum } from '../../redux/albums';
-import TrackDetails from '../track-details/track-details';
 import { loadArtist } from '../../redux/artists';
-import EntityContainer from '../entity-container/entity-container';
 
 export class TrackContainer extends React.Component {
   render() {

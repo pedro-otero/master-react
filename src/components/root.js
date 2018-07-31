@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect, Provider } from 'react-redux';
 
+import Welcome from 'components/Welcome';
+import Errors from 'components/Errors';
+import TitleBar from 'components/TitleBar';
+import TrackContainer from 'components/TrackContainer';
+import AlbumContainer from 'components/AlbumContainer';
+import Home from 'components/Home';
 import { loadPlaybackInfo } from '../redux/playbackInfo';
 import { addError, clearErrors } from '../redux/errors';
-import Errors from './errors/errors';
-import Welcome from './welcome/welcome';
-import TitleBar from './title-bar/title-bar';
-import Home from './home/home';
 import { loadProfile } from '../redux/profile';
-import TrackContainer from './track-container/track-container';
-import AlbumContainer from './album-container/album-container';
 
 export class Root extends React.Component {
   componentWillMount() {

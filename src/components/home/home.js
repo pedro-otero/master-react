@@ -2,7 +2,8 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import LoadingCircle from '../loading-circle/loading-circle';
+
+import LoadingCircle from 'components/LoadingCircle';
 
 const Container = styled.div`
   margin: 1em;
