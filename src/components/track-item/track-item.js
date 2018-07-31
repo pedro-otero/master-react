@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import Composers from 'components/Composers';
 import styles from './track-item.css';
 import globalStyles from '../../index.css';
-import Composers from '../composers/composers';
 
 const TrackItem = ({
   name, duration, id, composers,
