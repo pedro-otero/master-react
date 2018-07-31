@@ -2,6 +2,7 @@
 
 const autoprefixer = require('autoprefixer');
 const path = require('path');
+const fs = require('fs');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
@@ -22,6 +23,17 @@ const publicUrl = '';
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
 
+
+const componentsPath = path.join(__dirname, '../src/components');
+const components = fs.readdirSync(componentsPath).reduce((aliases, name) => {
+  const uppercaseName = name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('');
+  const dir = `${componentsPath}/${name}`;
+  const alias = `components/${uppercaseName}`;
+  if (fs.statSync(dir).isDirectory()) {
+    return Object.assign({ ...aliases }, { [alias]: `${dir}/${name}.js` });
+  }
+  return aliases;
+}, {});
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
@@ -84,15 +96,12 @@ module.exports = {
     // `web` extension prefixes have been added for better support
     // for React Native Web.
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
-    alias: {
+    alias: Object.assign({
 
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
-
-      // components
-      components: path.resolve(__dirname, '../src/components/'),
-    },
+    }, components),
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).
       // This often causes confusion because we only process files within src/ with babel.
