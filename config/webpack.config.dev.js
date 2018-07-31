@@ -2,7 +2,6 @@
 
 const autoprefixer = require('autoprefixer');
 const path = require('path');
-const fs = require('fs');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
@@ -12,6 +11,7 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const scopedCssConfig = require('./scopedCssConfig');
+const components = require('./componentsAliases');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -22,18 +22,6 @@ const publicPath = '/';
 const publicUrl = '';
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
-
-
-const componentsPath = path.join(__dirname, '../src/components');
-const components = fs.readdirSync(componentsPath).reduce((aliases, name) => {
-  const uppercaseName = name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('');
-  const dir = `${componentsPath}/${name}`;
-  const alias = `components/${uppercaseName}`;
-  if (fs.statSync(dir).isDirectory()) {
-    return Object.assign({ ...aliases }, { [alias]: `${dir}/${name}.js` });
-  }
-  return aliases;
-}, {});
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
