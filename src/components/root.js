@@ -9,9 +9,9 @@ import TitleBar from 'components/TitleBar';
 import TrackContainer from 'components/TrackContainer';
 import AlbumContainer from 'components/AlbumContainer';
 import Home from 'components/Home';
-import { loadPlaybackInfo } from '../redux/playbackInfo';
-import { addError, clearErrors } from '../redux/errors';
-import { loadProfile } from '../redux/profile';
+import { loadPlaybackInfo } from 'state/playbackInfo';
+import { addError, clearErrors } from 'state/errors';
+import { loadProfile } from 'state/profile';
 
 export class Root extends React.Component {
   componentWillMount() {

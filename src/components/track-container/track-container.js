@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 
 import TrackDetails from 'components/TrackDetails';
 import EntityContainer from 'components/EntityContainer';
-import { loadTrack } from '../../redux/tracks';
-import { loadAlbum } from '../../redux/albums';
-import { loadArtist } from '../../redux/artists';
+import { loadTrack } from 'state/tracks';
+import { loadAlbum } from 'state/albums';
+import { loadArtist } from 'state/artists';
 
 export class TrackContainer extends React.Component {
   render() {

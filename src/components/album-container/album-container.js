@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 import Album from 'components/Album';
 import EntityContainer from 'components/EntityContainer';
-import { loadAlbum } from '../../redux/albums';
-import { loadArtist } from '../../redux/artists';
+import { loadAlbum } from 'state/albums';
+import { loadArtist } from 'state/artists';
 
 export class AlbumContainer extends React.Component {
   render() {
