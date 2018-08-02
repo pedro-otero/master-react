@@ -36,9 +36,6 @@ if (window.location.hash) {
 
 registerServiceWorker();
 ReactDOM.render(
-  <Root
-      store={store}
-      onUnmount={() => backend.stopAllSearches}
-      redirectUri={window.location.origin} />,
+  <Root store={store} redirectUri={window.location.origin} />,
   document.getElementById('root'),
 );
