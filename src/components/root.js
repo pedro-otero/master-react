@@ -62,7 +62,6 @@ Root.propTypes = {
   isNewUser: PropTypes.bool,
   loadPlaybackInfo: PropTypes.func.isRequired,
   loadProfile: PropTypes.func.isRequired,
-  onUnmount: PropTypes.func.isRequired,
   redirectUri: PropTypes.string.isRequired,
   store: PropTypes.object.isRequired,
 };

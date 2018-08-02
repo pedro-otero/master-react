@@ -32,8 +32,4 @@ export default class Backend {
     clearTimeout(this.timers[id]);
     delete this.timers[id];
   }
-
-  stopAllSearches() {
-    Object.keys(this.timers).forEach(this.stopSearch.bind(this));
-  }
 }
