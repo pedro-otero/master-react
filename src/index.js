@@ -4,11 +4,11 @@ import SpotifyWebApi from 'spotify-web-api-node';
 import request from 'superagent';
 
 import registerServiceWorker from './registerServiceWorker';
-import configureStore from './redux/store';
+import configureStore from 'state/store';
 
 import Backend from './api/backend';
 import Root from './components/root';
-import { parseToken, setToken } from './redux/user';
+import { parseToken, setToken } from 'state/user';
 import SpotifyCustomApiFactory from './api/spotify';
 
 const backend = new Backend(request, `${process.env.REACT_APP_BE_DOMAIN}/data/album`, 1000);

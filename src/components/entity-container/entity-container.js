@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { loadSearchResult } from '../../redux/actions/backend';
-import { clearErrors } from '../../redux/errors';
+import { loadSearchResult } from 'state/actions/backend';
+import { clearErrors } from 'state/errors';
 
 export default (Component, mainId) => {
   class Wrapped extends React.Component {

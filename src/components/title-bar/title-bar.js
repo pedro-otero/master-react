@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { loadPlaybackInfo } from '../../redux/playbackInfo';
-import { addError, clearErrors } from '../../redux/errors';
+import { loadPlaybackInfo } from 'state/playbackInfo';
+import { addError, clearErrors } from 'state/errors';
 
 const BORDER_COLOR = 'rgba(128, 128, 128, 0.2)';
 
