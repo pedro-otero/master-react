@@ -9,7 +9,7 @@ const Container = styled.div`
   margin: 1em;
 `;
 
-const Home = ({ loading, id, name }) => {
+export const Home = ({ loading, id, name }) => {
   if (loading) {
     return <LoadingCircle message="Loading..." />;
   }
