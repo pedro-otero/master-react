@@ -22,4 +22,15 @@ describe('Entity container', () => {
   it('calls load', () => {
     expect(load).toBeCalled();
   });
+
+  it('stops album search', () => {
+    const albumSearch = {
+      unsubscribe: jest.fn(),
+    };
+    wrapper.instance().albumSearch = albumSearch;
+
+    wrapper.unmount();
+
+    expect(albumSearch.unsubscribe).toBeCalled();
+  });
 });
