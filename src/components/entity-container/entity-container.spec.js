@@ -8,12 +8,16 @@ describe('Entity container', () => {
   const mocks = [jest.fn(), jest.fn(), jest.fn()];
   const [load, clearErrors, loadSearchResult] = mocks;
 
-  const wrapper = shallow(<Wrapped
-      itemId="1"
-      clearErrors={clearErrors}
-      loadSearchResult={loadSearchResult}
-      load={load}
-  />);
+  let wrapper;
+
+  beforeEach(() => {
+    wrapper = shallow(<Wrapped
+        itemId="1"
+        clearErrors={clearErrors}
+        loadSearchResult={loadSearchResult}
+        load={load}
+      />);
+  });
 
   it('calls clearErrors', () => {
     expect(clearErrors).toBeCalled();
