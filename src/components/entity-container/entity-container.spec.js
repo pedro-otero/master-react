@@ -7,6 +7,7 @@ describe('Entity container', () => {
   const Wrapped = EntityContainer(Dummy, 'itemId');
   const mocks = [jest.fn(), jest.fn(), jest.fn()];
   const [load, clearErrors, loadSearchResult] = mocks;
+  const album = { id: '3' };
 
   let wrapper;
 
@@ -16,6 +17,7 @@ describe('Entity container', () => {
         clearErrors={clearErrors}
         loadSearchResult={loadSearchResult}
         load={load}
+        album={album}
       />);
   });
 
@@ -36,5 +38,15 @@ describe('Entity container', () => {
     wrapper.unmount();
 
     expect(albumSearch.unsubscribe).toBeCalled();
+  });
+
+  it('loads the new album', () => {
+    wrapper.setProps({ itemId: '2' });
+
+    expect(load).toBeCalled();
+  });
+
+  afterEach(() => {
+    mocks.forEach(mock => mock.mockClear());
   });
 });
