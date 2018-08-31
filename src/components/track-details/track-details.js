@@ -1,40 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-import LoadingCircle from '../loading-circle/loading-circle';
-import Progress from '../progress/progress';
-import Credits from '../credits/credits';
-import Composers from '../composers/composers';
-import Producers from '../producers/producers';
-import ArtistWork from '../artist-work/artist-work';
+import LoadingCircle from 'components/LoadingCircle';
+import Progress from 'components/Progress';
+import Credits from 'components/Credits';
+import Composers from 'components/Composers';
+import Producers from 'components/Producers';
+import ArtistWork from 'components/ArtistWork';
 
-export const TrackDetails = ({
+const TrackDetails = ({
   name,
   artist,
   albumId,
   image,
   background,
   year,
-  bestMatch,
   progress,
+  credits,
+  composers,
+  producers,
+  loading,
+  searchStarted,
+  failed,
 }) => {
-  const status = (() => {
-    if (!name) {
-      return 'empty';
-    }
-    if (typeof progress === 'undefined') {
-      return 'search-not-started';
-    }
-    if (progress === 100) {
-      return 'finished';
-    }
-    if (!Object.keys(bestMatch.credits).length) {
-      return 'no-credits';
-    }
-    return 'with-credits';
-  })();
-
+  if (loading) {
+    return <LoadingCircle message="Loading data from Spotify..." />;
+  }
+  if (failed) {
+    return <div>
+      <i className="em em--1"></i>
+      <h1>Could not load this track</h1>
+    </div>;
+  }
   return <article>
     <ArtistWork
         title={name}
@@ -43,23 +40,18 @@ export const TrackDetails = ({
         image={image}
         background={background}
         path={`/album/${albumId}`}>
-      {bestMatch && <span>
-        <Composers list={bestMatch.composers} />
+      <span>
+        <Composers list={composers} />
         <br />
-        <Producers list={bestMatch.producers} />
-      </span>}
+        <Producers list={producers} />
+      </span>
     </ArtistWork>
-    {status === 'empty' && <LoadingCircle message="Loading data from Spotify..." />}
-    {status === 'search-not-started' && <LoadingCircle message="Starting search..." />}
-    {status === 'with-credits' &&
-    <Progress
-        size="small"
-        value={progress} />}
-    {bestMatch && <Credits data={bestMatch.credits} />}
-    {status === 'no-credits' &&
-    <Progress
-        size="big"
-        value={progress} />}
+    {!searchStarted && <LoadingCircle message="Starting search..." />}
+    <Credits data={credits} />
+    {searchStarted && progress !== 100 &&
+      <Progress
+          size={Object.keys(credits).length === 0 ? 'big' : 'small'}
+          value={progress} />}
   </article>;
 };
 
@@ -67,48 +59,22 @@ TrackDetails.propTypes = {
   albumId: PropTypes.string,
   artist: PropTypes.string,
   background: PropTypes.string,
-  bestMatch: PropTypes.object,
+  composers: PropTypes.array,
+  credits: PropTypes.object,
+  failed: PropTypes.bool,
   image: PropTypes.string,
+  loading: PropTypes.bool,
   name: PropTypes.string,
+  producers: PropTypes.array,
   progress: PropTypes.number,
+  searchStarted: PropTypes.bool,
   year: PropTypes.string,
 };
 
-const mapStateToProps = ({
-  tracks, albums, artists, searches,
-}, { trackId }) => {
-  const props = {};
-  if (tracks[trackId]) {
-    const track = tracks[trackId];
-    if (track && track !== 'LOADING' && track !== 'FAILED') {
-      Object.assign(props, {
-        name: track.name,
-        albumId: track.album.id,
-        artist: track.artists[0].name,
-      });
-      const album = albums[track.album.id];
-      if (album && album !== 'LOADING' && album !== 'FAILED') {
-        Object.assign(props, {
-          image: album.images[0].url,
-          year: album.release_date.substring(0, 4),
-        });
-      }
-      const artist = artists[track.artists[0].id];
-      if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
-        Object.assign(props, {
-          background: artist.images.length ? artist.images[0].url : '',
-        });
-      }
-      const search = searches[track.album.id];
-      if (search && search !== 'LOADING' && search !== 'FAILED') {
-        Object.assign(props, {
-          bestMatch: search.bestMatch.tracks.find(t => t.id === track.id),
-          progress: search.progress,
-        });
-      }
-    }
-  }
-  return props;
+TrackDetails.defaultProps = {
+  credits: {},
+  composers: [],
+  producers: [],
 };
 
-export default connect(mapStateToProps)(TrackDetails);
+export default TrackDetails;

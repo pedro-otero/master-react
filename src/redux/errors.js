@@ -1,9 +1,12 @@
+export const ADD_ERROR = 'ADD_ERROR';
+export const CLEAR_ERRORS = 'CLEAR_ERRORS';
+
 export const reduce = (state = [], action) => {
   switch (action.type) {
-    case 'ADD_ERROR': {
+    case ADD_ERROR: {
       return [...state, action.data];
     }
-    case 'CLEAR_ERRORS': {
+    case CLEAR_ERRORS: {
       return [];
     }
     default: {
@@ -13,8 +16,8 @@ export const reduce = (state = [], action) => {
 };
 
 export const addError = error => ({
-  type: 'ADD_ERROR',
+  type: ADD_ERROR,
   data: error,
 });
 
-export const clearErrors = () => ({ type: 'CLEAR_ERRORS' });
+export const clearErrors = () => ({ type: CLEAR_ERRORS });

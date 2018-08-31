@@ -1,85 +1,65 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
+import ArtistWork from 'components/ArtistWork';
+import TrackItem from 'components/TrackItem';
+import Progress from 'components/Progress';
+import LoadingCircle from 'components/LoadingCircle';
 import styles from './album.css';
-import ArtistWork from '../artist-work/artist-work';
-import TrackItem from '../track-item/track-item';
-import Progress from '../progress/progress';
 
-export const Album = ({
-  artistImg, albumImg, tracks, progress, year, name, artist, searchTracks,
-}) => <Fragment>
-  {artist && name &&
-  <ArtistWork
-      title={name}
-      artist={artist}
-      year={year}
-      image={albumImg}
-      background={artistImg} />}
-  {name && searchTracks && <Fragment>
-      {progress < 100 && <Progress
-          size="small"
-          value={progress} />}
+const Album = ({
+  background, image, tracks, progress, year, name, artist, failed, loading, searchStarted,
+}) => {
+  if (loading) {
+    return <LoadingCircle message="Loading data from Spotify..." />;
+  }
+  if (failed) {
+    return <div>
+      <i className="em em--1"></i>
+      <h1>Could not load this album</h1>
+    </div>;
+  }
+  return <Fragment>
+    <ArtistWork
+        title={name}
+        artist={artist}
+        year={year}
+        image={image}
+        background={background} />
+    {!searchStarted && <LoadingCircle message="Starting search..." />}
+    {progress < 100 && <Progress
+        size="small"
+        value={progress} />}
     <ol className={styles.tracklist}>
-      {tracks.map((fromSpotify, i) => {
-          const { composers } = searchTracks[i];
-          const { name: trackName, duration_ms: millis, id } = fromSpotify;
-          return <li key={`${trackName}-${id}`}>
-            <TrackItem
-                id={id}
-                name={trackName}
-                millis={millis}
-                composers={composers}
+      {tracks.map(track => (
+        <li key={`${track.name}-${track.id}`}>
+          <TrackItem
+              id={track.id}
+              name={track.name}
+              duration={track.duration}
+              composers={track.composers}
             />
-          </li>;
-        })}
+        </li>))}
     </ol>
-    </Fragment>}
-</Fragment>;
+  </Fragment>;
+};
 
 Album.propTypes = {
-  albumImg: PropTypes.string,
   artist: PropTypes.string,
-  artistImg: PropTypes.string,
+  background: PropTypes.string,
+  failed: PropTypes.bool,
   id: PropTypes.string.isRequired,
+  image: PropTypes.string,
+  loading: PropTypes.bool,
   name: PropTypes.string,
   progress: PropTypes.number,
-  searchTracks: PropTypes.array,
+  searchStarted: PropTypes.bool,
   tracks: PropTypes.array,
   year: PropTypes.string,
 };
 
-const mapStateToProps = ({
-  albums, artists, searches,
-}, { albumId }) => {
-  const props = {};
-  if (albums[albumId]) {
-    const album = albums[albumId];
-    if (album && album !== 'LOADING' && album !== 'FAILED') {
-      Object.assign(props, {
-        albumImg: album.images.length ? album.images[0].url : null,
-        artist: album.artists[0].name,
-        name: album.name,
-        tracks: album.tracks.items,
-        year: album.release_date.substring(0, 4),
-      });
-      const artist = artists[album.artists[0].id];
-      if (artist && artist !== 'LOADING' && artist !== 'FAILED') {
-        Object.assign(props, {
-          artistImg: artist.images[0].url,
-        });
-      }
-    }
-    const search = searches[albumId];
-    if (search && search !== 'LOADING' && search !== 'FAILED') {
-      Object.assign(props, {
-        progress: search.progress,
-        searchTracks: search.bestMatch.tracks,
-      });
-    }
-  }
-  return props;
+Album.defaultProps = {
+  tracks: [],
 };
 
-export default connect(mapStateToProps)(Album);
+export default Album;
