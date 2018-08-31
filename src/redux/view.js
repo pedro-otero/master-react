@@ -6,3 +6,10 @@ export const viewTrack = trackId =>
       dispatch(loadArtist(artistId));
       return track;
     });
+
+export const viewAlbum = albumId =>
+  (dispatch, getState, { actions: { loadTrack, loadAlbum, loadArtist } }) =>
+    dispatch(loadAlbum(albumId)).then((album) => {
+      dispatch(loadArtist(album.artistId));
+      return album;
+    });
