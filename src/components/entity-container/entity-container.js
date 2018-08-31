@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-import { loadSearchResult } from 'state/actions/backend';
 import { clearErrors } from 'state/errors';
+import { loadSearchResult } from 'state/actions/backend';
 
-export default (Component, mainId) => {
-  class Wrapped extends React.Component {
+export function EntityContainer(Component, mainId) {
+  return class Wrapped extends React.Component {
     static propTypes = {
       album: PropTypes.object,
       clearErrors: PropTypes.func,
@@ -47,10 +46,13 @@ export default (Component, mainId) => {
     render() {
       return <Component {...this.props} />;
     }
-  }
+  };
+}
 
-  return connect(() => ({}), dispatch => ({
-    clearErrors: () => dispatch(clearErrors()),
-    loadSearchResult: id => dispatch(loadSearchResult(id)),
-  }))(Wrapped);
-};
+const mapDispatchToProps = dispatch => ({
+  clearErrors: () => dispatch(clearErrors()),
+  loadSearchResult: id => dispatch(loadSearchResult(id)),
+});
+
+export default (Component, mainId) =>
+  connect(() => ({}), mapDispatchToProps)(EntityContainer(Component, mainId));
