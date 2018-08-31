@@ -52,6 +52,17 @@ describe('Entity container', () => {
     expect(load.mock.calls.length).toBeLessThan(2);
   });
 
+  it('does not restart the search of the same album', () => {
+    const albumSearch = {
+      unsubscribe: jest.fn(),
+    };
+    wrapper.instance().albumSearch = albumSearch;
+
+    wrapper.setProps({ itemId: '1' });
+
+    expect(loadSearchResult.mock.calls.length).toBeLessThan(2);
+  });
+
   afterEach(() => {
     mocks.forEach(mock => mock.mockClear());
   });
