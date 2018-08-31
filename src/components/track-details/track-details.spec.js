@@ -88,4 +88,9 @@ describe('TrackDetails component', () => {
     });
     expect(wrapper.find('Progress[className="small-progress"]')).toHaveLength(0);
   });
+
+  it('renders error message', () => {
+    const wrapper = shallow(<TrackDetails failed={true} />);
+    expect(wrapper.find('h1').text()).toEqual('Could not load this track');
+  });
 });

@@ -4,6 +4,9 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.{js,jsx,mjs}',
     '!src/**/*.stories.js',
+    '!src/index.js',
+    '!src/registerServiceWorker.js',
+    '!src/redux/store/index.js',
   ],
   setupFiles: [
     '<rootDir>/config/polyfills.js',

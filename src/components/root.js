@@ -9,8 +9,6 @@ import TitleBar from 'components/TitleBar';
 import TrackContainer from 'components/TrackContainer';
 import AlbumContainer from 'components/AlbumContainer';
 import Home from 'components/Home';
-import { loadPlaybackInfo } from 'state/playbackInfo';
-import { addError, clearErrors } from 'state/errors';
 import { loadProfile } from 'state/profile';
 
 export class Root extends React.Component {
@@ -56,11 +54,8 @@ export class Root extends React.Component {
 }
 
 Root.propTypes = {
-  addError: PropTypes.func.isRequired,
-  clearErrors: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
   isNewUser: PropTypes.bool,
-  loadPlaybackInfo: PropTypes.func.isRequired,
   loadProfile: PropTypes.func.isRequired,
   redirectUri: PropTypes.string.isRequired,
   store: PropTypes.object.isRequired,
@@ -72,9 +67,6 @@ const mapStateToProps = ({ user: { auth: { token, expiry } } }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
-  clearErrors: () => dispatch(clearErrors()),
-  addError: error => dispatch(addError(error)),
   loadProfile: () => dispatch(loadProfile()),
 });
 
