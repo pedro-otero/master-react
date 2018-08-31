@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 
 import TrackDetails from 'components/TrackDetails';
 import EntityContainer from 'components/EntityContainer';
-import { loadTrack } from 'state/tracks';
-import { loadAlbum } from 'state/albums';
-import { loadArtist } from 'state/artists';
+import { viewTrack } from 'state/view';
 
 export class TrackContainer extends React.Component {
   render() {
@@ -54,12 +52,7 @@ const mapStateToProps = ({ tracks, albums, artists }, { trackId }) => {
 };
 
 const mapDispatchToProps = (dispatch, { trackId }) => ({
-  load: () => {
-    dispatch(loadTrack(trackId)).then(({ albumId, artistId }) => {
-      dispatch(loadAlbum(albumId));
-      dispatch(loadArtist(artistId));
-    });
-  },
+  load: () => dispatch(viewTrack(trackId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityContainer(TrackContainer, 'trackId'));

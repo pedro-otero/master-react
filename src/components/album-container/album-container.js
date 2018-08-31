@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 
 import Album from 'components/Album';
 import EntityContainer from 'components/EntityContainer';
-import { loadAlbum } from 'state/albums';
-import { loadArtist } from 'state/artists';
+import { viewAlbum } from 'state/view';
 
 export class AlbumContainer extends React.Component {
   render() {
@@ -48,11 +47,7 @@ const mapStateToProps = ({ tracks, albums, artists }, { albumId }) => {
 };
 
 const mapDispatchToProps = (dispatch, { albumId }) => ({
-  load: () => {
-    dispatch(loadAlbum(albumId)).then(({ artistId }) => {
-      dispatch(loadArtist(artistId));
-    });
-  },
+  load: () => dispatch(viewAlbum(albumId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityContainer(AlbumContainer, 'albumId'));
