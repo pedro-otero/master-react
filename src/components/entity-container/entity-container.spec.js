@@ -43,7 +43,13 @@ describe('Entity container', () => {
   it('loads the new album', () => {
     wrapper.setProps({ itemId: '2' });
 
-    expect(load).toBeCalled();
+    expect(load.mock.calls.length).toBe(2);
+  });
+
+  it('does not reload the same album', () => {
+    wrapper.setProps({ itemId: '1' });
+
+    expect(load.mock.calls.length).toBeLessThan(2);
   });
 
   afterEach(() => {
