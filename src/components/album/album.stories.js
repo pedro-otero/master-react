@@ -3,7 +3,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { Album } from './album';
+import Album from './album';
 
 const tracks = [{
   name: 'Dark Opening',

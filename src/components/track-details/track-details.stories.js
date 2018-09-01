@@ -3,7 +3,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { TrackDetails } from './track-details';
+import TrackDetails from './track-details';
 
 storiesOf('Track details', module)
   .addDecorator(story => (
