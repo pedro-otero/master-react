@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
+import Link from 'components/Link';
 import Banner from 'components/Banner';
 import Cover from 'components/Cover';
 import Label from 'components/Label';
 
 import styles from './artist-work.css';
-import globalStyles from '../../index.css';
 
 const ArtistWork = ({
   title, artist, background, image, year, children, path,
@@ -18,9 +17,7 @@ const ArtistWork = ({
       yearClass={styles.albumYear} />;
 
   const CoverWrap = path ?
-    <Link
-        to={path}
-        className={globalStyles.RRlink}>
+    <Link to={path}>
       {CustomCover}
     </Link> :
     CustomCover;
