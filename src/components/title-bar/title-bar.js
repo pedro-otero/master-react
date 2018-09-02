@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+
+import Avatar from 'components/Avatar';
 import { loadPlaybackInfo } from 'state/playbackInfo';
 import { addError, clearErrors } from 'state/errors';
 
@@ -18,15 +20,8 @@ const Row = styled.div`
   vertical-align: middle;
 `;
 
-// To use after avatar is available
-const Avatar = styled.div`
-  border-radius: 100%;
-  background-image: url(${({ src }) => src});
-  background-size: cover;
+const AvatarTopMargin = styled.div`
   margin-top: 0.5em;
-  width: 2em;
-  height: 2em;
-  flex: 0 0 2em;
 `;
 
 const Title = styled.span`
@@ -58,7 +53,9 @@ export const TitleBar = ({
   };
   return <Row>
     <Anchor onClick={onAvatarClick}>
-      <Avatar src={avatar} />
+      <AvatarTopMargin>
+        <Avatar src={avatar} size="2em" />
+      </AvatarTopMargin>
     </Anchor>
     <Title>{title}</Title>
     <Anchor onClick={onLogout}>
