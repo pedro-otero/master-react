@@ -7,4 +7,6 @@ const StyledLink = props => (
   <Link className={globalStyles.RRlink} {...props} />
 );
 
+StyledLink.displayName = 'Link';
+
 export default StyledLink;
