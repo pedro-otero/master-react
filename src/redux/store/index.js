@@ -10,6 +10,8 @@ import { loadTrack, setTrack, startTrackLoad, failTrackLoad, reduce as tracks } 
 import { reduce as auth } from '../user';
 import { reduce as profile, userProfileActions } from '../profile';
 import { addError, clearErrors, reduce } from '../errors';
+import { savedTracksReducer, setSavedTracks, savedAlbumsReducer, setSavedAlbums } from '../library';
+import { viewTrack } from '../view';
 
 const devTools = global.window.__REDUX_DEVTOOLS_EXTENSION__ &&
   global.window.__REDUX_DEVTOOLS_EXTENSION__();
@@ -18,7 +20,7 @@ const albumActions = {
   loadAlbum, startAlbumLoad, failAlbumLoad, setAlbum,
 };
 const trackActions = {
-  loadTrack, setTrack, startTrackLoad, failTrackLoad,
+  loadTrack, setTrack, startTrackLoad, failTrackLoad, viewTrack,
 };
 const artistActions = {
   setArtist, startArtistLoad, loadArtist, failArtistLoad,
@@ -29,7 +31,15 @@ const store = (spotifyApi, backend) => createStore(
     tracks,
     albums,
     artists,
-    user: combineReducers({ auth, playbackInfo, profile }),
+    user: combineReducers({
+      auth,
+      playbackInfo,
+      profile,
+      library: combineReducers({
+        tracks: savedTracksReducer,
+        albums: savedAlbumsReducer,
+      }),
+    }),
     errors: reduce,
   }),
   devTools,
@@ -46,6 +56,8 @@ const store = (spotifyApi, backend) => createStore(
       clearErrors,
       ...playbackInfoActions,
       ...userProfileActions,
+      setSavedTracks,
+      setSavedAlbums,
     },
   })),
 );
