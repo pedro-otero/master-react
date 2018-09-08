@@ -21,16 +21,14 @@ describe('TitleBar component', () => {
   });
 
   it('navigates when clicking avatar', (done) => {
-    const push = jest.fn();
+    const onAvatarClick = jest.fn();
     wrapper.setProps({
       load: jest.fn(() => Promise.resolve('trackId')),
-      history: {
-        push,
-      },
+      onAvatarClick,
     });
     wrapper.find('Anchor').at(0).simulate('click');
     setTimeout(() => {
-      expect(push).toBeCalled();
+      expect(onAvatarClick).toBeCalled();
       done();
     }, 5);
   });
