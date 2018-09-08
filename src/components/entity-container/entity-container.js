@@ -15,6 +15,7 @@ export function EntityContainer(Component, mainId) {
 
     componentDidMount() {
       this.callLoad();
+      this.startSearch();
     }
 
     callLoad() {
@@ -27,6 +28,10 @@ export function EntityContainer(Component, mainId) {
         this.stopSearch();
         this.callLoad();
       }
+      this.startSearch();
+    }
+
+    startSearch() {
       if (this.props.album.id && !this.albumSearch) {
         this.albumSearch = this.props.loadSearchResult(this.props.album.id);
       }
