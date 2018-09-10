@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import Avatar from 'components/Avatar';
+import Image from 'components/Image';
 import { loadPlaybackInfo } from 'state/playbackInfo';
 import { addError, clearErrors } from 'state/errors';
 
@@ -54,7 +54,7 @@ export const TitleBar = ({
   return <Row>
     <Anchor onClick={onAvatarClick}>
       <AvatarTopMargin>
-        <Avatar src={avatar} size="2em" />
+        <Image rounded src={avatar} size="2em" />
       </AvatarTopMargin>
     </Anchor>
     <Title>{title}</Title>
