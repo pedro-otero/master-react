@@ -31,7 +31,7 @@ module.exports = {
     '\\.(css|less)$': 'identity-obj-proxy',
     'state/(.*)': '<rootDir>/src/redux/$1',
   }, Object.entries(aliases).reduce((modules, [alias, path]) => Object.assign(modules, {
-    [alias]: `<rootDir>/${path}`,
+    [`^${alias}$`]: `${path}`,
   }), {})),
   moduleFileExtensions: [
     'web.js',
