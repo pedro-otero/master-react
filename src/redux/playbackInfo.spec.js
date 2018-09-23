@@ -1,4 +1,4 @@
-import { loadPlaybackInfo, reduce, SET_PLAYBACK_INFO } from './playbackInfo';
+import { loadPlaybackInfo } from './playbackInfo';
 
 describe('Playback info', () => {
   const dispatch = jest.fn(action => action);
@@ -25,12 +25,7 @@ describe('Playback info', () => {
   };
   const clearActionMocks = () => Object.entries(actions)
     .forEach(([_, action]) => action.mockClear());
-  const emptyGetState = () => ({
-    searches: { },
-    albums: { },
-    artists: { },
-    tracks: { },
-  });
+  const emptyGetState = () => ({});
 
   describe('Successful playback info load', () => {
     let response;
@@ -82,7 +77,6 @@ describe('Playback info', () => {
     it('forwards response', () => {
       expect(response.body).toEqual(null);
     });
-
 
     it('calls api method', () => {
       expect(api.getMyCurrentPlaybackState).toHaveBeenCalled();
