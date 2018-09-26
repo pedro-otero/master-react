@@ -1,9 +1,13 @@
+import { notifier, setter } from 'state/base/actions';
+import { SET_ALBUM, SET_SEARCH_RESULT } from 'state/albums';
+import { trackToState } from 'state/mappers';
 import { loadThunk, updateState } from './helpers';
-import { SET_ALBUM, SET_SEARCH_RESULT } from './albums';
 
 export const START_TRACK_LOAD = 'START_TRACK_LOAD';
 export const SET_TRACK = 'SET_TRACK';
 export const FAIL_TRACK_LOAD = 'FAIL_TRACK_LOAD';
+
+export const startTrackLoad = notifier(START_TRACK_LOAD);
 
 export const loadTrack = id => (dispatch, getState, { spotifyApi, actions }) => loadThunk(
   id,
@@ -15,37 +19,9 @@ export const loadTrack = id => (dispatch, getState, { spotifyApi, actions }) => 
   actions.failTrackLoad,
 );
 
-function trackToState(track) {
-  const minutes = Math.floor(track.duration_ms / 60000);
-  const seconds = Math.floor((track.duration_ms % 60000) / 1000);
-  const duration = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-  return {
-    id: track.id,
-    albumId: track.album.id,
-    name: track.name,
-    artistId: track.artists[0].id,
-    duration,
-  };
-}
+export const setTrack = setter(SET_TRACK, trackToState);
 
-export const setTrack = track => ({
-  type: SET_TRACK,
-  data: trackToState(track),
-});
-
-export const startTrackLoad = id => ({
-  type: START_TRACK_LOAD,
-  data: {
-    id,
-  },
-});
-
-export const failTrackLoad = id => ({
-  type: FAIL_TRACK_LOAD,
-  data: {
-    id,
-  },
-});
+export const failTrackLoad = notifier(FAIL_TRACK_LOAD);
 
 export function reduce(state = {}, { type, data }) {
   const defaultTrack = { loading: false, failed: false };
