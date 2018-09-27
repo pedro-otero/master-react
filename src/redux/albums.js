@@ -1,6 +1,7 @@
 import { trackToState } from 'state/mappers';
 import { notifier, setter } from 'state/base/actions';
-import { loadThunk, updateState } from './helpers';
+import { buildReducer, fail, set, startLoad } from 'state/base/reducers';
+import { loadThunk } from './helpers';
 
 export const START_ALBUM_LOAD = 'START_ALBUM_LOAD';
 export const SET_ALBUM = 'SET_ALBUM';
@@ -44,32 +45,9 @@ export function albumToState(album) {
   };
 }
 
-export function reduce(state = {}, { type, data }) {
-  const defaultAlbum = { loading: false, failed: false, tracks: [] };
-  const update = updateState(state, defaultAlbum);
-  switch (type) {
-    case SET_ALBUM: {
-      return update([{
-        id: data.id,
-        value: {
-          ...data,
-          tracks: data.tracks.map(({ id }) => id),
-          loading: false,
-          failed: false,
-        },
-      }]);
-    }
-    case SET_SEARCH_RESULT: {
-      return update([{ id: data.id, value: { progress: data.progress } }]);
-    }
-    case START_ALBUM_LOAD: {
-      return update([{ id: data.id, value: { loading: true, failed: false } }]);
-    }
-    case FAIL_ALBUM_LOAD: {
-      return update([{ id: data.id, value: { loading: false, failed: true } }]);
-    }
-    default: {
-      return state;
-    }
-  }
-}
+export const reduce = buildReducer([
+  [SET_ALBUM, set('id', 'name', 'artistId', 'image', 'trackIds', 'year')],
+  [SET_SEARCH_RESULT, set('progress')],
+  [START_ALBUM_LOAD, startLoad],
+  [FAIL_ALBUM_LOAD, fail],
+]);

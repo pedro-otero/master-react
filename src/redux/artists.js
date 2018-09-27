@@ -1,5 +1,6 @@
 import { notifier, setter } from 'state/base/actions';
-import { loadThunk, updateState } from './helpers';
+import { buildReducer, fail, set, startLoad } from 'state/base/reducers';
+import { loadThunk } from './helpers';
 
 export const START_ARTIST_LOAD = 'START_ARTIST_LOAD';
 export const SET_ARTIST = 'SET_ARTIST';
@@ -29,21 +30,8 @@ export function artistToState({ id, name, images }) {
   };
 }
 
-export function reduce(state = {}, { type, data }) {
-  const defaultArtist = { loading: false, failed: false };
-  const update = updateState(state, defaultArtist);
-  switch (type) {
-    case SET_ARTIST: {
-      return update([{ id: data.id, value: { ...data, loading: false, failed: false } }]);
-    }
-    case START_ARTIST_LOAD: {
-      return update([{ id: data.id, value: { loading: true, failed: false } }]);
-    }
-    case FAIL_ARTIST_LOAD: {
-      return update([{ id: data.id, value: { loading: false, failed: true } }]);
-    }
-    default: {
-      return state;
-    }
-  }
-}
+export const reduce = buildReducer([
+  [START_ARTIST_LOAD, startLoad],
+  [SET_ARTIST, set()],
+  [FAIL_ARTIST_LOAD, fail],
+]);

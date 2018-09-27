@@ -1,4 +1,4 @@
-import { FAIL_ALBUM_LOAD, reduce, SET_ALBUM, albumToState, START_ALBUM_LOAD } from './albums';
+import { reduce, SET_ALBUM, albumToState, SET_SEARCH_RESULT } from './albums';
 
 
 describe('REDUX: Albums', () => {
@@ -35,38 +35,6 @@ describe('REDUX: Albums', () => {
       }],
       trackIds: ['T1'],
       year: '2004',
-    });
-  });
-
-  describe('reducer', () => {
-    const album = { id: 'AL1', artists: [{ id: 'AR1' }], tracks: { items: [{ id: 'T1' }] } };
-
-    it('adds albums', () => {
-      const albums = reduce({}, {
-        type: SET_ALBUM,
-        data: Object.assign(album, { tracks: [{ id: 'T1' }] }),
-      });
-      expect(albums.AL1).toEqual(Object.assign({ loading: false, failed: false }, album, { tracks: ['T1'] }));
-    });
-
-    it('sets album as loading', () => {
-      const albums = reduce({}, {
-        type: START_ALBUM_LOAD,
-        data: {
-          id: album.id,
-        },
-      });
-      expect(albums.AL1).toEqual({ loading: true, failed: false, tracks: [] });
-    });
-
-    it('sets album as failed', () => {
-      const albums = reduce({}, {
-        type: FAIL_ALBUM_LOAD,
-        data: {
-          id: album.id,
-        },
-      });
-      expect(albums.AL1).toEqual({ loading: false, failed: true, tracks: [] });
     });
   });
 });
