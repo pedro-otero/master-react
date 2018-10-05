@@ -1,37 +1,35 @@
+import { notifier, setter } from 'state/base/actions';
+import { buildReducer, fail, set, startLoad } from 'state/base/reducers';
+
 export const START_PROFILE_LOAD = 'START_PROFILE_LOAD';
 export const FAIL_PROFILE_LOAD = 'FAIL_PROFILE_LOAD';
 export const SET_PROFILE = 'SET_PROFILE';
 
 export function setProfile({ display_name: name, id, images }) {
   return {
-    type: SET_PROFILE,
-    data: {
-      name, userId: id, avatar: images.length ? images[0].url : null,
-    },
+    name, userId: id, avatar: images.length ? images[0].url : null,
   };
 }
 
 export const loadProfile = () => (dispatch, getState, {
-  spotifyApi, actions: { setProfile },
+  spotifyApi, actions: { setProfile, startProfileLoad, failProfileLoad },
 }) => {
-  dispatch({ type: START_PROFILE_LOAD });
+  dispatch(startProfileLoad());
   return spotifyApi.getMe().then(
     response => dispatch(setProfile(response.body)),
-    () => dispatch({ type: FAIL_PROFILE_LOAD }),
+    () => dispatch(failProfileLoad()),
   );
 };
 
-export function reduce(state = {}, { type, data }) {
-  switch (type) {
-    case START_PROFILE_LOAD: {
-      return { failed: false, loading: true };
-    }
-    case SET_PROFILE: {
-      return Object.assign({ failed: false, loading: false }, { ...data });
-    }
-    case FAIL_PROFILE_LOAD: {
-      return { failed: true, loading: false };
-    }
-  }
-  return state;
-}
+export const userProfileActions = {
+  startProfileLoad: notifier(START_PROFILE_LOAD),
+  loadProfile,
+  setProfile: setter(SET_PROFILE, setProfile),
+  failProfileLoad: notifier(FAIL_PROFILE_LOAD),
+};
+
+export const reduce = buildReducer([
+  [START_PROFILE_LOAD, startLoad],
+  [SET_PROFILE, set()],
+  [FAIL_PROFILE_LOAD, fail],
+]);

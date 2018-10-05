@@ -8,7 +8,7 @@ import { setArtist, startArtistLoad, loadArtist, failArtistLoad, reduce as artis
 import { loadAlbum, startAlbumLoad, failAlbumLoad, setAlbum, reduce as albums } from '../albums';
 import { loadTrack, setTrack, startTrackLoad, failTrackLoad, reduce as tracks } from '../tracks';
 import { reduce as auth } from '../user';
-import { setProfile, reduce as profile, loadProfile } from '../profile';
+import { reduce as profile, userProfileActions } from '../profile';
 import { addError, clearErrors, reduce } from '../errors';
 
 const devTools = global.window.__REDUX_DEVTOOLS_EXTENSION__ &&
@@ -45,8 +45,7 @@ const store = (spotifyApi, backend) => createStore(
       addError,
       clearErrors,
       ...playbackInfoActions,
-      loadProfile,
-      setProfile,
+      ...userProfileActions,
     },
   })),
 );
