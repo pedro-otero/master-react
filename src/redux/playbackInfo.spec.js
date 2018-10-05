@@ -1,4 +1,4 @@
-import { setPlaybackInfo, loadPlaybackInfo, reduce, SET_PLAYBACK_INFO } from './playbackInfo';
+import { loadPlaybackInfo, reduce, SET_PLAYBACK_INFO } from './playbackInfo';
 
 describe('Playback info', () => {
   const dispatch = jest.fn(action => action);
@@ -18,12 +18,10 @@ describe('Playback info', () => {
     getMyCurrentPlaybackState: jest.fn(() => Promise.reject(Error())),
   };
   const actions = {
-    loadArtist: jest.fn(),
-    loadAlbum: jest.fn(() => Promise.resolve()),
-    setTrack: jest.fn(),
-    loadSearchResult: jest.fn(),
+    startPlaybackInfoLoad: jest.fn(),
     addError: jest.fn(),
     setPlaybackInfo: jest.fn(),
+    failPlaybackInfoLoad: jest.fn(),
   };
   const clearActionMocks = () => Object.entries(actions)
     .forEach(([_, action]) => action.mockClear());
@@ -32,14 +30,6 @@ describe('Playback info', () => {
     albums: { },
     artists: { },
     tracks: { },
-  });
-
-  it('SET_PLAYBACK_INFO', () => {
-    const action = setPlaybackInfo('val');
-    expect(action).toEqual({
-      type: SET_PLAYBACK_INFO,
-      data: 'val',
-    });
   });
 
   describe('Successful playback info load', () => {
@@ -61,7 +51,7 @@ describe('Playback info', () => {
     });
 
     it('informs load started', () => {
-      expect(actions.setPlaybackInfo).toHaveBeenCalledWith('LOADING');
+      expect(actions.startPlaybackInfoLoad).toHaveBeenCalled();
     });
 
     it('informs load finished', () => {
@@ -99,7 +89,7 @@ describe('Playback info', () => {
     });
 
     it('informs load started', () => {
-      expect(actions.setPlaybackInfo).toHaveBeenCalledWith('LOADING');
+      expect(actions.startPlaybackInfoLoad).toHaveBeenCalled();
     });
 
     it('informs load finished', () => {
@@ -120,11 +110,11 @@ describe('Playback info', () => {
     });
 
     it('informs load started', () => {
-      expect(actions.setPlaybackInfo).toHaveBeenCalledWith('LOADING');
+      expect(actions.startPlaybackInfoLoad).toHaveBeenCalled();
     });
 
     it('informs load failed', () => {
-      expect(actions.setPlaybackInfo).toHaveBeenCalledWith('FAILED');
+      expect(actions.failPlaybackInfoLoad).toHaveBeenCalled();
     });
 
     it('adds error', () => {
@@ -135,13 +125,6 @@ describe('Playback info', () => {
       failureApi.getMyCurrentPlaybackState.mockClear();
       clearActionMocks();
     });
-  });
-
-  it('Reduces SET_PLAYBACK_INFO action', () => {
-    const info = reduce(null, {
-      type: SET_PLAYBACK_INFO, data: 'val',
-    });
-    expect(info).toEqual('val');
   });
 });
 

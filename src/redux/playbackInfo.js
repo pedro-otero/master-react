@@ -1,29 +1,34 @@
-export const SET_PLAYBACK_INFO = 'SET_PLAYBACK_INFO';
+import { notifier, setter } from 'state/base/actions';
+import { buildReducer, fail, set, startLoad } from 'state/base/reducers';
 
-export const setPlaybackInfo = data => ({
-  type: SET_PLAYBACK_INFO,
-  data,
-});
+export const SET_PLAYBACK_INFO = 'SET_PLAYBACK_INFO';
+export const START_PLAYBACK_INFO_LOAD = 'START_PLAYBACK_INFO_LOAD';
+export const FAIL_PLAYBACK_INFO_LOAD = 'FAIL_PLAYBACK_INFO_LOAD';
 
 export const loadPlaybackInfo = () => (dispatch, getState, {
-  spotifyApi, actions: { setPlaybackInfo, addError },
+  spotifyApi, actions: {
+    setPlaybackInfo, addError, startPlaybackInfoLoad, failPlaybackInfoLoad,
+  },
 }) => {
-  dispatch(setPlaybackInfo('LOADING'));
+  dispatch(startPlaybackInfoLoad());
   return spotifyApi.getMyCurrentPlaybackState().then((response) => {
     dispatch(setPlaybackInfo(response.body));
     return response;
   }, () => {
-    dispatch(setPlaybackInfo('FAILED'));
+    dispatch(failPlaybackInfoLoad());
     dispatch(addError('Loading playback info failed'));
   });
 };
 
-export const reduce = (state = null, action) => {
-  switch (action.type) {
-    case SET_PLAYBACK_INFO: {
-      return action.data;
-    }
-    default:
-      return state;
-  }
+export const playbackInfoActions = {
+  startPlaybackInfoLoad: notifier(START_PLAYBACK_INFO_LOAD),
+  loadPlaybackInfo,
+  setPlaybackInfo: setter(SET_PLAYBACK_INFO, body => body),
+  failPlaybackInfoLoad: notifier(FAIL_PLAYBACK_INFO_LOAD),
 };
+
+export const reduce = buildReducer([
+  [START_PLAYBACK_INFO_LOAD, startLoad],
+  [SET_PLAYBACK_INFO, set()],
+  [FAIL_PLAYBACK_INFO_LOAD, fail],
+]);
