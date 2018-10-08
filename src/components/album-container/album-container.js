@@ -38,9 +38,9 @@ AlbumContainer.propTypes = {
 };
 
 const mapStateToProps = ({ tracks, albums, artists }, { albumId }) => {
-  const album = albums[albumId] || { tracks: [] };
+  const album = albums[albumId] || { trackIds: [] };
   return {
-    tracks: album.tracks.map(id => tracks[id]),
+    tracks: (album.trackIds || []).map(id => tracks[id]),
     album,
     artist: artists[album.artistId] || {},
   };
