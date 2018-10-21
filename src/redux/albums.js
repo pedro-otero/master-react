@@ -1,4 +1,4 @@
-import { trackToState } from 'state/mappers';
+import { trackToState } from 'state/base/mappers';
 import { notifier, setter } from 'state/base/actions';
 import { buildReducer, fail, set, startLoad } from 'state/base/reducers';
 import { loadThunk } from './base/helpers';

@@ -1,7 +1,7 @@
 import { notifier, setter } from 'state/base/actions';
 import { buildReducer, fail, set, setIntoMapFromArray, startLoad } from 'state/base/reducers';
 import { SET_ALBUM, SET_SEARCH_RESULT } from 'state/albums';
-import { trackToState } from 'state/mappers';
+import { trackToState } from 'state/base/mappers';
 import { loadThunk } from './base/helpers';
 
 export const START_TRACK_LOAD = 'START_TRACK_LOAD';
