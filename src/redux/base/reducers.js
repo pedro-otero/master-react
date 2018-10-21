@@ -16,13 +16,14 @@ export function setIntoMapFromArray(arrayName) {
 export function set(...keys) {
   return function (state = {}, action) {
     let finalKeys = keys;
+    const data = action.data || {};
     if (!finalKeys.length) {
-      finalKeys = Object.keys(action.data);
+      finalKeys = Object.keys(data);
     }
-    return setIntoMap(state, action.data.id, {
+    return setIntoMap(state, data.id, {
       ...finalKeys.reduce((partial, key) => ({
         ...partial,
-        [key]: action.data[key],
+        [key]: data[key],
       }), {}),
     });
   };

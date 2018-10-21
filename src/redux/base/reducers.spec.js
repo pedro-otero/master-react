@@ -126,6 +126,16 @@ describe('Reducers handlers', () => {
         },
       });
     });
+
+    it('accepts action data = null', () => {
+      const state = set()({ v1: 1, v2: 2 }, {
+        data: null,
+      });
+
+      expect(state).toEqual({
+        v1: 1, v2: 2, loading: false, failed: false,
+      });
+    });
   });
 
   describe('Set many into map', () => {
