@@ -1,4 +1,4 @@
-import { loadThunk, updateState } from './helpers';
+import { loadThunk, loadSavedItems } from './helpers';
 
 describe('Redux helpers', () => {
   describe('Load thunk', () => {
@@ -67,5 +67,40 @@ describe('Redux helpers', () => {
       expect(successfulLoad).not.toBeCalled();
       successfulLoad.mockClear();
     });
+  });
+
+  describe('Library loader thunk', () => {
+    const load = jest.fn(() => Promise.resolve({ body: 'successful response' }));
+    const set = jest.fn();
+    const mocks = [load, set];
+
+    it('loads first page of items', (done) => {
+      loadSavedItems({}, jest.fn(), load, set).then(() => {
+        expect(load).toBeCalledWith({
+          offset: 0,
+          limit: 20,
+        });
+
+        done();
+      });
+    });
+
+    it('does not try to load more of a finished collection', (done) => {
+      loadSavedItems(null, jest.fn(), load, set).then(() => {
+        expect(load).not.toBeCalled();
+
+        done();
+      });
+    });
+
+    it('calls the set action', (done) => {
+      loadSavedItems({}, jest.fn(), load, set).then(() => {
+        expect(set).toBeCalledWith('successful response');
+
+        done();
+      });
+    });
+
+    afterEach(() => mocks.forEach(mock => mock.mockClear()));
   });
 });
