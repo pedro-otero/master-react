@@ -1,7 +1,7 @@
 import { trackToState } from 'state/mappers';
 import { notifier, setter } from 'state/base/actions';
 import { buildReducer, fail, set, startLoad } from 'state/base/reducers';
-import { loadThunk } from './helpers';
+import { loadThunk } from './base/helpers';
 
 export const START_ALBUM_LOAD = 'START_ALBUM_LOAD';
 export const SET_ALBUM = 'SET_ALBUM';

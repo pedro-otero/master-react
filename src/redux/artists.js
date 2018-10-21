@@ -1,6 +1,6 @@
 import { notifier, setter } from 'state/base/actions';
 import { buildReducer, fail, set, startLoad } from 'state/base/reducers';
-import { loadThunk } from './helpers';
+import { loadThunk } from './base/helpers';
 
 export const START_ARTIST_LOAD = 'START_ARTIST_LOAD';
 export const SET_ARTIST = 'SET_ARTIST';
