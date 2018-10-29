@@ -2,14 +2,16 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
-import { setPlaybackInfo, reduce as playbackInfo } from '../playbackInfo';
+import { reduce as playbackInfo, playbackInfoActions } from '../playbackInfo';
 import { loadSearchResult, setSearchResult } from '../actions/backend';
 import { setArtist, startArtistLoad, loadArtist, failArtistLoad, reduce as artists } from '../artists';
 import { loadAlbum, startAlbumLoad, failAlbumLoad, setAlbum, reduce as albums } from '../albums';
 import { loadTrack, setTrack, startTrackLoad, failTrackLoad, reduce as tracks } from '../tracks';
 import { reduce as auth } from '../user';
-import { setProfile, reduce as profile, loadProfile } from '../profile';
+import { reduce as profile, userProfileActions } from '../profile';
 import { addError, clearErrors, reduce } from '../errors';
+import { savedTracksReducer, setSavedTracks, savedAlbumsReducer, setSavedAlbums } from '../library';
+import { viewTrack } from '../view';
 
 const devTools = global.window.__REDUX_DEVTOOLS_EXTENSION__ &&
   global.window.__REDUX_DEVTOOLS_EXTENSION__();
@@ -18,7 +20,7 @@ const albumActions = {
   loadAlbum, startAlbumLoad, failAlbumLoad, setAlbum,
 };
 const trackActions = {
-  loadTrack, setTrack, startTrackLoad, failTrackLoad,
+  loadTrack, setTrack, startTrackLoad, failTrackLoad, viewTrack,
 };
 const artistActions = {
   setArtist, startArtistLoad, loadArtist, failArtistLoad,
@@ -29,7 +31,15 @@ const store = (spotifyApi, backend) => createStore(
     tracks,
     albums,
     artists,
-    user: combineReducers({ auth, playbackInfo, profile }),
+    user: combineReducers({
+      auth,
+      playbackInfo,
+      profile,
+      library: combineReducers({
+        tracks: savedTracksReducer,
+        albums: savedAlbumsReducer,
+      }),
+    }),
     errors: reduce,
   }),
   devTools,
@@ -44,9 +54,10 @@ const store = (spotifyApi, backend) => createStore(
       setSearchResult,
       addError,
       clearErrors,
-      setPlaybackInfo,
-      loadProfile,
-      setProfile,
+      ...playbackInfoActions,
+      ...userProfileActions,
+      setSavedTracks,
+      setSavedAlbums,
     },
   })),
 );

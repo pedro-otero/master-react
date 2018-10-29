@@ -1,5 +1,6 @@
+import { buildReducer, set } from 'state/base/reducers';
+
 export const LOGOUT = 'LOGOUT';
-export const SET_TOKEN = 'SET_TOKEN';
 export const PARSE_TOKEN = 'PARSE_TOKEN';
 
 export function parseToken(hash) {
@@ -18,19 +19,6 @@ export function logout() {
   return { type: LOGOUT };
 }
 
-export function reduce(state = {}, { type, data }) {
-  switch (type) {
-    case PARSE_TOKEN: {
-      const { token, expiry } = data;
-      return Object.assign({}, state, { token, expiry });
-    }
-    case SET_TOKEN: {
-      const { token, expiry } = data;
-      return Object.assign({}, state, { token, expiry });
-    }
-    case LOGOUT: {
-      return {};
-    }
-  }
-  return state;
-}
+export const reduce = buildReducer([
+  [PARSE_TOKEN, set()],
+]);

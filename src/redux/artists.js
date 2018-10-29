@@ -1,8 +1,12 @@
-import { loadThunk, updateState } from './helpers';
+import { notifier, setter } from 'state/base/actions';
+import { buildReducer, fail, set, startLoad } from 'state/base/reducers';
+import { loadThunk } from './base/helpers';
 
 export const START_ARTIST_LOAD = 'START_ARTIST_LOAD';
 export const SET_ARTIST = 'SET_ARTIST';
 export const FAIL_ARTIST_LOAD = 'FAIL_ARTIST_LOAD';
+
+export const startArtistLoad = notifier(START_ARTIST_LOAD);
 
 export const loadArtist = id => (dispatch, getState, { spotifyApi, actions }) => loadThunk(
   id,
@@ -14,44 +18,20 @@ export const loadArtist = id => (dispatch, getState, { spotifyApi, actions }) =>
   actions.failArtistLoad,
 );
 
-export const setArtist = ({ id, name, images }) => ({
-  type: SET_ARTIST,
-  data: {
+export const setArtist = setter(SET_ARTIST, artistToState);
+
+export const failArtistLoad = notifier(FAIL_ARTIST_LOAD);
+
+export function artistToState({ id, name, images }) {
+  return {
     id,
     name,
     image: images.length ? images[0].url : undefined,
-  },
-});
-
-export const startArtistLoad = id => ({
-  type: START_ARTIST_LOAD,
-  data: {
-    id,
-  },
-});
-
-export const failArtistLoad = id => ({
-  type: FAIL_ARTIST_LOAD,
-  data: {
-    id,
-  },
-});
-
-export function reduce(state = {}, { type, data }) {
-  const defaultArtist = { loading: false, failed: false };
-  const update = updateState(state, defaultArtist);
-  switch (type) {
-    case SET_ARTIST: {
-      return update([{ id: data.id, value: { ...data, loading: false, failed: false } }]);
-    }
-    case START_ARTIST_LOAD: {
-      return update([{ id: data.id, value: { loading: true, failed: false } }]);
-    }
-    case FAIL_ARTIST_LOAD: {
-      return update([{ id: data.id, value: { loading: false, failed: true } }]);
-    }
-    default: {
-      return state;
-    }
-  }
+  };
 }
+
+export const reduce = buildReducer([
+  [START_ARTIST_LOAD, startLoad],
+  [SET_ARTIST, set()],
+  [FAIL_ARTIST_LOAD, fail],
+]);

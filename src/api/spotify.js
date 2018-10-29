@@ -1,7 +1,15 @@
 export default (SpotifyWebApi, location) => ({ clientId, redirectUri, throttle }) => {
   const commands = [];
   let timer;
-  const methods = ['getMyCurrentPlaybackState', 'getAlbum', 'getArtist', 'getTrack', 'getMe'];
+  const methods = [
+    'getMyCurrentPlaybackState',
+    'getAlbum',
+    'getArtist',
+    'getTrack',
+    'getMe',
+    'getMySavedTracks',
+    'getMySavedAlbums',
+  ];
   const api = new SpotifyWebApi({ clientId, redirectUri });
   api.setAccessToken(localStorage.getItem('token'));
 

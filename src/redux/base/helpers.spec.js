@@ -1,4 +1,4 @@
-import { loadThunk, updateState } from './helpers';
+import { loadThunk, loadSavedItems } from './helpers';
 
 describe('Redux helpers', () => {
   describe('Load thunk', () => {
@@ -69,49 +69,38 @@ describe('Redux helpers', () => {
     });
   });
 
-  describe('State updater', () => {
-    it('Updates state', () => {
-      const state = {
-        item1: {
-          shouldItChange: false,
-          value: 'something',
-        },
-        item2: {
-          shouldItChange: true,
-          itemToChange: 'before',
-        },
-        item3: {
-          shouldItChange: true,
-          value: 'else',
-        },
-      };
-      const update = updateState(state, { defaultValue: 1 });
+  describe('Library loader thunk', () => {
+    const load = jest.fn(() => Promise.resolve({ body: 'successful response' }));
+    const set = jest.fn();
+    const mocks = [load, set];
 
-      const result = update([
-        { id: 'item2', value: { itemToChange: 'after' } },
-        { id: 'item3', value: { keyToAdd: 2 } },
-        { id: 'newItem', value: { anotherKey: 3 } },
-      ]);
+    it('loads first page of items', (done) => {
+      loadSavedItems({}, jest.fn(), load, set).then(() => {
+        expect(load).toBeCalledWith({
+          offset: 0,
+          limit: 20,
+        });
 
-      expect(result).toEqual({
-        item1: {
-          shouldItChange: false,
-          value: 'something',
-        },
-        item2: {
-          shouldItChange: true,
-          itemToChange: 'after',
-        },
-        item3: {
-          shouldItChange: true,
-          value: 'else',
-          keyToAdd: 2,
-        },
-        newItem: {
-          defaultValue: 1,
-          anotherKey: 3,
-        },
+        done();
       });
     });
+
+    it('does not try to load more of a finished collection', (done) => {
+      loadSavedItems(null, jest.fn(), load, set).then(() => {
+        expect(load).not.toBeCalled();
+
+        done();
+      });
+    });
+
+    it('calls the set action', (done) => {
+      loadSavedItems({}, jest.fn(), load, set).then(() => {
+        expect(set).toBeCalledWith('successful response');
+
+        done();
+      });
+    });
+
+    afterEach(() => mocks.forEach(mock => mock.mockClear()));
   });
 });

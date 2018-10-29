@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+
+import Image from 'components/Image';
 import { loadPlaybackInfo } from 'state/playbackInfo';
 import { addError, clearErrors } from 'state/errors';
 
@@ -18,15 +19,8 @@ const Row = styled.div`
   vertical-align: middle;
 `;
 
-// To use after avatar is available
-const Avatar = styled.div`
-  border-radius: 100%;
-  background-image: url(${({ src }) => src});
-  background-size: cover;
+const AvatarTopMargin = styled.div`
   margin-top: 0.5em;
-  width: 2em;
-  height: 2em;
-  flex: 0 0 2em;
 `;
 
 const Title = styled.span`
@@ -46,19 +40,14 @@ const Anchor = styled.a`
 `;
 
 export const TitleBar = ({
-  loading, avatar, name, onLogout, load, history,
+  onAvatarClick, loading, avatar, name, onLogout,
 }) => {
   const title = loading ? 'Crews' : name;
-  const onAvatarClick = () => {
-    load().then((trackId) => {
-      if (trackId) {
-        history.push(`/track/${trackId}`);
-      }
-    });
-  };
   return <Row>
     <Anchor onClick={onAvatarClick}>
-      <Avatar src={avatar} />
+      <AvatarTopMargin>
+        <Image rounded src={avatar} size="2em" />
+      </AvatarTopMargin>
     </Anchor>
     <Title>{title}</Title>
     <Anchor onClick={onLogout}>
@@ -69,27 +58,15 @@ export const TitleBar = ({
 
 TitleBar.propTypes = {
   avatar: PropTypes.string,
-  history: PropTypes.object,
-  load: PropTypes.func,
   loading: PropTypes.bool,
   name: PropTypes.string,
+  onAvatarClick: PropTypes.func,
   onLogout: PropTypes.func,
 };
 
 const mapStateToProps = ({ user: { profile: { loading, avatar, name } } }) =>
   ({ loading, avatar, name });
 
-const mapDispatchToProps = dispatch => ({
-  load: () => {
-    dispatch(clearErrors());
-    return dispatch(loadPlaybackInfo()).then((data) => {
-      if (data.body) {
-        return data.body.item.id;
-      }
-      dispatch(addError('Playback stopped. Please start playback and retry.'));
-      return null;
-    });
-  },
-});
+const mapDispatchToProps = () => ({});
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TitleBar));
+export default connect(mapStateToProps, mapDispatchToProps)(TitleBar);

@@ -1,4 +1,4 @@
-import { FAIL_TRACK_LOAD, reduce, SET_TRACK, setTrack, START_TRACK_LOAD } from './tracks';
+import { FAIL_TRACK_LOAD, reduce, SET_TRACK, START_TRACK_LOAD } from './tracks';
 
 describe('REDUX: Tracks', () => {
   const track = {
@@ -38,21 +38,6 @@ describe('REDUX: Tracks', () => {
         },
       });
       expect(tracks.T1).toEqual({ loading: false, failed: true });
-    });
-  });
-
-  describe('Actions', () => {
-    it('setTrack', () => {
-      const action = setTrack(track);
-      expect(action).toEqual({
-        type: SET_TRACK,
-        data: {
-          id: 'T1',
-          artistId: 'AR1',
-          albumId: 'AL1',
-          duration: '4:59',
-        },
-      });
     });
   });
 });

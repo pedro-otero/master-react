@@ -24,9 +24,9 @@ export function setSearchResult(result) {
         id, composers, producers, credits,
       }) => ({
         id,
-        value: {
-          composers, producers, credits,
-        },
+        composers,
+        producers,
+        credits,
       })),
     },
   };

@@ -41,8 +41,8 @@ describe('Spotify module', () => {
     global.localStorage = { getItem: jest.fn(() => 'fakeToken') };
     const clearTimerSpy = jest.spyOn(global.window, 'clearInterval');
     const getArtist = jest.fn()
-      .mockReturnValueOnce(Promise.reject({ statusCode: 429 }))
-      .mockReturnValueOnce(Promise.resolve({}));
+      .mockImplementationOnce(() => Promise.reject({ statusCode: 429 }))
+      .mockImplementationOnce(() => Promise.resolve({}));
     const webApi = jest.fn(() => ({
       setAccessToken: jest.fn(),
       getArtist,
