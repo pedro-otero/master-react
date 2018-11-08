@@ -39,8 +39,8 @@ export function startLoad(state = {}, action) {
   return setIntoMap(state, id, { loading: true, failed: false });
 }
 
-export function buildReducer(transformations) {
-  return function (state = {}, action) {
+export function buildReducer(transformations, seed = {}) {
+  return function (state = seed, action) {
     const filtered = transformations.filter(([type]) => type === action.type);
     if (filtered.length) {
       const [[_, reduce]] = filtered;
