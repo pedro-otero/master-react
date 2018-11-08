@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import Image from 'components/Image';
-import { loadPlaybackInfo } from 'state/playbackInfo';
-import { addError, clearErrors } from 'state/errors';
 
 const BORDER_COLOR = 'rgba(128, 128, 128, 0.2)';
 
@@ -40,10 +38,9 @@ const Anchor = styled.a`
 `;
 
 export const TitleBar = ({
-  onAvatarClick, loading, avatar, name, onLogout,
-}) => {
-  const title = loading ? 'Crews' : name;
-  return <Row>
+  onAvatarClick, avatar, onLogout, title,
+}) => (
+  <Row>
     <Anchor onClick={onAvatarClick}>
       <AvatarTopMargin>
         <Image rounded src={avatar} size="2em" />
@@ -53,19 +50,20 @@ export const TitleBar = ({
     <Anchor onClick={onLogout}>
       <i className="em em-x"></i>
     </Anchor>
-  </Row>;
-};
+  </Row>
+);
 
 TitleBar.propTypes = {
   avatar: PropTypes.string,
-  loading: PropTypes.bool,
-  name: PropTypes.string,
   onAvatarClick: PropTypes.func,
   onLogout: PropTypes.func,
+  title: PropTypes.string,
 };
 
-const mapStateToProps = ({ user: { profile: { loading, avatar, name } } }) =>
-  ({ loading, avatar, name });
+const mapStateToProps = ({ user: { profile: { avatar } }, status }) =>
+  ({
+    avatar, title: status,
+  });
 
 const mapDispatchToProps = () => ({});
 

@@ -7,17 +7,11 @@ describe('TitleBar component', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<TitleBar />);
+    wrapper = shallow(<TitleBar title="Crews" />);
   });
 
-  it('displays Crews when loading=true', () => {
-    wrapper.setProps({ loading: true });
+  it('displays Crews', () => {
     expect(wrapper.find('Title').dive().text()).toEqual('Crews');
-  });
-
-  it('displays name when loading=false', () => {
-    wrapper.setProps({ loading: false, name: 'First Last' });
-    expect(wrapper.find('Title').dive().text()).toEqual('First Last');
   });
 
   it('navigates when clicking avatar', (done) => {
