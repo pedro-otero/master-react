@@ -57,7 +57,7 @@ export class Root extends React.Component {
       <Router>
         <span onClick={this.closeMenu}>
           <Errors />
-          <TitleBar title="Crews" onAvatarClick={this.openMenu} />
+          <TitleBar onAvatarClick={this.openMenu} />
           <Drawer
               open={this.state.drawerOpen}
               bgColor="#222222"
