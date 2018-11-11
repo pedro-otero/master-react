@@ -1,14 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
-import { storiesOf } from '@storybook/react';
+import storiesOf from 'storiesOfComponentsWithLinks';
 
 import ArtistWork from './artist-work';
 
 storiesOf('Artist Work', module)
-  .addDecorator(story => (
-    <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
-  ))
   .add('Default', () => (
     <ArtistWork
         artist="The Band"

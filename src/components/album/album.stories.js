@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { MemoryRouter } from 'react-router-dom';
+import storiesOf from 'storiesOfComponentsWithLinks';
 
 import Album from './album';
 
@@ -39,9 +38,6 @@ const composers = [{
 }];
 
 storiesOf('Album', module)
-  .addDecorator(story => (
-    <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
-  ))
   .add('Just started', () => (
     <Album loading={true} />
   ))

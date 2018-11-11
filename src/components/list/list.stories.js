@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies,max-len,react/prop-types */
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { MemoryRouter } from 'react-router-dom';
+import storiesOf from 'storiesOfComponentsWithLinks';
 
 import List from './list';
 
@@ -51,9 +50,6 @@ class ListStory extends React.Component {
 }
 
 storiesOf('List', module)
-  .addDecorator(story => (
-    <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
-  ))
   .add('Filter by last name only', () => (
     <ListStory />
   ));

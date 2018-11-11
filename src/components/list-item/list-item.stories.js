@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies,max-len */
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { MemoryRouter } from 'react-router-dom';
+import storiesOf from 'storiesOfComponentsWithLinks';
 
 import ListItem from './list-item';
 
@@ -16,9 +15,6 @@ const inner = {
 };
 
 storiesOf('List item', module)
-  .addDecorator(story => (
-    <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
-  ))
   .add('List of demo items', () => (
     <div style={outer}>
       <div style={inner}>

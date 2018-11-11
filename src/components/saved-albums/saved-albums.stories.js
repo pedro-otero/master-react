@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies,max-len */
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { MemoryRouter } from 'react-router-dom';
+import storiesOf from 'storiesOfComponentsWithLinks';
 
 import SavedTracks from './saved-albums';
 
@@ -48,9 +47,6 @@ const tracks = [{
 }];
 
 storiesOf('Saved albums', module)
-  .addDecorator(story => (
-    <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
-  ))
   .add('Default', () => (
     <div style={outer}>
       <div style={inner}>

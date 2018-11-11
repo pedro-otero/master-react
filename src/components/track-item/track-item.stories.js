@@ -1,14 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { MemoryRouter } from 'react-router-dom';
+import storiesOf from 'storiesOfComponentsWithLinks';
 
 import TrackItem from './track-item';
 
 storiesOf('Track item', module)
-  .addDecorator(story => (
-    <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
-  ))
   .add('Without composers', () => (
     <TrackItem
         name='Hot New Track'
