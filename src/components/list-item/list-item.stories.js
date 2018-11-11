@@ -18,10 +18,10 @@ storiesOf('List item', module)
   .add('List of demo items', () => (
     <div style={outer}>
       <div style={inner}>
-        <ListItem name="This is a list item" additional="It has an additional info slot" />
-        <ListItem name="Here's Another One" additional="And its additional" />
-        <ListItem name="One More" additional="You get the deal" />
-        <ListItem name="A filler one" additional="Lorem Ipsum" />
+        <ListItem name="This is a list item" additional="It has an additional info slot" path="/a" />
+        <ListItem name="Here's Another One" additional="And its additional" path="/a" />
+        <ListItem name="One More" additional="You get the deal" path="/a" />
+        <ListItem name="A filler one" additional="Lorem Ipsum" path="/a" />
       </div>
     </div>
   ));

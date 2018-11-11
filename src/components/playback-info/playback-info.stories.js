@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies,max-len */
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import storiesOf from 'storiesOfComponentsWithLinks';
 
 import PlaybackInfo from './playback-info';
 
