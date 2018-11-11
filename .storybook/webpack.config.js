@@ -21,8 +21,10 @@ module.exports = {
     ],
   },
   resolve: {
-    alias: Object.assign({
+    alias: {
       state: path.join(__dirname, '../src/redux'),
-    }, aliasConfig),
+      ...aliasConfig,
+      storiesOfComponentsWithLinks: path.join(__dirname, '/memory-router-helper.js'),
+    },
   }
 };
