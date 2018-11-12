@@ -1,12 +1,23 @@
 const path = require('path');
 
-const scopedCssConfig = require('../config/scopedCssConfig');
 const aliasConfig = require('../config/componentsAliases');
 
 module.exports = {
   module: {
     rules: [
-      scopedCssConfig,
+      {
+        test: /\.css$/,
+        use: [
+          { loader: 'style-loader' },
+          {
+            loader: require.resolve('css-loader'),
+            options: {
+              modules: true,
+              localIdentName: '[name]__[local]',
+            },
+          },
+        ],
+      },
     ],
   },
   resolve: {
