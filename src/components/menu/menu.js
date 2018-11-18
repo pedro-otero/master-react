@@ -64,6 +64,12 @@ OptionLink.propTypes = {
 const PLAYBACK_INFO_LOAD_INTERVAL = 5000;
 
 export class Menu extends React.Component {
+  componentDidMount() {
+    if (this.props.isVisible) {
+      this.subscribeToPlayback();
+    }
+  }
+
   componentDidUpdate({ isVisible: wasVisible }) {
     const { isVisible } = this.props;
     if (wasVisible && !isVisible) {
@@ -71,6 +77,10 @@ export class Menu extends React.Component {
     } else if (!wasVisible && isVisible) {
       this.subscribeToPlayback();
     }
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeToPlayback();
   }
 
   subscribeToPlayback = () => {

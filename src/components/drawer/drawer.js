@@ -14,6 +14,10 @@ const BaseContainer = styled.div`
   transition: right ${({ slideMs }) => `${slideMs}ms`},
               left ${({ slideMs }) => `${slideMs}ms`},
               filter 400ms;
+              
+  @media (min-width: 769px) {
+    position: static;
+  }
 `;
 
 const Backdrop = styled(BaseContainer)`

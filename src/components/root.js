@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect, Provider } from 'react-redux';
+import styled from 'styled-components';
 
 import Welcome from 'components/Welcome';
 import Errors from 'components/Errors';
@@ -15,11 +16,41 @@ import SavedTracks from 'components/SavedTracks';
 import SavedAlbums from 'components/SavedAlbums';
 import { loadProfile } from 'state/profile';
 import { loadPlaybackInfo } from 'state/playbackInfo';
-import Artist from "components/Artist";
+import Artist from 'components/Artist';
+
+const ContentArea = styled.div`
+  flex: 1;
+  
+  @media (min-width: 769px) {
+    display: flex;
+    flex-direction: row;
+  }
+`;
+
+const Main = styled.span`
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+`;
+
+const Views = styled.div`
+  position: relative;
+  bottom: 0;
+  overflow: auto;
+  
+  @media (min-width: 769px) {
+    flex: 1;
+    border-left: 1px grey solid;
+  }
+`;
 
 export class Root extends React.Component {
   state = {
-    drawerOpen: false,
+    drawerOpen: window.matchMedia('(min-width: 769px)').matches,
   };
 
   componentWillMount() {
@@ -46,6 +77,13 @@ export class Root extends React.Component {
 
   closeMenu = () => this.setState({ drawerOpen: false });
 
+  getMainContainerClickHandler = () => {
+    if (window.matchMedia('(min-width: 769px)').matches) {
+      return null;
+    }
+    return this.closeMenu;
+  };
+
   render() {
     const { isNewUser, isAuthenticated, store } = this.props;
     if (isNewUser) {
@@ -56,24 +94,26 @@ export class Root extends React.Component {
     }
     return <Provider store={store}>
       <Router>
-        <span onClick={this.closeMenu}>
-          <Errors />
-          <TitleBar onAvatarClick={this.openMenu} />
+        <Main onClick={this.getMainContainerClickHandler()}>
           <Drawer
               open={this.state.drawerOpen}
               bgColor="#222222"
               opacity={0.95}>
             <Menu isVisible={this.state.drawerOpen} />
           </Drawer>
-          <div style={{ position: 'relative' }}>
-            <Route exact path="/" component={Home} />
-            <Route path="/track/:id" render={({ match }) => <TrackContainer trackId={match.params.id} />} />
-            <Route path="/album/:id" render={({ match }) => <AlbumContainer albumId={match.params.id} />} />
-            <Route path="/artist/:id" render={({ match }) => <Artist id={match.params.id} />} />
-            <Route path="/user/tracks" render={() => <SavedTracks />} />
-            <Route path="/user/albums" render={() => <SavedAlbums />} />
-          </div>
-        </span>
+          <ContentArea>
+            <Errors />
+            <TitleBar onAvatarClick={this.openMenu} />
+            <Views>
+              <Route exact path="/" component={Home} />
+              <Route path="/track/:id" render={({ match }) => <TrackContainer trackId={match.params.id} />} />
+              <Route path="/album/:id" render={({ match }) => <AlbumContainer albumId={match.params.id} />} />
+              <Route path="/artist/:id" render={({ match }) => <Artist id={match.params.id} />} />
+              <Route path="/user/tracks" render={() => <SavedTracks />} />
+              <Route path="/user/albums" render={() => <SavedAlbums />} />
+            </Views>
+          </ContentArea>
+        </Main>
       </Router>
     </Provider>;
   }

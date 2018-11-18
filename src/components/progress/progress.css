@@ -49,3 +49,9 @@
 .small-progress > .progressDone {
     background-color: #00b600;
 }
+
+@media (min-width: 769px) {
+    .small-progress {
+        top: 0;
+    }
+}
