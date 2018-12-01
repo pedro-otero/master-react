@@ -58,46 +58,4 @@ describe('Root component', () => {
     wrapper.instance().closeMenu();
     expect(wrapper.instance().state.drawerOpen).toEqual(false);
   });
-
-  it('loads playback info', () => {
-    const loadPlaybackInfo = jest.fn();
-    const wrapper = shallow(<Root loadPlaybackInfo={loadPlaybackInfo} />);
-
-    wrapper.instance().suscribeToPlayback();
-
-    expect(loadPlaybackInfo).toBeCalled();
-  });
-
-  it('sets timer for getting playback info', () => {
-    const setIntervalSpy = jest.spyOn(global.window, 'setInterval');
-    const loadPlaybackInfo = jest.fn();
-    const wrapper = shallow(<Root loadPlaybackInfo={loadPlaybackInfo} />);
-
-    wrapper.instance().suscribeToPlayback();
-
-    expect(setIntervalSpy.mock.calls[0][0]).toEqual(loadPlaybackInfo);
-
-    setIntervalSpy.mockRestore();
-  });
-
-  it('clears timer for getting playback info', () => {
-    const clearIntervalSpy = jest.spyOn(global.window, 'clearInterval');
-    const wrapper = shallow(<Root />);
-    const interval = setInterval(() => ({}), 5000);
-    wrapper.instance().playbackInfoTimer = interval;
-
-    wrapper.instance().unsuscribeToPlayback();
-
-    expect(clearIntervalSpy.mock.calls[0][0]).toEqual(interval);
-
-    clearIntervalSpy.mockRestore();
-  });
-
-  it('clears timer for getting playback info', () => {
-    const wrapper = shallow(<Root />);
-
-    wrapper.instance().unsuscribeToPlayback();
-
-    expect(wrapper.instance().playbackInfoTimer).toEqual(null);
-  });
 });

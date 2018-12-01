@@ -16,8 +16,6 @@ import SavedAlbums from 'components/SavedAlbums';
 import { loadProfile } from 'state/profile';
 import { loadPlaybackInfo } from 'state/playbackInfo';
 
-const PLAYBACK_INFO_LOAD_INTERVAL = 5000;
-
 export class Root extends React.Component {
   state = {
     drawerOpen: false,
@@ -47,16 +45,6 @@ export class Root extends React.Component {
 
   closeMenu = () => this.setState({ drawerOpen: false });
 
-  suscribeToPlayback = () => {
-    this.props.loadPlaybackInfo();
-    this.playbackInfoTimer = setInterval(this.props.loadPlaybackInfo, PLAYBACK_INFO_LOAD_INTERVAL);
-  };
-
-  unsuscribeToPlayback = () => {
-    clearInterval(this.playbackInfoTimer);
-    this.playbackInfoTimer = null;
-  };
-
   render() {
     const { isNewUser, isAuthenticated, store } = this.props;
     if (isNewUser) {
@@ -73,10 +61,8 @@ export class Root extends React.Component {
           <Drawer
               open={this.state.drawerOpen}
               bgColor="#222222"
-              opacity={0.95}
-              onOpen={this.suscribeToPlayback}
-              onClose={this.unsuscribeToPlayback}>
-            <Menu />
+              opacity={0.95}>
+            <Menu isVisible={this.state.drawerOpen} />
           </Drawer>
           <div style={{ position: 'relative' }}>
             <Route exact path="/" component={Home} />

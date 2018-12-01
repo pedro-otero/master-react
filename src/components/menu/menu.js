@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Link from 'components/Link';
 import Image from 'components/Image';
 import PlaybackInfo from 'components/PlaybackInfo';
+import { loadPlaybackInfo } from 'state/playbackInfo';
 
 const TRACKS = '/user/tracks';
 const ALBUMS = '/user/albums';
@@ -60,7 +61,28 @@ OptionLink.propTypes = {
   children: PropTypes.node,
 };
 
+const PLAYBACK_INFO_LOAD_INTERVAL = 5000;
+
 export class Menu extends React.Component {
+  componentDidUpdate({ isVisible: wasVisible }) {
+    const { isVisible } = this.props;
+    if (wasVisible && !isVisible) {
+      this.unsubscribeToPlayback();
+    } else if (!wasVisible && isVisible) {
+      this.subscribeToPlayback();
+    }
+  }
+
+  subscribeToPlayback = () => {
+    this.props.loadPlaybackInfo();
+    this.playbackInfoTimer = setInterval(this.props.loadPlaybackInfo, PLAYBACK_INFO_LOAD_INTERVAL);
+  };
+
+  unsubscribeToPlayback = () => {
+    clearInterval(this.playbackInfoTimer);
+    this.playbackInfoTimer = null;
+  };
+
   render() {
     const {
       avatar, name, userId, playback,
@@ -88,6 +110,8 @@ export class Menu extends React.Component {
 
 Menu.propTypes = {
   avatar: PropTypes.string,
+  isVisible: PropTypes.bool,
+  loadPlaybackInfo: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   name: PropTypes.string,
   playback: PropTypes.object,
@@ -121,6 +145,8 @@ const mapStateToProps = ({
   return baseProps;
 };
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = dispatch => ({
+  loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu);
