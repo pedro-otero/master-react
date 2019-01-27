@@ -11,6 +11,8 @@ import Root from './components/root';
 import { parseToken, setToken } from 'state/user';
 import SpotifyCustomApiFactory from './api/spotify';
 
+import './index.css';
+
 const backend = new Backend(request, `${process.env.REACT_APP_BE_DOMAIN}/data/album`, 1000);
 
 const CustomApi = SpotifyCustomApiFactory(SpotifyWebApi, window.location);
