@@ -7,6 +7,7 @@ import Credits from 'components/Credits';
 import Composers from 'components/Composers';
 import Producers from 'components/Producers';
 import ArtistWork from 'components/ArtistWork';
+import { Block } from 'components/Utils';
 
 const TrackDetails = ({
   name,
@@ -47,7 +48,9 @@ const TrackDetails = ({
       </span>
     </ArtistWork>
     {!searchStarted && <LoadingCircle message="Starting search..." />}
-    <Credits data={credits} />
+    <Block>
+      <Credits data={credits} />
+    </Block>
     {searchStarted && progress !== 100 &&
       <Progress
           size={Object.keys(credits).length === 0 ? 'big' : 'small'}
