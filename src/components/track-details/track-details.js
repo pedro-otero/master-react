@@ -12,6 +12,7 @@ import { Block } from 'components/Utils';
 const TrackDetails = ({
   name,
   artist,
+  artistId,
   albumId,
   image,
   background,
@@ -37,6 +38,7 @@ const TrackDetails = ({
     <ArtistWork
         title={name}
         artist={artist}
+        artistId={artistId}
         year={year}
         image={image}
         background={background}

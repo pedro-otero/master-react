@@ -8,7 +8,7 @@ import LoadingCircle from 'components/LoadingCircle';
 import { Block } from 'components/Utils';
 
 const Album = ({
-  background, image, tracks, progress, year, name, artist, failed, loading, searchStarted,
+  background, image, tracks, progress, year, name, artist, failed, loading, searchStarted, artistId,
 }) => {
   if (loading) {
     return <LoadingCircle message="Loading data from Spotify..." />;
@@ -23,6 +23,7 @@ const Album = ({
     <ArtistWork
         title={name}
         artist={artist}
+        artistId={artistId}
         year={year}
         image={image}
         background={background} />
@@ -48,6 +49,7 @@ const Album = ({
 
 Album.propTypes = {
   artist: PropTypes.string,
+  artistId: PropTypes.string,
   background: PropTypes.string,
   failed: PropTypes.bool,
   id: PropTypes.string.isRequired,

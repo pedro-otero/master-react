@@ -11,7 +11,7 @@ export class AlbumContainer extends React.Component {
     const {
       tracks,
       album: {
-        name, loading, failed, year, image, progress,
+        name, loading, failed, year, image, progress, artistId,
       },
       artist: { name: artistName, image: background },
     } = this.props;
@@ -25,6 +25,7 @@ export class AlbumContainer extends React.Component {
       progress,
       tracks,
       artist: artistName,
+      artistId,
       background,
     };
     return <Album {...props} />;

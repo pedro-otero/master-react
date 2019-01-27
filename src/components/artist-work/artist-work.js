@@ -32,40 +32,36 @@ const Margin = styled.div`
 `;
 
 const ArtistWork = ({
-  title, artist, background, image, year, children, path,
-}) => {
-  const CustomCover = (
-    <Margin>
-      <Cover
-          src={image}
-          year={year}
-          yearClass={styles.albumYear} />
-    </Margin>);
-
-  const CoverWrap = path ?
-    <Link to={path}>
-      {CustomCover}
-    </Link> :
-    CustomCover;
-
-  return <Banner
+  title, artist, artistId, background, image, year, children, path,
+}) => (
+  <Banner
       src={background}
       className={styles.content}>
-    {CoverWrap}
+    <Link to={path}>
+      <Margin>
+        <Cover
+            src={image}
+            year={year}
+            yearClass={styles.albumYear} />
+      </Margin>
+    </Link>
     <div>
-      <Label
-          className={styles.artistName}
-          value={artist} />
+      <Link
+          to={`/artist/${artistId}`}
+          className={styles.artistName}>
+        {artist}
+      </Link>
       <Label
           className={styles.title}
           value={title} />
       {children}
     </div>
-  </Banner>;
-};
+  </Banner>
+);
 
 ArtistWork.propTypes = {
   artist: PropTypes.string,
+  artistId: PropTypes.string,
   background: PropTypes.string,
   children: PropTypes.array,
   image: PropTypes.string,
