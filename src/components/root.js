@@ -15,6 +15,7 @@ import SavedTracks from 'components/SavedTracks';
 import SavedAlbums from 'components/SavedAlbums';
 import { loadProfile } from 'state/profile';
 import { loadPlaybackInfo } from 'state/playbackInfo';
+import Artist from "components/Artist";
 
 export class Root extends React.Component {
   state = {
@@ -68,6 +69,7 @@ export class Root extends React.Component {
             <Route exact path="/" component={Home} />
             <Route path="/track/:id" render={({ match }) => <TrackContainer trackId={match.params.id} />} />
             <Route path="/album/:id" render={({ match }) => <AlbumContainer albumId={match.params.id} />} />
+            <Route path="/artist/:id" render={({ match }) => <Artist id={match.params.id} />} />
             <Route path="/user/tracks" render={() => <SavedTracks />} />
             <Route path="/user/albums" render={() => <SavedAlbums />} />
           </div>

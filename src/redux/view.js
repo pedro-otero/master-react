@@ -13,3 +13,7 @@ export const viewAlbum = albumId =>
       dispatch(loadArtist(album.artistId));
       return album;
     });
+
+export const viewArtist = artistId =>
+  (dispatch, getState, { actions: { loadArtist, loadArtistAlbums } }) =>
+    dispatch(loadArtist(artistId)).then(() => dispatch(loadArtistAlbums(artistId)));

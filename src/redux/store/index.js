@@ -4,7 +4,14 @@ import thunkMiddleware from 'redux-thunk';
 
 import { reduce as playbackInfo, playbackInfoActions } from '../playbackInfo';
 import { loadSearchResult, setSearchResult } from '../actions/backend';
-import { setArtist, startArtistLoad, loadArtist, failArtistLoad, reduce as artists } from '../artists';
+import {
+  setArtist,
+  startArtistLoad,
+  loadArtist,
+  failArtistLoad,
+  reduce as artists,
+  loadArtistAlbums,
+} from '../artists';
 import {
   loadAlbum,
   startAlbumLoad,
@@ -36,7 +43,7 @@ const trackActions = {
   loadTrack, setTrack, startTrackLoad, failTrackLoad, viewTrack,
 };
 const artistActions = {
-  setArtist, startArtistLoad, loadArtist, failArtistLoad,
+  setArtist, startArtistLoad, loadArtist, failArtistLoad, loadArtistAlbums,
 };
 
 const store = (spotifyApi, backend) => createStore(
