@@ -9,6 +9,7 @@ export default (SpotifyWebApi, location) => ({ clientId, redirectUri, throttle }
     'getMe',
     'getMySavedTracks',
     'getMySavedAlbums',
+    'getArtistAlbums',
   ];
   const api = new SpotifyWebApi({ clientId, redirectUri });
   api.setAccessToken(localStorage.getItem('token'));

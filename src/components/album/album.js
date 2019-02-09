@@ -5,10 +5,10 @@ import ArtistWork from 'components/ArtistWork';
 import TrackItem from 'components/TrackItem';
 import Progress from 'components/Progress';
 import LoadingCircle from 'components/LoadingCircle';
-import styles from './album.css';
+import { Block } from 'components/Utils';
 
 const Album = ({
-  background, image, tracks, progress, year, name, artist, failed, loading, searchStarted,
+  background, image, tracks, progress, year, name, artist, failed, loading, searchStarted, artistId,
 }) => {
   if (loading) {
     return <LoadingCircle message="Loading data from Spotify..." />;
@@ -23,6 +23,7 @@ const Album = ({
     <ArtistWork
         title={name}
         artist={artist}
+        artistId={artistId}
         year={year}
         image={image}
         background={background} />
@@ -30,22 +31,25 @@ const Album = ({
     {progress < 100 && <Progress
         size="small"
         value={progress} />}
-    <ol className={styles.tracklist}>
-      {tracks.map(track => (
-        <li key={`${track.name}-${track.id}`}>
-          <TrackItem
-              id={track.id}
-              name={track.name}
-              duration={track.duration}
-              composers={track.composers}
+    <Block>
+      <ol>
+        {tracks.map(track => (
+          <li key={`${track.name}-${track.id}`}>
+            <TrackItem
+                id={track.id}
+                name={track.name}
+                duration={track.duration}
+                composers={track.composers}
             />
-        </li>))}
-    </ol>
+          </li>))}
+      </ol>
+    </Block>
   </Fragment>;
 };
 
 Album.propTypes = {
   artist: PropTypes.string,
+  artistId: PropTypes.string,
   background: PropTypes.string,
   failed: PropTypes.bool,
   id: PropTypes.string.isRequired,

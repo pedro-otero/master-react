@@ -1,14 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { MemoryRouter } from 'react-router-dom';
+import storiesOf from 'storiesOfComponentsWithLinks';
 
 import TrackDetails from './track-details';
 
 storiesOf('Track details', module)
-  .addDecorator(story => (
-    <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
-  ))
   .add('Just started', () => (
     <TrackDetails loading={true} />
   ))

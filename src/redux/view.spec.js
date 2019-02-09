@@ -1,4 +1,4 @@
-import { viewTrack, viewAlbum } from './view';
+import { viewTrack, viewAlbum, viewArtist } from 'state/view';
 
 describe('View actions', () => {
   describe('View track', () => {
@@ -45,6 +45,26 @@ describe('View actions', () => {
 
     it('calls loadArtist', () => {
       expect(loadArtist).toBeCalledWith('R1');
+    });
+  });
+
+  describe('View artist', () => {
+    const dispatch = jest.fn(() => Promise.resolve());
+    const mocks = [jest.fn(), jest.fn()];
+    const [loadArtist, loadArtistAlbums] = mocks;
+    const actions = { loadArtist, loadArtistAlbums };
+
+    beforeAll(() => {
+      const thunk = viewArtist('A1');
+      thunk(dispatch, () => ({}), { actions });
+    });
+
+    it('calls loadArtist', () => {
+      expect(loadArtist).toBeCalledWith('A1');
+    });
+
+    it('calls loadArtistAlbums', () => {
+      expect(loadArtistAlbums).toBeCalledWith('A1');
     });
   });
 });

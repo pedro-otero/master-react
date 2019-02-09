@@ -10,7 +10,7 @@ export class TrackContainer extends React.Component {
   render() {
     const {
       track: {
-        name, composers, producers, credits, loading, failed,
+        name, composers, producers, credits, loading, failed, artistId,
       },
       album: {
         id: albumId, year, image, progress,
@@ -25,6 +25,7 @@ export class TrackContainer extends React.Component {
       loading,
       failed,
       albumId,
+      artistId,
       image,
       year,
       searchStarted: !!progress,

@@ -1,19 +1,19 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import Collaborator from 'components/Collaborator';
-import styles from './credits.css';
 
 const Credits = ({ data }) => (
-  <div className={styles.credits}>
+  <Fragment>
     {Object.keys(data)
-      .map(key => (
-        <Collaborator
-            key={`collaborator-${key}`}
-            name={key}
-            roles={data[key]} />
-      ))}
-  </div>);
+    .map(key => (
+      <Collaborator
+          key={`collaborator-${key}`}
+          name={key}
+          roles={data[key]} />
+    ))}
+  </Fragment>
+);
 
 Credits.propTypes = {
   data: PropTypes.object.isRequired,

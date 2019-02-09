@@ -24,9 +24,9 @@ const Cover = ({
         lg="10em"
         xl="12em">
     </Image>
-    <span className={classnames(styles.year, yearClass)}>
+    {year && <span className={classnames(styles.year, yearClass)}>
       {year}
-    </span>
+    </span>}
   </CoverContainer>);
 
 Cover.propTypes = {

@@ -15,8 +15,7 @@ import SavedTracks from 'components/SavedTracks';
 import SavedAlbums from 'components/SavedAlbums';
 import { loadProfile } from 'state/profile';
 import { loadPlaybackInfo } from 'state/playbackInfo';
-
-const PLAYBACK_INFO_LOAD_INTERVAL = 5000;
+import Artist from "components/Artist";
 
 export class Root extends React.Component {
   state = {
@@ -47,16 +46,6 @@ export class Root extends React.Component {
 
   closeMenu = () => this.setState({ drawerOpen: false });
 
-  suscribeToPlayback = () => {
-    this.props.loadPlaybackInfo();
-    this.playbackInfoTimer = setInterval(this.props.loadPlaybackInfo, PLAYBACK_INFO_LOAD_INTERVAL);
-  };
-
-  unsuscribeToPlayback = () => {
-    clearInterval(this.playbackInfoTimer);
-    this.playbackInfoTimer = null;
-  };
-
   render() {
     const { isNewUser, isAuthenticated, store } = this.props;
     if (isNewUser) {
@@ -69,19 +58,18 @@ export class Root extends React.Component {
       <Router>
         <span onClick={this.closeMenu}>
           <Errors />
-          <TitleBar title="Crews" onAvatarClick={this.openMenu} />
+          <TitleBar onAvatarClick={this.openMenu} />
           <Drawer
               open={this.state.drawerOpen}
               bgColor="#222222"
-              opacity={0.95}
-              onOpen={this.suscribeToPlayback}
-              onClose={this.unsuscribeToPlayback}>
-            <Menu />
+              opacity={0.95}>
+            <Menu isVisible={this.state.drawerOpen} />
           </Drawer>
           <div style={{ position: 'relative' }}>
             <Route exact path="/" component={Home} />
             <Route path="/track/:id" render={({ match }) => <TrackContainer trackId={match.params.id} />} />
             <Route path="/album/:id" render={({ match }) => <AlbumContainer albumId={match.params.id} />} />
+            <Route path="/artist/:id" render={({ match }) => <Artist id={match.params.id} />} />
             <Route path="/user/tracks" render={() => <SavedTracks />} />
             <Route path="/user/albums" render={() => <SavedAlbums />} />
           </div>
