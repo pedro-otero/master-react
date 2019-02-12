@@ -20,6 +20,7 @@ import Artist from 'components/Artist';
 
 const ContentArea = styled.div`
   flex: 1;
+  overflow: auto;
   
   @media (min-width: 769px) {
     display: flex;
