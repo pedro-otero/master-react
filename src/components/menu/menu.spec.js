@@ -73,6 +73,19 @@ describe('Menu', () => {
     expect(wrapper.instance().playbackInfoTimer).toEqual(null);
   });
 
+  it('subscribes to playback info when it is mounted as visible', () => {
+    const loadPlaybackInfo = jest.fn();
+    shallow(<Menu
+        avatar="https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730"
+        name="Someone McSomething"
+        userId="someone_97"
+        playback={{}}
+        loadPlaybackInfo={loadPlaybackInfo}
+        isVisible />);
+
+    expect(loadPlaybackInfo).toBeCalled();
+  });
+
   it('subscribes to playback info when it is shown', () => {
     const loadPlaybackInfo = jest.fn();
     const wrapper = shallow(<Menu
@@ -95,10 +108,24 @@ describe('Menu', () => {
         name="Someone McSomething"
         userId="someone_97"
         playback={{}}
+        loadPlaybackInfo={jest.fn()}
         isVisible />);
     const unsubscribe = jest.spyOn(wrapper.instance(), 'unsubscribeToPlayback');
 
     wrapper.setProps({ isVisible: false });
+
+    expect(unsubscribe).toBeCalled();
+  });
+
+  it('unsubscribes from playback info when it is unmounted', () => {
+    const wrapper = shallow(<Menu
+        avatar="https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730"
+        name="Someone McSomething"
+        userId="someone_97"
+        playback={{}} />);
+    const unsubscribe = jest.spyOn(wrapper.instance(), 'unsubscribeToPlayback');
+
+    wrapper.unmount();
 
     expect(unsubscribe).toBeCalled();
   });

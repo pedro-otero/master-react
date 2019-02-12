@@ -15,6 +15,10 @@ const Row = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   line-height: 3em;
   vertical-align: middle;
+  
+  @media (min-width: 769px) {
+    display: none;
+  }
 `;
 
 const AvatarTopMargin = styled.div`

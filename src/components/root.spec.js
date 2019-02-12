@@ -4,6 +4,10 @@ import { shallow } from 'enzyme';
 import { Root } from './root';
 
 describe('Root component', () => {
+  beforeAll(() => {
+    global.window.matchMedia = () => ({});
+  });
+
   it('Loads profile if user is authenticated', () => {
     const mock = jest.fn();
     shallow(<Root isAuthenticated={true} loadProfile={mock} />);

@@ -46,10 +46,10 @@ const ArtistWork = ({
       </Margin>
     </Link>
     <div>
-      <Link
-          to={`/artist/${artistId}`}
-          className={styles.artistName}>
-        {artist}
+      <Link to={`/artist/${artistId}`}>
+        <span className={styles.artistName}>
+          {artist}
+        </span>
       </Link>
       <Label
           className={styles.title}
