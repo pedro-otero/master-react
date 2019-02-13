@@ -8,8 +8,8 @@ const BaseContainer = styled.div`
   position: fixed;
   top: 0;
   bottom: 0;
-  left: ${({ open, closedLeft }) => (open ? '0' : closedLeft)};
-  right: ${({ open, openRight }) => (open ? openRight : '100%')};
+  left: ${({ left }) => `${left}%`};
+  right: ${({ right }) => `${right}%`};
   z-index: ${BASE_Z + 1};
   transition: right ${({ slideMs }) => `${slideMs}ms`},
               left ${({ slideMs }) => `${slideMs}ms`},
@@ -24,7 +24,7 @@ const Backdrop = styled(BaseContainer)`
   z-index: ${BASE_Z};
   background-color: ${({ bgColor }) => bgColor};
   opacity: ${({ opacity }) => opacity};
-  filter: opacity(${({ open }) => (open ? '100%' : '0')});
+  filter: opacity(${({ open }) => `${open}%`});
   box-shadow: 2px 0 10px rgba(150, 150, 150, 0.5);
 `;
 
@@ -37,18 +37,22 @@ class Drawer extends React.Component {
 
   onVisibilityChange() {
     const { open, onOpen, onClose } = this.props;
-    if (open && onOpen) {
+    if (open === 100 && onOpen) {
       onOpen();
-    } else if (!open && onClose) {
+    } else if (open === 0 && onClose) {
       onClose();
     }
   }
 
   getContainerProps() {
-    const { children, widthPercentage, ...theRest } = this.props;
+    const {
+      children, open, widthPercentage, ...theRest
+    } = this.props;
+    const skew = open * (widthPercentage / 100);
     return {
-      closedLeft: `-${widthPercentage}%`,
-      openRight: `${100 - widthPercentage}%`,
+      left: -widthPercentage + skew,
+      right: 100 - skew,
+      open,
       ...theRest,
     };
   }
@@ -80,7 +84,7 @@ Drawer.propTypes = {
   onOpen: PropTypes.func,
   onOptionSelected: PropTypes.func,
   opacity: PropTypes.number,
-  open: PropTypes.bool,
+  open: PropTypes.number,
   slideMs: PropTypes.number,
   widthPercentage: PropTypes.number,
 };

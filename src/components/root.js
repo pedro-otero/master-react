@@ -6,7 +6,6 @@ import styled from 'styled-components';
 
 import Welcome from 'components/Welcome';
 import Errors from 'components/Errors';
-import TitleBar from 'components/TitleBar';
 import TrackContainer from 'components/TrackContainer';
 import AlbumContainer from 'components/AlbumContainer';
 import Home from 'components/Home';
@@ -17,6 +16,7 @@ import SavedAlbums from 'components/SavedAlbums';
 import { loadProfile } from 'state/profile';
 import { loadPlaybackInfo } from 'state/playbackInfo';
 import Artist from 'components/Artist';
+import { endSwipe, setTouch, closeMenu } from 'state/swipe';
 
 const ContentArea = styled.div`
   flex: 1;
@@ -50,10 +50,6 @@ const Views = styled.div`
 `;
 
 export class Root extends React.Component {
-  state = {
-    drawerOpen: window.matchMedia('(min-width: 769px)').matches,
-  };
-
   componentWillMount() {
     if (this.props.isAuthenticated) {
       this.props.loadProfile();
@@ -71,40 +67,39 @@ export class Root extends React.Component {
     ].map(([key, value]) => `${key}=${value}`).join('&')}`;
   }
 
-  openMenu = (e) => {
-    e.stopPropagation();
-    this.setState({ drawerOpen: true });
-  };
-
-  closeMenu = () => this.setState({ drawerOpen: false });
-
   getMainContainerClickHandler = () => {
     if (window.matchMedia('(min-width: 769px)').matches) {
       return null;
     }
-    return this.closeMenu;
+    return this.props.closeMenu;
   };
 
   render() {
-    const { isNewUser, isAuthenticated, store } = this.props;
+    const {
+      isNewUser, isAuthenticated, store, open,
+    } = this.props;
     if (isNewUser) {
       return <Welcome loginUrl={this.getAuthUrl()} />;
     } else if (!isAuthenticated) {
       window.location = this.getAuthUrl();
       return null;
     }
+    const isDesktop = window.matchMedia('(min-width: 769px)').matches;
+    const isMenuVisible = isDesktop ? true : open === 100;
     return <Provider store={store}>
       <Router>
         <Main onClick={this.getMainContainerClickHandler()}>
           <Drawer
-              open={this.state.drawerOpen}
+              open={open}
               bgColor="#222222"
               opacity={0.95}>
-            <Menu isVisible={this.state.drawerOpen} />
+            <Menu isVisible={isMenuVisible} />
           </Drawer>
-          <ContentArea>
+          <ContentArea
+              onTouchStart={this.props.setTouch}
+              onTouchMove={this.props.setTouch}
+              onTouchEnd={this.props.endSwipe}>
             <Errors />
-            <TitleBar onAvatarClick={this.openMenu} />
             <Views>
               <Route exact path="/" component={Home} />
               <Route path="/track/:id" render={({ match }) => <TrackContainer trackId={match.params.id} />} />
@@ -121,22 +116,30 @@ export class Root extends React.Component {
 }
 
 Root.propTypes = {
+  closeMenu: PropTypes.func.isRequired,
+  endSwipe: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
   isNewUser: PropTypes.bool,
   loadPlaybackInfo: PropTypes.func.isRequired,
   loadProfile: PropTypes.func.isRequired,
+  open: PropTypes.number.isRequired,
   redirectUri: PropTypes.string.isRequired,
+  setTouch: PropTypes.func.isRequired,
   store: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = ({ user: { auth: { token, expiry } } }) => ({
+const mapStateToProps = ({ user: { auth: { token, expiry } }, swipe: { open } }) => ({
   isNewUser: !token && !expiry,
   isAuthenticated: typeof token !== 'undefined' && (Date.now() - (new Date(expiry)).getTime()) <= 0,
+  open,
 });
 
 const mapDispatchToProps = dispatch => ({
   loadProfile: () => dispatch(loadProfile()),
   loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
+  setTouch: event => dispatch(setTouch(event)),
+  endSwipe: () => dispatch(endSwipe()),
+  closeMenu: () => dispatch(closeMenu()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Root);

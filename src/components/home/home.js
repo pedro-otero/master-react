@@ -16,8 +16,7 @@ export const Home = ({ loading, userId, name }) => {
   return <Container>
     <h1>Hey {name.split(' ')[0]}</h1>
     <h3>AKA {userId}</h3>
-    <p>{"If you want to check the credits of the song you're listening to, click on your avatar (top left)"}</p>
-    <p>To logout, click on <i className="em em-x"></i></p>
+    <p>Swipe right for menu</p>
   </Container>;
 };
 

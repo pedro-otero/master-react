@@ -50,16 +50,4 @@ describe('Root component', () => {
         store={store} />);
     expect(wrapper.find('Provider')).toHaveLength(1);
   });
-
-  it('opens drawer', () => {
-    const wrapper = shallow(<Root />);
-    wrapper.instance().openMenu({ stopPropagation: () => ({}) });
-    expect(wrapper.instance().state.drawerOpen).toEqual(true);
-  });
-
-  it('closed drawer', () => {
-    const wrapper = shallow(<Root />);
-    wrapper.instance().closeMenu();
-    expect(wrapper.instance().state.drawerOpen).toEqual(false);
-  });
 });

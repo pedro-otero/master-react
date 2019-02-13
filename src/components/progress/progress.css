@@ -7,7 +7,7 @@
 }
 
 .small-progress {
-    top: 3em;
+    top: 0;
     height: 0.3em;
 }
 
@@ -48,10 +48,4 @@
 
 .small-progress > .progressDone {
     background-color: #00b600;
-}
-
-@media (min-width: 769px) {
-    .small-progress {
-        top: 0;
-    }
 }
