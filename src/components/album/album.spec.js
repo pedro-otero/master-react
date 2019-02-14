@@ -39,14 +39,4 @@ describe('Album component', () => {
         progress={100} />);
     expect(wrapper.find('Progress').length).toEqual(0);
   });
-
-  it('renders LoadingCircle', () => {
-    const wrapper = shallow(<Album loading={true} />);
-    expect(wrapper.find('LoadingCircle').length).toEqual(1);
-  });
-
-  it('renders error message', () => {
-    const wrapper = shallow(<Album failed={true} />);
-    expect(wrapper.find('h1').text()).toEqual('Could not load this album');
-  });
 });

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import ArtistWork from 'components/ArtistWork';
@@ -6,20 +6,16 @@ import TrackItem from 'components/TrackItem';
 import Progress from 'components/Progress';
 import LoadingCircle from 'components/LoadingCircle';
 import { Block } from 'components/Utils';
+import View from 'components/TrackDetails';
 
 const Album = ({
   background, image, tracks, progress, year, name, artist, failed, loading, searchStarted, artistId,
-}) => {
-  if (loading) {
-    return <LoadingCircle message="Loading data from Spotify..." />;
-  }
-  if (failed) {
-    return <div>
-      <i className="em em--1"></i>
-      <h1>Could not load this album</h1>
-    </div>;
-  }
-  return <Fragment>
+}) => (
+  <View
+      loading={loading}
+      loadingMessage="Loading data from Spotify..."
+      failed={failed}
+      failedMessage="Could not load this album">
     <ArtistWork
         title={name}
         artist={artist}
@@ -44,8 +40,8 @@ const Album = ({
           </li>))}
       </ol>
     </Block>
-  </Fragment>;
-};
+  </View>
+);
 
 Album.propTypes = {
   artist: PropTypes.string,

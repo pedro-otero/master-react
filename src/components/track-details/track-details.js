@@ -8,6 +8,7 @@ import Composers from 'components/Composers';
 import Producers from 'components/Producers';
 import ArtistWork from 'components/ArtistWork';
 import { Block } from 'components/Utils';
+import View from 'components/View';
 
 const TrackDetails = ({
   name,
@@ -24,17 +25,12 @@ const TrackDetails = ({
   loading,
   searchStarted,
   failed,
-}) => {
-  if (loading) {
-    return <LoadingCircle message="Loading data from Spotify..." />;
-  }
-  if (failed) {
-    return <div>
-      <i className="em em--1"></i>
-      <h1>Could not load this track</h1>
-    </div>;
-  }
-  return <article>
+}) => (
+  <View
+      loading={loading}
+      loadingMessage="Loading data from Spotify..."
+      failed={failed}
+      failedMessage="Could not load this track">
     <ArtistWork
         title={name}
         artist={artist}
@@ -57,8 +53,8 @@ const TrackDetails = ({
       <Progress
           size={Object.keys(credits).length === 0 ? 'big' : 'small'}
           value={progress} />}
-  </article>;
-};
+  </View>
+);
 
 TrackDetails.propTypes = {
   albumId: PropTypes.string,

@@ -1,0 +1,3 @@
+{
+  "viewDescription": "View is a component that displays any full view in the app. It indicates whether the view is loading or has failed to load. Otherwise it fully renders its chilren, like this message"
+}

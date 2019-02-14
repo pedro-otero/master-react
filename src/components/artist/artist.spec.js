@@ -24,20 +24,4 @@ describe('Artist component', () => {
 
     expect(wrapper.find('AlbumItem').length).toEqual(1);
   });
-
-  it('renders LoadingCircle', () => {
-    const wrapper = shallow(<Artist
-        loading={true}
-        viewArtist={() => {}} />);
-
-    expect(wrapper.find('LoadingCircle').length).toEqual(1);
-  });
-
-  it('renders error message', () => {
-    const wrapper = shallow(<Artist
-        failed={true}
-        viewArtist={() => {}} />);
-
-    expect(wrapper.find('h1').text()).toEqual('Could not load this artist');
-  });
 });

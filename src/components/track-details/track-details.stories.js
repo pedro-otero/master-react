@@ -5,9 +5,6 @@ import storiesOf from 'storiesOfComponentsWithLinks';
 import TrackDetails from './track-details';
 
 storiesOf('Track details', module)
-  .add('Just started', () => (
-    <TrackDetails loading={true} />
-  ))
   .add('With Spotify track info', () => (
     <TrackDetails name="Char Topper Everybody's Sick Of" />
   ))
@@ -88,7 +85,4 @@ storiesOf('Track details', module)
           'Goto Producer': ['Backing Vocals'],
           'Guy Bass': ['Bass'],
         }} />
-  ))
-  .add('Failed', () => (
-    <TrackDetails failed={true} />
   ));

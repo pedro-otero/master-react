@@ -1,14 +1,14 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import ArtistWork from 'components/ArtistWork';
-import LoadingCircle from 'components/LoadingCircle';
 import Link from 'components/Link';
 import { Block } from 'components/Utils';
 import Image from 'components/Image';
 import { viewArtist } from 'state/view';
+import View from 'components/TrackDetails';
 
 const AlbumItem = styled.div`
   display: flex;
@@ -35,31 +35,27 @@ export class Artist extends React.Component {
     const {
       name, image, loading, failed, albums,
     } = this.props;
-    if (loading) {
-      return <LoadingCircle message="Loading data from Spotify..." />;
-    }
-    if (failed) {
-      return <div>
-        <i className="em em--1"></i>
-        <h1>Could not load this artist</h1>
-      </div>;
-    }
-    return (<Fragment>
-      <ArtistWork title={name} image={image} background={image} />
-      <Block>
-        {albums && albums.length && albums.map(album => (
-          <Link to={`/album/${album.id}`}>
-            <AlbumItem>
-              <Image src={album.image} size="4em" />
-              <AlbumInfo>
-                <div>{album.name}</div>
-                <div>{album.year}</div>
-              </AlbumInfo>
-            </AlbumItem>
-          </Link>
+    return (
+      <View
+          loading={loading}
+          loadingMessage="Loading data from Spotify..."
+          failed={failed}
+          failedMessage="Could not load this artist">
+        <ArtistWork title={name} image={image} background={image} />
+        <Block>
+          {albums && albums.length && albums.map(album => (
+            <Link to={`/album/${album.id}`}>
+              <AlbumItem>
+                <Image src={album.image} size="4em" />
+                <AlbumInfo>
+                  <div>{album.name}</div>
+                  <div>{album.year}</div>
+                </AlbumInfo>
+              </AlbumItem>
+            </Link>
         ))}
-      </Block>
-    </Fragment>
+        </Block>
+      </View>
     );
   }
 }

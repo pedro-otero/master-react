@@ -38,9 +38,6 @@ const composers = [{
 }];
 
 storiesOf('Album', module)
-  .add('Just started', () => (
-    <Album loading={true} />
-  ))
   .add('Album loaded', () => (
     <Album
         artist="The Band"

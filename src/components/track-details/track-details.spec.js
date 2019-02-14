@@ -15,10 +15,6 @@ describe('TrackDetails component', () => {
     expect(wrapper.find('JointList')).toHaveLength(0);
   });
 
-  it('shows spotify info loading circle', () => {
-    expect(wrapper.find('LoadingCircle[message="Loading data from Spotify..."]')).toHaveLength(1);
-  });
-
   it('displays the search not started loading circle', () => {
     wrapper.setProps({
       name: 'Track name',
@@ -87,10 +83,5 @@ describe('TrackDetails component', () => {
       progress: 100,
     });
     expect(wrapper.find('Progress[className="small-progress"]')).toHaveLength(0);
-  });
-
-  it('renders error message', () => {
-    const wrapper = shallow(<TrackDetails failed={true} />);
-    expect(wrapper.find('h1').text()).toEqual('Could not load this track');
   });
 });
