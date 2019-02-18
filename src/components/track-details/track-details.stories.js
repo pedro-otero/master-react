@@ -2,7 +2,7 @@
 import React from 'react';
 import storiesOf from 'storiesOfComponentsWithLinks';
 
-import TrackDetails from './track-details';
+import { TrackDetails } from './track-details';
 
 storiesOf('Track details', module)
   .add('With Spotify track info', () => (

@@ -6,8 +6,8 @@ import styled from 'styled-components';
 
 import Welcome from 'components/Welcome';
 import Errors from 'components/Errors';
-import TrackContainer from 'components/TrackContainer';
-import AlbumContainer from 'components/AlbumContainer';
+import TrackDetails from 'components/TrackDetails';
+import Album from 'components/Album';
 import Home from 'components/Home';
 import Drawer from 'components/Drawer';
 import Menu from 'components/Menu';
@@ -102,8 +102,8 @@ export class Root extends React.Component {
             <Errors />
             <Views>
               <Route exact path="/" component={Home} />
-              <Route path="/track/:id" render={({ match }) => <TrackContainer trackId={match.params.id} />} />
-              <Route path="/album/:id" render={({ match }) => <AlbumContainer albumId={match.params.id} />} />
+              <Route path="/track/:id" render={({ match }) => <TrackDetails trackId={match.params.id} />} />
+              <Route path="/album/:id" render={({ match }) => <Album albumId={match.params.id} />} />
               <Route path="/artist/:id" render={({ match }) => <Artist id={match.params.id} />} />
               <Route path="/user/tracks" render={() => <SavedTracks />} />
               <Route path="/user/albums" render={() => <SavedAlbums />} />

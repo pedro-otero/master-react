@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import TrackDetails from './track-details';
+import { TrackDetails } from './track-details';
 
 const credits = { composers: [], producers: [], credits: {} };
 

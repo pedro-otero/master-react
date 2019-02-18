@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import ArtistWork from 'components/ArtistWork';
 import TrackItem from 'components/TrackItem';
@@ -7,8 +8,10 @@ import Progress from 'components/Progress';
 import LoadingCircle from 'components/LoadingCircle';
 import { Block } from 'components/Utils';
 import View from 'components/View';
+import { viewAlbum } from 'state/view';
+import EntityContainer from 'components/EntityContainer';
 
-const Album = ({
+export const Album = ({
   background, image, tracks, progress, year, name, artist, failed, loading, searchStarted, artistId,
 }) => (
   <View
@@ -62,4 +65,38 @@ Album.defaultProps = {
   tracks: [],
 };
 
-export default Album;
+const mapStateToProps = ({ tracks, albums, artists }, { albumId }) => {
+  const album = albums[albumId] || { trackIds: [] };
+  const base = {
+    tracks: (album.trackIds || []).map(id => tracks[id]),
+    album,
+    artist: artists[album.artistId] || {},
+  };
+  const {
+    album: {
+      name, loading, failed, year, image, progress, artistId,
+    },
+    artist: { name: artistName, image: background },
+  } = base;
+  const props = {
+    album,
+    name,
+    loading,
+    failed,
+    image,
+    year,
+    searchStarted: !!progress,
+    progress,
+    tracks: base.tracks,
+    artist: artistName,
+    artistId,
+    background,
+  };
+  return props;
+};
+
+const mapDispatchToProps = (dispatch, { albumId }) => ({
+  load: () => dispatch(viewAlbum(albumId)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EntityContainer(Album, 'albumId'));

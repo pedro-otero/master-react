@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Album from './album';
+import { Album } from './album';
 
 describe('Album component', () => {
   it('renders empty OK', () => {
