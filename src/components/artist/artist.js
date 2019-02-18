@@ -8,7 +8,7 @@ import Link from 'components/Link';
 import { Block } from 'components/Utils';
 import Image from 'components/Image';
 import { viewArtist } from 'state/view';
-import View from 'components/TrackDetails';
+import View from 'components/View';
 
 const AlbumItem = styled.div`
   display: flex;

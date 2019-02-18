@@ -6,7 +6,7 @@ import TrackItem from 'components/TrackItem';
 import Progress from 'components/Progress';
 import LoadingCircle from 'components/LoadingCircle';
 import { Block } from 'components/Utils';
-import View from 'components/TrackDetails';
+import View from 'components/View';
 
 const Album = ({
   background, image, tracks, progress, year, name, artist, failed, loading, searchStarted, artistId,
