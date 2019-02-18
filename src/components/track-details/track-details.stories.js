@@ -6,16 +6,23 @@ import { TrackDetails } from './track-details';
 
 storiesOf('Track details', module)
   .add('With Spotify track info', () => (
-    <TrackDetails name="Char Topper Everybody's Sick Of" />
+    <TrackDetails
+        clearErrors={() => {}}
+        load={() => {}}
+        name="Char Topper Everybody's Sick Of" />
   ))
   .add('With Spotify album info', () => (
     <TrackDetails
+        clearErrors={() => {}}
+        load={() => {}}
         name="Char Topper Everybody's Sick Of"
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
         year="2016" />
   ))
   .add('With Spotify artist info', () => (
     <TrackDetails
+        clearErrors={() => {}}
+        load={() => {}}
         name="Char Topper Everybody's Sick Of"
         artist="Pop Master"
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
@@ -24,6 +31,8 @@ storiesOf('Track details', module)
   ))
   .add('Search started', () => (
     <TrackDetails
+        clearErrors={() => {}}
+        load={() => {}}
         name="Char Topper Everybody's Sick Of"
         artist="Pop Master"
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
@@ -34,6 +43,8 @@ storiesOf('Track details', module)
   ))
   .add('Search progressing', () => (
     <TrackDetails
+        clearErrors={() => {}}
+        load={() => {}}
         name="Char Topper Everybody's Sick Of"
         artist="Pop Master"
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
@@ -44,6 +55,8 @@ storiesOf('Track details', module)
   ))
   .add('Found composers', () => (
     <TrackDetails
+        clearErrors={() => {}}
+        load={() => {}}
         name="Char Topper Everybody's Sick Of"
         artist="Pop Master"
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
@@ -55,6 +68,8 @@ storiesOf('Track details', module)
   ))
   .add('Found credits', () => (
     <TrackDetails
+        clearErrors={() => {}}
+        load={() => {}}
         name="Char Topper Everybody's Sick Of"
         artist="Pop Master"
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
@@ -70,6 +85,9 @@ storiesOf('Track details', module)
   ))
   .add('Finished', () => (
     <TrackDetails
+        clearErrors={() => {}}
+        load={() => {}}
+        loadSearchResult={() => {}}
         name="Char Topper Everybody's Sick Of"
         artist="Pop Master"
         albumId="albumId"

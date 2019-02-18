@@ -7,14 +7,20 @@ import TrackItem from 'components/TrackItem';
 import Progress from 'components/Progress';
 import LoadingCircle from 'components/LoadingCircle';
 import { Block } from 'components/Utils';
-import View from 'components/View';
 import { viewAlbum } from 'state/view';
 import EntityContainer from 'components/EntityContainer';
+import { loadSearchResult } from 'state/actions/backend';
+import { clearErrors } from 'state/errors';
 
 export const Album = ({
-  background, image, tracks, progress, year, name, artist, failed, loading, searchStarted, artistId,
+  background, image, tracks, progress, year, name, artist, failed, loading, load, searchStarted, artistId, albumId, loadSearchResult, clearErrors,
 }) => (
-  <View
+  <EntityContainer
+      clearErrors={clearErrors}
+      canStartLoadingDetails={() => !!albumId}
+      shouldStopSearching={() => progress === 100}
+      loadSearchResult={() => loadSearchResult(albumId)}
+      load={load}
       loading={loading}
       loadingMessage="Loading data from Spotify..."
       failed={failed}
@@ -43,7 +49,7 @@ export const Album = ({
           </li>))}
       </ol>
     </Block>
-  </View>
+  </EntityContainer>
 );
 
 Album.propTypes = {
@@ -79,7 +85,6 @@ const mapStateToProps = ({ tracks, albums, artists }, { albumId }) => {
     artist: { name: artistName, image: background },
   } = base;
   const props = {
-    album,
     name,
     loading,
     failed,
@@ -97,6 +102,8 @@ const mapStateToProps = ({ tracks, albums, artists }, { albumId }) => {
 
 const mapDispatchToProps = (dispatch, { albumId }) => ({
   load: () => dispatch(viewAlbum(albumId)),
+  loadSearchResult: id => dispatch(loadSearchResult(id)),
+  clearErrors: () => dispatch(clearErrors()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EntityContainer(Album, props => props.album && props.album.id));
+export default connect(mapStateToProps, mapDispatchToProps)(Album);

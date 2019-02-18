@@ -1,63 +1,79 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { clearErrors } from 'state/errors';
-import { loadSearchResult } from 'state/actions/backend';
 
-export function EntityContainer(Component, canStartSearching) {
-  return class Wrapped extends React.Component {
-    static propTypes = {
-      album: PropTypes.object,
-      clearErrors: PropTypes.func,
-      load: PropTypes.func,
-      loadSearchResult: PropTypes.func,
-    };
+import LoadingCircle from 'components/LoadingCircle';
 
-    componentDidMount() {
-      this.props.clearErrors();
-      this.props.load();
-      if (canStartSearching(this.props)) {
-        this.program();
-      }
+export class EntityContainer extends React.Component {
+  static propTypes = {
+    canStartLoadingDetails: PropTypes.func,
+    children: PropTypes.node,
+    clearErrors: PropTypes.func,
+    failed: PropTypes.bool,
+    failedMessage: PropTypes.string,
+    isThereMore: PropTypes.func,
+    load: PropTypes.func,
+    loadDetails: PropTypes.func,
+    loadHeader: PropTypes.func,
+    loadSearchResult: PropTypes.func,
+    loading: PropTypes.bool,
+    loadingMessage: PropTypes.string,
+    shouldStopSearching: PropTypes.func,
+  };
+
+  componentDidMount() {
+    this.props.clearErrors();
+    this.props.load();
+    if (this.props.canStartLoadingDetails()) {
+      this.program();
     }
+  }
 
-    componentDidUpdate(prev) {
-      if (!canStartSearching(prev) && canStartSearching(this.props)) {
-        this.program();
-      }
-      if (this.props.progress === 100) {
-        this.stopSearch();
-      }
+  componentDidUpdate(prev) {
+    if (!this.albumSearch && this.props.canStartLoadingDetails()) {
+      this.program();
     }
-
-    componentWillUnmount() {
+    if (this.props.shouldStopSearching()) {
       this.stopSearch();
     }
+  }
 
-    program() {
-      this.search();
-      this.albumSearch = setInterval(this.search.bind(this), 1000);
-    }
+  componentWillUnmount() {
+    this.stopSearch();
+  }
 
-    search() {
-      this.props.loadSearchResult(this.props.album.id);
-    }
+  program() {
+    this.search();
+    this.albumSearch = setInterval(this.search.bind(this), 1000);
+  }
 
-    stopSearch() {
-      clearInterval(this.albumSearch);
-      this.albumSearch = null;
-    }
+  search() {
+    this.props.loadSearchResult();
+  }
 
-    render() {
-      return <Component {...this.props} />;
+  stopSearch() {
+    clearInterval(this.albumSearch);
+    this.albumSearch = null;
+  }
+
+  render() {
+    const {
+      loading,
+      loadingMessage,
+      failed,
+      failedMessage,
+      children,
+    } = this.props;
+    if (loading) {
+      return <LoadingCircle message={loadingMessage} />;
     }
-  };
+    if (failed) {
+      return <div>
+        <i className="em em--1"></i>
+        <h1>{failedMessage}</h1>
+      </div>;
+    }
+    return children;
+  }
 }
 
-const mapDispatchToProps = dispatch => ({
-  clearErrors: () => dispatch(clearErrors()),
-  loadSearchResult: id => dispatch(loadSearchResult(id)),
-});
-
-export default (Component, canStartSearching) =>
-  connect(() => ({}), mapDispatchToProps)(EntityContainer(Component, canStartSearching));
+export default EntityContainer;

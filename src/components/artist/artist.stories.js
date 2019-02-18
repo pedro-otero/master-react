@@ -3,6 +3,7 @@ import React from 'react';
 import storiesOf from 'storiesOfComponentsWithLinks';
 
 import { Artist } from './artist';
+import { Album } from 'components/Album';
 
 const albums = [{
   id: 1,
@@ -34,6 +35,8 @@ const albums = [{
 storiesOf('Artist', module)
   .add('Default', () => (
     <Artist
+        clearErrors={() => {}}
+        loadArtistAlbums={() => {}}
         id="1"
         name="Somebody Famous"
         image="https://i.scdn.co/image/0a4c9792c52ec21c3b881542e0739d6f605799b8"

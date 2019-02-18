@@ -57,22 +57,24 @@ export function setArtistAlbums(id, response) {
     data: {
       id,
       items: artistAlbumsToState(response),
+      nextPage: response.next ? {
+        offset: response.offset + response.limit,
+        limit: response.limit,
+      } : null,
     },
   };
 }
 
 export function loadArtistAlbums(id) {
-  return function (dispatch, _, { spotifyApi }) {
+  return function (dispatch, getState, { spotifyApi }) {
     dispatch(startArtistAlbumsLoad(id));
-    const getAlbums = (offset, limit) =>
-      spotifyApi.getArtistAlbums(id, { offset, limit })
-        .then((response) => {
-          dispatch(setArtistAlbums(id, response.body));
-          if (response.next) {
-            getAlbums(offset + limit, limit);
-          }
-        });
-    getAlbums(0, 20);
+    const { albums: { nextPage = {} } } = getState().artists[id];
+    if (nextPage === null) return;
+    const { offset = 0, limit = 20 } = nextPage;
+    return spotifyApi.getArtistAlbums(id, { offset, limit })
+      .then((response) => {
+        dispatch(setArtistAlbums(id, response.body));
+      });
   };
 }
 
@@ -82,14 +84,15 @@ export const reduce = buildReducer([
   [FAIL_ARTIST_LOAD, fail],
   [START_ARTIST_ALBUMS_LOAD, (state, { data: { id } }) => {
     const artist = state[id];
+    const { albums = {} } = artist;
     return {
       ...state,
       [id]: {
         ...artist,
         albums: {
+          ...albums,
           isLoading: true,
           isFailed: false,
-          items: [],
         },
       },
     };
@@ -108,9 +111,9 @@ export const reduce = buildReducer([
       },
     };
   }],
-  [SET_ARTIST_ALBUMS, (state, { data: { id, items } }) => {
+  [SET_ARTIST_ALBUMS, (state, { data: { id, items, nextPage } }) => {
     const artist = state[id];
-    const jointItems = [...artist.albums.items, ...items];
+    const jointItems = [...(artist.albums.items || []), ...items];
     return {
       ...state,
       [id]: {
@@ -119,6 +122,7 @@ export const reduce = buildReducer([
           isLoading: true,
           isFailed: false,
           items: jointItems,
+          nextPage,
         },
       },
     };

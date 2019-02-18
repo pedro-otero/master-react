@@ -9,9 +9,10 @@ import Composers from 'components/Composers';
 import Producers from 'components/Producers';
 import ArtistWork from 'components/ArtistWork';
 import { Block } from 'components/Utils';
-import View from 'components/View';
 import { viewTrack } from 'state/view';
 import EntityContainer from 'components/EntityContainer';
+import { loadSearchResult } from 'state/actions/backend';
+import { clearErrors } from 'state/errors';
 
 export const TrackDetails = ({
   name,
@@ -25,11 +26,19 @@ export const TrackDetails = ({
   credits,
   composers,
   producers,
+  load,
   loading,
   searchStarted,
   failed,
+  loadSearchResult,
+  clearErrors,
 }) => (
-  <View
+  <EntityContainer
+      clearErrors={clearErrors}
+      canStartLoadingDetails={() => !!albumId}
+      shouldStopSearching={() => progress === 100}
+      load={load}
+      loadSearchResult={() => loadSearchResult(albumId)}
       loading={loading}
       loadingMessage="Loading data from Spotify..."
       failed={failed}
@@ -56,7 +65,7 @@ export const TrackDetails = ({
       <Progress
           size={Object.keys(credits).length === 0 ? 'big' : 'small'}
           value={progress} />}
-  </View>
+  </EntityContainer>
 );
 
 TrackDetails.propTypes = {
@@ -99,7 +108,6 @@ const mapStateToProps = ({ tracks, albums, artists }, { trackId }) => {
     artist: { name: artistName, image: background },
   } = base;
   const props = {
-    album,
     name,
     composers,
     producers,
@@ -120,6 +128,8 @@ const mapStateToProps = ({ tracks, albums, artists }, { trackId }) => {
 
 const mapDispatchToProps = (dispatch, { trackId }) => ({
   load: () => dispatch(viewTrack(trackId)),
+  loadSearchResult: id => dispatch(loadSearchResult(id)),
+  clearErrors: () => dispatch(clearErrors()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EntityContainer(TrackDetails, props => props.album && props.album.id));
+export default connect(mapStateToProps, mapDispatchToProps)(TrackDetails);

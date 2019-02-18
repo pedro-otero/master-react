@@ -3,59 +3,59 @@ import { shallow } from 'enzyme';
 import { EntityContainer } from 'components/EntityContainer';
 
 describe('Entity container', () => {
-  const Dummy = () => <span></span>;
-
   it('calls clearErrors', () => {
-    const Wrapped = EntityContainer(Dummy, () => true);
     const clearErrors = jest.fn();
 
-    shallow(<Wrapped
+    shallow(<EntityContainer
+        canStartLoadingDetails={() => true}
         clearErrors={clearErrors}
         loadSearchResult={() => {}}
         load={() => {}}
-        album={{}}
-    />);
+        shouldStopSearching={() => {}}
+    >
+      <span></span>
+    </EntityContainer>);
 
     expect(clearErrors).toBeCalled();
   });
 
   it('calls load', () => {
-    const Wrapped = EntityContainer(Dummy, () => true);
     const load = jest.fn();
 
-    shallow(<Wrapped
+    shallow(<EntityContainer
+        canStartLoadingDetails={() => true}
         clearErrors={() => {}}
         loadSearchResult={() => {}}
         load={load}
-        album={{}}
+        shouldStopSearching={() => {}}
     />);
 
     expect(load).toBeCalled();
   });
 
   it('starts album search on mount', () => {
-    const Wrapped = EntityContainer(Dummy, () => true);
     const loadSearchResult = jest.fn();
 
-    shallow(<Wrapped
+    shallow(<EntityContainer
+        canStartLoadingDetails={() => true}
         clearErrors={() => {}}
         loadSearchResult={loadSearchResult}
         load={() => {}}
-        album={{}}
+        shouldStopSearching={() => {}}
     />);
 
     expect(loadSearchResult).toBeCalled();
   });
 
   it('starts album search on update', () => {
-    const Wrapped = EntityContainer(Dummy, jest.fn().mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(true));
     const loadSearchResult = jest.fn();
 
-    const wrapper = shallow(<Wrapped
+    const wrapper = shallow(<EntityContainer
+        canStartLoadingDetails={jest.fn().mockReturnValueOnce(false).mockReturnValueOnce(true)}
         clearErrors={() => {}}
         loadSearchResult={loadSearchResult}
         load={() => {}}
-        album={{}}
+        shouldStopSearching={() => {}}
     />);
     wrapper.setProps({});
 
@@ -64,12 +64,12 @@ describe('Entity container', () => {
 
   it('stops album search when done', () => {
     const clearIntervalSpy = jest.spyOn(global.window, 'clearInterval');
-    const Wrapped = EntityContainer(Dummy, () => true);
-    const wrapper = shallow(<Wrapped
+    const wrapper = shallow(<EntityContainer
+        canStartLoadingDetails={() => true}
         clearErrors={() => {}}
         loadSearchResult={() => {}}
         load={() => {}}
-        album={{}}
+        shouldStopSearching={() => true}
     />);
     wrapper.setProps({ progress: 100 });
 
@@ -80,17 +80,55 @@ describe('Entity container', () => {
 
   it('stops album search on unmount', () => {
     const clearIntervalSpy = jest.spyOn(global.window, 'clearInterval');
-    const Wrapped = EntityContainer(Dummy, () => true);
-    const wrapper = shallow(<Wrapped
+    const wrapper = shallow(<EntityContainer
+        canStartLoadingDetails={() => true}
         clearErrors={() => {}}
         loadSearchResult={() => {}}
         load={() => {}}
-        album={{}}
+        shouldStopSearching={() => {}}
     />);
     wrapper.unmount();
 
     expect(clearIntervalSpy).toBeCalled();
 
     clearIntervalSpy.mockRestore();
+  });
+
+  it('renders loading message', () => {
+    const wrapper = shallow(<EntityContainer
+        load={() => {}}
+        clearErrors={() => {}}
+        canStartLoadingDetails={() => false}
+        loading
+        loadingMessage="I am waiting..."
+    />);
+
+    expect(wrapper.find('LoadingCircle[message="I am waiting..."]')).toHaveLength(1);
+  });
+
+  it('renders failure message', () => {
+    const wrapper = shallow(<EntityContainer
+        load={() => {}}
+        clearErrors={() => {}}
+        canStartLoadingDetails={() => false}
+        failed
+        failedMessage="Could not load this"
+    />);
+
+    expect(wrapper.find('h1').text()).toEqual('Could not load this');
+  });
+
+  it('renders contents', () => {
+    const wrapper = shallow(<EntityContainer
+        load={() => {}}
+        clearErrors={() => {}}
+        canStartLoadingDetails={() => false}
+        loading={false}
+        failed={false}
+    >
+      <p>Content</p>
+    </EntityContainer>);
+
+    expect(wrapper.find('p').text()).toEqual('Content');
   });
 });

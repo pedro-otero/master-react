@@ -15,5 +15,5 @@ export const viewAlbum = albumId =>
     });
 
 export const viewArtist = artistId =>
-  (dispatch, getState, { actions: { loadArtist, loadArtistAlbums } }) =>
-    dispatch(loadArtist(artistId)).then(() => dispatch(loadArtistAlbums(artistId)));
+  (dispatch, getState, { actions: { loadArtist } }) =>
+    dispatch(loadArtist(artistId));

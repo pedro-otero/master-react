@@ -8,7 +8,9 @@ import Link from 'components/Link';
 import { Block } from 'components/Utils';
 import Image from 'components/Image';
 import { viewArtist } from 'state/view';
-import View from 'components/View';
+import { loadArtistAlbums } from 'state/artists';
+import EntityContainer from 'components/EntityContainer';
+import { clearErrors } from 'state/errors';
 
 const AlbumItem = styled.div`
   display: flex;
@@ -27,16 +29,17 @@ const AlbumInfo = styled.div`
 `;
 
 export class Artist extends React.Component {
-  componentDidMount() {
-    this.props.viewArtist(this.props.id);
-  }
-
   render() {
     const {
-      name, image, loading, failed, albums,
+      name, image, loading, failed, albums, id, loadArtistAlbums, canLoadMoreAlbums, viewArtist, clearErrors,
     } = this.props;
     return (
-      <View
+      <EntityContainer
+          clearErrors={clearErrors}
+          canStartLoadingDetails={() => true}
+          shouldStopSearching={() => !canLoadMoreAlbums}
+          load={() => viewArtist(id)}
+          loadSearchResult={() => loadArtistAlbums(id)}
           loading={loading}
           loadingMessage="Loading data from Spotify..."
           failed={failed}
@@ -55,16 +58,18 @@ export class Artist extends React.Component {
             </Link>
         ))}
         </Block>
-      </View>
+      </EntityContainer>
     );
   }
 }
 
 Artist.propTypes = {
   albums: PropTypes.array,
+  canLoadMoreAlbums: PropTypes.bool,
   failed: PropTypes.bool,
   id: PropTypes.string,
   image: PropTypes.string,
+  loadArtistAlbums: PropTypes.func,
   loading: PropTypes.bool,
   name: PropTypes.string,
   viewArtist: PropTypes.func,
@@ -76,15 +81,18 @@ const mapStateToProps = ({ artists }, { id }) => {
     artist = artists[id];
   }
   const {
-    name, image, albums: { items: albums = [] } = {}, loading, failed,
+    name, image, albums: { items: albums = [], nextPage } = {}, loading, failed,
   } = artist;
+  const canLoadMoreAlbums = nextPage !== null;
   return {
-    id, name, image, albums, loading, failed,
+    id, name, image, albums, loading, failed, canLoadMoreAlbums,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   viewArtist: id => dispatch(viewArtist(id)),
+  loadArtistAlbums: id => dispatch(loadArtistAlbums(id)),
+  clearErrors: () => dispatch(clearErrors()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Artist);

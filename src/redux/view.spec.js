@@ -51,8 +51,8 @@ describe('View actions', () => {
   describe('View artist', () => {
     const dispatch = jest.fn(() => Promise.resolve());
     const mocks = [jest.fn(), jest.fn()];
-    const [loadArtist, loadArtistAlbums] = mocks;
-    const actions = { loadArtist, loadArtistAlbums };
+    const [loadArtist] = mocks;
+    const actions = { loadArtist };
 
     beforeAll(() => {
       const thunk = viewArtist('A1');
@@ -61,10 +61,6 @@ describe('View actions', () => {
 
     it('calls loadArtist', () => {
       expect(loadArtist).toBeCalledWith('A1');
-    });
-
-    it('calls loadArtistAlbums', () => {
-      expect(loadArtistAlbums).toBeCalledWith('A1');
     });
   });
 });

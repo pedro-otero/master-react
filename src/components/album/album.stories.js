@@ -40,6 +40,8 @@ const composers = [{
 storiesOf('Album', module)
   .add('Album loaded', () => (
     <Album
+        clearErrors={() => {}}
+        load={() => {}}
         artist="The Band"
         name="Hyped EP"
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
@@ -49,6 +51,8 @@ storiesOf('Album', module)
   ))
   .add('Artist loaded', () => (
     <Album
+        clearErrors={() => {}}
+        load={() => {}}
         artist="The Band"
         name="Hyped EP"
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
@@ -59,6 +63,8 @@ storiesOf('Album', module)
   ))
   .add('Search started', () => (
     <Album
+        clearErrors={() => {}}
+        load={() => {}}
         artist="The Band"
         name="Hyped EP"
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
@@ -71,6 +77,8 @@ storiesOf('Album', module)
   ))
   .add('Some credits found', () => (
     <Album
+        clearErrors={() => {}}
+        load={() => {}}
         artist="The Band"
         name="Hyped EP"
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
@@ -83,6 +91,8 @@ storiesOf('Album', module)
   ))
   .add('Finished', () => (
     <Album
+        clearErrors={() => {}}
+        load={() => {}}
         artist="The Band"
         name="Hyped EP"
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
