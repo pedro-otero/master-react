@@ -1,17 +1,18 @@
 import { SET_SEARCH_RESULT } from '../albums';
 
-export const loadSearchResult = id => (dispatch, getState, { backend, actions }) => {
+export const loadSearchResult = id => (dispatch, getState, { backend, actions, config }) => {
   const album = getState().albums[id];
   if (album && album.progress === 100) {
     return;
   }
-  return backend.getCredits(id)
-    .subscribe((response) => {
-      dispatch(actions.setSearchResult(response));
-    }, () => {
+  const { request, backendUrl } = config;
+  return request.get(`${backendUrl}/${id}`).end((err, res) => {
+    if (err) {
       dispatch(actions.addError('Loading credits failed'));
-    }, () => {
-    });
+    } else {
+      dispatch(actions.setSearchResult(res.body));
+    }
+  });
 };
 
 export function setSearchResult(result) {

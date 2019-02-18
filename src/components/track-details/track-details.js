@@ -122,4 +122,4 @@ const mapDispatchToProps = (dispatch, { trackId }) => ({
   load: () => dispatch(viewTrack(trackId)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EntityContainer(TrackDetails, 'trackId'));
+export default connect(mapStateToProps, mapDispatchToProps)(EntityContainer(TrackDetails, props => props.album && props.album.id));

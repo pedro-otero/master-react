@@ -99,4 +99,4 @@ const mapDispatchToProps = (dispatch, { albumId }) => ({
   load: () => dispatch(viewAlbum(albumId)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EntityContainer(Album, 'albumId'));
+export default connect(mapStateToProps, mapDispatchToProps)(EntityContainer(Album, props => props.album && props.album.id));

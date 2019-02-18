@@ -4,66 +4,93 @@ import { EntityContainer } from 'components/EntityContainer';
 
 describe('Entity container', () => {
   const Dummy = () => <span></span>;
-  const Wrapped = EntityContainer(Dummy, 'itemId');
-  const mocks = [jest.fn(), jest.fn(), jest.fn()];
-  const [load, clearErrors, loadSearchResult] = mocks;
-  const album = { id: '3' };
-
-  let wrapper;
-
-  beforeEach(() => {
-    wrapper = shallow(<Wrapped
-        itemId="1"
-        clearErrors={clearErrors}
-        loadSearchResult={loadSearchResult}
-        load={load}
-        album={album}
-      />);
-  });
 
   it('calls clearErrors', () => {
+    const Wrapped = EntityContainer(Dummy, () => true);
+    const clearErrors = jest.fn();
+
+    shallow(<Wrapped
+        clearErrors={clearErrors}
+        loadSearchResult={() => {}}
+        load={() => {}}
+        album={{}}
+    />);
+
     expect(clearErrors).toBeCalled();
   });
 
   it('calls load', () => {
+    const Wrapped = EntityContainer(Dummy, () => true);
+    const load = jest.fn();
+
+    shallow(<Wrapped
+        clearErrors={() => {}}
+        loadSearchResult={() => {}}
+        load={load}
+        album={{}}
+    />);
+
     expect(load).toBeCalled();
   });
 
-  it('stops album search', () => {
-    const albumSearch = {
-      unsubscribe: jest.fn(),
-    };
-    wrapper.instance().albumSearch = albumSearch;
+  it('starts album search on mount', () => {
+    const Wrapped = EntityContainer(Dummy, () => true);
+    const loadSearchResult = jest.fn();
 
+    shallow(<Wrapped
+        clearErrors={() => {}}
+        loadSearchResult={loadSearchResult}
+        load={() => {}}
+        album={{}}
+    />);
+
+    expect(loadSearchResult).toBeCalled();
+  });
+
+  it('starts album search on update', () => {
+    const Wrapped = EntityContainer(Dummy, jest.fn().mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(true));
+    const loadSearchResult = jest.fn();
+
+    const wrapper = shallow(<Wrapped
+        clearErrors={() => {}}
+        loadSearchResult={loadSearchResult}
+        load={() => {}}
+        album={{}}
+    />);
+    wrapper.setProps({});
+
+    expect(loadSearchResult).toBeCalled();
+  });
+
+  it('stops album search when done', () => {
+    const clearIntervalSpy = jest.spyOn(global.window, 'clearInterval');
+    const Wrapped = EntityContainer(Dummy, () => true);
+    const wrapper = shallow(<Wrapped
+        clearErrors={() => {}}
+        loadSearchResult={() => {}}
+        load={() => {}}
+        album={{}}
+    />);
+    wrapper.setProps({ progress: 100 });
+
+    expect(clearIntervalSpy).toBeCalled();
+
+    clearIntervalSpy.mockRestore();
+  });
+
+  it('stops album search on unmount', () => {
+    const clearIntervalSpy = jest.spyOn(global.window, 'clearInterval');
+    const Wrapped = EntityContainer(Dummy, () => true);
+    const wrapper = shallow(<Wrapped
+        clearErrors={() => {}}
+        loadSearchResult={() => {}}
+        load={() => {}}
+        album={{}}
+    />);
     wrapper.unmount();
 
-    expect(albumSearch.unsubscribe).toBeCalled();
-  });
+    expect(clearIntervalSpy).toBeCalled();
 
-  it('loads the new album', () => {
-    wrapper.setProps({ itemId: '2' });
-
-    expect(load.mock.calls.length).toBe(2);
-  });
-
-  it('does not reload the same album', () => {
-    wrapper.setProps({ itemId: '1' });
-
-    expect(load.mock.calls.length).toBeLessThan(2);
-  });
-
-  it('does not restart the search of the same album', () => {
-    const albumSearch = {
-      unsubscribe: jest.fn(),
-    };
-    wrapper.instance().albumSearch = albumSearch;
-
-    wrapper.setProps({ itemId: '1' });
-
-    expect(loadSearchResult.mock.calls.length).toBeLessThan(2);
-  });
-
-  afterEach(() => {
-    mocks.forEach(mock => mock.mockClear());
+    clearIntervalSpy.mockRestore();
   });
 });

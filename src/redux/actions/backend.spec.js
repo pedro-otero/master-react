@@ -1,5 +1,3 @@
-import * as Rx from 'rxjs';
-
 import { loadSearchResult } from './backend';
 
 describe('Backend actions', () => {
@@ -8,20 +6,29 @@ describe('Backend actions', () => {
     const actions = {
       setSearchResult: jest.fn(),
     };
-    const backend = {
-      getCredits: jest.fn(() => Rx.Observable.create((subscriber) => {
-        subscriber.next({});
-        subscriber.complete();
+    const request = {
+      get: jest.fn(() => ({
+        end: fn => fn(null, { body: 'body' }),
       })),
     };
 
     beforeAll(() => {
       const thunk = loadSearchResult('AL1');
-      thunk(dispatch, () => ({ albums: { } }), { backend, actions });
+      thunk(dispatch, () => ({ albums: { } }), {
+        actions,
+        config: {
+          request,
+          backendUrl: 'my.url',
+        },
+      });
     });
 
     it('calls backend', () => {
-      expect(backend.getCredits).toHaveBeenCalledWith('AL1');
+      expect(request.get).toHaveBeenCalledWith('my.url/AL1');
+    });
+
+    it('calls setSearchResult action creator', () => {
+      expect(actions.setSearchResult).toHaveBeenCalledWith('body');
     });
   });
 
@@ -31,19 +38,15 @@ describe('Backend actions', () => {
       setSearchResult: jest.fn(),
       addError: jest.fn(),
     };
-    const backend = {
-      getCredits: jest.fn(() => Rx.Observable.create((subscriber) => {
-        subscriber.error();
+    const request = {
+      get: jest.fn(() => ({
+        end: fn => fn('error'),
       })),
     };
 
     beforeAll(() => {
       const thunk = loadSearchResult('AL1');
-      thunk(dispatch, () => ({ albums: { } }), { backend, actions });
-    });
-
-    it('calls backend', () => {
-      expect(backend.getCredits).toHaveBeenCalledWith('AL1');
+      thunk(dispatch, () => ({ albums: { } }), { actions, config: { request } });
     });
 
     it('adds error', () => {
@@ -52,11 +55,11 @@ describe('Backend actions', () => {
   });
 
   it('Avoids to load searches already in state', () => {
-    const backend = {
-      getCredits: jest.fn(),
+    const request = {
+      get: jest.fn(),
     };
     const thunk = loadSearchResult('AL1');
-    thunk(jest.fn(), () => ({ albums: { AL1: { progress: 100 } } }), { backend });
-    expect(backend.getCredits).not.toBeCalled();
+    thunk(jest.fn(), () => ({ albums: { AL1: { progress: 100 } } }), { config: { request } });
+    expect(request.get).not.toBeCalled();
   });
 });

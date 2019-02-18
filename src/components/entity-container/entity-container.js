@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { clearErrors } from 'state/errors';
 import { loadSearchResult } from 'state/actions/backend';
 
-export function EntityContainer(Component, mainId) {
+export function EntityContainer(Component, canStartSearching) {
   return class Wrapped extends React.Component {
     static propTypes = {
       album: PropTypes.object,
@@ -14,26 +14,19 @@ export function EntityContainer(Component, mainId) {
     };
 
     componentDidMount() {
-      this.callLoad();
-      this.startSearch();
-    }
-
-    callLoad() {
       this.props.clearErrors();
       this.props.load();
+      if (canStartSearching(this.props)) {
+        this.program();
+      }
     }
 
     componentDidUpdate(prev) {
-      if (prev[mainId] !== this.props[mainId] && !!this.props[mainId]) {
-        this.stopSearch();
-        this.callLoad();
+      if (!canStartSearching(prev) && canStartSearching(this.props)) {
+        this.program();
       }
-      this.startSearch();
-    }
-
-    startSearch() {
-      if (this.props.album.id && !this.albumSearch) {
-        this.albumSearch = this.props.loadSearchResult(this.props.album.id);
+      if (this.props.progress === 100) {
+        this.stopSearch();
       }
     }
 
@@ -41,11 +34,18 @@ export function EntityContainer(Component, mainId) {
       this.stopSearch();
     }
 
+    program() {
+      this.search();
+      this.albumSearch = setInterval(this.search.bind(this), 1000);
+    }
+
+    search() {
+      this.props.loadSearchResult(this.props.album.id);
+    }
+
     stopSearch() {
-      if (this.albumSearch) {
-        this.albumSearch.unsubscribe();
-        this.albumSearch = null;
-      }
+      clearInterval(this.albumSearch);
+      this.albumSearch = null;
     }
 
     render() {
@@ -59,5 +59,5 @@ const mapDispatchToProps = dispatch => ({
   loadSearchResult: id => dispatch(loadSearchResult(id)),
 });
 
-export default (Component, mainId) =>
-  connect(() => ({}), mapDispatchToProps)(EntityContainer(Component, mainId));
+export default (Component, canStartSearching) =>
+  connect(() => ({}), mapDispatchToProps)(EntityContainer(Component, canStartSearching));

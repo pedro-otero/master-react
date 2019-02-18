@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
+import request from 'superagent';
 
 import { reduce as playbackInfo, playbackInfoActions } from '../playbackInfo';
 import { loadSearchResult, setSearchResult } from '../actions/backend';
@@ -46,7 +47,7 @@ const artistActions = {
   setArtist, startArtistLoad, loadArtist, failArtistLoad, loadArtistAlbums,
 };
 
-const store = (spotifyApi, backend) => createStore(
+const store = (spotifyApi) => createStore(
   combineReducers({
     tracks,
     albums,
@@ -66,7 +67,6 @@ const store = (spotifyApi, backend) => createStore(
   devTools,
   applyMiddleware(thunkMiddleware.withExtraArgument({
     spotifyApi,
-    backend,
     actions: {
       ...artistActions,
       ...albumActions,
@@ -79,6 +79,10 @@ const store = (spotifyApi, backend) => createStore(
       ...userProfileActions,
       setSavedTracks,
       setSavedAlbums,
+    },
+    config: {
+      request,
+      backendUrl: `${process.env.REACT_APP_BE_DOMAIN}/data/album`,
     },
   })),
 );

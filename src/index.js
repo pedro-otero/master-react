@@ -1,19 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SpotifyWebApi from 'spotify-web-api-node';
-import request from 'superagent';
 
 import registerServiceWorker from './registerServiceWorker';
 import configureStore from 'state/store';
 
-import Backend from './api/backend';
 import Root from './components/root';
 import { parseToken, setToken } from 'state/user';
 import SpotifyCustomApiFactory from './api/spotify';
 
 import './index.css';
-
-const backend = new Backend(request, `${process.env.REACT_APP_BE_DOMAIN}/data/album`, 1000);
 
 const CustomApi = SpotifyCustomApiFactory(SpotifyWebApi, window.location);
 const spotifyApi = CustomApi({
@@ -22,7 +18,7 @@ const spotifyApi = CustomApi({
   throttle: process.env.REACT_APP_SPOTIFY_THROTTLE,
 });
 
-const store = configureStore(spotifyApi, backend);
+const store = configureStore(spotifyApi);
 if (window.location.hash) {
   const tokenAction = parseToken(window.location.hash);
   window.history.pushState({}, '', '/');
