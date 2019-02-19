@@ -24,6 +24,7 @@ describe('Saved tracks', () => {
                 },
               },
             },
+            nextPage: { offset: 80, limit: 20 },
           },
         },
       };
@@ -35,6 +36,7 @@ describe('Saved tracks', () => {
           artist: 'Artist',
           album: 'Album',
         }],
+        canLoadMore: true,
       });
     });
   });

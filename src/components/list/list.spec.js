@@ -25,17 +25,4 @@ describe('List', () => {
     wrapper.instance().setFilter('xxx');
     expect(wrapper.update().find('.em-man-gesturing-no').length).toEqual(1);
   });
-
-  it('adds event listener', () => {
-    jest.spyOn(document, 'addEventListener');
-    shallow(<List />);
-    expect(document.addEventListener).toHaveBeenCalled();
-  });
-
-  it('removes event listener', () => {
-    jest.spyOn(document, 'removeEventListener');
-    const wrapper = shallow(<List />);
-    wrapper.unmount();
-    expect(document.removeEventListener).toHaveBeenCalled();
-  });
 });

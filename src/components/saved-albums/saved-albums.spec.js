@@ -23,6 +23,7 @@ describe('Saved albums', () => {
                   id: 'L1', name: 'Album', artist: 'Artist',
                 },
               },
+              nextPage: { offset: 80, limit: 20 },
             },
           },
         },
@@ -34,6 +35,7 @@ describe('Saved albums', () => {
           name: 'Album',
           artist: 'Artist',
         }],
+        canLoadMore: true,
       });
     });
   });

@@ -45,21 +45,6 @@ class List extends React.Component {
     };
   }
 
-  componentDidMount() {
-    document.addEventListener('scroll', this.trackScroll);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('scroll', this.trackScroll);
-  }
-
-  trackScroll = () => {
-    const listDiv = this.listDiv.current;
-    if (Math.floor(listDiv.getBoundingClientRect().bottom) <= window.innerHeight) {
-      this.props.onBottomReached();
-    }
-  };
-
   setFilter = filter => this.setState({ filter });
 
   updateFilter = e => this.setFilter(e.target.value);
