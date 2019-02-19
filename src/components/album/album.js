@@ -8,14 +8,14 @@ import Progress from 'components/Progress';
 import LoadingCircle from 'components/LoadingCircle';
 import { Block } from 'components/Utils';
 import { viewAlbum } from 'state/view';
-import EntityContainer from 'components/EntityContainer';
+import View from 'components/View';
 import { loadSearchResult } from 'state/actions/backend';
 import { clearErrors } from 'state/errors';
 
 export const Album = ({
   background, image, tracks, progress, year, name, artist, failed, loading, load, searchStarted, artistId, albumId, loadSearchResult, clearErrors,
 }) => (
-  <EntityContainer
+  <View
       clearErrors={clearErrors}
       canStartLoadingDetails={() => !!albumId}
       shouldStopSearching={() => progress === 100}
@@ -49,7 +49,7 @@ export const Album = ({
           </li>))}
       </ol>
     </Block>
-  </EntityContainer>
+  </View>
 );
 
 Album.propTypes = {

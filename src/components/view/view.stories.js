@@ -2,18 +2,18 @@
 import React from 'react';
 import storiesOf from 'storiesOfComponentsWithLinks';
 
-import EntityContainer from './entity-container';
+import View from './view';
 import storyData from './story-data.json';
 
 storiesOf('View', module)
   .add('Loading', () => (
-    <EntityContainer loading loadingMessage="This is the loadingMessage prop" />
+    <View loading loadingMessage="This is the loadingMessage prop" />
   ))
   .add('Failed', () => (
-    <EntityContainer failed failedMessage="And this one is the failedMessage prop" />
+    <View failed failedMessage="And this one is the failedMessage prop" />
   ))
   .add('All OK', () => (
-    <EntityContainer>
+    <View>
       <h4>{storyData.viewDescription}</h4>
-    </EntityContainer>
+    </View>
   ));

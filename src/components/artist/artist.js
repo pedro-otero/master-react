@@ -9,7 +9,7 @@ import { Block } from 'components/Utils';
 import Image from 'components/Image';
 import { viewArtist } from 'state/view';
 import { loadArtistAlbums } from 'state/artists';
-import EntityContainer from 'components/EntityContainer';
+import View from 'components/View';
 import { clearErrors } from 'state/errors';
 
 const AlbumItem = styled.div`
@@ -34,7 +34,7 @@ export class Artist extends React.Component {
       name, image, loading, failed, albums, id, loadArtistAlbums, canLoadMoreAlbums, viewArtist, clearErrors,
     } = this.props;
     return (
-      <EntityContainer
+      <View
           clearErrors={clearErrors}
           canStartLoadingDetails={() => true}
           shouldStopSearching={() => !canLoadMoreAlbums}
@@ -58,7 +58,7 @@ export class Artist extends React.Component {
             </Link>
         ))}
         </Block>
-      </EntityContainer>
+      </View>
     );
   }
 }

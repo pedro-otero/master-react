@@ -1,12 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { EntityContainer } from 'components/EntityContainer';
+import { View } from 'components/View';
 
-describe('Entity container', () => {
+describe('View', () => {
   it('calls clearErrors', () => {
     const clearErrors = jest.fn();
 
-    shallow(<EntityContainer
+    shallow(<View
         canStartLoadingDetails={() => true}
         clearErrors={clearErrors}
         loadSearchResult={() => {}}
@@ -14,7 +14,7 @@ describe('Entity container', () => {
         shouldStopSearching={() => {}}
     >
       <span></span>
-    </EntityContainer>);
+    </View>);
 
     expect(clearErrors).toBeCalled();
   });
@@ -22,7 +22,7 @@ describe('Entity container', () => {
   it('calls load', () => {
     const load = jest.fn();
 
-    shallow(<EntityContainer
+    shallow(<View
         canStartLoadingDetails={() => true}
         clearErrors={() => {}}
         loadSearchResult={() => {}}
@@ -36,7 +36,7 @@ describe('Entity container', () => {
   it('starts album search on mount', () => {
     const loadSearchResult = jest.fn();
 
-    shallow(<EntityContainer
+    shallow(<View
         canStartLoadingDetails={() => true}
         clearErrors={() => {}}
         loadSearchResult={loadSearchResult}
@@ -50,7 +50,7 @@ describe('Entity container', () => {
   it('starts album search on update', () => {
     const loadSearchResult = jest.fn();
 
-    const wrapper = shallow(<EntityContainer
+    const wrapper = shallow(<View
         canStartLoadingDetails={jest.fn().mockReturnValueOnce(false).mockReturnValueOnce(true)}
         clearErrors={() => {}}
         loadSearchResult={loadSearchResult}
@@ -64,7 +64,7 @@ describe('Entity container', () => {
 
   it('stops album search when done', () => {
     const clearIntervalSpy = jest.spyOn(global.window, 'clearInterval');
-    const wrapper = shallow(<EntityContainer
+    const wrapper = shallow(<View
         canStartLoadingDetails={() => true}
         clearErrors={() => {}}
         loadSearchResult={() => {}}
@@ -80,7 +80,7 @@ describe('Entity container', () => {
 
   it('stops album search on unmount', () => {
     const clearIntervalSpy = jest.spyOn(global.window, 'clearInterval');
-    const wrapper = shallow(<EntityContainer
+    const wrapper = shallow(<View
         canStartLoadingDetails={() => true}
         clearErrors={() => {}}
         loadSearchResult={() => {}}
@@ -95,7 +95,7 @@ describe('Entity container', () => {
   });
 
   it('renders loading message', () => {
-    const wrapper = shallow(<EntityContainer
+    const wrapper = shallow(<View
         load={() => {}}
         clearErrors={() => {}}
         canStartLoadingDetails={() => false}
@@ -107,7 +107,7 @@ describe('Entity container', () => {
   });
 
   it('renders failure message', () => {
-    const wrapper = shallow(<EntityContainer
+    const wrapper = shallow(<View
         load={() => {}}
         clearErrors={() => {}}
         canStartLoadingDetails={() => false}
@@ -119,7 +119,7 @@ describe('Entity container', () => {
   });
 
   it('renders contents', () => {
-    const wrapper = shallow(<EntityContainer
+    const wrapper = shallow(<View
         load={() => {}}
         clearErrors={() => {}}
         canStartLoadingDetails={() => false}
@@ -127,7 +127,7 @@ describe('Entity container', () => {
         failed={false}
     >
       <p>Content</p>
-    </EntityContainer>);
+    </View>);
 
     expect(wrapper.find('p').text()).toEqual('Content');
   });

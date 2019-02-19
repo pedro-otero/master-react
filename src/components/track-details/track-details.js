@@ -10,7 +10,7 @@ import Producers from 'components/Producers';
 import ArtistWork from 'components/ArtistWork';
 import { Block } from 'components/Utils';
 import { viewTrack } from 'state/view';
-import EntityContainer from 'components/EntityContainer';
+import View from 'components/View';
 import { loadSearchResult } from 'state/actions/backend';
 import { clearErrors } from 'state/errors';
 
@@ -33,7 +33,7 @@ export const TrackDetails = ({
   loadSearchResult,
   clearErrors,
 }) => (
-  <EntityContainer
+  <View
       clearErrors={clearErrors}
       canStartLoadingDetails={() => !!albumId}
       shouldStopSearching={() => progress === 100}
@@ -65,7 +65,7 @@ export const TrackDetails = ({
       <Progress
           size={Object.keys(credits).length === 0 ? 'big' : 'small'}
           value={progress} />}
-  </EntityContainer>
+  </View>
 );
 
 TrackDetails.propTypes = {

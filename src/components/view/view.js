@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import LoadingCircle from 'components/LoadingCircle';
 
-export class EntityContainer extends React.Component {
+export class View extends React.Component {
   static propTypes = {
     canStartLoadingDetails: PropTypes.func,
     children: PropTypes.node,
@@ -76,4 +76,4 @@ export class EntityContainer extends React.Component {
   }
 }
 
-export default EntityContainer;
+export default View;
