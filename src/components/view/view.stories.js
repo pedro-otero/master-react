@@ -6,14 +6,6 @@ import View from './view';
 import storyData from './story-data.json';
 
 storiesOf('View', module)
-  .add('Loading', () => (
-    <View
-        loading
-        loadingMessage="This is the loadingMessage prop"
-        clearErrors={() => {}}
-        canStartLoadingDetails ={() => {}}
-        load={() => {}} />
-  ))
   .add('Failed', () => (
     <View
         failed

@@ -31,7 +31,7 @@ const AlbumInfo = styled.div`
 export class Artist extends React.Component {
   render() {
     const {
-      name, image, loading, failed, albums, id, loadArtistAlbums, canLoadMoreAlbums, viewArtist, clearErrors,
+      name, image, failed, albums, id, loadArtistAlbums, canLoadMoreAlbums, viewArtist, clearErrors,
     } = this.props;
     return (
       <View
@@ -40,8 +40,6 @@ export class Artist extends React.Component {
           shouldStopSearching={() => !canLoadMoreAlbums}
           load={() => viewArtist(id)}
           loadSearchResult={() => loadArtistAlbums(id)}
-          loading={loading}
-          loadingMessage="Loading data from Spotify..."
           failed={failed}
           failedMessage="Could not load this artist">
         <ArtistWork title={name} image={image} background={image} />
@@ -70,7 +68,6 @@ Artist.propTypes = {
   id: PropTypes.string,
   image: PropTypes.string,
   loadArtistAlbums: PropTypes.func,
-  loading: PropTypes.bool,
   name: PropTypes.string,
   viewArtist: PropTypes.func,
 };
@@ -81,11 +78,11 @@ const mapStateToProps = ({ artists }, { id }) => {
     artist = artists[id];
   }
   const {
-    name, image, albums: { items: albums = [], nextPage } = {}, loading, failed,
+    name, image, albums: { items: albums = [], nextPage } = {}, failed,
   } = artist;
   const canLoadMoreAlbums = nextPage !== null;
   return {
-    id, name, image, albums, loading, failed, canLoadMoreAlbums,
+    id, name, image, albums, failed, canLoadMoreAlbums,
   };
 };
 

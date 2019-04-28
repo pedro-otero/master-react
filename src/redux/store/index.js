@@ -33,6 +33,7 @@ import { addError, clearErrors, reduce } from '../errors';
 import { savedTracksReducer, setSavedTracks, savedAlbumsReducer, setSavedAlbums } from '../library';
 import { viewTrack } from '../view';
 import { reduce as swipe } from 'state/swipe';
+import { reduce as progress } from 'state/progress';
 
 const devTools = global.window.__REDUX_DEVTOOLS_EXTENSION__ &&
   global.window.__REDUX_DEVTOOLS_EXTENSION__();
@@ -63,6 +64,7 @@ const store = (spotifyApi) => createStore(
     }),
     errors: reduce,
     swipe,
+    progress,
   }),
   devTools,
   applyMiddleware(thunkMiddleware.withExtraArgument({

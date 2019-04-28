@@ -19,24 +19,14 @@ describe('Album component', () => {
     const wrapper = shallow(<Album
         artist="Someone"
         name="album"
-        progress={50}
         tracks={[{}, {}, {}]} />);
     expect(wrapper.find('li').length).toEqual(3);
-  });
-
-  it('renders Progress', () => {
-    const wrapper = shallow(<Album
-        artist="Someone"
-        name="album"
-        progress={50} />);
-    expect(wrapper.find('Progress').length).toEqual(1);
   });
 
   it('hides Progress', () => {
     const wrapper = shallow(<Album
         artist="Someone"
-        name="album"
-        progress={100} />);
+        name="album" />);
     expect(wrapper.find('Progress').length).toEqual(0);
   });
 });

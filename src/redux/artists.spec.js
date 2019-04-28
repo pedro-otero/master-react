@@ -1,4 +1,4 @@
-import { artistToState, artistAlbumsToState } from './artists';
+import { artistToState, artistAlbumsToState, setArtistAlbums } from './artists';
 
 describe('REDUX: Artists', () => {
   it('maps artists without images to state', () => {
@@ -59,5 +59,16 @@ describe('REDUX: Artists', () => {
       year: '2016',
       image: 'img2',
     }]);
+  });
+
+  it('calculates artist albums load progress', () => {
+    const action = setArtistAlbums('AR1', {
+      items: [],
+      total: 100,
+      limit: 20,
+      offset: 40,
+    });
+
+    expect(action.data.progress).toEqual(60);
   });
 });

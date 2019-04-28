@@ -46,8 +46,7 @@ storiesOf('Album', module)
         name="Hyped EP"
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
         year="2017"
-        tracks={tracks}
-        loading={false} />
+        tracks={tracks} />
   ))
   .add('Artist loaded', () => (
     <Album
@@ -58,22 +57,7 @@ storiesOf('Album', module)
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
         year="2017"
         tracks={tracks}
-        background="https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a"
-        loading={false} />
-  ))
-  .add('Search started', () => (
-    <Album
-        clearErrors={() => {}}
-        load={() => {}}
-        artist="The Band"
-        name="Hyped EP"
-        image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
-        year="2017"
-        tracks={tracks}
-        searchStarted={true}
-        progress={35}
-        background="https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a"
-        loading={false} />
+        background="https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a" />
   ))
   .add('Some credits found', () => (
     <Album
@@ -84,12 +68,9 @@ storiesOf('Album', module)
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
         year="2017"
         tracks={Object.assign(tracks, { 0: Object.assign({}, tracks[0], composers[0]) })}
-        searchStarted={true}
-        progress={70}
-        background="https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a"
-        loading={false} />
+        background="https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a" />
   ))
-  .add('Finished', () => (
+  .add('Full', () => (
     <Album
         clearErrors={() => {}}
         load={() => {}}
@@ -98,8 +79,5 @@ storiesOf('Album', module)
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
         year="2017"
         tracks={tracks.map((track, i) => Object.assign({}, track, composers[i]))}
-        searchStarted={true}
-        progress={100}
-        background="https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a"
-        loading={false} />
+        background="https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a" />
   ));

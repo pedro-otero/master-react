@@ -17,6 +17,8 @@ import { loadProfile } from 'state/profile';
 import { loadPlaybackInfo } from 'state/playbackInfo';
 import Artist from 'components/Artist';
 import { endSwipe, setTouch, closeMenu } from 'state/swipe';
+import Progress from 'components/Progress';
+import LoadingCircle from 'components/LoadingCircle';
 
 const ContentArea = styled.div`
   flex: 1;
@@ -76,7 +78,7 @@ export class Root extends React.Component {
 
   render() {
     const {
-      isNewUser, isAuthenticated, store, open,
+      isNewUser, isAuthenticated, store, open, progress,
     } = this.props;
     if (isNewUser) {
       return <Welcome loginUrl={this.getAuthUrl()} />;
@@ -101,12 +103,14 @@ export class Root extends React.Component {
               onTouchEnd={this.props.endSwipe}>
             <Errors />
             <Views>
+              {progress.available && <Progress value={progress.value} size="small" />}
               <Route exact path="/" component={Home} />
               <Route path="/track/:id" render={({ match }) => <TrackDetails trackId={match.params.id} />} />
               <Route path="/album/:id" render={({ match }) => <Album albumId={match.params.id} />} />
               <Route path="/artist/:id" render={({ match }) => <Artist id={match.params.id} />} />
               <Route path="/user/tracks" render={() => <SavedTracks />} />
               <Route path="/user/albums" render={() => <SavedAlbums />} />
+              {progress.loading && <LoadingCircle message={progress.loading} />}
             </Views>
           </ContentArea>
         </Main>
@@ -123,15 +127,21 @@ Root.propTypes = {
   loadPlaybackInfo: PropTypes.func.isRequired,
   loadProfile: PropTypes.func.isRequired,
   open: PropTypes.number.isRequired,
+  progress: PropTypes.shape({
+    available: PropTypes.bool,
+    value: PropTypes.number,
+    loading: PropTypes.string,
+  }),
   redirectUri: PropTypes.string.isRequired,
   setTouch: PropTypes.func.isRequired,
   store: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = ({ user: { auth: { token, expiry } }, swipe: { open } }) => ({
+const mapStateToProps = ({ user: { auth: { token, expiry } }, swipe: { open }, progress }) => ({
   isNewUser: !token && !expiry,
   isAuthenticated: typeof token !== 'undefined' && (Date.now() - (new Date(expiry)).getTime()) <= 0,
   open,
+  progress,
 });
 
 const mapDispatchToProps = dispatch => ({

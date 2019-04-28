@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import LoadingCircle from 'components/LoadingCircle';
-
 export class View extends React.Component {
   static propTypes = {
     canStartLoadingDetails: PropTypes.func,
@@ -15,8 +13,6 @@ export class View extends React.Component {
     loadDetails: PropTypes.func,
     loadHeader: PropTypes.func,
     loadSearchResult: PropTypes.func,
-    loading: PropTypes.bool,
-    loadingMessage: PropTypes.string,
     shouldStopSearching: PropTypes.func,
   };
 
@@ -57,15 +53,10 @@ export class View extends React.Component {
 
   render() {
     const {
-      loading,
-      loadingMessage,
       failed,
       failedMessage,
       children,
     } = this.props;
-    if (loading) {
-      return <LoadingCircle message={loadingMessage} />;
-    }
     if (failed) {
       return <div>
         <i className="em em--1"></i>

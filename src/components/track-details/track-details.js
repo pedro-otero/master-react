@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import LoadingCircle from 'components/LoadingCircle';
-import Progress from 'components/Progress';
 import Credits from 'components/Credits';
 import Composers from 'components/Composers';
 import Producers from 'components/Producers';
@@ -27,8 +25,6 @@ export const TrackDetails = ({
   composers,
   producers,
   load,
-  loading,
-  searchStarted,
   failed,
   loadSearchResult,
   clearErrors,
@@ -39,8 +35,6 @@ export const TrackDetails = ({
       shouldStopSearching={() => progress === 100}
       load={load}
       loadSearchResult={() => loadSearchResult(albumId)}
-      loading={loading}
-      loadingMessage="Loading data from Spotify..."
       failed={failed}
       failedMessage="Could not load this track">
     <ArtistWork
@@ -57,14 +51,9 @@ export const TrackDetails = ({
         <Producers list={producers} />
       </span>
     </ArtistWork>
-    {!searchStarted && <LoadingCircle message="Starting search..." />}
     <Block>
       <Credits data={credits} />
     </Block>
-    {searchStarted && progress !== 100 &&
-      <Progress
-          size={Object.keys(credits).length === 0 ? 'big' : 'small'}
-          value={progress} />}
   </View>
 );
 
@@ -76,11 +65,9 @@ TrackDetails.propTypes = {
   credits: PropTypes.object,
   failed: PropTypes.bool,
   image: PropTypes.string,
-  loading: PropTypes.bool,
   name: PropTypes.string,
   producers: PropTypes.array,
   progress: PropTypes.number,
-  searchStarted: PropTypes.bool,
   year: PropTypes.string,
 };
 
@@ -100,7 +87,7 @@ const mapStateToProps = ({ tracks, albums, artists }, { trackId }) => {
   };
   const {
     track: {
-      name, composers, producers, credits, loading, failed, artistId,
+      name, composers, producers, credits, failed, artistId,
     },
     album: {
       id: albumId, year, image, progress,
@@ -112,13 +99,11 @@ const mapStateToProps = ({ tracks, albums, artists }, { trackId }) => {
     composers,
     producers,
     credits,
-    loading,
     failed,
     albumId,
     artistId,
     image,
     year,
-    searchStarted: !!progress,
     progress,
     artist: artistName,
     background,

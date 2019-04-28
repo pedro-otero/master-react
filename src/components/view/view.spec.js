@@ -94,18 +94,6 @@ describe('View', () => {
     clearIntervalSpy.mockRestore();
   });
 
-  it('renders loading message', () => {
-    const wrapper = shallow(<View
-        load={() => {}}
-        clearErrors={() => {}}
-        canStartLoadingDetails={() => false}
-        loading
-        loadingMessage="I am waiting..."
-    />);
-
-    expect(wrapper.find('LoadingCircle[message="I am waiting..."]')).toHaveLength(1);
-  });
-
   it('renders failure message', () => {
     const wrapper = shallow(<View
         load={() => {}}
@@ -123,7 +111,6 @@ describe('View', () => {
         load={() => {}}
         clearErrors={() => {}}
         canStartLoadingDetails={() => false}
-        loading={false}
         failed={false}
     >
       <p>Content</p>
