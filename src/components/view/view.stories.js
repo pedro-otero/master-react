@@ -7,13 +7,27 @@ import storyData from './story-data.json';
 
 storiesOf('View', module)
   .add('Loading', () => (
-    <View loading loadingMessage="This is the loadingMessage prop" />
+    <View
+        loading
+        loadingMessage="This is the loadingMessage prop"
+        clearErrors={() => {}}
+        canStartLoadingDetails ={() => {}}
+        load={() => {}} />
   ))
   .add('Failed', () => (
-    <View failed failedMessage="And this one is the failedMessage prop" />
+    <View
+        failed
+        failedMessage="And this one is the failedMessage prop"
+        load={() => {}}
+        canStartLoadingDetails ={() => {}}
+        clearErrors={() => {}} />
   ))
   .add('All OK', () => (
-    <View>
+    <View
+        canStartLoadingDetails ={() => {}}
+        load={() => {}}
+        clearErrors={() => {}}
+    >
       <h4>{storyData.viewDescription}</h4>
     </View>
   ));

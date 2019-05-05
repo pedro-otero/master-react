@@ -3,6 +3,7 @@ import React from 'react';
 import storiesOf from 'storiesOfComponentsWithLinks';
 
 import { SavedAlbums } from './saved-albums';
+import { SavedTracks } from 'components/SavedTracks';
 
 const outer = {
   display: 'flex',
@@ -36,7 +37,10 @@ storiesOf('Saved albums', module)
   .add('Default', () => (
     <div style={outer}>
       <div style={inner}>
-        <SavedAlbums albums={albums} loadSavedAlbums={() => ({})} />
+        <SavedAlbums
+            albums={albums}
+            loadSavedAlbums={() => ({})}
+            clearErrors={() => {}} />
       </div>
     </div>
   ));

@@ -50,7 +50,10 @@ storiesOf('Saved tracks', module)
   .add('Default', () => (
     <div style={outer}>
       <div style={inner}>
-        <SavedTracks tracks={tracks} loadSavedTracks={() => ({})} />
+        <SavedTracks
+            tracks={tracks}
+            loadSavedTracks={() => ({})}
+            clearErrors={() => {}} />
       </div>
     </div>
   ));
