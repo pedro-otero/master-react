@@ -17,6 +17,16 @@ const SongInfo = styled.div`
   justify-content: center;
 `;
 
+const overflowPrevention = `
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 15em;
+`;
+
+const TrackName = styled.strong`${overflowPrevention}`;
+const Artist = styled.small`${overflowPrevention}`;
+
 const PlaybackInfo = ({
   id, image, name, artist,
 }) => (
@@ -24,8 +34,8 @@ const PlaybackInfo = ({
     <PlaybackInfoMain>
       <Image src={image} size="3em" />
       <SongInfo>
-        <strong>{name}</strong>
-        <small>{artist}</small>
+        <TrackName>{name}</TrackName>
+        <Artist>{artist}</Artist>
       </SongInfo>
     </PlaybackInfoMain>
   </Link>
