@@ -17,9 +17,11 @@ describe('Artist component', () => {
   });
 
   it('renders albums', () => {
+    const albums = [{ name: 'Albums', items: [{ id: 'AL1' }] }];
+
     const wrapper = shallow(<Artist
         name="Someone"
-        albums={[{ id: 'AL1' }]}
+        albums={albums}
         viewArtist={() => {}} />);
 
     expect(wrapper.find('AlbumItem').length).toEqual(1);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -44,17 +44,24 @@ export class Artist extends React.Component {
           failedMessage="Could not load this artist">
         <ArtistWork title={name} image={image} background={image} />
         <Block>
-          {albums && albums.length && albums.map(album => (
-            <Link to={`/album/${album.id}`}>
-              <AlbumItem>
-                <Image src={album.image} size="4em" />
-                <AlbumInfo>
-                  <div>{album.name}</div>
-                  <div>{album.year}</div>
-                </AlbumInfo>
-              </AlbumItem>
-            </Link>
-        ))}
+          {albums && albums.length && albums.map(category => (
+            <Fragment>
+              <h3>{category.name} ({category.items.length})</h3>
+              <hr />
+              {category.items.map(album => (
+                <Link to={`/album/${album.id}`}>
+                  <AlbumItem>
+                    <Image src={album.image} size="4em" />
+                    <AlbumInfo>
+                      <div>{album.name}</div>
+                      <div>{album.year}</div>
+                    </AlbumInfo>
+                  </AlbumItem>
+                </Link>
+              ))}
+              <br />
+            </Fragment>
+          ))}
         </Block>
       </View>
     );

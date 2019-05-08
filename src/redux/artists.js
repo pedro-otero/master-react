@@ -38,17 +38,31 @@ export function artistToState({ id, name, images }) {
 }
 
 export function artistAlbumsToState({ items }) {
-  return items.map(({
-    id,
-    name,
-    release_date: releaseDate,
-    images: [firstImage = {}],
-  }) => ({
-    id,
-    name,
-    year: releaseDate.substring(0, 4),
-    image: firstImage.url,
-  }));
+  const group = (type, isFeatured) => ({
+    name: `${isFeatured ? 'Featured: ' : ''}${type}s`,
+    items: items
+      .filter(album => album.album_type === type.toLowerCase())
+      .filter(album => album.album_group === (isFeatured ? 'appears_on' : type.toLowerCase()))
+      .map(({
+        id,
+        name,
+        release_date: releaseDate,
+        images: [firstImage = {}],
+      }) => ({
+        id,
+        name,
+        year: releaseDate.substring(0, 4),
+        image: firstImage.url,
+      })),
+  });
+  return [
+    group('Album', false),
+    group('Single', false),
+    group('Compilation', false),
+    group('Album', true),
+    group('Single', true),
+    group('Compilation', true),
+  ].filter(category => category.items.length > 0);
 }
 
 export function setArtistAlbums(id, response) {
@@ -114,7 +128,15 @@ export const reduce = buildReducer([
   }],
   [SET_ARTIST_ALBUMS, (state, { data: { id, items, nextPage } }) => {
     const artist = state[id];
-    const jointItems = [...(artist.albums.items || []), ...items];
+    const currentGroups = artist.albums.items || [];
+    const newGroups = items.filter(item => !currentGroups.find(group => group.name === item.name));
+    const jointItems = currentGroups.map((item) => {
+      const matchingGroup = items.find(group => group.name === item.name) || { items: [] };
+      return {
+        ...item,
+        items: item.items.concat(matchingGroup.items),
+      };
+    }).concat(newGroups);
     return {
       ...state,
       [id]: {
