@@ -26,9 +26,14 @@ export const failAlbumLoad = notifier(FAIL_ALBUM_LOAD);
 
 export function albumToState(album) {
   const {
-    id, name, artists, images, tracks: { items: tracks }, release_date: releaseDate,
+    id,
+    name,
+    artists,
+    images: [firstImage = {}],
+    tracks: { items: tracks },
+    release_date: releaseDate,
   } = album;
-  const image = images[0].url;
+  const image = firstImage.url;
   const artistId = artists[0].id;
   const year = releaseDate.substring(0, 4);
   return {
