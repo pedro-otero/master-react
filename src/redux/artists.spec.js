@@ -60,4 +60,24 @@ describe('REDUX: Artists', () => {
       image: 'img2',
     }]);
   });
+
+  it('maps artist albums without images to state', () => {
+    const mappedAlbums = artistAlbumsToState({
+      items: [{
+        id: 'AL1',
+        name: 'Album #1',
+        release_date: '2018-01-05',
+        images: [],
+      }],
+      limit: 30,
+      offset: 0,
+    });
+
+    expect(mappedAlbums).toEqual([{
+      id: 'AL1',
+      name: 'Album #1',
+      year: '2018',
+      image: undefined,
+    }]);
+  });
 });

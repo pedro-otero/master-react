@@ -42,7 +42,7 @@ export function artistAlbumsToState({ items }) {
     id,
     name,
     release_date: releaseDate,
-    images: [firstImage],
+    images: [firstImage = {}],
   }) => ({
     id,
     name,
