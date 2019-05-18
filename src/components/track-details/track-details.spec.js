@@ -7,8 +7,9 @@ const credits = { composers: [], producers: [], credits: {} };
 
 describe('TrackDetails component', () => {
   let wrapper;
+  const clearAlbumInView = jest.fn();
   beforeEach(() => {
-    wrapper = shallow(<TrackDetails />);
+    wrapper = shallow(<TrackDetails clearAlbumInView={clearAlbumInView} />);
   });
 
   it('hides composers and producers list', () => {
@@ -53,5 +54,11 @@ describe('TrackDetails component', () => {
       progress: 100,
     });
     expect(wrapper.find('Progress[className="small-progress"]')).toHaveLength(0);
+  });
+
+  it('clears the album in view', () => {
+    wrapper.unmount();
+
+    expect(clearAlbumInView).toHaveBeenCalled();
   });
 });

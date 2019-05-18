@@ -7,67 +7,73 @@ import Composers from 'components/Composers';
 import Producers from 'components/Producers';
 import ArtistWork from 'components/ArtistWork';
 import { Block } from 'components/Utils';
-import { viewTrack } from 'state/view';
+import { clearAlbumInView, viewTrack } from 'state/view';
 import View from 'components/View';
-import { loadSearchResult } from 'state/actions/backend';
 import { clearErrors } from 'state/errors';
 
-export const TrackDetails = ({
-  name,
-  artist,
-  artistId,
-  albumId,
-  image,
-  background,
-  year,
-  progress,
-  credits,
-  composers,
-  producers,
-  load,
-  failed,
-  loadSearchResult,
-  clearErrors,
-}) => (
-  <View
-      clearErrors={clearErrors}
-      canStartLoadingDetails={() => !!albumId}
-      shouldStopSearching={() => progress === 100}
-      load={load}
-      loadSearchResult={() => loadSearchResult(albumId)}
-      failed={failed}
-      failedMessage="Could not load this track">
-    <ArtistWork
-        title={name}
-        artist={artist}
-        artistId={artistId}
-        year={year}
-        image={image}
-        background={background}
-        path={`/album/${albumId}`}>
-      <span>
-        <Composers list={composers} />
-        <br />
-        <Producers list={producers} />
-      </span>
-    </ArtistWork>
-    <Block>
-      <Credits data={credits} />
-    </Block>
-  </View>
-);
+export class TrackDetails extends React.Component {
+  componentWillUnmount() {
+    this.props.clearAlbumInView();
+  }
+
+  render() {
+    const {
+      name,
+      artist,
+      artistId,
+      albumId,
+      image,
+      background,
+      year,
+      credits,
+      composers,
+      producers,
+      load,
+      failed,
+      clearErrors,
+    } = this.props;
+    return (
+      <View
+          clearErrors={clearErrors}
+          canStartLoadingDetails={() => false}
+          shouldStopSearching={() => true}
+          loadSearchResult={() => {}}
+          load={load}
+          failed={failed}
+          failedMessage="Could not load this track">
+        <ArtistWork
+            title={name}
+            artist={artist}
+            artistId={artistId}
+            year={year}
+            image={image}
+            background={background}
+            path={`/album/${albumId}`}>
+          <span>
+            <Composers list={composers} />
+            <br />
+            <Producers list={producers} />
+          </span>
+        </ArtistWork>
+        <Block>
+          <Credits data={credits} />
+        </Block>
+      </View>
+    );
+  }
+}
 
 TrackDetails.propTypes = {
   albumId: PropTypes.string,
   artist: PropTypes.string,
   background: PropTypes.string,
+  clearAlbumInView: PropTypes.func,
   composers: PropTypes.array,
   credits: PropTypes.object,
   failed: PropTypes.bool,
   image: PropTypes.string,
   name: PropTypes.string,
   producers: PropTypes.array,
-  progress: PropTypes.number,
   year: PropTypes.string,
 };
 
@@ -90,7 +96,7 @@ const mapStateToProps = ({ tracks, albums, artists }, { trackId }) => {
       name, composers, producers, credits, failed, artistId,
     },
     album: {
-      id: albumId, year, image, progress,
+      id: albumId, year, image,
     },
     artist: { name: artistName, image: background },
   } = base;
@@ -104,7 +110,6 @@ const mapStateToProps = ({ tracks, albums, artists }, { trackId }) => {
     artistId,
     image,
     year,
-    progress,
     artist: artistName,
     background,
   };
@@ -113,8 +118,8 @@ const mapStateToProps = ({ tracks, albums, artists }, { trackId }) => {
 
 const mapDispatchToProps = (dispatch, { trackId }) => ({
   load: () => dispatch(viewTrack(trackId)),
-  loadSearchResult: id => dispatch(loadSearchResult(id)),
   clearErrors: () => dispatch(clearErrors()),
+  clearAlbumInView: () => dispatch(clearAlbumInView()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TrackDetails);

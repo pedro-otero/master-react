@@ -31,7 +31,7 @@ import { reduce as auth } from '../user';
 import { reduce as profile, userProfileActions } from '../profile';
 import { addError, clearErrors, reduce } from '../errors';
 import { savedTracksReducer, setSavedTracks, savedAlbumsReducer, setSavedAlbums } from '../library';
-import { viewTrack } from '../view';
+import { viewTrack, setAlbumInView, reduce as viewing } from '../view';
 import { reduce as swipe } from 'state/swipe';
 import { reduce as progress } from 'state/progress';
 
@@ -65,6 +65,7 @@ const store = (spotifyApi) => createStore(
     errors: reduce,
     swipe,
     progress,
+    viewing,
   }),
   devTools,
   applyMiddleware(thunkMiddleware.withExtraArgument({
@@ -81,6 +82,7 @@ const store = (spotifyApi) => createStore(
       ...userProfileActions,
       setSavedTracks,
       setSavedAlbums,
+      setAlbumInView,
     },
     config: {
       request,

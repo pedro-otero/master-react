@@ -19,6 +19,7 @@ import Artist from 'components/Artist';
 import { endSwipe, setTouch, closeMenu } from 'state/swipe';
 import Progress from 'components/Progress';
 import LoadingCircle from 'components/LoadingCircle';
+import { loadSearchResult } from 'state/actions/backend';
 
 const ContentArea = styled.div`
   flex: 1;
@@ -55,6 +56,21 @@ export class Root extends React.Component {
   componentWillMount() {
     if (this.props.isAuthenticated) {
       this.props.loadProfile();
+    }
+  }
+
+  componentDidUpdate(prev) {
+    const {
+      loadSearchResult,
+      progress: { available: isSearching },
+      viewing: albumInView,
+    } = this.props;
+    if (albumInView) {
+      if (!prev.viewing) {
+        loadSearchResult(albumInView);
+      } else if (isSearching) {
+        setTimeout(loadSearchResult, 1000, albumInView);
+      }
     }
   }
 
@@ -126,6 +142,7 @@ Root.propTypes = {
   isNewUser: PropTypes.bool,
   loadPlaybackInfo: PropTypes.func.isRequired,
   loadProfile: PropTypes.func.isRequired,
+  loadSearchResult: PropTypes.func.isRequired,
   open: PropTypes.number.isRequired,
   progress: PropTypes.shape({
     available: PropTypes.bool,
@@ -135,13 +152,20 @@ Root.propTypes = {
   redirectUri: PropTypes.string.isRequired,
   setTouch: PropTypes.func.isRequired,
   store: PropTypes.object.isRequired,
+  viewing: PropTypes.string,
 };
 
-const mapStateToProps = ({ user: { auth: { token, expiry } }, swipe: { open }, progress }) => ({
+const mapStateToProps = ({
+  user: { auth: { token, expiry } },
+  swipe: { open },
+  progress,
+  viewing,
+}) => ({
   isNewUser: !token && !expiry,
   isAuthenticated: typeof token !== 'undefined' && (Date.now() - (new Date(expiry)).getTime()) <= 0,
   open,
   progress,
+  viewing,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -150,6 +174,7 @@ const mapDispatchToProps = dispatch => ({
   setTouch: event => dispatch(setTouch(event)),
   endSwipe: () => dispatch(endSwipe()),
   closeMenu: () => dispatch(closeMenu()),
+  loadSearchResult: id => dispatch(loadSearchResult(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Root);

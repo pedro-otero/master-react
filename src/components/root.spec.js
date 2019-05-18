@@ -85,4 +85,103 @@ describe('Root component', () => {
 
     expect(wrapper.find('LoadingCircle')).toHaveLength(0);
   });
+
+  it('starts loading search results of album just viewed', () => {
+    const loadSearchResult = jest.fn();
+    const wrapper = shallow(<Root
+        isNewUser={false}
+        isAuthenticated={true}
+        loadProfile={jest.fn()}
+        progress={{ available: false }}
+        loadSearchResult={loadSearchResult} />);
+
+    wrapper.setProps({ viewing: 'ALBUM_ID' });
+
+    expect(loadSearchResult).toHaveBeenCalledWith('ALBUM_ID');
+  });
+
+  it('continues to load search results of album in view', () => {
+    const setTimeoutSpy = jest.spyOn(global.window, 'setTimeout');
+    const loadSearchResult = jest.fn();
+    const wrapper = shallow(<Root
+        isNewUser={false}
+        isAuthenticated={true}
+        loadProfile={jest.fn()}
+        progress={{ available: false }}
+        loadSearchResult={loadSearchResult}
+        viewing='ALBUM_ID' />);
+
+    wrapper.setProps({ progress: { available: true } });
+
+    expect(setTimeoutSpy).toHaveBeenCalledWith(loadSearchResult, 1000, 'ALBUM_ID');
+
+    setTimeoutSpy.mockRestore();
+  });
+
+  it('continues to load search results of album in view not finished yet', () => {
+    const setTimeoutSpy = jest.spyOn(global.window, 'setTimeout');
+    const loadSearchResult = jest.fn();
+    const wrapper = shallow(<Root
+        isNewUser={false}
+        isAuthenticated={true}
+        loadProfile={jest.fn()}
+        progress={{ available: true, value: 30 }}
+        loadSearchResult={loadSearchResult}
+        viewing='ALBUM_ID' />);
+
+    wrapper.setProps({ progress: { available: true, value: 50 } });
+
+    expect(setTimeoutSpy).toHaveBeenCalledWith(loadSearchResult, 1000, 'ALBUM_ID');
+
+    setTimeoutSpy.mockRestore();
+  });
+
+  it('stops loading search results once progress is not available (finish assumed)', () => {
+    const setTimeoutSpy = jest.spyOn(global.window, 'setTimeout');
+    const loadSearchResult = jest.fn();
+    const wrapper = shallow(<Root
+        isNewUser={false}
+        isAuthenticated={true}
+        loadProfile={jest.fn()}
+        progress={{ available: true, value: 30 }}
+        loadSearchResult={loadSearchResult}
+        viewing='ALBUM_ID' />);
+
+    wrapper.setProps({ progress: { available: false } });
+
+    expect(setTimeoutSpy).not.toHaveBeenCalled();
+
+    setTimeoutSpy.mockRestore();
+  });
+
+  it('does not schedule a search when viewing id is removed', () => {
+    const setTimeoutSpy = jest.spyOn(global.window, 'setTimeout');
+    const wrapper = shallow(<Root
+        isNewUser={false}
+        isAuthenticated={true}
+        loadProfile={jest.fn()}
+        progress={{ available: true, value: 30 }}
+        viewing='ALBUM_ID' />);
+
+    wrapper.setProps({ viewing: undefined });
+
+    expect(setTimeoutSpy).not.toHaveBeenCalled();
+
+    setTimeoutSpy.mockRestore();
+  });
+
+  it('does not load search when viewing id is removed', () => {
+    const loadSearchResult = jest.fn();
+    const wrapper = shallow(<Root
+        isNewUser={false}
+        isAuthenticated={true}
+        loadProfile={jest.fn()}
+        loadSearchResult={loadSearchResult}
+        progress={{ available: true, value: 30 }}
+        viewing='ALBUM_ID' />);
+
+    wrapper.setProps({ viewing: undefined });
+
+    expect(loadSearchResult).not.toHaveBeenCalled();
+  });
 });

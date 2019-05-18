@@ -29,4 +29,16 @@ describe('Album component', () => {
         name="album" />);
     expect(wrapper.find('Progress').length).toEqual(0);
   });
+
+  it('clears the album in view', () => {
+    const clearAlbumInView = jest.fn();
+    const wrapper = shallow(<Album
+        artist="Someone"
+        name="album"
+        clearAlbumInView={clearAlbumInView} />);
+
+    wrapper.unmount();
+
+    expect(clearAlbumInView).toHaveBeenCalled();
+  });
 });
