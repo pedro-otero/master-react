@@ -44,7 +44,7 @@ export class Artist extends React.Component {
           failedMessage="Could not load this artist">
         <ArtistWork title={name} image={image} background={image} />
         <Block>
-          {albums && albums.length && albums.map(category => (
+          {albums.map(category => (
             <Fragment>
               <h3>{category.name} ({category.items.length})</h3>
               <hr />
