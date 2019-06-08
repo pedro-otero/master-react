@@ -54,7 +54,7 @@ const albums = [{
 }];
 
 storiesOf('Artist', module)
-  .add('Default', () => (
+  .add('With albums', () => (
     <Artist
         clearErrors={() => {}}
         loadArtistAlbums={() => {}}
@@ -62,6 +62,17 @@ storiesOf('Artist', module)
         name="Somebody Famous"
         image="https://i.scdn.co/image/0a4c9792c52ec21c3b881542e0739d6f605799b8"
         albums={albums}
+        viewArtist={() => ({})}
+      />
+  ))
+  .add('With no albums', () => (
+    <Artist
+        clearErrors={() => {}}
+        loadArtistAlbums={() => {}}
+        id="1"
+        name="Somebody Famous"
+        image="https://i.scdn.co/image/0a4c9792c52ec21c3b881542e0739d6f605799b8"
+        albums={[]}
         viewArtist={() => ({})}
       />
   ));
