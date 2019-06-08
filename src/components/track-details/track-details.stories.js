@@ -8,12 +8,14 @@ storiesOf('Track details', module)
   .add('With Spotify track info', () => (
     <TrackDetails
         clearErrors={() => {}}
+        clearAlbumInView={() => {}}
         load={() => {}}
         name="Char Topper Everybody's Sick Of" />
   ))
   .add('With Spotify album info', () => (
     <TrackDetails
         clearErrors={() => {}}
+        clearAlbumInView={() => {}}
         load={() => {}}
         name="Char Topper Everybody's Sick Of"
         image="https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
@@ -22,6 +24,7 @@ storiesOf('Track details', module)
   .add('With Spotify artist info', () => (
     <TrackDetails
         clearErrors={() => {}}
+        clearAlbumInView={() => {}}
         load={() => {}}
         name="Char Topper Everybody's Sick Of"
         artist="Pop Master"
@@ -32,6 +35,7 @@ storiesOf('Track details', module)
   .add('Found composers', () => (
     <TrackDetails
         clearErrors={() => {}}
+        clearAlbumInView={() => {}}
         load={() => {}}
         name="Char Topper Everybody's Sick Of"
         artist="Pop Master"
@@ -43,6 +47,7 @@ storiesOf('Track details', module)
   .add('Found credits', () => (
     <TrackDetails
         clearErrors={() => {}}
+        clearAlbumInView={() => {}}
         load={() => {}}
         name="Char Topper Everybody's Sick Of"
         artist="Pop Master"
@@ -58,6 +63,7 @@ storiesOf('Track details', module)
   .add('Full', () => (
     <TrackDetails
         clearErrors={() => {}}
+        clearAlbumInView={() => {}}
         load={() => {}}
         loadSearchResult={() => {}}
         name="Char Topper Everybody's Sick Of"

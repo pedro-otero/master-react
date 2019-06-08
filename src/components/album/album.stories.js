@@ -41,6 +41,7 @@ storiesOf('Album', module)
   .add('Album loaded', () => (
     <Album
         clearErrors={() => {}}
+        clearAlbumInView={() => {}}
         load={() => {}}
         artist="The Band"
         name="Hyped EP"
@@ -51,6 +52,7 @@ storiesOf('Album', module)
   .add('Artist loaded', () => (
     <Album
         clearErrors={() => {}}
+        clearAlbumInView={() => {}}
         load={() => {}}
         artist="The Band"
         name="Hyped EP"
@@ -62,6 +64,7 @@ storiesOf('Album', module)
   .add('Some credits found', () => (
     <Album
         clearErrors={() => {}}
+        clearAlbumInView={() => {}}
         load={() => {}}
         artist="The Band"
         name="Hyped EP"
@@ -73,6 +76,7 @@ storiesOf('Album', module)
   .add('Full', () => (
     <Album
         clearErrors={() => {}}
+        clearAlbumInView={() => {}}
         load={() => {}}
         artist="The Band"
         name="Hyped EP"
