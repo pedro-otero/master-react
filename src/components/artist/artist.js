@@ -45,11 +45,11 @@ export class Artist extends React.Component {
         <ArtistWork title={name} image={image} background={image} />
         <Block>
           {albums.map(category => (
-            <Fragment>
+            <Fragment key={category.name}>
               <h3>{category.name} ({category.items.length})</h3>
               <hr />
               {category.items.map(album => (
-                <Link to={`/album/${album.id}`}>
+                <Link to={`/album/${album.id}`} key={album.id}>
                   <AlbumItem>
                     <Image src={album.image} size="4em" />
                     <AlbumInfo>
