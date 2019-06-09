@@ -75,7 +75,7 @@ export function setArtistAlbums(id, response) {
         offset: response.offset + response.limit,
         limit: response.limit,
       } : null,
-      progress: 100 * (response.offset + response.limit) / response.total,
+      progress: 100 * (response.offset + response.items.length) / response.total,
     },
   };
 }
