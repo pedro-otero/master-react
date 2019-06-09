@@ -180,10 +180,9 @@ describe('REDUX: Artists', () => {
 
   it('calculates artist albums load progress', () => {
     const action = setArtistAlbums('AR1', {
-      items: [],
-      total: 100,
-      limit: 20,
-      offset: 40,
+      items: [[], []],
+      total: 10,
+      offset: 4,
     });
 
     expect(action.data.progress).toEqual(60);
