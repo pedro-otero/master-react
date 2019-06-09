@@ -27,7 +27,7 @@ const ContentArea = styled.div`
   
   @media (min-width: 769px) {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
   }
 `;
 
