@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SpotifyWebApi from 'spotify-web-api-node';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 
 import registerServiceWorker from './registerServiceWorker';
 import configureStore from 'state/store';
@@ -34,6 +36,10 @@ if (window.location.hash) {
 
 registerServiceWorker();
 ReactDOM.render(
-  <Root store={store} redirectUri={window.location.origin} />,
+  <Provider store={store}>
+    <BrowserRouter>
+      <Root redirectUri={window.location.origin} />
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root'),
 );
