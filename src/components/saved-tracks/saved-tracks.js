@@ -5,12 +5,18 @@ import { connect } from 'react-redux';
 import SavedTrackItem from 'components/SavedTrackItem';
 import List from 'components/List';
 import { loadSavedTracks } from 'state/library';
-import View from 'components/View';
 import { clearErrors } from 'state/errors';
 
 export class SavedTracks extends React.Component {
   componentDidMount() {
+    this.props.clearErrors();
     this.props.loadSavedTracks();
+  }
+
+  componentDidUpdate(prev) {
+    if (this.props.nextPage && prev.nextPage.offset !== this.props.nextPage.offset) {
+      this.props.loadSavedTracks();
+    }
   }
 
   getSavedTrackListItem = ({
@@ -23,31 +29,18 @@ export class SavedTracks extends React.Component {
       album={album} />;
 
   render() {
-    const {
-      tracks,
-      loadSavedTracks,
-      clearErrors,
-      canLoadMore,
-    } = this.props;
     return (
-      <View
-          clearErrors={clearErrors}
-          canStartLoadingDetails={() => true}
-          shouldStopSearching={() => canLoadMore}
-          load={() => {}}
-          loadSearchResult={loadSavedTracks}>
-        <List searchFields={['name', 'artist', 'album']}>
-          {tracks.map(this.getSavedTrackListItem)}
-        </List>
-      </View>
+      <List searchFields={['name', 'artist', 'album']}>
+        {this.props.tracks.map(this.getSavedTrackListItem)}
+      </List>
     );
   }
 }
 
 SavedTracks.propTypes = {
-  canLoadMore: PropTypes.bool,
   clearErrors: PropTypes.func,
   loadSavedTracks: PropTypes.func,
+  nextPage: PropTypes.object,
   tracks: PropTypes.arrayOf(PropTypes.shape({
     album: PropTypes.string,
     artist: PropTypes.string,
@@ -60,7 +53,7 @@ export const mapStateToProps = ({
   user: { library: { tracks: { items, nextPage } } },
 }) => ({
   tracks: Object.values(items),
-  canLoadMore: nextPage !== null,
+  nextPage,
 });
 
 const mapDispatchToProps = dispatch => ({

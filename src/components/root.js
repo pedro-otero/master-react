@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { connect, Provider } from 'react-redux';
+import { Route, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import Welcome from 'components/Welcome';
@@ -94,7 +94,7 @@ export class Root extends React.Component {
 
   render() {
     const {
-      isNewUser, isAuthenticated, store, open, progress,
+      isNewUser, isAuthenticated, open, progress,
     } = this.props;
     if (isNewUser) {
       return <Welcome loginUrl={this.getAuthUrl()} />;
@@ -104,34 +104,32 @@ export class Root extends React.Component {
     }
     const isDesktop = window.matchMedia('(min-width: 769px)').matches;
     const isMenuVisible = isDesktop ? true : open === 100;
-    return <Provider store={store}>
-      <Router>
-        <Main onClick={this.getMainContainerClickHandler()}>
-          <Drawer
-              open={open}
-              bgColor="#222222"
-              opacity={0.95}>
-            <Menu isVisible={isMenuVisible} />
-          </Drawer>
-          <ContentArea
-              onTouchStart={this.props.setTouch}
-              onTouchMove={this.props.setTouch}
-              onTouchEnd={this.props.endSwipe}>
-            <Errors />
-            <Views>
-              {progress.available && <Progress value={progress.value} size="small" />}
-              <Route exact path="/" component={Home} />
-              <Route path="/track/:id" render={({ match }) => <TrackDetails trackId={match.params.id} />} />
-              <Route path="/album/:id" render={({ match }) => <Album albumId={match.params.id} />} />
-              <Route path="/artist/:id" render={({ match }) => <Artist id={match.params.id} />} />
-              <Route path="/user/tracks" render={() => <SavedTracks />} />
-              <Route path="/user/albums" render={() => <SavedAlbums />} />
-              {progress.loading && <LoadingCircle message={progress.loading} />}
-            </Views>
-          </ContentArea>
-        </Main>
-      </Router>
-    </Provider>;
+    return (
+      <Main onClick={this.getMainContainerClickHandler()}>
+        <Drawer
+            open={open}
+            bgColor="#222222"
+            opacity={0.95}>
+          <Menu isVisible={isMenuVisible} />
+        </Drawer>
+        <ContentArea
+            onTouchStart={this.props.setTouch}
+            onTouchMove={this.props.setTouch}
+            onTouchEnd={this.props.endSwipe}>
+          <Errors />
+          <Views>
+            {progress.available && <Progress value={progress.value} size="small" />}
+            <Route exact path="/" component={Home} />
+            <Route path="/track/:id" render={({ match }) => <TrackDetails trackId={match.params.id} />} />
+            <Route path="/album/:id" render={({ match }) => <Album albumId={match.params.id} />} />
+            <Route path="/artist/:id" render={({ match }) => <Artist id={match.params.id} />} />
+            <Route path="/user/tracks" render={() => <SavedTracks />} />
+            <Route path="/user/albums" render={() => <SavedAlbums />} />
+            {progress.loading && <LoadingCircle message={progress.loading} />}
+          </Views>
+        </ContentArea>
+      </Main>
+    );
   }
 }
 
@@ -151,7 +149,6 @@ Root.propTypes = {
   }),
   redirectUri: PropTypes.string.isRequired,
   setTouch: PropTypes.func.isRequired,
-  store: PropTypes.object.isRequired,
   viewing: PropTypes.string,
 };
 
@@ -177,4 +174,4 @@ const mapDispatchToProps = dispatch => ({
   loadSearchResult: id => dispatch(loadSearchResult(id)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Root);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Root));

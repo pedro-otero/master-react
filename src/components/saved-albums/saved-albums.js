@@ -5,12 +5,18 @@ import { connect } from 'react-redux';
 import SavedAlbumItem from 'components/SavedAlbumItem';
 import List from 'components/List';
 import { loadSavedAlbums } from 'state/library';
-import View from 'components/View';
 import { clearErrors } from 'state/errors';
 
 export class SavedAlbums extends React.Component {
   componentDidMount() {
+    this.props.clearErrors();
     this.props.loadSavedAlbums();
+  }
+
+  componentDidUpdate(prev) {
+    if (this.props.nextPage && prev.nextPage.offset !== this.props.nextPage.offset) {
+      this.props.loadSavedAlbums();
+    }
   }
 
   getSavedAlbumListItem = ({
@@ -22,23 +28,10 @@ export class SavedAlbums extends React.Component {
       artist={artist} />;
 
   render() {
-    const {
-      albums,
-      loadSavedAlbums,
-      clearErrors,
-      canLoadMore,
-    } = this.props;
     return (
-      <View
-          clearErrors={clearErrors}
-          canStartLoadingDetails={() => true}
-          shouldStopSearching={() => canLoadMore}
-          load={() => {}}
-          loadSearchResult={loadSavedAlbums}>
-        <List searchFields={['name', 'artist']}>
-          {albums.map(this.getSavedAlbumListItem)}
-        </List>
-      </View>
+      <List searchFields={['name', 'artist']}>
+        {this.props.albums.map(this.getSavedAlbumListItem)}
+      </List>
     );
   }
 }
@@ -49,14 +42,16 @@ SavedAlbums.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   })),
+  clearErrors: PropTypes.func,
   loadSavedAlbums: PropTypes.func,
+  nextPage: PropTypes.object,
 };
 
 export const mapStateToProps = ({
   user: { library: { albums: { items, nextPage } } },
 }) => ({
   albums: Object.values(items),
-  canLoadMore: nextPage !== null,
+  nextPage,
 });
 
 const mapDispatchToProps = dispatch => ({

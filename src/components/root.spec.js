@@ -43,7 +43,7 @@ describe('Root component', () => {
         isAuthenticated={true}
         loadProfile={jest.fn()}
         progress={{ available: false }} />);
-    expect(wrapper.find('Provider')).toHaveLength(1);
+    expect(wrapper.find('Main')).toHaveLength(1);
   });
 
   it('renders progress', () => {

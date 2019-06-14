@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import request from 'superagent';
 
@@ -48,8 +48,8 @@ const artistActions = {
   setArtist, startArtistLoad, loadArtist, failArtistLoad, loadArtistAlbums,
 };
 
-const store = (spotifyApi) => createStore(
-  combineReducers({
+const store = (spotifyApi, preloadedState) => {
+  const rootReducer = combineReducers({
     tracks,
     albums,
     artists,
@@ -66,9 +66,8 @@ const store = (spotifyApi) => createStore(
     swipe,
     progress,
     viewing,
-  }),
-  devTools,
-  applyMiddleware(thunkMiddleware.withExtraArgument({
+  });
+  const middleware = applyMiddleware(thunkMiddleware.withExtraArgument({
     spotifyApi,
     actions: {
       ...artistActions,
@@ -88,7 +87,11 @@ const store = (spotifyApi) => createStore(
       request,
       backendUrl: `${process.env.REACT_APP_BE_DOMAIN}/data/album`,
     },
-  })),
-);
+  }));
+  if (preloadedState) {
+    return createStore(rootReducer, preloadedState, compose(middleware, devTools));
+  }
+  return createStore(rootReducer, devTools, middleware);
+};
 
 export default store;
