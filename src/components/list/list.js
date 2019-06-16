@@ -86,9 +86,7 @@ class List extends React.Component {
 
 List.propTypes = {
   children: PropTypes.node,
-  onBottomReached: PropTypes.func,
   searchFields: PropTypes.arrayOf(PropTypes.string),
-  showFilter: PropTypes.bool,
 };
 
 export default List;

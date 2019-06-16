@@ -3,7 +3,6 @@ import React from 'react';
 import storiesOf from 'storiesOfComponentsWithLinks';
 
 import { SavedAlbums } from './saved-albums';
-import { SavedTracks } from 'components/SavedTracks';
 
 const outer = {
   display: 'flex',

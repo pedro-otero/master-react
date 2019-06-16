@@ -9,7 +9,7 @@ import ArtistWork from 'components/ArtistWork';
 import { Block } from 'components/Utils';
 import { clearAlbumInView, viewTrack } from 'state/view';
 import View from 'components/View';
-import { clearErrors } from 'state/errors';
+import * as errorsActions from 'state/errors';
 
 export class TrackDetails extends React.Component {
   componentWillUnmount() {
@@ -66,12 +66,15 @@ export class TrackDetails extends React.Component {
 TrackDetails.propTypes = {
   albumId: PropTypes.string,
   artist: PropTypes.string,
+  artistId: PropTypes.string,
   background: PropTypes.string,
   clearAlbumInView: PropTypes.func,
+  clearErrors: PropTypes.func,
   composers: PropTypes.array,
   credits: PropTypes.object,
   failed: PropTypes.bool,
   image: PropTypes.string,
+  load: PropTypes.func,
   name: PropTypes.string,
   producers: PropTypes.array,
   year: PropTypes.string,
@@ -118,7 +121,7 @@ const mapStateToProps = ({ tracks, albums, artists }, { trackId }) => {
 
 const mapDispatchToProps = (dispatch, { trackId }) => ({
   load: () => dispatch(viewTrack(trackId)),
-  clearErrors: () => dispatch(clearErrors()),
+  clearErrors: () => dispatch(errorsActions.clearErrors()),
   clearAlbumInView: () => dispatch(clearAlbumInView()),
 });
 

@@ -3,23 +3,23 @@ import { combineReducers } from 'redux';
 import { loadSavedItems } from './base/helpers';
 
 export function loadSavedTracks() {
-  return function (dispatch, getState, { spotifyApi, actions: { setSavedTracks } }) {
+  return function (dispatch, getState, { spotifyApi, actions }) {
     return loadSavedItems(
       getState().user.library.tracks.nextPage,
       dispatch,
       spotifyApi.getMySavedTracks,
-      setSavedTracks,
+      actions.setSavedTracks,
     );
   };
 }
 
 export function loadSavedAlbums() {
-  return function (dispatch, getState, { spotifyApi, actions: { setSavedAlbums } }) {
+  return function (dispatch, getState, { spotifyApi, actions }) {
     return loadSavedItems(
       getState().user.library.albums.nextPage,
       dispatch,
       spotifyApi.getMySavedAlbums,
-      setSavedAlbums,
+      actions.setSavedAlbums,
     );
   };
 }
@@ -75,9 +75,9 @@ function savedItemsReducer(type) {
   return combineReducers({
     items: buildReducer([[type, setIntoMapFromArray('items')]]),
     nextPage: buildReducer([
-      [type, (state = { offset: -20, limit: 20 }, action) => action.data.nextPage],
+      [type, (_, action) => action.data.nextPage],
     ]),
-    total: buildReducer([[type, (state = 0, action) => action.data.total]]),
+    total: buildReducer([[type, (_, action) => action.data.total]]),
   });
 }
 

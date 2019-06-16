@@ -13,7 +13,7 @@ describe('Spotify module', () => {
     global.localStorage = { getItem: jest.fn(() => 'fakeToken') };
     const webApi = jest.fn(() => ({
       setAccessToken: jest.fn(),
-      getAlbum: jest.fn(() => Promise.reject({ statusCode: 401 })),
+      getAlbum: jest.fn().mockRejectedValue({ statusCode: 401 }),
     }));
     const location = { reload: jest.fn(() => done()) };
     const getSpotifyModule = Spotify(webApi, location);
@@ -25,7 +25,7 @@ describe('Spotify module', () => {
     global.localStorage = { getItem: jest.fn(() => 'fakeToken') };
     const webApi = jest.fn(() => ({
       setAccessToken: jest.fn(),
-      getArtist: jest.fn(() => Promise.reject({ statusCode: 404 })),
+      getArtist: jest.fn().mockRejectedValue({ statusCode: 404 }),
     }));
     const getSpotifyModule = Spotify(webApi, null);
     const api = getSpotifyModule(1, 2);
@@ -41,7 +41,7 @@ describe('Spotify module', () => {
     global.localStorage = { getItem: jest.fn(() => 'fakeToken') };
     const clearTimerSpy = jest.spyOn(global.window, 'clearInterval');
     const getArtist = jest.fn()
-      .mockImplementationOnce(() => Promise.reject({ statusCode: 429 }))
+      .mockRejectedValueOnce({ statusCode: 429 })
       .mockImplementationOnce(() => Promise.resolve({}));
     const webApi = jest.fn(() => ({
       setAccessToken: jest.fn(),

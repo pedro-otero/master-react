@@ -8,7 +8,7 @@ import { Block } from 'components/Utils';
 import { clearAlbumInView, viewAlbum } from 'state/view';
 import View from 'components/View';
 import { loadSearchResult } from 'state/actions/backend';
-import { clearErrors } from 'state/errors';
+import * as actions from 'state/errors';
 
 export class Album extends React.Component {
   componentWillUnmount() {
@@ -17,7 +17,16 @@ export class Album extends React.Component {
 
   render() {
     const {
-      background, image, tracks, year, name, artist, failed, load, artistId, albumId, loadSearchResult, clearErrors,
+      background,
+      image,
+      tracks,
+      year,
+      name,
+      artist,
+      failed,
+      load,
+      artistId,
+      clearErrors,
     } = this.props;
     return (
       <View
@@ -58,9 +67,10 @@ Album.propTypes = {
   artistId: PropTypes.string,
   background: PropTypes.string,
   clearAlbumInView: PropTypes.func,
+  clearErrors: PropTypes.func,
   failed: PropTypes.bool,
-  id: PropTypes.string.isRequired,
   image: PropTypes.string,
+  load: PropTypes.func,
   name: PropTypes.string,
   tracks: PropTypes.array,
   year: PropTypes.string,
@@ -99,7 +109,7 @@ const mapStateToProps = ({ tracks, albums, artists }, { albumId }) => {
 const mapDispatchToProps = (dispatch, { albumId }) => ({
   load: () => dispatch(viewAlbum(albumId)),
   loadSearchResult: id => dispatch(loadSearchResult(id)),
-  clearErrors: () => dispatch(clearErrors()),
+  clearErrors: () => dispatch(actions.clearErrors()),
   clearAlbumInView: () => dispatch(clearAlbumInView()),
 });
 

@@ -91,6 +91,9 @@ module.exports = {
 
       // redux folder
       state: path.join(__dirname, '../src/redux'),
+
+      // Stories helper. Only for stories that need to be wrapped in a Router.
+      storiesOfComponentsWithLinks: path.join(__dirname, '../.storybook/memory-router-helper.js'),
     }, components),
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).

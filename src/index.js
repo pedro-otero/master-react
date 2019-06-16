@@ -4,13 +4,12 @@ import SpotifyWebApi from 'spotify-web-api-node';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
-import registerServiceWorker from './registerServiceWorker';
 import configureStore from 'state/store';
-
-import Root from './components/root';
 import { parseToken, setToken } from 'state/user';
-import SpotifyCustomApiFactory from './api/spotify';
 
+import registerServiceWorker from './registerServiceWorker';
+import SpotifyCustomApiFactory from './api/spotify';
+import Root from './components/root';
 import './index.css';
 
 const CustomApi = SpotifyCustomApiFactory(SpotifyWebApi, window.location);

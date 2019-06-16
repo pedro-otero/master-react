@@ -1,4 +1,4 @@
-import { viewTrack, viewAlbum, viewArtist, searchAlbumInView, reduce } from 'state/view';
+import { viewTrack, viewAlbum, viewArtist, reduce } from 'state/view';
 
 describe('View actions', () => {
   describe('View track', () => {
@@ -7,7 +7,9 @@ describe('View actions', () => {
     const loadTrack = jest.fn(() => track);
     const mocks = [jest.fn(), jest.fn(), jest.fn()];
     const [loadAlbum, loadArtist, setAlbumInView] = mocks;
-    const actions = { loadTrack, loadAlbum, loadArtist, setAlbumInView };
+    const actions = {
+      loadTrack, loadAlbum, loadArtist, setAlbumInView,
+    };
 
     beforeAll(() => {
       const thunk = viewTrack('T1');

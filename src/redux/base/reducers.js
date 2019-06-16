@@ -43,7 +43,7 @@ export function buildReducer(transformations, seed = {}) {
   return function (state = seed, action) {
     const filtered = transformations.filter(([type]) => type === action.type);
     if (filtered.length) {
-      const [[_, reduce]] = filtered;
+      const [[, reduce]] = filtered;
       return reduce(state, action);
     }
     return state;

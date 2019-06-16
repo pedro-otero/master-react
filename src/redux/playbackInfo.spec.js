@@ -24,7 +24,7 @@ describe('Playback info', () => {
     failPlaybackInfoLoad: jest.fn(),
   };
   const clearActionMocks = () => Object.entries(actions)
-    .forEach(([_, action]) => action.mockClear());
+    .forEach(([, action]) => action.mockClear());
   const emptyGetState = () => ({});
 
   describe('Successful playback info load', () => {

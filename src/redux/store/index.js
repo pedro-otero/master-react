@@ -3,8 +3,8 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import request from 'superagent';
 
-import { reduce as playbackInfo, playbackInfoActions } from '../playbackInfo';
-import { loadSearchResult, setSearchResult } from '../actions/backend';
+import { reduce as playbackInfo, playbackInfoActions } from 'state/playbackInfo';
+import { loadSearchResult, setSearchResult } from 'state/actions/backend';
 import {
   setArtist,
   startArtistLoad,
@@ -12,26 +12,26 @@ import {
   failArtistLoad,
   reduce as artists,
   loadArtistAlbums,
-} from '../artists';
+} from 'state/artists';
 import {
   loadAlbum,
   startAlbumLoad,
   failAlbumLoad,
   setAlbum,
   reduce as albums,
-} from '../albums';
+} from 'state/albums';
 import {
   loadTrack,
   setTrack,
   startTrackLoad,
   failTrackLoad,
   reduce as tracks,
-} from '../tracks';
-import { reduce as auth } from '../user';
-import { reduce as profile, userProfileActions } from '../profile';
-import { addError, clearErrors, reduce } from '../errors';
-import { savedTracksReducer, setSavedTracks, savedAlbumsReducer, setSavedAlbums } from '../library';
-import { viewTrack, setAlbumInView, reduce as viewing } from '../view';
+} from 'state/tracks';
+import { reduce as auth } from 'state/user';
+import { reduce as profile, userProfileActions } from 'state/profile';
+import { addError, clearErrors, reduce } from 'state/errors';
+import { savedTracksReducer, setSavedTracks, savedAlbumsReducer, setSavedAlbums } from 'state/library';
+import { viewTrack, setAlbumInView, reduce as viewing } from 'state/view';
 import { reduce as swipe } from 'state/swipe';
 import { reduce as progress } from 'state/progress';
 
