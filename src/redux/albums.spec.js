@@ -1,4 +1,4 @@
-import { reduce, SET_ALBUM, albumToState, SET_SEARCH_RESULT } from './albums';
+import { albumToState } from './albums';
 
 
 describe('REDUX: Albums', () => {

@@ -3,7 +3,6 @@ import React from 'react';
 import storiesOf from 'storiesOfComponentsWithLinks';
 
 import { Artist } from './artist';
-import { Album } from 'components/Album';
 
 const albums = [{
   name: 'Albums',

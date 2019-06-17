@@ -7,10 +7,10 @@ import ArtistWork from 'components/ArtistWork';
 import Link from 'components/Link';
 import { Block } from 'components/Utils';
 import Image from 'components/Image';
-import { viewArtist } from 'state/view';
-import { loadArtistAlbums } from 'state/artists';
+import * as viewActions from 'state/view';
+import * as artistsActions from 'state/artists';
 import View from 'components/View';
-import { clearErrors } from 'state/errors';
+import * as errorsActions from 'state/errors';
 
 const AlbumItem = styled.div`
   display: flex;
@@ -71,6 +71,7 @@ export class Artist extends React.Component {
 Artist.propTypes = {
   albums: PropTypes.array,
   canLoadMoreAlbums: PropTypes.bool,
+  clearErrors: PropTypes.func,
   failed: PropTypes.bool,
   id: PropTypes.string,
   image: PropTypes.string,
@@ -94,9 +95,9 @@ const mapStateToProps = ({ artists }, { id }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  viewArtist: id => dispatch(viewArtist(id)),
-  loadArtistAlbums: id => dispatch(loadArtistAlbums(id)),
-  clearErrors: () => dispatch(clearErrors()),
+  viewArtist: id => dispatch(viewActions.viewArtist(id)),
+  loadArtistAlbums: id => dispatch(artistsActions.loadArtistAlbums(id)),
+  clearErrors: () => dispatch(errorsActions.clearErrors()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Artist);

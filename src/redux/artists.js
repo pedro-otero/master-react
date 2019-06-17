@@ -86,7 +86,7 @@ export function loadArtistAlbums(id) {
     const { albums: { nextPage = {} } } = getState().artists[id];
     if (nextPage === null) return;
     const { offset = 0, limit = 20 } = nextPage;
-    return spotifyApi.getArtistAlbums(id, { offset, limit })
+    spotifyApi.getArtistAlbums(id, { offset, limit })
       .then((response) => {
         dispatch(setArtistAlbums(id, response.body));
       });

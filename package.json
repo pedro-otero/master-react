@@ -21,7 +21,8 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom --coverage --config=jest.config.js",
     "storybook": "start-storybook -p 9001 -c .storybook",
-    "cypress:run": "yarn run cypress run"
+    "cypress:run": "yarn run cypress run",
+    "lint": "yarn run eslint ./src"
   },
   "devDependencies": {
     "@storybook/addon-knobs": "^5.1.8",

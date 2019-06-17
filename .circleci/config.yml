@@ -12,10 +12,20 @@ jobs:
       - run: yarn
       - run: yarn run test
 
+  eslint:
+    docker:
+      - image: circleci/node:8.11.3
+
+    steps:
+      - checkout
+      - run: yarn
+      - run: yarn run lint
+
 workflows:
   test:
     jobs:
       - unit-tests
+      - eslint
       - cypress/run:
           yarn: true
           start: yarn start

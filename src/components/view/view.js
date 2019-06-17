@@ -8,10 +8,7 @@ export class View extends React.Component {
     clearErrors: PropTypes.func,
     failed: PropTypes.bool,
     failedMessage: PropTypes.string,
-    isThereMore: PropTypes.func,
     load: PropTypes.func,
-    loadDetails: PropTypes.func,
-    loadHeader: PropTypes.func,
     loadSearchResult: PropTypes.func,
     shouldStopSearching: PropTypes.func,
   };
@@ -24,7 +21,7 @@ export class View extends React.Component {
     }
   }
 
-  componentDidUpdate(prev) {
+  componentDidUpdate() {
     if (!this.albumSearch && this.props.canStartLoadingDetails()) {
       this.program();
     }

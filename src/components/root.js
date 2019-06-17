@@ -14,12 +14,11 @@ import Menu from 'components/Menu';
 import SavedTracks from 'components/SavedTracks';
 import SavedAlbums from 'components/SavedAlbums';
 import { loadProfile } from 'state/profile';
-import { loadPlaybackInfo } from 'state/playbackInfo';
 import Artist from 'components/Artist';
 import { endSwipe, setTouch, closeMenu } from 'state/swipe';
 import Progress from 'components/Progress';
 import LoadingCircle from 'components/LoadingCircle';
-import { loadSearchResult } from 'state/actions/backend';
+import * as searchActions from 'state/actions/backend';
 
 const ContentArea = styled.div`
   flex: 1;
@@ -138,7 +137,6 @@ Root.propTypes = {
   endSwipe: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
   isNewUser: PropTypes.bool,
-  loadPlaybackInfo: PropTypes.func.isRequired,
   loadProfile: PropTypes.func.isRequired,
   loadSearchResult: PropTypes.func.isRequired,
   open: PropTypes.number.isRequired,
@@ -167,11 +165,10 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = dispatch => ({
   loadProfile: () => dispatch(loadProfile()),
-  loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
   setTouch: event => dispatch(setTouch(event)),
   endSwipe: () => dispatch(endSwipe()),
   closeMenu: () => dispatch(closeMenu()),
-  loadSearchResult: id => dispatch(loadSearchResult(id)),
+  loadSearchResult: id => dispatch(searchActions.loadSearchResult(id)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Root));

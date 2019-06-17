@@ -18,7 +18,7 @@ export const viewTrack = trackId =>
 export const viewAlbum = albumId =>
   (dispatch, getState, {
     actions: {
-      loadTrack, loadAlbum, loadArtist, setAlbumInView,
+      loadAlbum, loadArtist, setAlbumInView,
     },
   }) => {
     dispatch(setAlbumInView(albumId));

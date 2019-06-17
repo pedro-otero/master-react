@@ -5,12 +5,6 @@ export const START_PROFILE_LOAD = 'START_PROFILE_LOAD';
 export const FAIL_PROFILE_LOAD = 'FAIL_PROFILE_LOAD';
 export const SET_PROFILE = 'SET_PROFILE';
 
-export function setProfile({ display_name: name, id, images }) {
-  return {
-    name, userId: id, avatar: images.length ? images[0].url : null,
-  };
-}
-
 export const loadProfile = () => (dispatch, getState, {
   spotifyApi, actions: { setProfile, startProfileLoad, failProfileLoad },
 }) => {
@@ -24,7 +18,11 @@ export const loadProfile = () => (dispatch, getState, {
 export const userProfileActions = {
   startProfileLoad: notifier(START_PROFILE_LOAD),
   loadProfile,
-  setProfile: setter(SET_PROFILE, setProfile),
+  setProfile: setter(SET_PROFILE, ({ display_name: name, id, images }) => ({
+    name,
+    userId: id,
+    avatar: images.length ? images[0].url : null,
+  })),
   failProfileLoad: notifier(FAIL_PROFILE_LOAD),
 };
 
