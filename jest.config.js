@@ -1,6 +1,14 @@
 const aliases = require('./config/componentsAliases');
 
 module.exports = {
+  coverageThreshold: {
+    global: {
+      branches: 75,
+      functions: 67,
+      lines: 80,
+      statements: 80,
+    },
+  },
   collectCoverageFrom: [
     'src/**/*.{js,jsx,mjs}',
     '!src/**/*.stories.js',
