@@ -1,0 +1,8 @@
+{
+  "id": "T1",
+  "name": "Some Track",
+  "artists": [{ "id": "R1", "name": "Mr Artist" }],
+  "album": {
+    "id": "L1"
+  }
+}

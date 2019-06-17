@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "track": {
+        "id": "T2",
+        "name": "Second track",
+        "artists": [
+          {
+            "name": "Artist of the second track"
+          }
+        ],
+        "album": {
+          "name": "Album of the second track"
+        }
+      }
+    }
+  ],
+  "total": 2
+}

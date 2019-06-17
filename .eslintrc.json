@@ -1,7 +1,11 @@
 {
+  "plugins": [
+    "cypress"
+  ],
   "env": {
     "browser": true,
-    "jest": true
+    "jest": true,
+    "cypress/globals": true
   },
   "extends": [
     "eslint:recommended",
@@ -34,7 +38,7 @@
         "when": "multiline"
       }
     ],
-    "react/jsx-first-prop-new-line":[
+    "react/jsx-first-prop-new-line": [
       "error",
       "multiline-multiprop"
     ],
@@ -51,8 +55,19 @@
     "import/no-named-as-default-member": [
       "off"
     ],
-    "react/no-unused-prop-types": [2],
-    "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": true }],
-    "import/prefer-default-export": ["off"]
+    "react/no-unused-prop-types": [
+      2
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": true
+      }
+    ],
+    "import/prefer-default-export": [
+      "off"
+    ]
   }
 }

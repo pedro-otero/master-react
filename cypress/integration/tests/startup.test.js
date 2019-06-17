@@ -1,38 +1,14 @@
 describe('Crews', () => {
   it('Shows welcome page', () => {
-    cy.visit(`localhost:3000`);
+    cy.visit('localhost:3000');
     cy.contains('Login');
   });
 
   it('Logs in', () => {
     cy.server();
 
-    cy.route({
-      url: '**/v1/me',
-      response: {
-        display_name: 'BadLuck Brian',
-        id: 'bad_luck_brian_99',
-        images: [{
-          url: 'https://i.imgflip.com/wahid.jpg',
-        }],
-      },
-    });
-
-    cy.route({
-      url: '**/v1/me/player',
-      response: {
-        item: {
-          id: 'T1',
-          name: 'Some Track',
-          artists: [{ name: 'Mr Artist' }],
-          album: {
-            images: [{
-              url: 'https://i.imgflip.com/wahid.jpg',
-            }],
-          },
-        },
-      },
-    });
+    cy.route('GET', '**/v1/me', 'fixture:profile.json');
+    cy.route('GET', '**/v1/me/player', 'fixture:playbackInfo.json');
 
     cy.visit('localhost:3000/#access_token=FAKE_TOKEN&expires_in=123456789');
 

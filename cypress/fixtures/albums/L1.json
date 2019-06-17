@@ -1,0 +1,16 @@
+{
+  "id": "L1",
+  "name": "An Album",
+  "artists": [{ "id": "R1", "name": "Mr Artist" }],
+  "images": [{
+    "url": "https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
+  }],
+  "tracks": {
+    "items": [{
+      "id": "T1",
+      "name": "Some Track",
+      "duration_ms": 1000
+    }]
+  },
+  "release_date": "2010"
+}
