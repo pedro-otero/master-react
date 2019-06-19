@@ -1,0 +1,12 @@
+{
+  "item": {
+    "id": "T1",
+    "name": "Some Track",
+    "artists": [{ "name": "Mr Artist" }],
+    "album": {
+      "images": [{
+        "url": "https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3"
+      }]
+    }
+  }
+}

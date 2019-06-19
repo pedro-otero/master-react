@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "id": "L10",
+      "name": "Single",
+      "album_group": "single",
+      "album_type": "single",
+      "release_date": "2001",
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/0a4c9792c52ec21c3b881542e0739d6f605799b8"
+        }
+      ]
+    },
+    {
+      "id": "L11",
+      "name": "Album",
+      "album_group": "album",
+      "album_type": "album",
+      "release_date": "2002",
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/0a4c9792c52ec21c3b881542e0739d6f605799b8"
+        }
+      ]
+    }
+  ],
+  "total": 2
+}

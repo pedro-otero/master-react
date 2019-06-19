@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "track": {
+        "id": "T1",
+        "name": "First track",
+        "artists": [
+          {
+            "name": "Artist of the first track"
+          }
+        ],
+        "album": {
+          "name": "Album of the first track"
+        }
+      }
+    }
+  ],
+  "total": 2,
+  "offset": 0,
+  "limit": 20,
+  "next": "YES"
+}

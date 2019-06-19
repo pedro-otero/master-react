@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "album": {
+        "id": "L1",
+        "name": "First album",
+        "artists": [
+          {
+            "name": "Artist of the first album"
+          }
+        ]
+      }
+    }
+  ],
+  "total": 2,
+  "offset": 0,
+  "limit": 20,
+  "next": "YES"
+}

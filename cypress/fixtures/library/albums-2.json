@@ -1,0 +1,16 @@
+{
+  "items": [
+    {
+      "album": {
+        "id": "L2",
+        "name": "Second album",
+        "artists": [
+          {
+            "name": "Artist of the second album"
+          }
+        ]
+      }
+    }
+  ],
+  "total": 2
+}
