@@ -34,6 +34,7 @@ import { savedTracksReducer, setSavedTracks, savedAlbumsReducer, setSavedAlbums 
 import { viewTrack, setAlbumInView, reduce as viewing } from 'state/view';
 import { reduce as swipe } from 'state/swipe';
 import { reduce as progress } from 'state/progress';
+import { reduce as search } from 'state/search';
 
 const devTools = global.window.__REDUX_DEVTOOLS_EXTENSION__ &&
   global.window.__REDUX_DEVTOOLS_EXTENSION__();
@@ -66,6 +67,7 @@ const store = (spotifyApi, preloadedState) => {
     swipe,
     progress,
     viewing,
+    search,
   });
   const middleware = applyMiddleware(thunkMiddleware.withExtraArgument({
     spotifyApi,

@@ -53,6 +53,15 @@ describe('Saved albums', () => {
 
       expect(wrapper.find('SavedAlbumItem')).toHaveLength(1);
     });
+
+    it('renders no results sign', () => {
+      const wrapper = shallow(<SavedAlbums
+          loadSavedAlbums={() => {}}
+          clearErrors={() => {}}
+          albums={[]} />);
+
+      expect(wrapper.find('NoItems')).toHaveLength(1);
+    });
   });
 
   describe('mapStateToProps', () => {
@@ -70,6 +79,7 @@ describe('Saved albums', () => {
             },
           },
         },
+        search: { value: '' },
       };
       const props = mapStateToProps(state);
       expect(props).toEqual({
@@ -77,6 +87,43 @@ describe('Saved albums', () => {
           id: 'T1',
           name: 'Album',
           artist: 'Artist',
+        }],
+        nextPage: { offset: 80, limit: 20 },
+      });
+    });
+
+    it('filters albums', () => {
+      const state = {
+        user: {
+          library: {
+            albums: {
+              items: {
+                T1: {
+                  id: 'T1', name: 'tErM', artist: 'Artist',
+                },
+                T2: {
+                  id: 'T2', name: 'Track', artist: 'term',
+                },
+                T4: {
+                  id: 'T4', name: 'this', artist: 'does not match',
+                },
+              },
+              nextPage: { offset: 80, limit: 20 },
+            },
+          },
+        },
+        search: { value: 'term' },
+      };
+      const props = mapStateToProps(state);
+      expect(props).toEqual({
+        albums: [{
+          id: 'T1',
+          name: 'tErM',
+          artist: 'Artist',
+        }, {
+          id: 'T2',
+          name: 'Track',
+          artist: 'term',
         }],
         nextPage: { offset: 80, limit: 20 },
       });
