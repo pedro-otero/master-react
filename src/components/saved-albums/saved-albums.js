@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import SavedAlbumItem from 'components/SavedAlbumItem';
-import List from 'components/List';
 import { loadSavedAlbums } from 'state/library';
 import { clearErrors } from 'state/errors';
+import NoItems from 'components/NoItems';
+import { bindActionCreators } from 'redux';
 
 export class SavedAlbums extends React.Component {
   componentDidMount() {
@@ -29,9 +30,10 @@ export class SavedAlbums extends React.Component {
 
   render() {
     return (
-      <List searchFields={['name', 'artist']}>
+      <Fragment>
         {this.props.albums.map(this.getSavedAlbumListItem)}
-      </List>
+        {!this.props.albums.length && <NoItems />}
+      </Fragment>
     );
   }
 }
@@ -49,14 +51,18 @@ SavedAlbums.propTypes = {
 
 export const mapStateToProps = ({
   user: { library: { albums: { items, nextPage } } },
+  search: { value },
 }) => ({
-  albums: Object.values(items),
+  albums: Object.values(items)
+    .filter(album => !value
+      || album.name.toUpperCase().includes(value.toUpperCase())
+      || album.artist.toUpperCase().includes(value.toUpperCase())),
   nextPage,
 });
 
-const mapDispatchToProps = dispatch => ({
-  loadSavedAlbums: () => dispatch(loadSavedAlbums()),
-  clearErrors: () => dispatch(clearErrors()),
-});
+const mapDispatchToProps = dispatch => bindActionCreators({
+  loadSavedAlbums,
+  clearErrors,
+}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SavedAlbums);

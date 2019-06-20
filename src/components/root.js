@@ -19,6 +19,9 @@ import { endSwipe, setTouch, closeMenu } from 'state/swipe';
 import Progress from 'components/Progress';
 import LoadingCircle from 'components/LoadingCircle';
 import * as searchActions from 'state/actions/backend';
+import * as filterActions from 'state/search';
+import Filter from 'components/Filter';
+import { bindActionCreators } from 'redux';
 
 const ContentArea = styled.div`
   flex: 1;
@@ -122,6 +125,7 @@ export class Root extends React.Component {
             <Route path="/track/:id" render={({ match }) => <TrackDetails trackId={match.params.id} />} />
             <Route path="/album/:id" render={({ match }) => <Album albumId={match.params.id} />} />
             <Route path="/artist/:id" render={({ match }) => <Artist id={match.params.id} />} />
+            <Route path="/user" render={() => <Filter value={this.props.filter} onChange={this.props.onChangeFilter} />} />
             <Route path="/user/tracks" render={() => <SavedTracks />} />
             <Route path="/user/albums" render={() => <SavedAlbums />} />
             {progress.loading && <LoadingCircle message={progress.loading} />}
@@ -135,10 +139,12 @@ export class Root extends React.Component {
 Root.propTypes = {
   closeMenu: PropTypes.func.isRequired,
   endSwipe: PropTypes.func.isRequired,
+  filter: PropTypes.string.isRequired,
   isAuthenticated: PropTypes.bool,
   isNewUser: PropTypes.bool,
   loadProfile: PropTypes.func.isRequired,
   loadSearchResult: PropTypes.func.isRequired,
+  onChangeFilter: PropTypes.func.isRequired,
   open: PropTypes.number.isRequired,
   progress: PropTypes.shape({
     available: PropTypes.bool,
@@ -155,20 +161,23 @@ const mapStateToProps = ({
   swipe: { open },
   progress,
   viewing,
+  search: { value: filter },
 }) => ({
   isNewUser: !token && !expiry,
   isAuthenticated: typeof token !== 'undefined' && (Date.now() - (new Date(expiry)).getTime()) <= 0,
   open,
   progress,
   viewing,
+  filter,
 });
 
-const mapDispatchToProps = dispatch => ({
-  loadProfile: () => dispatch(loadProfile()),
-  setTouch: event => dispatch(setTouch(event)),
-  endSwipe: () => dispatch(endSwipe()),
-  closeMenu: () => dispatch(closeMenu()),
-  loadSearchResult: id => dispatch(searchActions.loadSearchResult(id)),
-});
+const mapDispatchToProps = dispatch => bindActionCreators({
+  loadProfile,
+  setTouch,
+  endSwipe,
+  closeMenu,
+  onChangeFilter: filterActions.setValue,
+  loadSearchResult: searchActions.loadSearchResult,
+}, dispatch);
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Root));
