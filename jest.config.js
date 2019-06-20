@@ -15,6 +15,7 @@ module.exports = {
     '!src/index.js',
     '!src/registerServiceWorker.js',
     '!src/redux/store/index.js',
+    '!src/stories/**/*.js',
   ],
   setupFiles: [
     '<rootDir>/config/polyfills.js',
