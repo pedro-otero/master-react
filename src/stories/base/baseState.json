@@ -40,5 +40,8 @@
   "progress": {
     "available": false
   },
-  "viewing": null
+  "viewing": null,
+  "search": {
+    "value": ""
+  }
 }

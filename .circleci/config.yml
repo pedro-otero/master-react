@@ -30,3 +30,8 @@ workflows:
           yarn: true
           start: yarn start
           wait-on: 'http://localhost:3000'
+      - cypress/run:
+          yarn: true
+          start: yarn run storybook:ci
+          command: yarn run cypress:stories
+          wait-on: 'http://localhost:9001'
