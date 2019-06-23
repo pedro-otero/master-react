@@ -16,15 +16,15 @@ describe('View actions', () => {
       thunk(dispatch, () => ({}), { actions });
     });
 
-    it('calls loadTrack', () => {
+    it('loads track', () => {
       expect(loadTrack).toBeCalledWith('T1');
     });
 
-    it('calls loadAlbum', () => {
+    it('loads album', () => {
       expect(loadAlbum).toBeCalledWith('L1');
     });
 
-    it('calls loadArtist', () => {
+    it('loads artist', () => {
       expect(loadArtist).toBeCalledWith('R1');
     });
 
@@ -45,11 +45,11 @@ describe('View actions', () => {
       thunk(dispatch, () => ({}), { actions });
     });
 
-    it('calls loadAlbum', () => {
+    it('loads album', () => {
       expect(loadAlbum).toBeCalledWith('A1');
     });
 
-    it('calls loadArtist', () => {
+    it('loads artist', () => {
       expect(loadArtist).toBeCalledWith('R1');
     });
 
@@ -69,7 +69,7 @@ describe('View actions', () => {
       thunk(dispatch, () => ({}), { actions });
     });
 
-    it('calls loadArtist', () => {
+    it('loads artist', () => {
       expect(loadArtist).toBeCalledWith('A1');
     });
   });
