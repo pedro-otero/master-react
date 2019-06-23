@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { bindActionCreators } from 'redux';
 
 import Welcome from 'components/Welcome';
 import Errors from 'components/Errors';
@@ -21,7 +22,7 @@ import LoadingCircle from 'components/LoadingCircle';
 import * as searchActions from 'state/actions/backend';
 import * as filterActions from 'state/search';
 import Filter from 'components/Filter';
-import { bindActionCreators } from 'redux';
+import LoadFailure from 'components/LoadFailure';
 
 const ContentArea = styled.div`
   flex: 1;
@@ -122,8 +123,32 @@ export class Root extends React.Component {
           <Views>
             {progress.available && <Progress value={progress.value} size="small" />}
             <Route exact path="/" component={Home} />
+            <Route
+                path="/track/:id"
+                render={({ match }) => (
+                  <LoadFailure
+                      id={match.params.id}
+                      itemType="tracks"
+                      message="Could not load this track" />
+              )} />
             <Route path="/track/:id" render={({ match }) => <TrackDetails trackId={match.params.id} />} />
+            <Route
+                path="/album/:id"
+                render={({ match }) => (
+                  <LoadFailure
+                      id={match.params.id}
+                      itemType="albums"
+                      message="Could not load this album" />
+              )} />
             <Route path="/album/:id" render={({ match }) => <Album albumId={match.params.id} />} />
+            <Route
+                path="/artist/:id"
+                render={({ match }) => (
+                  <LoadFailure
+                      id={match.params.id}
+                      itemType="artists"
+                      message="Could not load this artist" />
+              )} />
             <Route path="/artist/:id" render={({ match }) => <Artist id={match.params.id} />} />
             <Route path="/user" render={() => <Filter value={this.props.filter} onChange={this.props.onChangeFilter} />} />
             <Route path="/user/tracks" render={() => <SavedTracks />} />

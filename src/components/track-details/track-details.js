@@ -29,7 +29,6 @@ export class TrackDetails extends React.Component {
       composers,
       producers,
       load,
-      failed,
       clearErrors,
     } = this.props;
     return (
@@ -38,9 +37,7 @@ export class TrackDetails extends React.Component {
           canStartLoadingDetails={() => false}
           shouldStopSearching={() => true}
           loadSearchResult={() => {}}
-          load={load}
-          failed={failed}
-          failedMessage="Could not load this track">
+          load={load}>
         <ArtistWork
             title={name}
             artist={artist}
@@ -72,7 +69,6 @@ TrackDetails.propTypes = {
   clearErrors: PropTypes.func,
   composers: PropTypes.array,
   credits: PropTypes.object,
-  failed: PropTypes.bool,
   image: PropTypes.string,
   load: PropTypes.func,
   name: PropTypes.string,
@@ -96,7 +92,7 @@ const mapStateToProps = ({ tracks, albums, artists }, { trackId }) => {
   };
   const {
     track: {
-      name, composers, producers, credits, failed, artistId,
+      name, composers, producers, credits, artistId,
     },
     album: {
       id: albumId, year, image,
@@ -108,7 +104,6 @@ const mapStateToProps = ({ tracks, albums, artists }, { trackId }) => {
     composers,
     producers,
     credits,
-    failed,
     albumId,
     artistId,
     image,
