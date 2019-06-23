@@ -29,6 +29,7 @@ workflows:
       - cypress/run:
           yarn: true
           start: yarn start
+          command: yarn run cypress:app
           wait-on: 'http://localhost:3000'
       - cypress/run:
           yarn: true
