@@ -22,8 +22,10 @@
     "test": "node scripts/test.js --env=jsdom --coverage --config=jest.config.js",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "storybook:ci": "start-storybook -p 9001 -c .storybook --ci",
-    "cypress:run": "yarn run cypress run",
+    "cypress:app": "yarn run cypress run --project ./cypress/app",
+    "cypress:app-open": "yarn run cypress open --project ./cypress/app",
     "cypress:stories": "yarn run cypress run --project ./cypress/stories",
+    "cypress:stories-open": "yarn run cypress open --project ./cypress/stories",
     "lint": "yarn run eslint ./src"
   },
   "devDependencies": {
