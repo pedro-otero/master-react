@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 
 import Credits from 'components/Credits';
-import Composers from 'components/Composers';
-import Producers from 'components/Producers';
 import ArtistWork from 'components/ArtistWork';
 import { Block } from 'components/Utils';
 import { clearAlbumInView, viewTrack } from 'state/view';
 import View from 'components/View';
 import * as errorsActions from 'state/errors';
+
+const SmallText = styled.span`
+  font-size: small;
+`;
 
 export class TrackDetails extends React.Component {
   componentWillUnmount() {
@@ -47,9 +50,9 @@ export class TrackDetails extends React.Component {
             background={background}
             path={`/album/${albumId}`}>
           <span>
-            <Composers list={composers} />
+            {composers && <SmallText>({composers})</SmallText>}
             <br />
-            <Producers list={producers} />
+            {producers && <SmallText>[{producers}]</SmallText>}
           </span>
         </ArtistWork>
         <Block>
@@ -67,12 +70,12 @@ TrackDetails.propTypes = {
   background: PropTypes.string,
   clearAlbumInView: PropTypes.func,
   clearErrors: PropTypes.func,
-  composers: PropTypes.array,
+  composers: PropTypes.string,
   credits: PropTypes.object,
   image: PropTypes.string,
   load: PropTypes.func,
   name: PropTypes.string,
-  producers: PropTypes.array,
+  producers: PropTypes.string,
   year: PropTypes.string,
 };
 

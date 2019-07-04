@@ -24,17 +24,17 @@ const tracks = [{
   duration: '5:17',
 }];
 const composers = [{
-  composers: ['Mr. Frontman', 'Goto Producer'],
+  composers: 'Mr. Frontman, Goto Producer',
 }, {
-  composers: ['Mr. Frontman', 'The Drummer'],
+  composers: 'Mr. Frontman, The Drummer',
 }, {
-  composers: ['The Drummer', 'Goto Producer'],
+  composers: 'The Drummer, Goto Producer',
 }, {
-  composers: ['Mr. Frontman'],
+  composers: 'Mr. Frontman',
 }, {
-  composers: ['Mr. Frontman', 'Goto Producer', 'The Drummer', 'Guy Bass'],
+  composers: 'Mr. Frontman, Goto Producer, The Drummer, Guy Bass',
 }, {
-  composers: ['Mr. Frontman', 'The Drummer'],
+  composers: 'Mr. Frontman, The Drummer',
 }];
 
 storiesOf('Album', module)

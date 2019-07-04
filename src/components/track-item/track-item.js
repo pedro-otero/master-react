@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 import Link from 'components/Link';
-import Composers from 'components/Composers';
 import styles from './track-item.css';
+
+const SmallText = styled.span`
+  font-size: small;
+`;
 
 const TrackItem = ({
   name, duration, id, composers,
@@ -12,14 +16,14 @@ const TrackItem = ({
     <div className={styles.div}>
       <div className={styles.centerBlock}>
         <div className={styles.name}>{name}</div>
-        <Composers list={composers} />
+        {composers && <SmallText>({composers})</SmallText>}
       </div>
       <div className={styles.duration}>{duration}</div>
     </div>
   </Link>;
 
 TrackItem.propTypes = {
-  composers: PropTypes.array.isRequired,
+  composers: PropTypes.string.isRequired,
   duration: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
