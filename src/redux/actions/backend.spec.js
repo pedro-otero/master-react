@@ -1,4 +1,5 @@
-import { loadSearchResult } from './backend';
+import { SET_SEARCH_RESULT } from 'state/albums';
+import { setSearchResult, loadSearchResult } from './backend';
 
 describe('Backend actions', () => {
   describe('Successful search result', () => {
@@ -61,5 +62,35 @@ describe('Backend actions', () => {
     const thunk = loadSearchResult('AL1');
     thunk(jest.fn(), () => ({ albums: { AL1: { progress: 100 } } }), { config: { request } });
     expect(request.get).not.toBeCalled();
+  });
+
+  describe('Set search results action', () => {
+    it('creates set search results action', () => {
+      const action = setSearchResult({
+        id: 'L1',
+        bestMatch: {
+          tracks: [{
+            id: 'T1',
+            composers: ['One', 'Two'],
+            producers: ['Three', 'Four'],
+            credits: {},
+          }],
+        },
+      });
+
+      expect(action).toEqual({
+        type: SET_SEARCH_RESULT,
+        data: {
+          id: 'L1',
+          progress: undefined,
+          tracks: [{
+            id: 'T1',
+            composers: 'One, Two',
+            producers: 'Three, Four',
+            credits: {},
+          }],
+        },
+      });
+    });
   });
 });

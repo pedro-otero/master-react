@@ -12,7 +12,7 @@ storiesOf('Track item', module)
   ))
   .add('With composers', () => (
     <TrackItem
-        composers={['The one', 'The other']}
+        composers="The one, The other"
         name='Hot New Track'
         millis={25693579} />
   ));

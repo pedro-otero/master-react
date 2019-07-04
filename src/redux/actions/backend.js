@@ -25,8 +25,8 @@ export function setSearchResult(result) {
         id, composers, producers, credits,
       }) => ({
         id,
-        composers,
-        producers,
+        composers: composers.join(', '),
+        producers: producers.join(', '),
         credits,
       })),
     },
