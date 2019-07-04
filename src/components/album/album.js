@@ -23,7 +23,6 @@ export class Album extends React.Component {
       year,
       name,
       artist,
-      failed,
       load,
       artistId,
       clearErrors,
@@ -34,9 +33,7 @@ export class Album extends React.Component {
           canStartLoadingDetails={() => false}
           shouldStopSearching={() => true}
           loadSearchResult={() => {}}
-          load={load}
-          failed={failed}
-          failedMessage="Could not load this album">
+          load={load}>
         <ArtistWork
             title={name}
             artist={artist}
@@ -68,7 +65,6 @@ Album.propTypes = {
   background: PropTypes.string,
   clearAlbumInView: PropTypes.func,
   clearErrors: PropTypes.func,
-  failed: PropTypes.bool,
   image: PropTypes.string,
   load: PropTypes.func,
   name: PropTypes.string,
@@ -89,13 +85,12 @@ const mapStateToProps = ({ tracks, albums, artists }, { albumId }) => {
   };
   const {
     album: {
-      name, failed, year, image, artistId,
+      name, year, image, artistId,
     },
     artist: { name: artistName, image: background },
   } = base;
   const props = {
     name,
-    failed,
     image,
     year,
     tracks: base.tracks,
