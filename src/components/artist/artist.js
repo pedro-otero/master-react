@@ -9,7 +9,6 @@ import { Block } from 'components/Utils';
 import Image from 'components/Image';
 import * as viewActions from 'state/view';
 import * as artistsActions from 'state/artists';
-import View from 'components/View';
 import * as errorsActions from 'state/errors';
 
 const AlbumItem = styled.div`
@@ -29,17 +28,30 @@ const AlbumInfo = styled.div`
 `;
 
 export class Artist extends React.Component {
+  componentDidMount() {
+    const {
+      id, clearErrors, loadArtistAlbums, viewArtist,
+    } = this.props;
+    clearErrors();
+    viewArtist(id);
+    loadArtistAlbums(id);
+  }
+
+  componentDidUpdate({ next: previous }) {
+    const {
+      id, loadArtistAlbums, next,
+    } = this.props;
+    if (next && next !== previous) {
+      loadArtistAlbums(id);
+    }
+  }
+
   render() {
     const {
-      name, image, albums, id, loadArtistAlbums, canLoadMoreAlbums, viewArtist, clearErrors,
+      name, image, albums,
     } = this.props;
     return (
-      <View
-          clearErrors={clearErrors}
-          canStartLoadingDetails={() => true}
-          shouldStopSearching={() => !canLoadMoreAlbums}
-          load={() => viewArtist(id)}
-          loadSearchResult={() => loadArtistAlbums(id)}>
+      <Fragment>
         <ArtistWork title={name} image={image} background={image} />
         <Block>
           {albums.map(category => (
@@ -56,24 +68,24 @@ export class Artist extends React.Component {
                     </AlbumInfo>
                   </AlbumItem>
                 </Link>
-              ))}
+            ))}
               <br />
             </Fragment>
-          ))}
+        ))}
         </Block>
-      </View>
+      </Fragment>
     );
   }
 }
 
 Artist.propTypes = {
   albums: PropTypes.array,
-  canLoadMoreAlbums: PropTypes.bool,
   clearErrors: PropTypes.func,
   id: PropTypes.string,
   image: PropTypes.string,
   loadArtistAlbums: PropTypes.func,
   name: PropTypes.string,
+  next: PropTypes.number,
   viewArtist: PropTypes.func,
 };
 
@@ -85,9 +97,9 @@ const mapStateToProps = ({ artists }, { id }) => {
   const {
     name, image, albums: { items: albums = [], nextPage } = {},
   } = artist;
-  const canLoadMoreAlbums = nextPage !== null;
+  const next = nextPage ? nextPage.offset : undefined;
   return {
-    id, name, image, albums, canLoadMoreAlbums,
+    id, name, image, albums, next,
   };
 };
 
