@@ -5,14 +5,38 @@ import Connected, { TrackDetails } from './track-details';
 
 describe('TrackDetails component', () => {
   describe('Isolated', () => {
+    it('loads track', () => {
+      const load = jest.fn();
+
+      shallow(<TrackDetails
+          load={load}
+          clearErrors={() => {}} />);
+
+      expect(load).toHaveBeenCalled();
+    });
+
+    it('clears errors', () => {
+      const clearErrors = jest.fn();
+
+      shallow(<TrackDetails
+          load={() => {}}
+          clearErrors={clearErrors} />);
+
+      expect(clearErrors).toHaveBeenCalled();
+    });
+
     it('hides composers and producers list', () => {
-      const wrapper = shallow(<TrackDetails />);
+      const wrapper = shallow(<TrackDetails
+          load={() => {}}
+          clearErrors={() => {}} />);
 
       expect(wrapper.find('JointList')).toHaveLength(0);
     });
 
     it('displays the banner', () => {
       const wrapper = shallow(<TrackDetails
+          load={() => {}}
+          clearErrors={() => {}}
           name="Track name"
           background="ImgUrl" />);
 
@@ -21,6 +45,8 @@ describe('TrackDetails component', () => {
 
     it('does not display small progress indicator', () => {
       const wrapper = shallow(<TrackDetails
+          load={() => {}}
+          clearErrors={() => {}}
           name="Track name"
           progress={0} />);
 
@@ -29,6 +55,8 @@ describe('TrackDetails component', () => {
 
     it('does not display big progress indicator', () => {
       const wrapper = shallow(<TrackDetails
+          load={() => {}}
+          clearErrors={() => {}}
           name="Track name"
           progress={10} />);
 
@@ -37,6 +65,8 @@ describe('TrackDetails component', () => {
 
     it('does not display big progress indicator', () => {
       const wrapper = shallow(<TrackDetails
+          load={() => {}}
+          clearErrors={() => {}}
           name="Track name"
           progress={100} />);
 
@@ -45,6 +75,8 @@ describe('TrackDetails component', () => {
 
     it('does not display small progress indicator', () => {
       const wrapper = shallow(<TrackDetails
+          load={() => {}}
+          clearErrors={() => {}}
           name="Track name"
           progress={100} />);
 
@@ -53,7 +85,10 @@ describe('TrackDetails component', () => {
 
     it('clears the album in view', () => {
       const clearAlbumInView = jest.fn();
-      const wrapper = shallow(<TrackDetails clearAlbumInView={clearAlbumInView} />);
+      const wrapper = shallow(<TrackDetails
+          load={() => {}}
+          clearErrors={() => {}}
+          clearAlbumInView={clearAlbumInView} />);
 
       wrapper.unmount();
 
