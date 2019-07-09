@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -7,7 +7,6 @@ import Credits from 'components/Credits';
 import ArtistWork from 'components/ArtistWork';
 import { Block } from 'components/Utils';
 import { clearAlbumInView, viewTrack } from 'state/view';
-import View from 'components/View';
 import * as errorsActions from 'state/errors';
 
 const SmallText = styled.span`
@@ -15,6 +14,11 @@ const SmallText = styled.span`
 `;
 
 export class TrackDetails extends React.Component {
+  componentDidMount() {
+    this.props.load();
+    this.props.clearErrors();
+  }
+
   componentWillUnmount() {
     this.props.clearAlbumInView();
   }
@@ -31,16 +35,9 @@ export class TrackDetails extends React.Component {
       credits,
       composers,
       producers,
-      load,
-      clearErrors,
     } = this.props;
     return (
-      <View
-          clearErrors={clearErrors}
-          canStartLoadingDetails={() => false}
-          shouldStopSearching={() => true}
-          loadSearchResult={() => {}}
-          load={load}>
+      <Fragment>
         <ArtistWork
             title={name}
             artist={artist}
@@ -58,7 +55,7 @@ export class TrackDetails extends React.Component {
         <Block>
           <Credits data={credits} />
         </Block>
-      </View>
+      </Fragment>
     );
   }
 }
