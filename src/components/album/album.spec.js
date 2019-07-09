@@ -5,12 +5,30 @@ import Connected, { Album } from './album';
 
 describe('Album component', () => {
   describe('Isolated', () => {
-    it('renders empty OK', () => {
-      shallow(<Album />);
+    it('loads album', () => {
+      const load = jest.fn();
+
+      shallow(<Album
+          load={load}
+          clearErrors={() => {}} />);
+
+      expect(load).toHaveBeenCalled();
+    });
+
+    it('clears errors', () => {
+      const clearErrors = jest.fn();
+
+      shallow(<Album
+          load={() => {}}
+          clearErrors={clearErrors} />);
+
+      expect(clearErrors).toHaveBeenCalled();
     });
 
     it('renders banner', () => {
       const wrapper = shallow(<Album
+          load={() => {}}
+          clearErrors={() => {}}
           artist="Someone"
           name="album" />);
       expect(wrapper.find('ArtistWork').length).toEqual(1);
@@ -18,6 +36,8 @@ describe('Album component', () => {
 
     it('renders tracks', () => {
       const wrapper = shallow(<Album
+          load={() => {}}
+          clearErrors={() => {}}
           artist="Someone"
           name="album"
           tracks={[{}, {}, {}]} />);
@@ -26,6 +46,8 @@ describe('Album component', () => {
 
     it('hides Progress', () => {
       const wrapper = shallow(<Album
+          load={() => {}}
+          clearErrors={() => {}}
           artist="Someone"
           name="album" />);
       expect(wrapper.find('Progress').length).toEqual(0);
@@ -34,6 +56,8 @@ describe('Album component', () => {
     it('clears the album in view', () => {
       const clearAlbumInView = jest.fn();
       const wrapper = shallow(<Album
+          load={() => {}}
+          clearErrors={() => {}}
           artist="Someone"
           name="album"
           clearAlbumInView={clearAlbumInView} />);

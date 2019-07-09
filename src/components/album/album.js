@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -6,11 +6,15 @@ import ArtistWork from 'components/ArtistWork';
 import TrackItem from 'components/TrackItem';
 import { Block } from 'components/Utils';
 import { clearAlbumInView, viewAlbum } from 'state/view';
-import View from 'components/View';
 import { loadSearchResult } from 'state/actions/backend';
 import * as actions from 'state/errors';
 
 export class Album extends React.Component {
+  componentDidMount() {
+    this.props.load();
+    this.props.clearErrors();
+  }
+
   componentWillUnmount() {
     this.props.clearAlbumInView();
   }
@@ -23,17 +27,10 @@ export class Album extends React.Component {
       year,
       name,
       artist,
-      load,
       artistId,
-      clearErrors,
     } = this.props;
     return (
-      <View
-          clearErrors={clearErrors}
-          canStartLoadingDetails={() => false}
-          shouldStopSearching={() => true}
-          loadSearchResult={() => {}}
-          load={load}>
+      <Fragment>
         <ArtistWork
             title={name}
             artist={artist}
@@ -54,7 +51,7 @@ export class Album extends React.Component {
               </li>))}
           </ol>
         </Block>
-      </View>
+      </Fragment>
     );
   }
 }
