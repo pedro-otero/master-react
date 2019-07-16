@@ -10,7 +10,7 @@ import { clearAlbumInView, viewTrack } from 'state/view';
 import * as errorsActions from 'state/errors';
 
 const SmallText = styled.span`
-  font-size: small;
+  font-size: smaller;
 `;
 
 export class TrackDetails extends React.Component {

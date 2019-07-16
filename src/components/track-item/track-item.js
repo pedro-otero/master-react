@@ -6,7 +6,7 @@ import Link from 'components/Link';
 import styles from './track-item.css';
 
 const SmallText = styled.span`
-  font-size: small;
+  font-size: smaller;
 `;
 
 const TrackItem = ({
