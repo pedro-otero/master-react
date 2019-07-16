@@ -47,9 +47,9 @@ export class TrackDetails extends React.Component {
             background={background}
             path={`/album/${albumId}`}>
           <span>
-            {composers && <SmallText>({composers})</SmallText>}
+            <SmallText>({composers})</SmallText>
             <br />
-            {producers && <SmallText>[{producers}]</SmallText>}
+            <SmallText>[{producers}]</SmallText>
           </span>
         </ArtistWork>
         <Block>
@@ -78,8 +78,8 @@ TrackDetails.propTypes = {
 
 TrackDetails.defaultProps = {
   credits: {},
-  composers: [],
-  producers: [],
+  composers: '',
+  producers: '',
 };
 
 const mapStateToProps = ({ tracks, albums, artists }, { trackId }) => {

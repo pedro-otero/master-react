@@ -63,7 +63,7 @@ ArtistWork.propTypes = {
   artist: PropTypes.string,
   artistId: PropTypes.string,
   background: PropTypes.string,
-  children: PropTypes.array,
+  children: PropTypes.node,
   image: PropTypes.string,
   path: PropTypes.string,
   title: PropTypes.string,
