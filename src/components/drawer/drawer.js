@@ -79,7 +79,7 @@ Drawer.defaultProps = {
 
 Drawer.propTypes = {
   bgColor: PropTypes.string,
-  children: PropTypes.arrayOf(PropTypes.node),
+  children: PropTypes.node,
   onClose: PropTypes.func,
   onOpen: PropTypes.func,
   onOptionSelected: PropTypes.func,

@@ -9,8 +9,10 @@ const StrippedDownLink = styled(Link)`
 `;
 
 const StyledLink = ({ className, ...otherProps }) => {
-  const Component = otherProps.to ? StrippedDownLink : Fragment;
-  return <Component className={className} {...otherProps} />;
+  if (otherProps.to) {
+    return <StrippedDownLink className={className} {...otherProps} />;
+  }
+  return <Fragment>{otherProps.children}</Fragment>;
 };
 
 StyledLink.displayName = 'Link';

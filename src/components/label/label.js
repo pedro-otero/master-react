@@ -10,7 +10,7 @@ const Label = ({ className, value }) => (
 
 Label.propTypes = {
   className: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
 };
 
 export default Label;
