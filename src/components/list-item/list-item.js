@@ -11,7 +11,7 @@ const Name = styled.div`
 
 const Additional = styled.div`
   padding: 0.1em 0.5em 0.5em 0.5em;
-  font-size: small;
+  font-size: smaller;
 `;
 
 const ListItem = ({ path, name, additional }) => (
