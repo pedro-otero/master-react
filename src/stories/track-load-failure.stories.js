@@ -2,25 +2,36 @@
 import React from 'react';
 import storiesOf from 'storiesOfComponentsWithLinks';
 import { MemoryRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
 
 import Root from '../components/root';
-import baseState from './base/baseState.json';
-import mockStore from './base/mockStore';
+import AppContext from '../context';
 
-const thisStore = mockStore({
-  ...baseState,
-  errors: ['One error', 'Another error triggered after the first one'],
-  tracks: {
-    T1: { failed: true },
+const context = {
+  spotifyApi: {
+    getMe: () => Promise.resolve({
+      body: {
+        id: 'clever_nick87',
+        display_name: 'User McLastname',
+        images: [{ url: 'https://i.imgflip.com/wahid.jpg' }],
+        country: 'CA',
+      },
+    }),
+    getTrack: () => Promise.reject(Error()),
+    getMyCurrentPlaybackState: () => Promise.resolve({
+      body: {
+      },
+    }),
   },
-});
+  observeAlbumSearch: () => ({
+    subscribe: () => ({ unsubscribe: () => {} }),
+  }),
+};
 
 storiesOf('Crews', module)
   .add('Failure to load track', () => (
-    <Provider store={thisStore}>
+    <AppContext.Provider value={context}>
       <MemoryRouter initialEntries={['/track/T1']}>
-        <Root redirectUri="some.url" />
+        <Root />
       </MemoryRouter>
-    </Provider>
+    </AppContext.Provider>
   ));

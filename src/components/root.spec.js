@@ -1,187 +1,203 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
+import { render, act } from '@testing-library/react';
 
 import { Root } from './root';
+import GlobalAppContext from '../context';
 
-describe('Root component', () => {
+const context = {
+  spotifyApi: {
+    getMe: () => Promise.resolve({
+      body: {
+        id: 'username',
+        display_name: 'User',
+        images: [{ url: '' }],
+        country: 'CA',
+      },
+    }),
+    getTrack: () => Promise.resolve({
+      body: {
+        id: 'T1',
+        name: 'title of song',
+        album: { name: 'album of song' },
+        artists: [{ name: 'name of the artist' }],
+      },
+    }),
+    getAlbum: () => Promise.resolve({
+      body: {
+        name: 'album of song',
+        release_date: '2005',
+        images: [{ url: '' }],
+        artists: [{ id: 'AR1' }],
+        tracks: {
+          items: [{
+            id: 'T1',
+            name: 'title of song',
+            duration_ms: 1000,
+          }],
+        },
+      },
+    }),
+    getArtist: () => Promise.resolve({
+      body: {
+        name: 'name of the artist',
+        images: [{ url: '' }],
+      },
+    }),
+    getArtistAlbums: () => Promise.resolve({
+      body: {
+        items: [{
+          album_type: 'album',
+          album_group: 'album',
+          name: 'album #1',
+          available_markets: ['CA'],
+          release_date: '2005',
+          images: [{ url: '' }],
+        }],
+      },
+    }),
+    getMySavedTracks: () => Promise.resolve({
+      body: {
+        items: [{
+          track: {
+            name: 'name of track',
+            album: { name: 'name of album' },
+            artists: [{ name: 'name of artist' }],
+          },
+        }],
+      },
+    }),
+    getMySavedAlbums: () => Promise.resolve({
+      body: {
+        items: [{
+          album: {
+            name: 'name of album',
+            artists: [{ name: 'name of artist' }],
+          },
+        }],
+      },
+    }),
+    getMyCurrentPlaybackState: () => Promise.resolve({
+      body: {
+        item: {
+          id: 1,
+          name: 'Song being played',
+          artists: [{ name: 'Artist of the song that is being played' }],
+          album: { images: [{ url: '' }] },
+        },
+      },
+    }),
+  },
+  observeAlbumSearch: () => ({
+    subscribe: (subscriber) => {
+      subscriber.next({
+        bestMatch: {
+          tracks: [{
+            id: 'T1',
+            name: 'track #1',
+            composers: ['composer 1', 'composer 2'],
+            producers: ['producer 1', 'producer 2'],
+            credits: { musician: ['instrument 1', 'instrument 2'] },
+          }],
+        },
+        progress: 100,
+      });
+      return { unsubscribe: () => {} };
+    },
+  }),
+};
+
+describe('Application', () => {
   beforeAll(() => {
-    global.window.matchMedia = () => ({});
+    global.window.matchMedia = () => ({ matches: true });
   });
 
-  it('Loads profile if user is authenticated', () => {
-    const mock = jest.fn();
-    shallow(<Root
-        isAuthenticated={true}
-        loadProfile={mock}
-        progress={{ available: false }} />);
-    expect(mock).toBeCalled();
+  it('shows home', async () => {
+    const { getByText } = await render(<GlobalAppContext.Provider value={context}>
+      <MemoryRouter initialEntries={['/']}>
+        <Root />
+      </MemoryRouter>
+    </GlobalAppContext.Provider>);
+
+    expect(getByText('@username')).toBeInTheDocument();
   });
 
-  it('generate auth url', () => {
-    Object.assign(process.env, {
-      REACT_APP_SPOTIFY_AUTHORIZE_URL: 'http://auth.org',
-      REACT_APP_SPOTIFY_CLIENT_ID: 'clientId',
-      REACT_APP_SPOTIFY_SCOPES: 'scopesList',
+  it('loads tracks', async () => {
+    let utils;
+    await act(async () => {
+      utils = render(<GlobalAppContext.Provider value={context}>
+        <MemoryRouter initialEntries={['/track/T1']}>
+          <Root />
+        </MemoryRouter>
+      </GlobalAppContext.Provider>);
     });
-    const wrapper = shallow(<Root redirectUri="http://localhost.com" />);
-    expect(wrapper.instance().getAuthUrl()).toEqual('http://auth.org?client_id=clientId&response_type=token&redirect_uri=http://localhost.com&state=reactApp&scope=scopesList&show_dialog=false');
+
+    expect(utils.getByText('title of song')).toBeInTheDocument();
+    expect(utils.getByText('name of the artist')).toBeInTheDocument();
+    expect(utils.getByText('(composer 1, composer 2)')).toBeInTheDocument();
+    expect(utils.getByText('[producer 1, producer 2]')).toBeInTheDocument();
+    expect(utils.getByText('musician:')).toBeInTheDocument();
+    expect(utils.getByText('instrument 1, instrument 2')).toBeInTheDocument();
   });
 
-  it('Renders Welcome component if user is new', () => {
-    const wrapper = shallow(<Root isNewUser={true} />);
-    expect(wrapper.find('Welcome')).toHaveLength(1);
+  it('loads albums', async () => {
+    let utils;
+    await act(async () => {
+      utils = render(<GlobalAppContext.Provider value={context}>
+        <MemoryRouter initialEntries={['/album/1']}>
+          <Root />
+        </MemoryRouter>
+      </GlobalAppContext.Provider>);
+    });
+
+    expect(utils.getByText('album of song')).toBeInTheDocument();
+    expect(utils.getByText('name of the artist')).toBeInTheDocument();
+    expect(utils.getByText('title of song')).toBeInTheDocument();
+    expect(utils.getByText('(composer 1, composer 2)')).toBeInTheDocument();
+    expect(utils.getByText('0:01')).toBeInTheDocument();
   });
 
-  it('Does not render anything if user is not authenticated', () => {
-    const wrapper = shallow(<Root isNewUser={false} isAuthenticated={false} />);
-    expect(wrapper.html()).toEqual(null);
+  it('loads artists', async () => {
+    let utils;
+    await act(async () => {
+      utils = render(<GlobalAppContext.Provider value={context}>
+        <MemoryRouter initialEntries={['/artist/1']}>
+          <Root />
+        </MemoryRouter>
+      </GlobalAppContext.Provider>);
+    });
+
+    expect(utils.getByText('name of the artist')).toBeInTheDocument();
+    expect(utils.getByText('Albums (1)')).toBeInTheDocument();
+    expect(utils.getByText('album #1')).toBeInTheDocument();
+    expect(utils.getByText('2005')).toBeInTheDocument();
   });
 
-  it('renders app when user is authenticated', () => {
-    const wrapper = shallow(<Root
-        isNewUser={false}
-        isAuthenticated={true}
-        loadProfile={jest.fn()}
-        progress={{ available: false }} />);
-    expect(wrapper.find('Main')).toHaveLength(1);
+  it('loads saved tracks', async () => {
+    let utils;
+    await act(async () => {
+      utils = render(<GlobalAppContext.Provider value={context}>
+        <MemoryRouter initialEntries={['/user/tracks']}>
+          <Root />
+        </MemoryRouter>
+      </GlobalAppContext.Provider>);
+    });
+
+    expect(utils.getByText('name of track')).toBeInTheDocument();
+    expect(utils.getByText('name of artist - name of album')).toBeInTheDocument();
   });
 
-  it('renders progress', () => {
-    const wrapper = shallow(<Root
-        isNewUser={false}
-        isAuthenticated={true}
-        loadProfile={jest.fn()}
-        progress={{ available: true, value: 50 }} />);
+  it('loads saved albums', async () => {
+    let utils;
+    await act(async () => {
+      utils = render(<GlobalAppContext.Provider value={context}>
+        <MemoryRouter initialEntries={['/user/albums']}>
+          <Root />
+        </MemoryRouter>
+      </GlobalAppContext.Provider>);
+    });
 
-    expect(wrapper.find('Progress[value=50][size="small"]')).toHaveLength(1);
-  });
-
-  it('hides progress', () => {
-    const wrapper = shallow(<Root
-        isNewUser={false}
-        isAuthenticated={true}
-        loadProfile={jest.fn()}
-        progress={{ available: false }} />);
-
-    expect(wrapper.find('Progress')).toHaveLength(0);
-  });
-
-  it('renders loading sign', () => {
-    const wrapper = shallow(<Root
-        isNewUser={false}
-        isAuthenticated={true}
-        loadProfile={jest.fn()}
-        progress={{ available: false, loading: 'A message' }} />);
-
-    expect(wrapper.find('LoadingCircle[message="A message"]')).toHaveLength(1);
-  });
-
-  it('hides loading sign', () => {
-    const wrapper = shallow(<Root
-        isNewUser={false}
-        isAuthenticated={true}
-        loadProfile={jest.fn()}
-        progress={{ available: false }} />);
-
-    expect(wrapper.find('LoadingCircle')).toHaveLength(0);
-  });
-
-  it('starts loading search results of album just viewed', () => {
-    const loadSearchResult = jest.fn();
-    const wrapper = shallow(<Root
-        isNewUser={false}
-        isAuthenticated={true}
-        loadProfile={jest.fn()}
-        progress={{ available: false }}
-        loadSearchResult={loadSearchResult} />);
-
-    wrapper.setProps({ viewing: 'ALBUM_ID' });
-
-    expect(loadSearchResult).toHaveBeenCalledWith('ALBUM_ID');
-  });
-
-  it('continues to load search results of album in view', () => {
-    const setTimeoutSpy = jest.spyOn(global.window, 'setTimeout');
-    const loadSearchResult = jest.fn();
-    const wrapper = shallow(<Root
-        isNewUser={false}
-        isAuthenticated={true}
-        loadProfile={jest.fn()}
-        progress={{ available: false }}
-        loadSearchResult={loadSearchResult}
-        viewing='ALBUM_ID' />);
-
-    wrapper.setProps({ progress: { available: true } });
-
-    expect(setTimeoutSpy).toHaveBeenCalledWith(loadSearchResult, 1000, 'ALBUM_ID');
-
-    setTimeoutSpy.mockRestore();
-  });
-
-  it('continues to load search results of album in view not finished yet', () => {
-    const setTimeoutSpy = jest.spyOn(global.window, 'setTimeout');
-    const loadSearchResult = jest.fn();
-    const wrapper = shallow(<Root
-        isNewUser={false}
-        isAuthenticated={true}
-        loadProfile={jest.fn()}
-        progress={{ available: true, value: 30 }}
-        loadSearchResult={loadSearchResult}
-        viewing='ALBUM_ID' />);
-
-    wrapper.setProps({ progress: { available: true, value: 50 } });
-
-    expect(setTimeoutSpy).toHaveBeenCalledWith(loadSearchResult, 1000, 'ALBUM_ID');
-
-    setTimeoutSpy.mockRestore();
-  });
-
-  it('stops loading search results once progress is not available (finish assumed)', () => {
-    const setTimeoutSpy = jest.spyOn(global.window, 'setTimeout');
-    const loadSearchResult = jest.fn();
-    const wrapper = shallow(<Root
-        isNewUser={false}
-        isAuthenticated={true}
-        loadProfile={jest.fn()}
-        progress={{ available: true, value: 30 }}
-        loadSearchResult={loadSearchResult}
-        viewing='ALBUM_ID' />);
-
-    wrapper.setProps({ progress: { available: false } });
-
-    expect(setTimeoutSpy).not.toHaveBeenCalled();
-
-    setTimeoutSpy.mockRestore();
-  });
-
-  it('does not schedule a search when viewing id is removed', () => {
-    const setTimeoutSpy = jest.spyOn(global.window, 'setTimeout');
-    const wrapper = shallow(<Root
-        isNewUser={false}
-        isAuthenticated={true}
-        loadProfile={jest.fn()}
-        progress={{ available: true, value: 30 }}
-        viewing='ALBUM_ID' />);
-
-    wrapper.setProps({ viewing: undefined });
-
-    expect(setTimeoutSpy).not.toHaveBeenCalled();
-
-    setTimeoutSpy.mockRestore();
-  });
-
-  it('does not load search when viewing id is removed', () => {
-    const loadSearchResult = jest.fn();
-    const wrapper = shallow(<Root
-        isNewUser={false}
-        isAuthenticated={true}
-        loadProfile={jest.fn()}
-        loadSearchResult={loadSearchResult}
-        progress={{ available: true, value: 30 }}
-        viewing='ALBUM_ID' />);
-
-    wrapper.setProps({ viewing: undefined });
-
-    expect(loadSearchResult).not.toHaveBeenCalled();
+    expect(utils.getByText('name of album')).toBeInTheDocument();
+    expect(utils.getByText('name of artist')).toBeInTheDocument();
   });
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { Filter } from './filter';
+import Filter from './filter';
 
 describe('Filter', () => {
   it('sets value', () => {

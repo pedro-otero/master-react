@@ -2,76 +2,123 @@
 import React from 'react';
 import storiesOf from 'storiesOfComponentsWithLinks';
 
+import { ViewContext } from 'components/View';
 import { Artist } from './artist';
-
-const albums = [{
-  name: 'Albums',
-  items: [{
-    id: 1,
-    name: 'Acclaimed Debut',
-    image: 'https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3',
-    year: 2007,
-  }, {
-    id: 1,
-    name: 'Failing Too High Expectations',
-    image: 'https://i.scdn.co/image/20fccd3b7b907c57a1f8a21660843bac5967b5e8',
-    year: 2009,
-  }, {
-    id: 1,
-    name: 'Comeback',
-    image: 'https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730',
-    year: 2014,
-  }, {
-    id: 1,
-    name: 'Comeback (Deluxe Edition)',
-    image: 'https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730',
-    year: 2015,
-  }, {
-    id: 1,
-    name: 'Too Big To Fail',
-    image: 'https://i.scdn.co/image/617f0d587125577484d73dcd6492aa7f027d45b4',
-    year: 2017,
-  }],
-}, {
-  name: 'Singles',
-  items: [{
-    id: 1,
-    name: 'Chart Topper',
-    image: 'https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3',
-    year: 2017,
-  }, {
-    id: 1,
-    name: 'Too Big To Fail',
-    image: 'https://i.scdn.co/image/20fccd3b7b907c57a1f8a21660843bac5967b5e8',
-    year: 2017,
-  }, {
-    id: 1,
-    name: 'Flop',
-    image: 'https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730',
-    year: 2018,
-  }],
-}];
+import AppContext from '../../context';
+import DataContext from '../../data-context';
 
 storiesOf('Artist', module)
-  .add('With albums', () => (
-    <Artist
-        clearErrors={() => {}}
-        loadArtistAlbums={() => {}}
-        id="1"
-        name="Somebody Famous"
-        image="https://i.scdn.co/image/0a4c9792c52ec21c3b881542e0739d6f605799b8"
-        albums={albums}
-        viewArtist={() => ({})}
-      />
-  ))
-  .add('With no albums', () => (
-    <Artist
-        clearErrors={() => {}}
-        loadArtistAlbums={() => {}}
-        id="1"
-        name="Somebody Famous"
-        image="https://i.scdn.co/image/0a4c9792c52ec21c3b881542e0739d6f605799b8"
-        albums={[]}
-        viewArtist={() => ({})}
-      />
-  ));
+  .add('With albums', () => {
+    const context = {
+      spotifyApi: {
+        getArtist: () => Promise.resolve({
+          body: {
+            name: 'Somebody Famous',
+            images: [{ url: 'https://i.scdn.co/image/0a4c9792c52ec21c3b881542e0739d6f605799b8' }],
+          },
+        }),
+        getArtistAlbums: () => Promise.resolve({
+          body: {
+            offset: 0,
+            limit: 5,
+            total: 5,
+            items: [{
+              id: 1,
+              name: 'Acclaimed Debut',
+              images: [{ url: 'https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3' }],
+              release_date: '2007',
+              available_markets: ['CA'],
+              album_type: 'album',
+              album_group: 'album',
+            }, {
+              id: 1,
+              name: 'Failing Too High Expectations',
+              images: [{ url: 'https://i.scdn.co/image/20fccd3b7b907c57a1f8a21660843bac5967b5e8' }],
+              release_date: '2009',
+              available_markets: ['CA'],
+              album_type: 'album',
+              album_group: 'album',
+            }, {
+              id: 1,
+              name: 'Comeback',
+              images: [{ url: 'https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730' }],
+              release_date: '2014',
+              available_markets: ['CA'],
+              album_type: 'album',
+              album_group: 'album',
+            }, {
+              id: 1,
+              name: 'Comeback (Deluxe Edition)',
+              images: [{ url: 'https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730' }],
+              release_date: '2015',
+              available_markets: ['CA'],
+              album_type: 'album',
+              album_group: 'album',
+            }, {
+              id: 1,
+              name: 'Too Big To Fail',
+              images: [{ url: 'https://i.scdn.co/image/617f0d587125577484d73dcd6492aa7f027d45b4' }],
+              release_date: '2017',
+              available_markets: ['CA'],
+              album_type: 'album',
+              album_group: 'album',
+            }, {
+              id: 1,
+              name: 'Chart Topper',
+              images: [{ url: 'https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3' }],
+              release_date: '2017',
+              album_type: 'single',
+              album_group: 'single',
+              available_markets: ['CA'],
+            }, {
+              id: 1,
+              name: 'Too Big To Fail',
+              images: [{ url: 'https://i.scdn.co/image/20fccd3b7b907c57a1f8a21660843bac5967b5e8' }],
+              release_date: '2017',
+              album_type: 'single',
+              album_group: 'single',
+              available_markets: ['CA'],
+            }, {
+              id: 1,
+              name: 'Flop',
+              images: [{ url: 'https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730' }],
+              release_date: '2018',
+              album_type: 'single',
+              album_group: 'single',
+              available_markets: ['CA'],
+            }],
+          },
+        }),
+      },
+    };
+    return (
+      <AppContext.Provider value={context}>
+        <DataContext.Provider value={{ profile: { country: 'CA' } }}>
+          <ViewContext.Provider value={{ setIsError: () => {} }}>
+            <Artist id="AR1" />
+          </ViewContext.Provider>
+        </DataContext.Provider>
+      </AppContext.Provider>
+    );
+  })
+  .add('With no albums', () => {
+    const context = {
+      spotifyApi: {
+        getArtist: () => Promise.resolve({
+          body: {
+            name: 'Somebody Famous',
+            images: [{ url: 'https://i.scdn.co/image/0a4c9792c52ec21c3b881542e0739d6f605799b8' }],
+          },
+        }),
+      },
+    };
+    return (
+      <AppContext.Provider value={context}>
+        <DataContext.Provider value={{ profile: { country: 'CA' } }}>
+          <ViewContext.Provider value={{ setIsError: () => {} }}>
+            <Artist />
+          </ViewContext.Provider>
+        </DataContext.Provider>
+      </AppContext.Provider>
+    );
+  });

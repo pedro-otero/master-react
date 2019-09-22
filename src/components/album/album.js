@@ -1,46 +1,89 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import ArtistWork from 'components/ArtistWork';
 import TrackItem from 'components/TrackItem';
 import { Block } from 'components/Utils';
-import { clearAlbumInView, viewAlbum } from 'state/view';
-import { loadSearchResult } from 'state/actions/backend';
-import * as actions from 'state/errors';
+import { ViewContext } from 'components/View';
+import LoadingCircle from 'components/LoadingCircle';
+import GlobalAppContext from '../../context';
+import Progress from '../progress/progress';
+import { albumToState } from '../../data/albums';
+import { artistToState } from '../../data/artists';
 
-export class Album extends React.Component {
-  componentDidMount() {
-    this.props.load();
-    this.props.clearErrors();
-  }
+export function Album({
+  albumId,
+}) {
+  const {
+    spotifyApi,
+    observeAlbumSearch,
+  } = React.useContext(GlobalAppContext);
+  const { setIsError } = React.useContext(ViewContext);
 
-  componentWillUnmount() {
-    this.props.clearAlbumInView();
-  }
+  const [album, setAlbum] = useState();
+  const [artist, setArtist] = useState();
+  const [releaseData, setReleaseData] = useState({ searchNotStarted: true });
+  const [canDisplay, setCanDisplay] = useState(false);
 
-  render() {
-    const {
-      background,
-      image,
-      tracks,
-      year,
-      name,
-      artist,
-      artistId,
-    } = this.props;
-    return (
-      <Fragment>
+  useEffect(() => {
+    spotifyApi.getAlbum(albumId)
+      .then(response => setAlbum(albumToState(response.body)))
+      .catch(() => setIsError(true));
+  }, [albumId, setIsError, spotifyApi]);
+
+  useEffect(() => {
+    if (album) {
+      spotifyApi.getArtist(album.artistId)
+        .then(response => setArtist(artistToState(response.body)))
+        .catch(() => setIsError(true));
+    }
+  }, [album, setIsError, spotifyApi]);
+
+  useEffect(() => {
+    if (artist && album) {
+      setCanDisplay(true);
+    }
+  }, [album, artist]);
+
+  useEffect(() => {
+    const searchSubscription = observeAlbumSearch(albumId).subscribe({
+      next: (res) => {
+        if (album) {
+          const tracks = res.bestMatch.tracks.map((releaseTrack, i) => {
+            const albumTrack = album.tracks[i];
+            return {
+              id: albumTrack.id,
+              name: albumTrack.name,
+              duration: albumTrack.duration,
+              composers: releaseTrack.composers.join(', '),
+            };
+          });
+          setReleaseData({
+            tracks,
+            progress: res.progress,
+          });
+        }
+      },
+    });
+    return searchSubscription.unsubscribe.bind(searchSubscription);
+  }, [album, albumId, observeAlbumSearch]);
+
+  return (
+    <Fragment>
+      {!canDisplay && <LoadingCircle message="Loading..." />}
+      {canDisplay && <Fragment>
+        {releaseData.progress !== 100 && <Progress value={releaseData.progress} size="small" />}
         <ArtistWork
-            title={name}
-            artist={artist}
-            artistId={artistId}
-            year={year}
-            image={image}
-            background={background} />
-        <Block>
+            title={album.name}
+            artist={artist.name}
+            artistId={album.artistId}
+            year={album.year}
+            image={album.image}
+            background={artist.image} />
+        {releaseData.searchNotStarted && <LoadingCircle message="Starting search..." />}
+        {!releaseData.searchNotStarted && <Block>
           <ol>
-            {tracks.map(track => (
+            {releaseData.tracks.map(track => (
               <li key={`${track.name}-${track.id}`}>
                 <TrackItem
                     id={track.id}
@@ -50,59 +93,14 @@ export class Album extends React.Component {
                 />
               </li>))}
           </ol>
-        </Block>
-      </Fragment>
-    );
-  }
+        </Block>}
+      </Fragment>}
+    </Fragment>
+  );
 }
 
 Album.propTypes = {
-  artist: PropTypes.string,
-  artistId: PropTypes.string,
-  background: PropTypes.string,
-  clearAlbumInView: PropTypes.func,
-  clearErrors: PropTypes.func,
-  image: PropTypes.string,
-  load: PropTypes.func,
-  name: PropTypes.string,
-  tracks: PropTypes.array,
-  year: PropTypes.string,
+  albumId: PropTypes.string,
 };
 
-Album.defaultProps = {
-  tracks: [],
-};
-
-const mapStateToProps = ({ tracks, albums, artists }, { albumId }) => {
-  const album = albums[albumId] || { trackIds: [] };
-  const base = {
-    tracks: (album.trackIds || []).map(id => tracks[id]),
-    album,
-    artist: artists[album.artistId] || {},
-  };
-  const {
-    album: {
-      name, year, image, artistId,
-    },
-    artist: { name: artistName, image: background },
-  } = base;
-  const props = {
-    name,
-    image,
-    year,
-    tracks: base.tracks,
-    artist: artistName,
-    artistId,
-    background,
-  };
-  return props;
-};
-
-const mapDispatchToProps = (dispatch, { albumId }) => ({
-  load: () => dispatch(viewAlbum(albumId)),
-  loadSearchResult: id => dispatch(loadSearchResult(id)),
-  clearErrors: () => dispatch(actions.clearErrors()),
-  clearAlbumInView: () => dispatch(clearAlbumInView()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Album);
+export default Album;

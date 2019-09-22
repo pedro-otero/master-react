@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
 
 import LoadingCircle from 'components/LoadingCircle';
 
@@ -26,7 +25,4 @@ Home.propTypes = {
   userId: PropTypes.string,
 };
 
-const mapStateToProps = ({ user: { profile: { loading, userId, name } } }) =>
-  ({ loading, userId, name });
-
-export default connect(mapStateToProps)(Home);
+export default Home;

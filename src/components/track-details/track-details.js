@@ -1,123 +1,113 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import Credits from 'components/Credits';
 import ArtistWork from 'components/ArtistWork';
 import { Block } from 'components/Utils';
-import { clearAlbumInView, viewTrack } from 'state/view';
-import * as errorsActions from 'state/errors';
+import Progress from 'components/Progress';
+import { ViewContext } from 'components/View';
+import LoadingCircle from 'components/LoadingCircle';
+import GlobalAppContext from '../../context';
+import { trackToState } from '../../data/tracks';
+import { albumToState } from '../../data/albums';
+import { artistToState } from '../../data/artists';
 
 const SmallText = styled.span`
   font-size: smaller;
 `;
 
-export class TrackDetails extends React.Component {
-  componentDidMount() {
-    this.props.load();
-    this.props.clearErrors();
-  }
+export function TrackDetails({
+  trackId,
+}) {
+  const {
+    spotifyApi,
+    observeAlbumSearch,
+  } = React.useContext(GlobalAppContext);
+  const { setIsError } = React.useContext(ViewContext);
 
-  componentWillUnmount() {
-    this.props.clearAlbumInView();
-  }
+  const [track, setTrack] = useState();
+  const [album, setAlbum] = useState();
+  const [artist, setArtist] = useState();
+  const [releaseData, setReleaseData] = useState({ searchNotStarted: true });
+  const [canDisplay, setCanDisplay] = useState(false);
 
-  render() {
-    const {
-      name,
-      artist,
-      artistId,
-      albumId,
-      image,
-      background,
-      year,
-      credits,
-      composers,
-      producers,
-    } = this.props;
-    return (
-      <Fragment>
+  useEffect(() => {
+    spotifyApi.getTrack(trackId)
+      .then(response => setTrack(trackToState(response.body)))
+      .catch(() => setIsError(true));
+  }, [setIsError, spotifyApi, trackId]);
+
+  useEffect(() => {
+    if (track) {
+      spotifyApi.getAlbum(track.albumId)
+        .then(response => setAlbum(albumToState(response.body)))
+        .catch(() => setIsError(true));
+    }
+  }, [setIsError, spotifyApi, track]);
+
+  useEffect(() => {
+    if (track) {
+      spotifyApi.getArtist(track.artistId)
+        .then(response => setArtist(artistToState(response.body)))
+        .catch(() => setIsError(true));
+    }
+  }, [setIsError, spotifyApi, track]);
+
+  useEffect(() => {
+    if (track && artist && album) {
+      setCanDisplay(true);
+    }
+  }, [album, artist, track]);
+
+  useEffect(() => {
+    if (track) {
+      const searchSubscription = observeAlbumSearch(track.albumId).subscribe({
+        next: (res) => {
+          const releaseTrack = res.bestMatch.tracks.find(t => t.id === trackId);
+          setReleaseData({
+            composers: releaseTrack.composers.join(', '),
+            producers: releaseTrack.producers.join(', '),
+            credits: releaseTrack.credits,
+            progress: res.progress,
+          });
+        },
+      });
+      return searchSubscription.unsubscribe.bind(searchSubscription);
+    }
+    return () => {};
+  }, [observeAlbumSearch, track, trackId]);
+
+  return (
+    <Fragment>
+      {!canDisplay && <LoadingCircle message="Loading..." />}
+      {canDisplay && <Fragment>
+        {releaseData.progress !== 100 && <Progress value={releaseData.progress} size="small" />}
         <ArtistWork
-            title={name}
-            artist={artist}
-            artistId={artistId}
-            year={year}
-            image={image}
-            background={background}
-            path={`/album/${albumId}`}>
-          <span>
-            <SmallText>({composers})</SmallText>
+            title={track.name}
+            artist={artist.name}
+            artistId={track.artistId}
+            year={album.year}
+            image={album.image}
+            background={artist.image}
+            path={`/album/${track.albumId}`}>
+          {!releaseData.searchNotStarted && <span>
+            <SmallText>({releaseData.composers})</SmallText>
             <br />
-            <SmallText>[{producers}]</SmallText>
-          </span>
+            <SmallText>[{releaseData.producers}]</SmallText>
+          </span>}
         </ArtistWork>
-        <Block>
-          <Credits data={credits} />
-        </Block>
-      </Fragment>
-    );
-  }
+        {releaseData.searchNotStarted && <LoadingCircle message="Starting search..." />}
+        {!releaseData.searchNotStarted && <Block>
+          <Credits data={releaseData.credits} />
+        </Block>}
+      </Fragment>}
+    </Fragment>
+  );
 }
 
 TrackDetails.propTypes = {
-  albumId: PropTypes.string,
-  artist: PropTypes.string,
-  artistId: PropTypes.string,
-  background: PropTypes.string,
-  clearAlbumInView: PropTypes.func,
-  clearErrors: PropTypes.func,
-  composers: PropTypes.string,
-  credits: PropTypes.object,
-  image: PropTypes.string,
-  load: PropTypes.func,
-  name: PropTypes.string,
-  producers: PropTypes.string,
-  year: PropTypes.string,
+  trackId: PropTypes.string,
 };
 
-TrackDetails.defaultProps = {
-  credits: {},
-  composers: '',
-  producers: '',
-};
-
-const mapStateToProps = ({ tracks, albums, artists }, { trackId }) => {
-  const track = tracks[trackId] || {};
-  const album = albums[track.albumId] || {};
-  const base = {
-    track,
-    album,
-    artist: artists[track.artistId] || {},
-  };
-  const {
-    track: {
-      name, composers, producers, credits, artistId,
-    },
-    album: {
-      id: albumId, year, image,
-    },
-    artist: { name: artistName, image: background },
-  } = base;
-  const props = {
-    name,
-    composers,
-    producers,
-    credits,
-    albumId,
-    artistId,
-    image,
-    year,
-    artist: artistName,
-    background,
-  };
-  return props;
-};
-
-const mapDispatchToProps = (dispatch, { trackId }) => ({
-  load: () => dispatch(viewTrack(trackId)),
-  clearErrors: () => dispatch(errorsActions.clearErrors()),
-  clearAlbumInView: () => dispatch(clearAlbumInView()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(TrackDetails);
+export default TrackDetails;

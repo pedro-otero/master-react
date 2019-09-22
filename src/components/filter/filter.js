@@ -27,25 +27,16 @@ const Input = styled.input`
   color: white;
 `;
 
-export class Filter extends React.Component {
-  constructor(props) {
-    super(props);
-    this.listDiv = React.createRef();
-  }
+const Filter = ({ onChange, value }) => {
+  const clear = () => onChange('');
 
-  updateFilter = e => this.props.onChange(e.target.value);
-
-  clear = () => this.props.onChange('');
-
-  render() {
-    return (
-      <Container visible>
-        <Clear onClick={this.clear}>X</Clear>
-        <Input value={this.props.value} onChange={this.updateFilter}></Input>
-      </Container>
-    );
-  }
-}
+  return (
+    <Container visible>
+      <Clear onClick={clear}>X</Clear>
+      <Input value={value} onChange={e => onChange(e.target.value)}></Input>
+    </Container>
+  );
+};
 
 Filter.propTypes = {
   onChange: PropTypes.func,
