@@ -109,12 +109,14 @@ export class Root extends React.Component {
     const isMenuVisible = isDesktop ? true : open === 100;
     return (
       <Main onClick={this.getMainContainerClickHandler()}>
-        <Drawer
-            open={open}
+        {isDesktop && <Menu isVisible />}
+        {!isDesktop && <Drawer
+            open={open === 100}
             bgColor="#222222"
+            width="300px"
             opacity={0.95}>
           <Menu isVisible={isMenuVisible} />
-        </Drawer>
+        </Drawer>}
         <ContentArea
             onTouchStart={this.props.setTouch}
             onTouchMove={this.props.setTouch}
