@@ -180,12 +180,42 @@ describe('REDUX: Artists', () => {
 
   it('calculates artist albums load progress', () => {
     const action = setArtistAlbums('AR1', {
-      items: [[], []],
+      items: [{ available_markets: [] }, { available_markets: [] }],
       total: 10,
       offset: 4,
     });
 
     expect(action.data.progress).toEqual(60);
+  });
+
+  it('filters albums by country', () => {
+    const action = setArtistAlbums('AR1', {
+      items: [{
+        id: 'ID',
+        album_group: 'appears_on',
+        album_type: 'compilation',
+        name: 'Collab compilation',
+        release_date: '2018-01-05',
+        images: [{
+          url: 'img1',
+        }],
+        available_markets: ['SOMEWHERE ELSE'],
+      }, {
+        id: 'THE ONE THAT IS AVAILABLE',
+        album_group: 'appears_on',
+        album_type: 'compilation',
+        name: 'Collab compilation',
+        release_date: '2018-01-05',
+        images: [{
+          url: 'img1',
+        }],
+        available_markets: ['COUNTRY'],
+      }],
+      total: 10,
+      offset: 4,
+    }, 'COUNTRY');
+
+    expect(action.data.items[0].items[0].id).toEqual('THE ONE THAT IS AVAILABLE');
   });
 
   it('maps artist albums without images to state', () => {

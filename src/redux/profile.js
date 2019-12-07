@@ -18,10 +18,13 @@ export const loadProfile = () => (dispatch, getState, {
 export const userProfileActions = {
   startProfileLoad: notifier(START_PROFILE_LOAD),
   loadProfile,
-  setProfile: setter(SET_PROFILE, ({ display_name: name, id, images }) => ({
+  setProfile: setter(SET_PROFILE, ({
+    display_name: name, id, images, country,
+  }) => ({
     name,
     userId: id,
     avatar: images.length ? images[0].url : null,
+    country,
   })),
   failProfileLoad: notifier(FAIL_PROFILE_LOAD),
 };

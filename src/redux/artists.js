@@ -65,12 +65,15 @@ export function artistAlbumsToState({ items }) {
   ].filter(category => category.items.length > 0);
 }
 
-export function setArtistAlbums(id, response) {
+export function setArtistAlbums(id, response, country) {
   return {
     type: SET_ARTIST_ALBUMS,
     data: {
       id,
-      items: artistAlbumsToState(response),
+      items: artistAlbumsToState({
+        ...response,
+        items: response.items.filter(item => item.available_markets.includes(country)),
+      }),
       nextPage: response.next ? {
         offset: response.offset + response.limit,
         limit: response.limit,
@@ -88,7 +91,7 @@ export function loadArtistAlbums(id) {
     const { offset = 0, limit = 20 } = nextPage;
     spotifyApi.getArtistAlbums(id, { offset, limit })
       .then((response) => {
-        dispatch(setArtistAlbums(id, response.body));
+        dispatch(setArtistAlbums(id, response.body, getState().user.profile.country));
       });
   };
 }
