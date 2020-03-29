@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Link from 'components/Link';
 import Banner from 'components/Banner';
 import Cover from 'components/Cover';
-import Label from 'components/Label';
 
 import styles from './artist-work.css';
 
@@ -51,9 +50,10 @@ const ArtistWork = ({
           {artist}
         </span>
       </Link>
-      <Label
-          className={styles.title}
-          value={title} />
+      <span>
+        <span className={styles.title}>{title}</span>
+        <br />
+      </span>
       {children}
     </div>
   </Banner>
