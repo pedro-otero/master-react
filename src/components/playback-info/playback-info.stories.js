@@ -3,17 +3,48 @@ import React from 'react';
 import storiesOf from 'storiesOfComponentsWithLinks';
 
 import PlaybackInfo from './playback-info';
+import AppContext from '../../context';
 
 storiesOf('Playback Info', module)
-  .add('Default', () => (
-    <PlaybackInfo
-        name="Give It To Me"
-        artist="Cliche Pop"
-        image="https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730" />
-  ))
-  .add('Wrapped texts', () => (
-    <PlaybackInfo
-        name="If this title is too long then it should wrap because otherwise it would take many lines"
-        artist="iamamiwhoami willibe whoimsupossedtobe will.i.am whatever i just want to break this"
-        image="https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730" />
-  ));
+  .add('Default', () => {
+    const context = {
+      spotifyApi: {
+        getMyCurrentPlaybackState: () => Promise.resolve({
+          body: {
+            item: {
+              id: 1,
+              name: 'Give It To Me',
+              artists: [{ name: 'Cliche Pop' }],
+              album: { images: [{ url: 'https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730' }] },
+            },
+          },
+        }),
+      },
+    };
+    return (
+      <AppContext.Provider value={context}>
+        <PlaybackInfo isVisible />
+      </AppContext.Provider>
+    );
+  })
+  .add('Wrapped texts', () => {
+    const context = {
+      spotifyApi: {
+        getMyCurrentPlaybackState: () => Promise.resolve({
+          body: {
+            item: {
+              id: 1,
+              name: 'If this title is too long then it should wrap because otherwise it would take many lines',
+              artists: [{ name: 'iamamiwhoami willibe whoimsupossedtobe will.i.am whatever i just want to break this' }],
+              album: { images: [{ url: 'https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730' }] },
+            },
+          },
+        }),
+      },
+    };
+    return (
+      <AppContext.Provider value={context}>
+        <PlaybackInfo isVisible />
+      </AppContext.Provider>
+    );
+  });

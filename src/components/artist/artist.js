@@ -1,15 +1,18 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import ArtistWork from 'components/ArtistWork';
 import Link from 'components/Link';
 import { Block } from 'components/Utils';
 import Image from 'components/Image';
-import * as viewActions from 'state/view';
-import * as artistsActions from 'state/artists';
-import * as errorsActions from 'state/errors';
+import { ViewContext } from 'components/View';
+import LoadingCircle from 'components/LoadingCircle';
+import GlobalAppContext from '../../context';
+import DataContext from '../../data-context';
+import Progress from '../progress/progress';
+import { artistToState, groupAlbums } from '../../data/artists';
+import { getItems } from '../../data/library';
 
 const AlbumItem = styled.div`
   display: flex;
@@ -27,34 +30,50 @@ const AlbumInfo = styled.div`
   justify-content: center;
 `;
 
-export class Artist extends React.Component {
-  componentDidMount() {
-    const {
-      id, clearErrors, loadArtistAlbums, viewArtist,
-    } = this.props;
-    clearErrors();
-    viewArtist(id);
-    loadArtistAlbums(id);
-  }
+export function Artist({ id }) {
+  const {
+    spotifyApi,
+  } = React.useContext(GlobalAppContext);
+  const { setIsError } = React.useContext(ViewContext);
+  const { profile } = React.useContext(DataContext);
 
-  componentDidUpdate({ next: previous }) {
-    const {
-      id, loadArtistAlbums, next,
-    } = this.props;
-    if (next && next !== previous) {
-      loadArtistAlbums(id);
+  const [artist, setArtist] = useState();
+  const [albums, setAlbums] = React.useState({
+    next: { offset: 0, limit: 20 },
+    items: [],
+    progress: { display: false },
+  });
+
+  useEffect(() => {
+    spotifyApi.getArtist(id)
+      .then(response => setArtist(artistToState(response.body)))
+      .catch(() => setIsError(true));
+  }, [id, setIsError, spotifyApi]);
+
+  React.useEffect(() => {
+    if (profile.country && id && albums.next) {
+      spotifyApi.getArtistAlbums(id, albums.next).then((response) => {
+        setAlbums(getItems(albums, {
+          body: {
+            ...response.body,
+            items: response.body.items
+              .filter(item => item.available_markets.includes(profile.country)),
+          },
+        }));
+      });
     }
-  }
+  }, [albums.next, albums.items, spotifyApi, id, profile.country, albums]);
 
-  render() {
-    const {
-      name, image, albums,
-    } = this.props;
-    return (
-      <Fragment>
-        <ArtistWork title={name} image={image} background={image} />
+  const albumGroups = groupAlbums(albums.items);
+
+  return (
+    <Fragment>
+      {!artist && <LoadingCircle message="Loading..." />}
+      {artist && <Fragment>
+        {albums.progress.display && <Progress value={albums.progress.value} size="small" />}
+        <ArtistWork title={artist.name} image={artist.image} background={artist.image} />
         <Block>
-          {albums.map(category => (
+          {albumGroups.map(category => (
             <Fragment key={category.name}>
               <h3>{category.name} ({category.items.length})</h3>
               <hr />
@@ -73,40 +92,13 @@ export class Artist extends React.Component {
             </Fragment>
         ))}
         </Block>
-      </Fragment>
-    );
-  }
+      </Fragment>}
+    </Fragment>
+  );
 }
 
 Artist.propTypes = {
-  albums: PropTypes.array,
-  clearErrors: PropTypes.func,
   id: PropTypes.string,
-  image: PropTypes.string,
-  loadArtistAlbums: PropTypes.func,
-  name: PropTypes.string,
-  next: PropTypes.number,
-  viewArtist: PropTypes.func,
 };
 
-const mapStateToProps = ({ artists }, { id }) => {
-  let artist = {};
-  if (artists[id]) {
-    artist = artists[id];
-  }
-  const {
-    name, image, albums: { items: albums = [], nextPage } = {},
-  } = artist;
-  const next = nextPage ? nextPage.offset : undefined;
-  return {
-    id, name, image, albums, next,
-  };
-};
-
-const mapDispatchToProps = dispatch => ({
-  viewArtist: id => dispatch(viewActions.viewArtist(id)),
-  loadArtistAlbums: id => dispatch(artistsActions.loadArtistAlbums(id)),
-  clearErrors: () => dispatch(errorsActions.clearErrors()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Artist);
+export default Artist;

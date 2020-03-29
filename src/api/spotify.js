@@ -1,4 +1,4 @@
-export default (SpotifyWebApi, location) => ({ clientId, redirectUri, throttle }) => {
+export default (SpotifyWebApi, location, accessToken) => ({ clientId, redirectUri, throttle }) => {
   const commands = [];
   let timer;
   const methods = [
@@ -12,7 +12,7 @@ export default (SpotifyWebApi, location) => ({ clientId, redirectUri, throttle }
     'getArtistAlbums',
   ];
   const api = new SpotifyWebApi({ clientId, redirectUri });
-  api.setAccessToken(localStorage.getItem('token'));
+  api.setAccessToken(accessToken);
 
   function start() {
     timer = setInterval(() => {
@@ -21,6 +21,8 @@ export default (SpotifyWebApi, location) => ({ clientId, redirectUri, throttle }
         api[method](...args).then(resolve, (e) => {
           const { statusCode } = e;
           if (statusCode === 401) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('expiry');
             location.reload();
             return;
           } else if (statusCode === 429) {

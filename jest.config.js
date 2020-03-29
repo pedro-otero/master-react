@@ -18,15 +18,13 @@ module.exports = {
     '!src/redux/store/index.js',
     '!src/stories/**/*.js',
   ],
-  setupFiles: [
-    '<rootDir>/config/polyfills.js',
-    '<rootDir>/config/test-setup.js',
-  ],
+  setupFiles: ['<rootDir>/config/polyfills.js'],
+  setupFilesAfterEnv: ['<rootDir>/config/test-setup.js'],
   testMatch: [
     '<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}',
     '<rootDir>/src/**/*.(spec|test).{js,jsx,mjs}',
   ],
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   testURL: 'http://localhost',
   transform: {
     '^.+\\.(js|jsx|mjs)$': '<rootDir>/node_modules/babel-jest',

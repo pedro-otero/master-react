@@ -1,7 +1,7 @@
-import { trackToState } from './mappers';
+import { trackToState } from './tracks';
 
-describe('REDUX: Mappers', () => {
-  describe('Payload mapper', () => {
+describe('Track to state', () => {
+  describe('maps tracks to state', () => {
     it('trackToState', () => {
       const mappedTrack = trackToState({
         id: 'T1',

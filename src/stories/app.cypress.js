@@ -1,7 +1,7 @@
 describe('Full Application', () => {
   it('Stories', () => {
     cy.visit('http://localhost:9001/iframe.html?id=crews--failure-to-load-album');
-    cy.contains('Failure loading album');
+    cy.contains('Could not load this album');
 
     cy.visit('http://localhost:9001/iframe.html?id=crews--failure-to-load-artist');
     cy.contains('Could not load this artist');
@@ -10,7 +10,7 @@ describe('Full Application', () => {
     cy.contains('Hey User');
 
     cy.visit('http://localhost:9001/iframe.html?id=crews--failure-to-load-track');
-    cy.contains('Another error triggered after the first one');
+    cy.contains('Could not load this track');
 
     cy.visit('http://localhost:9001/iframe.html?id=crews--with-a-track-playing');
     cy.contains('A song');

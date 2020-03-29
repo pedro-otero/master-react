@@ -1,7 +1,6 @@
 import { albumToState } from './albums';
 
-
-describe('REDUX: Albums', () => {
+describe('Album to state function', () => {
   it('maps album data', () => {
     const mappedAlbum = albumToState({
       id: 'AL1',

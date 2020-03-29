@@ -1,71 +1,50 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import SavedTrackItem from 'components/SavedTrackItem';
-import { loadSavedTracks } from 'state/library';
-import { clearErrors } from 'state/errors';
 import NoItems from 'components/NoItems';
-import { bindActionCreators } from 'redux';
+import GlobalAppContext from '../../context';
+import DataContext from '../../data-context';
+import { compareTrack, getItems } from '../../data/library';
 
-export class SavedTracks extends React.Component {
-  componentDidMount() {
-    this.props.clearErrors();
-    this.props.loadSavedTracks();
-  }
+export function SavedTracks() {
+  const {
+    spotifyApi,
+  } = React.useContext(GlobalAppContext);
+  const { filter } = React.useContext(DataContext);
 
-  componentDidUpdate(prev) {
-    if (this.props.nextPage && prev.nextPage.offset !== this.props.nextPage.offset) {
-      this.props.loadSavedTracks();
+  const [items, setItems] = React.useState({
+    next: { offset: 0, limit: 20 },
+    items: [],
+    progress: { display: false },
+  });
+
+  React.useEffect(() => {
+    if (items.next) {
+      spotifyApi.getMySavedTracks(items.next).then(response => setItems(getItems(items, response)));
     }
-  }
+  }, [spotifyApi, items]);
 
-  getSavedTrackListItem = ({
-    id, name, artist, album,
-  }) => <SavedTrackItem
-      key={id}
-      id={id}
-      name={name}
-      artist={artist}
-      album={album} />;
-
-  render() {
-    return (
-      <Fragment>
-        {this.props.tracks.map(this.getSavedTrackListItem)}
-        {!this.props.tracks.length && <NoItems />}
-      </Fragment>
-    );
-  }
+  const tracks = items.items
+    .map(savedTrack => ({
+      id: savedTrack.track.id,
+      name: savedTrack.track.name,
+      artist: savedTrack.track.artists[0].name,
+      album: savedTrack.track.album.name,
+    }))
+    .filter(compareTrack(filter));
+  return (
+    <Fragment>
+      {tracks.map(({
+        id, name, artist, album,
+      }) => <SavedTrackItem
+          key={id}
+          id={id}
+          name={name}
+          artist={artist}
+          album={album} />)}
+      {!tracks.length && <NoItems />}
+    </Fragment>
+  );
 }
 
-SavedTracks.propTypes = {
-  clearErrors: PropTypes.func,
-  loadSavedTracks: PropTypes.func,
-  nextPage: PropTypes.object,
-  tracks: PropTypes.arrayOf(PropTypes.shape({
-    album: PropTypes.string,
-    artist: PropTypes.string,
-    id: PropTypes.string,
-    name: PropTypes.string,
-  })),
-};
-
-export const mapStateToProps = ({
-  user: { library: { tracks: { items, nextPage } } },
-  search: { value },
-}) => ({
-  tracks: Object.values(items)
-    .filter(track => !value
-      || track.name.toUpperCase().includes(value.toUpperCase())
-      || track.album.toUpperCase().includes(value.toUpperCase())
-      || track.artist.toUpperCase().includes(value.toUpperCase())),
-  nextPage,
-});
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  loadSavedTracks,
-  clearErrors,
-}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(SavedTracks);
+export default SavedTracks;

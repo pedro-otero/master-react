@@ -11,7 +11,7 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const components = require('./componentsAliases');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -181,16 +181,9 @@ module.exports = {
   },
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
+      new TerserPlugin({
         test: /\.js/,
-        uglifyOptions:{
-          mangle: true,
-          output: {
-            comments: false,
-          },
-          sourceMap: shouldUseSourceMap,
-        }
-      })
+      }),
     ],
   },
   plugins: [
