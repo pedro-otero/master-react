@@ -1,9 +1,9 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import ArtistWork from 'components/ArtistWork';
-import Link from 'components/Link';
 import { Block } from 'components/Utils';
 import Image from 'components/Image';
 import { ViewContext } from 'components/View';
