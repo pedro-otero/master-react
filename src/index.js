@@ -30,7 +30,7 @@ const getAuthUrl = () => `${process.env.REACT_APP_SPOTIFY_AUTHORIZE_URL}?${[
 ].map(([key, value]) => `${key}=${value}`).join('&')}`;
 
 function startAuthenticatedApp(token) {
-  const CustomApi = SpotifyCustomApiFactory(SpotifyWebApi, window.location, token);
+  const CustomApi = SpotifyCustomApiFactory(SpotifyWebApi, window.location, token, getAuthUrl());
   const spotifyApi = CustomApi({
     redirectUri: window.location.origin,
     clientId: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
