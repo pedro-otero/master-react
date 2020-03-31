@@ -3,10 +3,10 @@ const aliases = require('./config/componentsAliases');
 module.exports = {
   coverageThreshold: {
     global: {
-      branches: 86,
+      branches: 85,
       functions: 91,
-      lines: 94,
-      statements: 94,
+      lines: 93,
+      statements: 93,
     },
   },
   collectCoverageFrom: [
