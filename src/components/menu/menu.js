@@ -42,11 +42,17 @@ const MenuFlexContainer = styled.div`
   flex-direction: column;
 `;
 
-const PlaybackInfoContainer = styled.div`
-`;
-
 const Options = styled.div`
   flex: 1;
+`;
+
+const LogoutButton = styled.button`
+  margin: 0 1em 1em 70%;
+  border: solid gray 1px;
+  border-radius: 0.5em;
+  background: transparent;
+  color: white;
+  font-weight: bold;
 `;
 
 const OptionLink = ({ children, ...props }) => (
@@ -61,7 +67,7 @@ OptionLink.propTypes = {
 
 
 export function Menu({
-  avatar, name, userId, isVisible,
+  avatar, name, userId, isVisible, onLogout,
 }) {
   return (
     <MenuFlexContainer>
@@ -76,9 +82,10 @@ export function Menu({
         <OptionLink to={TRACKS}>Tracks</OptionLink>
         <OptionLink to={ALBUMS}>Albums</OptionLink>
       </Options>
-      <PlaybackInfoContainer>
-        <PlaybackInfo isVisible={isVisible} />
-      </PlaybackInfoContainer>
+      <LogoutButton aria-label="Logout" onClick={onLogout}>
+        <span className="em em-x"></span> Logout
+      </LogoutButton>
+      <PlaybackInfo isVisible={isVisible} />
     </MenuFlexContainer>
   );
 }
@@ -87,6 +94,7 @@ Menu.propTypes = {
   avatar: PropTypes.string,
   isVisible: PropTypes.bool,
   name: PropTypes.string,
+  onLogout: PropTypes.func,
   userId: PropTypes.string,
 };
 
