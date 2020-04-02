@@ -1,4 +1,4 @@
-import { compareAlbum, compareTrack, getItems } from './library';
+import { compareAlbum, comparePlaylist, compareTrack, getItems } from './library';
 
 describe('Library helper functions', () => {
   describe('compare tracks to filter', () => {
@@ -51,6 +51,17 @@ describe('Library helper functions', () => {
       };
 
       expect(isMatch(album)).toEqual(true);
+    });
+  });
+
+  describe('compare playlists to filter', () => {
+    it('by name', () => {
+      const isMatch = comparePlaylist('FIND ME');
+      const playlist = {
+        name: '### find me ###',
+      };
+
+      expect(isMatch(playlist)).toEqual(true);
     });
   });
 

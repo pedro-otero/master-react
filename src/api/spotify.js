@@ -11,6 +11,9 @@ export default (SpotifyWebApi, location, accessToken, authUrl) =>
       'getMySavedTracks',
       'getMySavedAlbums',
       'getArtistAlbums',
+      'getUserPlaylists',
+      'getPlaylist',
+      'getPlaylistTracks',
     ];
     const api = new SpotifyWebApi({ clientId, redirectUri });
     api.setAccessToken(accessToken);
