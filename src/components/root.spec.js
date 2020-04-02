@@ -1,6 +1,6 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { render, act } from '@testing-library/react';
+import { render, act, fireEvent } from '@testing-library/react';
 
 import { Root } from './root';
 import GlobalAppContext from '../context';
@@ -199,5 +199,21 @@ describe('Application', () => {
 
     expect(utils.getByText('name of album')).toBeInTheDocument();
     expect(utils.getByText('name of artist')).toBeInTheDocument();
+  });
+
+  it('logs out', async () => {
+    window.location.reload = jest.fn();
+    let utils;
+    await act(async () => {
+      utils = render(<GlobalAppContext.Provider value={context}>
+        <MemoryRouter initialEntries={['/']}>
+          <Root />
+        </MemoryRouter>
+      </GlobalAppContext.Provider>);
+    });
+
+    fireEvent.click(utils.getByLabelText('Logout'));
+
+    expect(window.location.reload).toHaveBeenCalled();
   });
 });

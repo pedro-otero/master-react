@@ -138,6 +138,12 @@ export function Root() {
     return closeMenu;
   };
 
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiry');
+    window.location.reload();
+  };
+
   const isDesktop = window.matchMedia('(min-width: 769px)').matches;
   const isMenuVisible = isDesktop ? true : open === 100;
   return (
@@ -150,7 +156,8 @@ export function Root() {
             loading={!profile.isLoaded}
             name={profile.name}
             userId={profile.userId}
-            avatar={profile.avatar} />}
+            avatar={profile.avatar}
+            onLogout={logout} />}
         {!isDesktop && <Drawer
             open={open === 100}
             bgColor="#222222"
@@ -161,7 +168,8 @@ export function Root() {
               loading={!profile.isLoaded}
               name={profile.name}
               userId={profile.userId}
-              avatar={profile.avatar} />
+              avatar={profile.avatar}
+              onLogout={logout} />
         </Drawer>}
         <ContentArea
             onTouchStart={setTouch}
