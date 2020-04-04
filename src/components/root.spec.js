@@ -77,6 +77,33 @@ const context = {
         }],
       },
     }),
+    getUserPlaylists: () => Promise.resolve({
+      body: {
+        items: [{
+          name: 'name of playlist',
+          owner: { display_name: 'name of owner' },
+          tracks: { total: '500' },
+        }],
+      },
+    }),
+    getPlaylist: () => Promise.resolve({
+      body: {
+        name: 'name of playlist',
+        owner: { display_name: 'name of owner' },
+        images: [{}],
+      },
+    }),
+    getPlaylistTracks: () => Promise.resolve({
+      body: {
+        items: [{
+          track: {
+            name: 'playlist track #1',
+            artists: [{ name: 'name of playlist track artist' }],
+            album: { name: 'name of playlist track album' },
+          },
+        }],
+      },
+    }),
     getMyCurrentPlaybackState: () => Promise.resolve({
       body: {
         item: {
@@ -173,6 +200,20 @@ describe('Application', () => {
     expect(utils.getByText('2005')).toBeInTheDocument();
   });
 
+  it('loads playlists', async () => {
+    let utils;
+    await act(async () => {
+      utils = render(<GlobalAppContext.Provider value={context}>
+        <MemoryRouter initialEntries={['/playlist/1']}>
+          <Root />
+        </MemoryRouter>
+      </GlobalAppContext.Provider>);
+    });
+
+    expect(utils.getByText('playlist track #1')).toBeInTheDocument();
+    expect(utils.getByText('name of playlist track artist - name of playlist track album')).toBeInTheDocument();
+  });
+
   it('loads saved tracks', async () => {
     let utils;
     await act(async () => {
@@ -199,6 +240,20 @@ describe('Application', () => {
 
     expect(utils.getByText('name of album')).toBeInTheDocument();
     expect(utils.getByText('name of artist')).toBeInTheDocument();
+  });
+
+  it('loads user playlists', async () => {
+    let utils;
+    await act(async () => {
+      utils = render(<GlobalAppContext.Provider value={context}>
+        <MemoryRouter initialEntries={['/user/playlists']}>
+          <Root />
+        </MemoryRouter>
+      </GlobalAppContext.Provider>);
+    });
+
+    expect(utils.getByText('name of playlist')).toBeInTheDocument();
+    expect(utils.getByText('name of owner (500)')).toBeInTheDocument();
   });
 
   it('logs out', async () => {

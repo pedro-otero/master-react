@@ -15,6 +15,8 @@ import Filter from 'components/Filter';
 import View from 'components/View';
 import GlobalAppContext from '../context';
 import DataContext from '../data-context';
+import FollowedPlaylists from './followed-playllists/followed-playlists';
+import Playlist from './playlist/playlist';
 
 const ContentArea = styled.div`
   flex: 1;
@@ -199,9 +201,17 @@ export function Root() {
                     <Artist id={match.params.id} />
                   </View>
                 )} />
+            <Route
+                path="/playlist/:id"
+                render={({ match }) => (
+                  <View failureMessage="Could not load this playlist">
+                    <Playlist id={match.params.id} />
+                  </View>
+                )} />
             <Route path="/user" render={() => <Filter value={filter} onChange={setFilter} />} />
             <Route path="/user/tracks" render={() => <SavedTracks />} />
             <Route path="/user/albums" render={() => <SavedAlbums />} />
+            <Route path="/user/playlists" render={() => <FollowedPlaylists />} />
           </Views>
         </ContentArea>
       </Main>

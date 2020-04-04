@@ -8,6 +8,7 @@ import PlaybackInfo from 'components/PlaybackInfo';
 
 const TRACKS = '/user/tracks';
 const ALBUMS = '/user/albums';
+const PLAYLISTS = '/user/playlists';
 
 const Header = styled.div`
   background-color: rgba(200, 200, 200, 0.5);
@@ -81,6 +82,7 @@ export function Menu({
       <Options>
         <OptionLink to={TRACKS}>Tracks</OptionLink>
         <OptionLink to={ALBUMS}>Albums</OptionLink>
+        <OptionLink to={PLAYLISTS}>Playlists</OptionLink>
       </Options>
       <LogoutButton aria-label="Logout" onClick={onLogout}>
         <span className="em em-x"></span> Logout

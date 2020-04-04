@@ -33,3 +33,7 @@ export function compareAlbum(filter) {
     || album.name.toUpperCase().includes(filter.toUpperCase())
     || album.artist.toUpperCase().includes(filter.toUpperCase());
 }
+
+export function comparePlaylist(filter) {
+  return playlist => !filter || playlist.name.toUpperCase().includes(filter.toUpperCase());
+}
