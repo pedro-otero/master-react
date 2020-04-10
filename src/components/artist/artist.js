@@ -32,7 +32,7 @@ const AlbumInfo = styled.div`
 
 export function Artist({ id }) {
   const {
-    spotifyApi,
+    spotify,
   } = React.useContext(GlobalAppContext);
   const { setIsError } = React.useContext(ViewContext);
   const { profile } = React.useContext(DataContext);
@@ -45,24 +45,24 @@ export function Artist({ id }) {
   });
 
   useEffect(() => {
-    spotifyApi.getArtist(id)
-      .then(response => setArtist(artistToState(response.body)))
+    spotify.get(`/artists/${id}`)
+      .then(response => setArtist(artistToState(response.data)))
       .catch(() => setIsError(true));
-  }, [id, setIsError, spotifyApi]);
+  }, [id, setIsError, spotify]);
 
   React.useEffect(() => {
     if (profile.country && id && albums.next) {
-      spotifyApi.getArtistAlbums(id, albums.next).then((response) => {
+      spotify.get(`/artists/${id}/albums`, { params: albums.next }).then((response) => {
         setAlbums(getItems(albums, {
-          body: {
-            ...response.body,
-            items: response.body.items
+          data: {
+            ...response.data,
+            items: response.data.items
               .filter(item => item.available_markets.includes(profile.country)),
           },
         }));
       });
     }
-  }, [albums.next, albums.items, spotifyApi, id, profile.country, albums]);
+  }, [albums.next, albums.items, id, profile.country, albums, spotify]);
 
   const albumGroups = groupAlbums(albums.items);
 

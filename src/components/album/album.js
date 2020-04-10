@@ -15,7 +15,7 @@ export function Album({
   albumId,
 }) {
   const {
-    spotifyApi,
+    spotify,
     observeAlbumSearch,
   } = React.useContext(GlobalAppContext);
   const { setIsError } = React.useContext(ViewContext);
@@ -26,18 +26,18 @@ export function Album({
   const [canDisplay, setCanDisplay] = useState(false);
 
   useEffect(() => {
-    spotifyApi.getAlbum(albumId)
-      .then(response => setAlbum(albumToState(response.body)))
+    spotify.get(`/albums/${albumId}`)
+      .then(response => setAlbum(albumToState(response.data)))
       .catch(() => setIsError(true));
-  }, [albumId, setIsError, spotifyApi]);
+  }, [albumId, setIsError, spotify]);
 
   useEffect(() => {
     if (album) {
-      spotifyApi.getArtist(album.artistId)
-        .then(response => setArtist(artistToState(response.body)))
+      spotify.get(`/artists/${album.artistId}`)
+        .then(response => setArtist(artistToState(response.data)))
         .catch(() => setIsError(true));
     }
-  }, [album, setIsError, spotifyApi]);
+  }, [album, setIsError, spotify]);
 
   useEffect(() => {
     if (artist && album) {

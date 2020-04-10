@@ -1,4 +1,4 @@
-export function getItems(current, { body: response }) {
+export function getItems(current, { data: response }) {
   let next = null;
   if (response.next) {
     next = {

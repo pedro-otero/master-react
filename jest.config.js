@@ -16,6 +16,7 @@ module.exports = {
     '!src/registerServiceWorker.js',
     '!src/redux/store/index.js',
     '!src/stories/**/*.js',
+    '!src/api/spotify.js',
   ],
   setupFiles: ['<rootDir>/config/polyfills.js'],
   setupFilesAfterEnv: ['<rootDir>/config/test-setup.js'],

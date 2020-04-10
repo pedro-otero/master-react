@@ -8,7 +8,7 @@ import { compareTrack, getItems } from '../../data/library';
 
 export function SavedTracks() {
   const {
-    spotifyApi,
+    spotify,
   } = React.useContext(GlobalAppContext);
   const { filter } = React.useContext(DataContext);
 
@@ -20,9 +20,9 @@ export function SavedTracks() {
 
   React.useEffect(() => {
     if (items.next) {
-      spotifyApi.getMySavedTracks(items.next).then(response => setItems(getItems(items, response)));
+      spotify.get('/me/tracks', { params: items.next }).then(response => setItems(getItems(items, response)));
     }
-  }, [spotifyApi, items]);
+  }, [spotify, items]);
 
   const tracks = items.items
     .map(savedTrack => ({

@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SpotifyWebApi from 'spotify-web-api-node';
 import { BrowserRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import Welcome from 'components/Welcome';
 import registerServiceWorker from './registerServiceWorker';
-import SpotifyCustomApiFactory from './api/spotify';
+import getSpotifyAxiosInstance from './api/spotify';
 import Root from './components/root';
 import GlobalAppContext from './context';
 import './index.css';
@@ -30,16 +29,9 @@ const getAuthUrl = () => `${process.env.REACT_APP_SPOTIFY_AUTHORIZE_URL}?${[
 ].map(([key, value]) => `${key}=${value}`).join('&')}`;
 
 function startAuthenticatedApp(token) {
-  const CustomApi = SpotifyCustomApiFactory(SpotifyWebApi, window.location, token, getAuthUrl());
-  const spotifyApi = CustomApi({
-    redirectUri: window.location.origin,
-    clientId: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
-    throttle: process.env.REACT_APP_SPOTIFY_THROTTLE,
-  });
-
   registerServiceWorker();
   const contextData = {
-    spotifyApi,
+    spotify: getSpotifyAxiosInstance(axios, token, process.env.REACT_APP_SPOTIFY_THROTTLE),
     observeAlbumSearch: makeGetRelease(axios.create({
       baseURL: process.env.REACT_APP_BE_DOMAIN,
     }), 1000),

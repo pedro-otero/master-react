@@ -6,113 +6,127 @@ import { Root } from './root';
 import GlobalAppContext from '../context';
 
 const context = {
-  spotifyApi: {
-    getMe: () => Promise.resolve({
-      body: {
-        id: 'username',
-        display_name: 'User',
-        images: [{ url: '' }],
-        country: 'CA',
-      },
-    }),
-    getTrack: () => Promise.resolve({
-      body: {
-        id: 'T1',
-        name: 'title of song',
-        album: { name: 'album of song' },
-        artists: [{ name: 'name of the artist' }],
-      },
-    }),
-    getAlbum: () => Promise.resolve({
-      body: {
-        name: 'album of song',
-        release_date: '2005',
-        images: [{ url: '' }],
-        artists: [{ id: 'AR1' }],
-        tracks: {
-          items: [{
+  spotify: {
+    get: url => new Promise((resolve) => {
+      if (url === '/me') {
+        resolve({
+          data: {
+            id: 'username',
+            display_name: 'User',
+            images: [{ url: '' }],
+            country: 'CA',
+          },
+        });
+      } else if (url === '/tracks/T1') {
+        resolve({
+          data: {
             id: 'T1',
             name: 'title of song',
-            duration_ms: 1000,
-          }],
-        },
-      },
-    }),
-    getArtist: () => Promise.resolve({
-      body: {
-        name: 'name of the artist',
-        images: [{ url: '' }],
-      },
-    }),
-    getArtistAlbums: () => Promise.resolve({
-      body: {
-        items: [{
-          album_type: 'album',
-          album_group: 'album',
-          name: 'album #1',
-          available_markets: ['CA'],
-          release_date: '2005',
-          images: [{ url: '' }],
-        }],
-      },
-    }),
-    getMySavedTracks: () => Promise.resolve({
-      body: {
-        items: [{
-          track: {
-            name: 'name of track',
-            album: { name: 'name of album' },
-            artists: [{ name: 'name of artist' }],
+            album: { id: 'L1', name: 'album of song' },
+            artists: [{ id: 'R1', name: 'name of the artist' }],
           },
-        }],
-      },
-    }),
-    getMySavedAlbums: () => Promise.resolve({
-      body: {
-        items: [{
-          album: {
-            name: 'name of album',
-            artists: [{ name: 'name of artist' }],
+        });
+      } else if (url === '/albums/L1') {
+        resolve({
+          data: {
+            name: 'album of song',
+            release_date: '2005',
+            images: [{ url: '' }],
+            artists: [{ id: 'R1' }],
+            tracks: {
+              items: [{
+                id: 'T1',
+                name: 'title of song',
+                duration_ms: 1000,
+              }],
+            },
           },
-        }],
-      },
-    }),
-    getUserPlaylists: () => Promise.resolve({
-      body: {
-        items: [{
-          name: 'name of playlist',
-          owner: { display_name: 'name of owner' },
-          tracks: { total: '500' },
-        }],
-      },
-    }),
-    getPlaylist: () => Promise.resolve({
-      body: {
-        name: 'name of playlist',
-        owner: { display_name: 'name of owner' },
-        images: [{}],
-      },
-    }),
-    getPlaylistTracks: () => Promise.resolve({
-      body: {
-        items: [{
-          track: {
-            name: 'playlist track #1',
-            artists: [{ name: 'name of playlist track artist' }],
-            album: { name: 'name of playlist track album' },
+        });
+      } else if (url === '/artists/R1') {
+        resolve({
+          data: {
+            name: 'name of the artist',
+            images: [{ url: '' }],
           },
-        }],
-      },
-    }),
-    getMyCurrentPlaybackState: () => Promise.resolve({
-      body: {
-        item: {
-          id: 1,
-          name: 'Song being played',
-          artists: [{ name: 'Artist of the song that is being played' }],
-          album: { images: [{ url: '' }] },
-        },
-      },
+        });
+      } else if (url === '/artists/R1/albums') {
+        resolve({
+          data: {
+            items: [{
+              album_type: 'album',
+              album_group: 'album',
+              name: 'album #1',
+              available_markets: ['CA'],
+              release_date: '2005',
+              images: [{ url: '' }],
+            }],
+          },
+        });
+      } else if (url === '/me/tracks') {
+        resolve({
+          data: {
+            items: [{
+              track: {
+                name: 'name of track',
+                album: { name: 'name of album' },
+                artists: [{ name: 'name of artist' }],
+              },
+            }],
+          },
+        });
+      } else if (url === '/me/albums') {
+        resolve({
+          data: {
+            items: [{
+              album: {
+                name: 'name of album',
+                artists: [{ name: 'name of artist' }],
+              },
+            }],
+          },
+        });
+      } else if (url === '/me/playlists') {
+        resolve({
+          data: {
+            items: [{
+              name: 'name of playlist',
+              owner: { display_name: 'name of owner' },
+              tracks: { total: '500' },
+            }],
+          },
+        });
+      } else if (url === '/playlists/P1') {
+        resolve({
+          data: {
+            name: 'name of playlist',
+            owner: { display_name: 'name of owner' },
+            images: [{}],
+          },
+        });
+      } else if (url === '/playlists/P1/tracks') {
+        resolve({
+          data: {
+            items: [{
+              track: {
+                name: 'playlist track #1',
+                artists: [{ name: 'name of playlist track artist' }],
+                album: { name: 'name of playlist track album' },
+              },
+            }],
+          },
+        });
+      } else if (url === '/me/player') {
+        resolve({
+          data: {
+            item: {
+              id: 1,
+              name: 'Song being played',
+              artists: [{ name: 'Artist of the song that is being played' }],
+              album: { images: [{ url: '' }] },
+            },
+          },
+        });
+      }
     }),
   },
   observeAlbumSearch: () => ({
@@ -171,7 +185,7 @@ describe('Application', () => {
     let utils;
     await act(async () => {
       utils = render(<GlobalAppContext.Provider value={context}>
-        <MemoryRouter initialEntries={['/album/1']}>
+        <MemoryRouter initialEntries={['/album/L1']}>
           <Root />
         </MemoryRouter>
       </GlobalAppContext.Provider>);
@@ -188,7 +202,7 @@ describe('Application', () => {
     let utils;
     await act(async () => {
       utils = render(<GlobalAppContext.Provider value={context}>
-        <MemoryRouter initialEntries={['/artist/1']}>
+        <MemoryRouter initialEntries={['/artist/R1']}>
           <Root />
         </MemoryRouter>
       </GlobalAppContext.Provider>);
@@ -204,7 +218,7 @@ describe('Application', () => {
     let utils;
     await act(async () => {
       utils = render(<GlobalAppContext.Provider value={context}>
-        <MemoryRouter initialEntries={['/playlist/1']}>
+        <MemoryRouter initialEntries={['/playlist/P1']}>
           <Root />
         </MemoryRouter>
       </GlobalAppContext.Provider>);

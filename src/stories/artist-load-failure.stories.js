@@ -5,22 +5,18 @@ import { MemoryRouter } from 'react-router-dom';
 
 import Root from '../components/root';
 import AppContext from '../context';
+import me from '../../mock-data/me.json';
 
 const context = {
-  spotifyApi: {
-    getMe: () => Promise.resolve({
-      body: {
-        id: 'clever_nick87',
-        display_name: 'User McLastname',
-        images: [{ url: 'https://i.imgflip.com/wahid.jpg' }],
-        country: 'CA',
-      },
-    }),
-    getArtist: () => Promise.reject(Error()),
-    getArtistAlbums: () => Promise.reject(Error()),
-    getMyCurrentPlaybackState: () => Promise.resolve({
-      body: {
-      },
+  spotify: {
+    get: url => new Promise((resolve, reject) => {
+      if (url === '/me') {
+        resolve(me);
+      } else if (url === '/artists/R1') {
+        reject(Error());
+      } else if (url === '/me/player') {
+        resolve({ data: {} });
+      }
     }),
   },
   observeAlbumSearch: () => ({

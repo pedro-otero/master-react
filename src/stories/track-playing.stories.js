@@ -5,26 +5,25 @@ import { MemoryRouter } from 'react-router-dom';
 
 import Root from '../components/root';
 import AppContext from '../context';
+import me from '../../mock-data/me.json';
 
 const context = {
-  spotifyApi: {
-    getMe: () => Promise.resolve({
-      body: {
-        id: 'clever_nick87',
-        display_name: 'User McLastname',
-        images: [{ url: 'https://i.imgflip.com/wahid.jpg' }],
-        country: 'CA',
-      },
-    }),
-    getMyCurrentPlaybackState: () => Promise.resolve({
-      body: {
-        item: {
-          id: 1,
-          name: 'A song',
-          artists: [{ name: 'Gifted Singer' }],
-          album: { images: [{ url: 'https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730' }] },
-        },
-      },
+  spotify: {
+    get: url => new Promise((resolve) => {
+      if (url === '/me') {
+        resolve(me);
+      } else if (url === '/me/player') {
+        resolve({
+          data: {
+            item: {
+              id: 1,
+              name: 'A song',
+              artists: [{ name: 'Gifted Singer' }],
+              album: { images: [{ url: 'https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730' }] },
+            },
+          },
+        });
+      }
     }),
   },
 };

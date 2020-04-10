@@ -6,49 +6,54 @@ import { ViewContext } from 'components/View';
 import { Album } from './album';
 import AppContext from '../../context';
 
-const spotifyApi = {
-  getAlbum: () => Promise.resolve({
-    body: {
-      name: 'Hyped EP',
-      artists: [{}],
-      tracks: {
-        items: [{
-          name: 'Dark Opening',
-          duration_ms: 181000,
-        }, {
-          name: 'Inspiring Ballad',
-          duration_ms: 209000,
-        }, {
-          name: 'Departure',
-          duration_ms: 291000,
-        }, {
-          name: 'Song Where Another Band Member Sings',
-          duration_ms: 176000,
-        }, {
-          name: 'Filler',
-          duration_ms: 226000,
-        }, {
-          name: 'Track About The End Of Something',
-          duration_ms: 317000,
-        }],
-      },
-      images: [{ url: 'https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3' }],
-      release_date: '2017',
-    },
-  }),
-  getArtist: () => Promise.resolve({
-    body: {
-      name: 'The Band',
-      images: [{ url: 'https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3' }],
-    },
+const spotify = {
+  get: url => new Promise((resolve) => {
+    if (url === '/albums/L1') {
+      resolve({
+        data: {
+          name: 'Hyped EP',
+          artists: [{ id: 'R1' }],
+          tracks: {
+            items: [{
+              name: 'Dark Opening',
+              duration_ms: 181000,
+            }, {
+              name: 'Inspiring Ballad',
+              duration_ms: 209000,
+            }, {
+              name: 'Departure',
+              duration_ms: 291000,
+            }, {
+              name: 'Song Where Another Band Member Sings',
+              duration_ms: 176000,
+            }, {
+              name: 'Filler',
+              duration_ms: 226000,
+            }, {
+              name: 'Track About The End Of Something',
+              duration_ms: 317000,
+            }],
+          },
+          images: [{ url: 'https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3' }],
+          release_date: '2017',
+        },
+      });
+    } else if (url === '/artists/R1') {
+      resolve({
+        data: {
+          name: 'The Band',
+          images: [{ url: 'https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3' }],
+        },
+      });
+    }
   }),
 };
 
 storiesOf('Album', module)
   .add('Just started', () => {
     const context = {
-      spotifyApi: {
-        getAlbum: () => new Promise(() => {}),
+      spotify: {
+        get: () => new Promise(() => {}),
       },
       observeAlbumSearch: () => ({
         subscribe: () => ({
@@ -59,14 +64,14 @@ storiesOf('Album', module)
     return (
       <AppContext.Provider value={context}>
         <ViewContext.Provider value={{ setIsError: () => {} }}>
-          <Album />
+          <Album albumId="L1" />
         </ViewContext.Provider>
       </AppContext.Provider>
     );
   })
   .add('Album and artist loaded', () => {
     const context = {
-      spotifyApi,
+      spotify,
       observeAlbumSearch: () => ({
         subscribe: () => ({
           unsubscribe() {},
@@ -76,14 +81,14 @@ storiesOf('Album', module)
     return (
       <AppContext.Provider value={context}>
         <ViewContext.Provider value={{ setIsError: () => {} }}>
-          <Album />
+          <Album albumId="L1" />
         </ViewContext.Provider>
       </AppContext.Provider>
     );
   })
   .add('Some credits found', () => {
     const context = {
-      spotifyApi,
+      spotify,
       observeAlbumSearch: () => ({
         subscribe: (subscriber) => {
           subscriber.next({
@@ -111,14 +116,14 @@ storiesOf('Album', module)
     return (
       <AppContext.Provider value={context}>
         <ViewContext.Provider value={{ setIsError: () => {} }}>
-          <Album />
+          <Album albumId="L1" />
         </ViewContext.Provider>
       </AppContext.Provider>
     );
   })
   .add('Full', () => {
     const context = {
-      spotifyApi,
+      spotify,
       observeAlbumSearch: () => ({
         subscribe: (subscriber) => {
           subscriber.next({
@@ -146,7 +151,7 @@ storiesOf('Album', module)
     return (
       <AppContext.Provider value={context}>
         <ViewContext.Provider value={{ setIsError: () => {} }}>
-          <Album />
+          <Album albumId="L1" />
         </ViewContext.Provider>
       </AppContext.Provider>
     );

@@ -17,23 +17,27 @@ const inner = {
 };
 
 const context = {
-  spotifyApi: {
-    getMySavedAlbums: () => Promise.resolve({
-      body: {
-        items: [{
-          album: {
-            id: 1, artists: [{ name: 'Hot Band' }], name: 'Sleeper Hit',
+  spotify: {
+    get: url => new Promise((resolve) => {
+      if (url === '/me/albums') {
+        resolve({
+          data: {
+            items: [{
+              album: {
+                id: 1, artists: [{ name: 'Hot Band' }], name: 'Sleeper Hit',
+              },
+            }, {
+              album: {
+                id: 1, artists: [{ name: 'Sum Rappa' }], name: 'Reference To Marijuana',
+              },
+            }, {
+              album: {
+                id: 1, artists: [{ name: 'Pop Diva' }], name: 'Pahp Deevah',
+              },
+            }],
           },
-        }, {
-          album: {
-            id: 1, artists: [{ name: 'Sum Rappa' }], name: 'Reference To Marijuana',
-          },
-        }, {
-          album: {
-            id: 1, artists: [{ name: 'Pop Diva' }], name: 'Pahp Deevah',
-          },
-        }],
-      },
+        });
+      }
     }),
   },
 };

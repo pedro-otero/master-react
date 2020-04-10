@@ -17,38 +17,57 @@ const inner = {
 };
 
 const context = {
-  spotifyApi: {
-    getMySavedTracks: () => Promise.resolve({
-      body: {
-        items: [{
-          track: {
-            id: 1, name: 'First Single', artists: [{ name: 'Hot Band' }], album: { name: 'Sleeper Hit' },
+  spotify: {
+    get: url => new Promise((resolve) => {
+      if (url === '/me/tracks') {
+        resolve({
+          data: {
+            items: [{
+              track: {
+                id: 1,
+                name: 'First Single',
+                artists: [{ name: 'Hot Band' }],
+                album: { name: 'Sleeper Hit' },
+              },
+            }, {
+              track: {
+                id: 1,
+                name: 'Chart Topper',
+                artists: [{ name: 'Hot Band' }],
+                album: { name: 'Sleeper Hit' },
+              },
+            }, {
+              track: {
+                id: 1,
+                name: 'Guns and Bitches',
+                artists: [{ name: 'Sum Rappa' }],
+                album: { name: 'Reference To Marijuana' },
+              },
+            }, {
+              track: {
+                id: 1,
+                name: 'Unexpected Flop',
+                artists: [{ name: 'Hot Band' }],
+                album: { name: 'Sleeper Hit' },
+              },
+            }, {
+              track: {
+                id: 1,
+                name: 'Song She Wrote',
+                artists: [{ name: 'Pop Diva' }],
+                album: { name: 'Pahp Deevah' },
+              },
+            }, {
+              track: {
+                id: 1,
+                name: 'Song With a F*****g lot of cursing',
+                artists: [{ name: 'Sum Rappa' }],
+                album: { name: 'Reference To Marijuana' },
+              },
+            }],
           },
-        }, {
-          track: {
-            id: 1, name: 'Chart Topper', artists: [{ name: 'Hot Band' }], album: { name: 'Sleeper Hit' },
-          },
-        }, {
-          track: {
-            id: 1, name: 'Guns and Bitches', artists: [{ name: 'Sum Rappa' }], album: { name: 'Reference To Marijuana' },
-          },
-        }, {
-          track: {
-            id: 1, name: 'Unexpected Flop', artists: [{ name: 'Hot Band' }], album: { name: 'Sleeper Hit' },
-          },
-        }, {
-          track: {
-            id: 1, name: 'Song She Wrote', artists: [{ name: 'Pop Diva' }], album: { name: 'Pahp Deevah' },
-          },
-        }, {
-          track: {
-            id: 1,
-            name: 'Song With a F*****g lot of cursing',
-            artists: [{ name: 'Sum Rappa' }],
-            album: { name: 'Reference To Marijuana' },
-          },
-        }],
-      },
+        });
+      }
     }),
   },
 };

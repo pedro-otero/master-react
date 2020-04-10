@@ -14,7 +14,7 @@ export function Playlist({
   id,
 }) {
   const {
-    spotifyApi,
+    spotify,
   } = React.useContext(GlobalAppContext);
   const { setIsError } = React.useContext(ViewContext);
 
@@ -26,19 +26,19 @@ export function Playlist({
   }));
 
   useEffect(() => {
-    spotifyApi.getPlaylist(id)
+    spotify.get(`/playlists/${id}`)
       .then((response) => {
-        setDetails(response.body);
+        setDetails(response.data);
       })
       .catch(() => setIsError(true));
-  }, [id, setIsError, spotifyApi]);
+  }, [id, setIsError, spotify]);
 
   React.useEffect(() => {
     if (tracks.next) {
-      spotifyApi.getPlaylistTracks(id, tracks.next)
+      spotify.get(`/playlists/${id}/tracks`, { params: tracks.next })
         .then(response => setTracks(getItems(tracks, response)));
     }
-  }, [id, spotifyApi, tracks]);
+  }, [id, spotify, tracks]);
 
   return (
     <Fragment>

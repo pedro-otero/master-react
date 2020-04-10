@@ -65,8 +65,8 @@ class PlaybackInfo extends React.Component {
   };
 
   loadPlaybackInfo = () => {
-    this.context.spotifyApi.getMyCurrentPlaybackState().then((response) => {
-      const data = response.body;
+    this.context.spotify.get('/me/player').then((response) => {
+      const { data } = response;
       if (data && data.item) {
         const {
           id, name, artists: [{ name: artist }], album: { images: [{ url: image }] },

@@ -21,7 +21,7 @@ export function TrackDetails({
   trackId,
 }) {
   const {
-    spotifyApi,
+    spotify,
     observeAlbumSearch,
   } = React.useContext(GlobalAppContext);
   const { setIsError } = React.useContext(ViewContext);
@@ -33,26 +33,26 @@ export function TrackDetails({
   const [canDisplay, setCanDisplay] = useState(false);
 
   useEffect(() => {
-    spotifyApi.getTrack(trackId)
-      .then(response => setTrack(trackToState(response.body)))
+    spotify.get(`/tracks/${trackId}`)
+      .then(response => setTrack(trackToState(response.data)))
       .catch(() => setIsError(true));
-  }, [setIsError, spotifyApi, trackId]);
+  }, [setIsError, spotify, trackId]);
 
   useEffect(() => {
     if (track) {
-      spotifyApi.getAlbum(track.albumId)
-        .then(response => setAlbum(albumToState(response.body)))
+      spotify.get(`/albums/${track.albumId}`)
+        .then(response => setAlbum(albumToState(response.data)))
         .catch(() => setIsError(true));
     }
-  }, [setIsError, spotifyApi, track]);
+  }, [setIsError, spotify, track]);
 
   useEffect(() => {
     if (track) {
-      spotifyApi.getArtist(track.artistId)
-        .then(response => setArtist(artistToState(response.body)))
+      spotify.get(`/artists/${track.artistId}`)
+        .then(response => setArtist(artistToState(response.data)))
         .catch(() => setIsError(true));
     }
-  }, [setIsError, spotifyApi, track]);
+  }, [setIsError, spotify, track]);
 
   useEffect(() => {
     if (track && artist && album) {
