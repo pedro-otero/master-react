@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SpotifyWebApi from 'spotify-web-api-node';
 import { BrowserRouter } from 'react-router-dom';
-import request from 'superagent';
+import axios from 'axios';
 
 import Welcome from 'components/Welcome';
 import registerServiceWorker from './registerServiceWorker';
@@ -40,9 +40,9 @@ function startAuthenticatedApp(token) {
   registerServiceWorker();
   const contextData = {
     spotifyApi,
-    request,
-    backendUrl: `${process.env.REACT_APP_BE_DOMAIN}/data/album`,
-    observeAlbumSearch: makeGetRelease(request, `${process.env.REACT_APP_BE_DOMAIN}/data/album`, 1000),
+    observeAlbumSearch: makeGetRelease(axios.create({
+      baseURL: process.env.REACT_APP_BE_DOMAIN,
+    }), 1000),
     GET_RELEASE_THROTTLE: 1000,
   };
   ReactDOM.render(

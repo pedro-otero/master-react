@@ -2,24 +2,20 @@ import makeGetRelease from './get-release';
 
 describe('Get release observable', () => {
   it('emits results', (done) => {
-    const request = {
-      get: jest.fn().mockReturnValueOnce({
-        end: callback => callback(null, {
-          body: {
-            progress: 50,
-            value: 1,
-          },
-        }),
-      }).mockReturnValueOnce({
-        end: callback => callback(null, {
-          body: {
-            progress: 100,
-            value: 2,
-          },
-        }),
+    const axios = {
+      get: jest.fn().mockResolvedValueOnce({
+        data: {
+          progress: 50,
+          value: 1,
+        },
+      }).mockResolvedValueOnce({
+        data: {
+          progress: 100,
+          value: 2,
+        },
       }),
     };
-    const getRelease = makeGetRelease(request, 'whatevs', 1);
+    const getRelease = makeGetRelease(axios, 1);
     const emittedValues = [];
 
     getRelease('x').subscribe({
@@ -40,9 +36,7 @@ describe('Get release observable', () => {
 
   it('emits errors', (done) => {
     const request = {
-      get: jest.fn().mockReturnValueOnce({
-        end: callback => callback('ERROR'),
-      }),
+      get: jest.fn().mockRejectedValueOnce('ERROR'),
     };
     const getRelease = makeGetRelease(request, 'whatevs', 1);
 
