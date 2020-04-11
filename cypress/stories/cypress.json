@@ -1,8 +1,0 @@
-{
-  "testFiles": "**/*.cypress.js",
-  "integrationFolder": "../../src",
-  "fixturesFolder": false,
-  "video": false,
-  "pluginsFile": false,
-  "supportFile": false
-}

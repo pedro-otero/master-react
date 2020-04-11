@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  cypress: cypress-io/cypress@1
 
 jobs:
   unit-tests:
@@ -26,13 +24,3 @@ workflows:
     jobs:
       - unit-tests
       - eslint
-      - cypress/run:
-          yarn: true
-          start: yarn start
-          command: yarn run cypress:app
-          wait-on: 'http://localhost:3000'
-      - cypress/run:
-          yarn: true
-          start: yarn run storybook:ci
-          command: yarn run cypress:stories
-          wait-on: 'http://localhost:9001'

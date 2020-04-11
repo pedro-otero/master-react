@@ -1,12 +1,10 @@
 {
   "plugins": [
-    "cypress",
     "react-hooks"
   ],
   "env": {
     "browser": true,
-    "jest": true,
-    "cypress/globals": true
+    "jest": true
   },
   "extends": [
     "eslint:recommended",

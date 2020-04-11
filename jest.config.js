@@ -12,7 +12,6 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.{js,jsx,mjs}',
     '!src/**/*.stories.js',
-    '!src/**/*.cypress.js',
     '!src/index.js',
     '!src/registerServiceWorker.js',
     '!src/redux/store/index.js',
