@@ -70,7 +70,7 @@ describe('Library helper functions', () => {
       const items = getItems({
         items: [],
       }, {
-        body: {
+        data: {
           items: [1, 2, 3, 4, 5],
           next: 'there is a next page',
           offset: 0,
@@ -92,7 +92,7 @@ describe('Library helper functions', () => {
       const items = getItems({
         items: [1, 2, 3, 4, 5],
       }, {
-        body: {
+        data: {
           items: [6, 7, 8, 9, 0],
           next: 'there is a next page',
           offset: 5,
@@ -114,7 +114,7 @@ describe('Library helper functions', () => {
       const items = getItems({
         items: [1, 2],
       }, {
-        body: {
+        data: {
           items: [3],
           // next: 'there is NOT a next page',
           offset: 2,

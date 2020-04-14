@@ -83,22 +83,22 @@ const useSwipeMenu = () => {
 
 const useProfile = () => {
   const {
-    spotifyApi,
+    spotify,
   } = React.useContext(GlobalAppContext);
 
   const [profile, setProfile] = React.useState({ isLoaded: false });
 
   React.useEffect(() => {
-    spotifyApi.getMe().then((response) => {
+    spotify.get('/me').then((response) => {
       setProfile({
-        userId: response.body.id,
-        name: response.body.display_name,
-        avatar: response.body.images[0].url,
-        country: response.body.country,
+        userId: response.data.id,
+        name: response.data.display_name,
+        avatar: response.data.images[0].url,
+        country: response.data.country,
         isLoaded: true,
       });
     });
-  }, [spotifyApi]);
+  }, [spotify]);
 
   return profile;
 };

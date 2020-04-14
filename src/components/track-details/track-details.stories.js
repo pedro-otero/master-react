@@ -6,39 +6,45 @@ import { ViewContext } from 'components/View';
 import { TrackDetails } from './track-details';
 import AppContext from '../../context';
 
-const spotifyApi = {
-  getTrack: () => Promise.resolve({
-    body: {
-      name: "Char Topper Everybody's Sick Of",
-      artists: [{}],
-      album: {},
-    },
-  }),
-  getAlbum: () => Promise.resolve({
-    body: {
-      artists: [{}],
-      tracks: {
-        items: [{
+const spotify = {
+  get: url => new Promise((resolve) => {
+    if (url === '/tracks/T1') {
+      resolve({
+        data: {
           name: "Char Topper Everybody's Sick Of",
-        }],
-      },
-      images: [{ url: 'https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3' }],
-      release_date: '2016',
-    },
-  }),
-  getArtist: () => Promise.resolve({
-    body: {
-      name: 'Pop Master',
-      images: [{ url: 'https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a' }],
-    },
+          album: { id: 'L1' },
+          artists: [{ id: 'R1' }],
+        },
+      });
+    } else if (url === '/albums/L1') {
+      resolve({
+        data: {
+          artists: [{}],
+          tracks: {
+            items: [{
+              name: "Char Topper Everybody's Sick Of",
+            }],
+          },
+          images: [{ url: 'https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3' }],
+          release_date: '2016',
+        },
+      });
+    } else if (url === '/artists/R1') {
+      resolve({
+        data: {
+          name: 'Pop Master',
+          images: [{ url: 'https://i.scdn.co/image/02bd189433691a8eb843f7bc3a82d8355938469a' }],
+        },
+      });
+    }
   }),
 };
 
 storiesOf('Track details', module)
   .add('Just started', () => {
     const context = {
-      spotifyApi: {
-        getTrack: () => new Promise(() => {}),
+      spotify: {
+        get: () => new Promise(() => {}),
       },
       observeAlbumSearch: () => ({
         subscribe: () => ({
@@ -49,13 +55,13 @@ storiesOf('Track details', module)
     return (
       <AppContext.Provider value={context}>
         <ViewContext.Provider value={{ setIsError: () => {} }}>
-          <TrackDetails />
+          <TrackDetails trackId="T1" />
         </ViewContext.Provider>
       </AppContext.Provider>
     );
   }).add('With Spotify data loaded', () => {
     const context = {
-      spotifyApi,
+      spotify,
       observeAlbumSearch: () => ({
         subscribe: () => ({
           unsubscribe() {},
@@ -65,14 +71,14 @@ storiesOf('Track details', module)
     return (
       <AppContext.Provider value={context}>
         <ViewContext.Provider value={{ setIsError: () => {} }}>
-          <TrackDetails />
+          <TrackDetails trackId="T1" />
         </ViewContext.Provider>
       </AppContext.Provider>
     );
   })
   .add('Found composers', () => {
     const context = {
-      spotifyApi,
+      spotify,
       observeAlbumSearch: () => ({
         subscribe: (subscriber) => {
           subscriber.next({
@@ -102,7 +108,7 @@ storiesOf('Track details', module)
   })
   .add('Full', () => {
     const context = {
-      spotifyApi,
+      spotify,
       observeAlbumSearch: () => ({
         subscribe: (subscriber) => {
           subscriber.next({

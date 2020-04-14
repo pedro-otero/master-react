@@ -1,0 +1,14 @@
+{
+  "data": {
+    "id": "T1",
+    "name": "Radio Friendly",
+    "album": {
+      "id": "L1"
+    },
+    "artists": [
+      {
+        "id": "R1"
+      }
+    ]
+  }
+}

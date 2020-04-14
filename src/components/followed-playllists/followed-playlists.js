@@ -8,7 +8,7 @@ import ListItem from '../list-item/list-item';
 
 export function FollowedPlaylists() {
   const {
-    spotifyApi,
+    spotify,
   } = React.useContext(GlobalAppContext);
   const { filter } = React.useContext(DataContext);
 
@@ -20,9 +20,9 @@ export function FollowedPlaylists() {
 
   React.useEffect(() => {
     if (items.next) {
-      spotifyApi.getUserPlaylists(items.next).then(response => setItems(getItems(items, response)));
+      spotify.get('/me/playlists', { params: items.next }).then(response => setItems(getItems(items, response)));
     }
-  }, [spotifyApi, items]);
+  }, [items, spotify]);
 
   const playlists = items.items.map(({
     id, name, owner: { display_name: owner }, tracks: { total: tracks },

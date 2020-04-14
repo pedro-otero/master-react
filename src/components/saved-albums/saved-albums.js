@@ -8,7 +8,7 @@ import { compareAlbum, getItems } from '../../data/library';
 
 export function SavedAlbums() {
   const {
-    spotifyApi,
+    spotify,
   } = React.useContext(GlobalAppContext);
   const { filter } = React.useContext(DataContext);
 
@@ -20,9 +20,9 @@ export function SavedAlbums() {
 
   React.useEffect(() => {
     if (items.next) {
-      spotifyApi.getMySavedAlbums(items.next).then(response => setItems(getItems(items, response)));
+      spotify.get('/me/albums', { params: items.next }).then(response => setItems(getItems(items, response)));
     }
-  }, [spotifyApi, items]);
+  }, [spotify, items]);
 
   const albums = items.items.map(({
     album: {

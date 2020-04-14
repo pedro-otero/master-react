@@ -12,11 +12,11 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.{js,jsx,mjs}',
     '!src/**/*.stories.js',
-    '!src/**/*.cypress.js',
     '!src/index.js',
     '!src/registerServiceWorker.js',
     '!src/redux/store/index.js',
     '!src/stories/**/*.js',
+    '!src/api/spotify.js',
   ],
   setupFiles: ['<rootDir>/config/polyfills.js'],
   setupFilesAfterEnv: ['<rootDir>/config/test-setup.js'],
