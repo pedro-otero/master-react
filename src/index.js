@@ -31,7 +31,12 @@ const getAuthUrl = () => `${process.env.REACT_APP_SPOTIFY_AUTHORIZE_URL}?${[
 function startAuthenticatedApp(token) {
   registerServiceWorker();
   const contextData = {
-    spotify: getSpotifyAxiosInstance(axios, token, process.env.REACT_APP_SPOTIFY_THROTTLE),
+    spotify: getSpotifyAxiosInstance(
+      axios,
+      getAuthUrl(),
+      token,
+      process.env.REACT_APP_SPOTIFY_THROTTLE,
+    ),
     observeAlbumSearch: makeGetRelease(axios.create({
       baseURL: process.env.REACT_APP_BE_DOMAIN,
     }), 1000),
