@@ -1,32 +1,18 @@
 import { artistToState, groupAlbums } from './artists';
 
 describe('Artist helper functions', () => {
-  describe('Artist to state', () => {
-    it('maps artists without images to state', () => {
-      const mappedArtist = artistToState({
-        id: 'AR1',
-        name: 'The Artist',
-        images: [],
-      });
-      expect(mappedArtist).toEqual({
-        name: 'The Artist',
-        id: 'AR1',
-      });
+  it('maps artist to state', () => {
+    const mappedArtist = artistToState({
+      id: 'AR1',
+      name: 'The Artist',
+      images: [{
+        url: 'imgUrl',
+      }],
     });
-
-    it('maps artist to state', () => {
-      const mappedArtist = artistToState({
-        id: 'AR1',
-        name: 'The Artist',
-        images: [{
-          url: 'imgUrl',
-        }],
-      });
-      expect(mappedArtist).toEqual({
-        id: 'AR1',
-        name: 'The Artist',
-        image: 'imgUrl',
-      });
+    expect(mappedArtist).toEqual({
+      id: 'AR1',
+      name: 'The Artist',
+      image: 'imgUrl',
     });
   });
 
@@ -165,27 +151,6 @@ describe('Artist helper functions', () => {
           name: 'Collab compilation',
           year: '2018',
           image: 'img1',
-        }],
-      }]);
-    });
-
-    it('albums without images to state', () => {
-      const mappedAlbums = groupAlbums([{
-        id: 'AL1',
-        name: 'Album #1',
-        release_date: '2018-01-05',
-        images: [],
-        album_group: 'album',
-        album_type: 'album',
-      }]);
-
-      expect(mappedAlbums).toEqual([{
-        name: 'Albums',
-        items: [{
-          id: 'AL1',
-          name: 'Album #1',
-          year: '2018',
-          image: undefined,
         }],
       }]);
     });
