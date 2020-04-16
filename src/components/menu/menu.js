@@ -83,6 +83,7 @@ export function Menu({
         <OptionLink to={TRACKS}>Tracks</OptionLink>
         <OptionLink to={ALBUMS}>Albums</OptionLink>
         <OptionLink to={PLAYLISTS}>Playlists</OptionLink>
+        <OptionLink to="/search">Search</OptionLink>
       </Options>
       <LogoutButton aria-label="Logout" onClick={onLogout}>
         <span className="em em-x"></span> Logout

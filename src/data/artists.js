@@ -1,8 +1,10 @@
+import getFirstImageUrl from './get-first-image-url';
+
 export function artistToState({ id, name, images }) {
   return {
     id,
     name,
-    image: images.length ? images[0].url : undefined,
+    image: getFirstImageUrl(images),
   };
 }
 
@@ -16,12 +18,12 @@ export function groupAlbums(items) {
         id,
         name,
         release_date: releaseDate,
-        images: [firstImage = {}],
+        images,
       }) => ({
         id,
         name,
         year: releaseDate.substring(0, 4),
-        image: firstImage.url,
+        image: getFirstImageUrl(images),
       })),
   });
   return [

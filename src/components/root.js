@@ -13,10 +13,12 @@ import SavedAlbums from 'components/SavedAlbums';
 import Artist from 'components/Artist';
 import Filter from 'components/Filter';
 import View from 'components/View';
+import Search from 'components/Search';
 import GlobalAppContext from '../context';
 import DataContext from '../data-context';
 import FollowedPlaylists from './followed-playllists/followed-playlists';
 import Playlist from './playlist/playlist';
+import getFirstImageUrl from '../data/get-first-image-url';
 
 const ContentArea = styled.div`
   flex: 1;
@@ -93,7 +95,7 @@ const useProfile = () => {
       setProfile({
         userId: response.data.id,
         name: response.data.display_name,
-        avatar: response.data.images[0].url,
+        avatar: getFirstImageUrl(response.data.images),
         country: response.data.country,
         isLoaded: true,
       });
@@ -212,6 +214,8 @@ export function Root() {
             <Route path="/user/tracks" render={() => <SavedTracks />} />
             <Route path="/user/albums" render={() => <SavedAlbums />} />
             <Route path="/user/playlists" render={() => <FollowedPlaylists />} />
+            <Route path="/search" exact render={() => <Search limit={5} />} />
+            <Route path="/search/:type" render={({ match }) => <Search type={match.params.type} limit={50} />} />
           </Views>
         </ContentArea>
       </Main>
