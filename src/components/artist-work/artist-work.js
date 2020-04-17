@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-import Link from 'components/Link';
 import Banner from 'components/Banner';
 import Cover from 'components/Cover';
-import Label from 'components/Label';
 
 import styles from './artist-work.css';
 
@@ -33,37 +32,42 @@ const Margin = styled.div`
 
 const ArtistWork = ({
   title, artist, artistId, background, image, year, children, path,
-}) => (
-  <Banner
-      src={background}
-      className={styles.content}>
-    <Link to={path}>
-      <Margin>
-        <Cover
-            src={image}
-            year={year}
-            yearClass={styles.albumYear} />
-      </Margin>
-    </Link>
-    <div>
-      <Link to={`/artist/${artistId}`}>
-        <span className={styles.artistName}>
-          {artist}
+}) => {
+  let workImage = <Margin>
+    <Cover
+        src={image}
+        year={year}
+        yearClass={styles.albumYear} />
+  </Margin>;
+  if (path) {
+    workImage = <Link to={path}>{workImage}</Link>;
+  }
+  return (
+    <Banner
+        src={background}
+        className={styles.content}>
+      {workImage}
+      <div>
+        <Link to={`/artist/${artistId}`}>
+          <span className={styles.artistName}>
+            {artist}
+          </span>
+        </Link>
+        <span>
+          <span className={styles.title}>{title}</span>
+          <br />
         </span>
-      </Link>
-      <Label
-          className={styles.title}
-          value={title} />
-      {children}
-    </div>
-  </Banner>
-);
+        {children}
+      </div>
+    </Banner>
+  );
+};
 
 ArtistWork.propTypes = {
   artist: PropTypes.string,
   artistId: PropTypes.string,
   background: PropTypes.string,
-  children: PropTypes.array,
+  children: PropTypes.node,
   image: PropTypes.string,
   path: PropTypes.string,
   title: PropTypes.string,

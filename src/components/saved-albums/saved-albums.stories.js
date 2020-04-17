@@ -3,7 +3,8 @@ import React from 'react';
 import storiesOf from 'storiesOfComponentsWithLinks';
 
 import { SavedAlbums } from './saved-albums';
-import { SavedTracks } from 'components/SavedTracks';
+import AppContext from '../../context';
+import DataContext from '../../data-context';
 
 const outer = {
   display: 'flex',
@@ -15,32 +16,41 @@ const inner = {
   width: '300px',
 };
 
-const albums = [{
-  id: 1,
-  artist: 'Hot Band',
-  name: 'Sleeper Hit',
-}, {
-  id: 1,
-  artist: 'Sum Rappa',
-  name: 'Reference To Marijuana',
-}, {
-  id: 1,
-  artist: 'Hot Band',
-  name: 'Sleeper Hit',
-}, {
-  id: 1,
-  artist: 'Pop Diva',
-  name: 'Pahp Deevah',
-}];
+const context = {
+  spotify: {
+    get: url => new Promise((resolve) => {
+      if (url === '/me/albums') {
+        resolve({
+          data: {
+            items: [{
+              album: {
+                id: 1, artists: [{ name: 'Hot Band' }], name: 'Sleeper Hit',
+              },
+            }, {
+              album: {
+                id: 1, artists: [{ name: 'Sum Rappa' }], name: 'Reference To Marijuana',
+              },
+            }, {
+              album: {
+                id: 1, artists: [{ name: 'Pop Diva' }], name: 'Pahp Deevah',
+              },
+            }],
+          },
+        });
+      }
+    }),
+  },
+};
 
 storiesOf('Saved albums', module)
   .add('Default', () => (
     <div style={outer}>
       <div style={inner}>
-        <SavedAlbums
-            albums={albums}
-            loadSavedAlbums={() => ({})}
-            clearErrors={() => {}} />
+        <AppContext.Provider value={context}>
+          <DataContext.Provider value={{ filter: '' }}>
+            <SavedAlbums />
+          </DataContext.Provider>
+        </AppContext.Provider>
       </div>
     </div>
   ));

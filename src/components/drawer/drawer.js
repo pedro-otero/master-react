@@ -1,31 +1,26 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const BASE_Z = 1800;
-
-const BaseContainer = styled.div`
+const Backdrop = styled.div`
   position: fixed;
   top: 0;
   bottom: 0;
-  left: ${({ left }) => `${left}%`};
-  right: ${({ right }) => `${right}%`};
-  z-index: ${BASE_Z + 1};
-  transition: right ${({ slideMs }) => `${slideMs}ms`},
-              left ${({ slideMs }) => `${slideMs}ms`},
-              filter 400ms;
-              
-  @media (min-width: 769px) {
-    position: static;
-  }
-`;
-
-const Backdrop = styled(BaseContainer)`
-  z-index: ${BASE_Z};
+  left: 0;
+  width: ${({ open, width }) => `${open ? width : 0}`};
+  z-index: 1800;
+  transition: width ${({ slideMs }) => `${slideMs}ms`},
+              filter ${({ slideMs }) => `${slideMs}ms`};
+  overflow: hidden;
   background-color: ${({ bgColor }) => bgColor};
   opacity: ${({ opacity }) => opacity};
   filter: opacity(${({ open }) => `${open}%`});
   box-shadow: 2px 0 10px rgba(150, 150, 150, 0.5);
+`;
+
+const InnerContainer = styled.div`
+  width: ${({ width }) => `${width}`};
+  height: 100%;
 `;
 
 class Drawer extends React.Component {
@@ -44,28 +39,13 @@ class Drawer extends React.Component {
     }
   }
 
-  getContainerProps() {
-    const {
-      children, open, widthPercentage, ...theRest
-    } = this.props;
-    const skew = open * (widthPercentage / 100);
-    return {
-      left: -widthPercentage + skew,
-      right: 100 - skew,
-      open,
-      ...theRest,
-    };
-  }
-
   render() {
-    const containerProps = this.getContainerProps();
     return (
-      <Fragment>
-        <Backdrop {...containerProps} />
-        <BaseContainer {...containerProps}>
+      <Backdrop {...this.props}>
+        <InnerContainer width={this.props.width}>
           {this.props.children}
-        </BaseContainer>
-      </Fragment>
+        </InnerContainer>
+      </Backdrop>
     );
   }
 }
@@ -74,19 +54,17 @@ Drawer.defaultProps = {
   bgColor: 'black',
   opacity: 1,
   slideMs: 200,
-  widthPercentage: 70,
 };
 
 Drawer.propTypes = {
   bgColor: PropTypes.string,
-  children: PropTypes.arrayOf(PropTypes.node),
+  children: PropTypes.node,
   onClose: PropTypes.func,
   onOpen: PropTypes.func,
-  onOptionSelected: PropTypes.func,
   opacity: PropTypes.number,
   open: PropTypes.number,
   slideMs: PropTypes.number,
-  widthPercentage: PropTypes.number,
+  width: PropTypes.string,
 };
 
 export default Drawer;

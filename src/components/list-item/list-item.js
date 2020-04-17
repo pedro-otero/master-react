@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
-import Link from 'components/Link';
+import { Link } from 'react-router-dom';
 
 const Name = styled.div`
   padding: 0.5em 0.5em 0.1em 0.5em;
@@ -11,7 +10,7 @@ const Name = styled.div`
 
 const Additional = styled.div`
   padding: 0.1em 0.5em 0.5em 0.5em;
-  font-size: small;
+  font-size: smaller;
 `;
 
 const ListItem = ({ path, name, additional }) => (

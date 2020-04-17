@@ -1,22 +1,30 @@
 const aliases = require('./config/componentsAliases');
 
 module.exports = {
+  coverageThreshold: {
+    global: {
+      branches: 85,
+      functions: 91,
+      lines: 93,
+      statements: 93,
+    },
+  },
   collectCoverageFrom: [
     'src/**/*.{js,jsx,mjs}',
     '!src/**/*.stories.js',
     '!src/index.js',
     '!src/registerServiceWorker.js',
     '!src/redux/store/index.js',
+    '!src/stories/**/*.js',
+    '!src/api/spotify.js',
   ],
-  setupFiles: [
-    '<rootDir>/config/polyfills.js',
-    '<rootDir>/config/test-setup.js',
-  ],
+  setupFiles: ['<rootDir>/config/polyfills.js'],
+  setupFilesAfterEnv: ['<rootDir>/config/test-setup.js'],
   testMatch: [
     '<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}',
-    '<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}',
+    '<rootDir>/src/**/*.(spec|test).{js,jsx,mjs}',
   ],
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   testURL: 'http://localhost',
   transform: {
     '^.+\\.(js|jsx|mjs)$': '<rootDir>/node_modules/babel-jest',

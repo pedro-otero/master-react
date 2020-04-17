@@ -1,62 +1,49 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { Fragment } from 'react';
 
 import SavedAlbumItem from 'components/SavedAlbumItem';
-import List from 'components/List';
-import { loadSavedAlbums } from 'state/library';
-import { clearErrors } from 'state/errors';
+import NoItems from 'components/NoItems';
+import GlobalAppContext from '../../context';
+import DataContext from '../../data-context';
+import { compareAlbum, getItems } from '../../data/library';
 
-export class SavedAlbums extends React.Component {
-  componentDidMount() {
-    this.props.clearErrors();
-    this.props.loadSavedAlbums();
-  }
+export function SavedAlbums() {
+  const {
+    spotify,
+  } = React.useContext(GlobalAppContext);
+  const { filter } = React.useContext(DataContext);
 
-  componentDidUpdate(prev) {
-    if (this.props.nextPage && prev.nextPage.offset !== this.props.nextPage.offset) {
-      this.props.loadSavedAlbums();
+  const [items, setItems] = React.useState({
+    next: { offset: 0, limit: 20 },
+    items: [],
+    progress: { display: false },
+  });
+
+  React.useEffect(() => {
+    if (items.next) {
+      spotify.get('/me/albums', { params: items.next }).then(response => setItems(getItems(items, response)));
     }
-  }
+  }, [spotify, items]);
 
-  getSavedAlbumListItem = ({
-    id, name, artist,
-  }) => <SavedAlbumItem
-      key={id}
-      id={id}
-      name={name}
-      artist={artist} />;
-
-  render() {
-    return (
-      <List searchFields={['name', 'artist']}>
-        {this.props.albums.map(this.getSavedAlbumListItem)}
-      </List>
-    );
-  }
+  const albums = items.items.map(({
+    album: {
+      id, name, artists: [{ name: artist }],
+    },
+    added_at: addedAt,
+  }) => ({
+    id, name, artist, addedAt,
+  })).filter(compareAlbum(filter));
+  return (
+    <Fragment>
+      {albums.map(({
+         id, name, artist,
+       }) => <SavedAlbumItem
+           key={id}
+           id={id}
+           name={name}
+           artist={artist} />)}
+      {!albums.length && <NoItems />}
+    </Fragment>
+  );
 }
 
-SavedAlbums.propTypes = {
-  albums: PropTypes.arrayOf(PropTypes.shape({
-    artist: PropTypes.string,
-    id: PropTypes.string,
-    name: PropTypes.string,
-  })),
-  clearErrors: PropTypes.func,
-  loadSavedAlbums: PropTypes.func,
-  nextPage: PropTypes.object,
-};
-
-export const mapStateToProps = ({
-  user: { library: { albums: { items, nextPage } } },
-}) => ({
-  albums: Object.values(items),
-  nextPage,
-});
-
-const mapDispatchToProps = dispatch => ({
-  loadSavedAlbums: () => dispatch(loadSavedAlbums()),
-  clearErrors: () => dispatch(clearErrors()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SavedAlbums);
+export default SavedAlbums;

@@ -1,121 +1,38 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import { View } from 'components/View';
+import React, { useContext, useEffect } from 'react';
+import { act, render } from '@testing-library/react';
 
-describe('View', () => {
-  it('calls clearErrors', () => {
-    const clearErrors = jest.fn();
+import View, { ViewContext } from './view';
 
-    shallow(<View
-        canStartLoadingDetails={() => true}
-        clearErrors={clearErrors}
-        loadSearchResult={() => {}}
-        load={() => {}}
-        shouldStopSearching={() => {}}
-    >
-      <span></span>
-    </View>);
+describe('Load Failure component', () => {
+  it('displays children', async () => {
+    let utils;
+    await act(async () => {
+      utils = render(<View failureMessage="THIS FAILED">
+            Everything is okay!!!
+      </View>);
+    });
 
-    expect(clearErrors).toBeCalled();
+    expect(utils.getByText('Everything is okay!!!')).toBeInTheDocument();
+    expect(utils.queryByText('THIS FAILED')).not.toBeInTheDocument();
   });
 
-  it('calls load', () => {
-    const load = jest.fn();
+  it('displays failure message', async () => {
+    const BadComponent = () => {
+      const { setIsError } = useContext(ViewContext);
+      useEffect(() => {
+        setIsError(true);
+      }, [setIsError]);
+      return <div />;
+    };
 
-    shallow(<View
-        canStartLoadingDetails={() => true}
-        clearErrors={() => {}}
-        loadSearchResult={() => {}}
-        load={load}
-        shouldStopSearching={() => {}}
-    />);
+    let utils;
+    await act(async () => {
+      utils = render(<View failureMessage="THIS FAILED">
+        <BadComponent />
+      </View>);
+    });
 
-    expect(load).toBeCalled();
-  });
-
-  it('starts album search on mount', () => {
-    const loadSearchResult = jest.fn();
-
-    shallow(<View
-        canStartLoadingDetails={() => true}
-        clearErrors={() => {}}
-        loadSearchResult={loadSearchResult}
-        load={() => {}}
-        shouldStopSearching={() => {}}
-    />);
-
-    expect(loadSearchResult).toBeCalled();
-  });
-
-  it('starts album search on update', () => {
-    const loadSearchResult = jest.fn();
-
-    const wrapper = shallow(<View
-        canStartLoadingDetails={jest.fn().mockReturnValueOnce(false).mockReturnValueOnce(true)}
-        clearErrors={() => {}}
-        loadSearchResult={loadSearchResult}
-        load={() => {}}
-        shouldStopSearching={() => {}}
-    />);
-    wrapper.setProps({});
-
-    expect(loadSearchResult).toBeCalled();
-  });
-
-  it('stops album search when done', () => {
-    const clearIntervalSpy = jest.spyOn(global.window, 'clearInterval');
-    const wrapper = shallow(<View
-        canStartLoadingDetails={() => true}
-        clearErrors={() => {}}
-        loadSearchResult={() => {}}
-        load={() => {}}
-        shouldStopSearching={() => true}
-    />);
-    wrapper.setProps({ progress: 100 });
-
-    expect(clearIntervalSpy).toBeCalled();
-
-    clearIntervalSpy.mockRestore();
-  });
-
-  it('stops album search on unmount', () => {
-    const clearIntervalSpy = jest.spyOn(global.window, 'clearInterval');
-    const wrapper = shallow(<View
-        canStartLoadingDetails={() => true}
-        clearErrors={() => {}}
-        loadSearchResult={() => {}}
-        load={() => {}}
-        shouldStopSearching={() => {}}
-    />);
-    wrapper.unmount();
-
-    expect(clearIntervalSpy).toBeCalled();
-
-    clearIntervalSpy.mockRestore();
-  });
-
-  it('renders failure message', () => {
-    const wrapper = shallow(<View
-        load={() => {}}
-        clearErrors={() => {}}
-        canStartLoadingDetails={() => false}
-        failed
-        failedMessage="Could not load this"
-    />);
-
-    expect(wrapper.find('h1').text()).toEqual('Could not load this');
-  });
-
-  it('renders contents', () => {
-    const wrapper = shallow(<View
-        load={() => {}}
-        clearErrors={() => {}}
-        canStartLoadingDetails={() => false}
-        failed={false}
-    >
-      <p>Content</p>
-    </View>);
-
-    expect(wrapper.find('p').text()).toEqual('Content');
+    expect(utils.queryByText('Everything is okay!!!')).not.toBeInTheDocument();
+    expect(utils.getByText('THIS FAILED')).toBeInTheDocument();
   });
 });

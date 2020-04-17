@@ -1,9 +1,18 @@
 {
   "presets": [
-    "react-app"
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ],
+    "@babel/preset-react"
   ],
   "plugins": [
     "react-css-modules",
+    "@babel/plugin-proposal-class-properties",
     [
       "babel-plugin-styled-components",
       {

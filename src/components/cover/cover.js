@@ -30,8 +30,8 @@ const Cover = ({
   </CoverContainer>);
 
 Cover.propTypes = {
-  src: PropTypes.string.isRequired,
-  year: PropTypes.string.isRequired,
+  src: PropTypes.string,
+  year: PropTypes.string,
   yearClass: PropTypes.string,
 };
 

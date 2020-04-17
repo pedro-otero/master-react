@@ -2,46 +2,76 @@
 import React from 'react';
 import storiesOf from 'storiesOfComponentsWithLinks';
 import { MemoryRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
 
 import Root from '../components/root';
-import baseState from './base/baseState.json';
-import mockStore from './base/mockStore';
+import AppContext from '../context';
+import me from '../../mock-data/me.json';
+import track from '../../mock-data/track--radio-friendly.json';
 
-const thisStore = mockStore({
-  ...baseState,
-  tracks: {
-    T1: {
-      name: 'Radio Friendly',
-      artistId: 'R1',
-      albumId: 'L1',
-      composers: ['Radio Friendly', 'Hislongtime Collaborator'],
-      producers: ['Hislongtime Collaborator', 'Someone Else'],
-      credits: {
-        'Radio Friendly': ['Vocals', 'Piano'],
-        'Histlongtime Collaborator': ['Backing Vocals', 'Writer'],
-        'Engineer Guy': ['Mixed by'],
-      },
-    },
+const context = {
+  spotify: {
+    get: url => new Promise((resolve) => {
+      if (url === '/me') {
+        resolve(me);
+      } else if (url === '/tracks/T1') {
+        resolve(track);
+      } else if (url === '/albums/L1') {
+        resolve({
+          data: {
+            id: 'L1',
+            name: 'album of song',
+            release_date: '2005',
+            images: [{ url: 'https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3' }],
+            artists: [{ id: 'AR1' }],
+            tracks: {
+              items: [{
+                id: 'T1',
+                name: 'title of song',
+                duration_ms: 1000,
+              }],
+            },
+          },
+        });
+      } else if (url === '/artists/R1') {
+        resolve({
+          data: {
+            name: 'One Hit Wonder',
+            images: [{ url: 'https://i.scdn.co/image/c49267a32f21626acd55c8dd5f42c0b9e66994f4' }],
+          },
+        });
+      } else if (url === '/me/player') {
+        resolve({ data: {} });
+      }
+    }),
   },
-  artists: {
-    R1: {
-      name: 'One Hit Wonder',
-      image: 'https://i.scdn.co/image/c49267a32f21626acd55c8dd5f42c0b9e66994f4  ',
+  observeAlbumSearch: () => ({
+    subscribe: (subscriber) => {
+      subscriber.next({
+        bestMatch: {
+          tracks: [{
+            id: 'T1',
+            name: 'track #1',
+            composers: ['Radio Friendly', 'Hislongtime Collaborator'],
+            producers: ['Hislongtime Collaborator', 'Someone Else'],
+            credits: {
+              'Radio Friendly': ['Vocals', 'Piano'],
+              'Histlongtime Collaborator': ['Backing Vocals', 'Writer'],
+              'Engineer Guy': ['Mixed by'],
+            },
+          }],
+        },
+        progress: 100,
+      });
+      return { unsubscribe: () => {} };
     },
-  },
-  albums: {
-    L1: {
-      image: 'https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3',
-    },
-  },
-});
+  }),
+};
 
 storiesOf('Crews', module)
   .add('Viewing a track', () => (
-    <Provider store={thisStore}>
+    <AppContext.Provider value={context}>
       <MemoryRouter initialEntries={['/track/T1']}>
-        <Root redirectUri="some.url" />
+        <Root />
       </MemoryRouter>
-    </Provider>
+    </AppContext.Provider>
   ));

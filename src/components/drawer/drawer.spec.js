@@ -14,7 +14,7 @@ describe('Drawer component', () => {
   it('renders closed', () => {
     const wrapper = shallow(<Drawer open={0}>
     </Drawer>);
-    expect(wrapper.find('BaseContainer').dive().find('div').props().open).toBe(0);
+    expect(wrapper.find('Backdrop').dive().find('div').props().open).toBe(0);
   });
 
   it('calls back when opening', () => {

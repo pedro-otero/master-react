@@ -1,4 +1,7 @@
 {
+  "plugins": [
+    "react-hooks"
+  ],
   "env": {
     "browser": true,
     "jest": true
@@ -34,7 +37,7 @@
         "when": "multiline"
       }
     ],
-    "react/jsx-first-prop-new-line":[
+    "react/jsx-first-prop-new-line": [
       "error",
       "multiline-multiprop"
     ],
@@ -48,6 +51,24 @@
     "import/no-named-as-default": [
       "off"
     ],
-    "react/no-unused-prop-types": [2]
+    "import/no-named-as-default-member": [
+      "off"
+    ],
+    "react/no-unused-prop-types": [
+      2
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": true
+      }
+    ],
+    "import/prefer-default-export": [
+      "off"
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

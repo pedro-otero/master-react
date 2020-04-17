@@ -1,10 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Route, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import Welcome from 'components/Welcome';
 import Errors from 'components/Errors';
 import TrackDetails from 'components/TrackDetails';
 import Album from 'components/Album';
@@ -13,13 +10,15 @@ import Drawer from 'components/Drawer';
 import Menu from 'components/Menu';
 import SavedTracks from 'components/SavedTracks';
 import SavedAlbums from 'components/SavedAlbums';
-import { loadProfile } from 'state/profile';
-import { loadPlaybackInfo } from 'state/playbackInfo';
 import Artist from 'components/Artist';
-import { endSwipe, setTouch, closeMenu } from 'state/swipe';
-import Progress from 'components/Progress';
-import LoadingCircle from 'components/LoadingCircle';
-import { loadSearchResult } from 'state/actions/backend';
+import Filter from 'components/Filter';
+import View from 'components/View';
+import Search from 'components/Search';
+import GlobalAppContext from '../context';
+import DataContext from '../data-context';
+import FollowedPlaylists from './followed-playllists/followed-playlists';
+import Playlist from './playlist/playlist';
+import getFirstImageUrl from '../data/get-first-image-url';
 
 const ContentArea = styled.div`
   flex: 1;
@@ -52,126 +51,176 @@ const Views = styled.div`
   }
 `;
 
-export class Root extends React.Component {
-  componentWillMount() {
-    if (this.props.isAuthenticated) {
-      this.props.loadProfile();
+const useSwipeMenu = () => {
+  const [state, setState] = React.useState({ open: 0 });
+
+  const setTouch = React.useCallback((event) => {
+    const x = event.touches.item(0).clientX;
+    const third = event.currentTarget.offsetWidth / 3;
+    if (!state.firstX) {
+      setState({
+        open: 0,
+        firstX: x,
+      });
+      return;
     }
-  }
+    const open = (100 * (x - state.firstX)) / third;
+    setState({
+      open,
+      firstX: state.firstX,
+    });
+  }, [state.firstX]);
+  const endSwipe = React.useCallback(() => {
+    setState({ open: state.open > 60 ? 100 : 0 });
+  }, [state.open]);
+  const closeMenu = React.useCallback(() => setState({ open: 0 }), []);
 
-  componentDidUpdate(prev) {
-    const {
-      loadSearchResult,
-      progress: { available: isSearching },
-      viewing: albumInView,
-    } = this.props;
-    if (albumInView) {
-      if (!prev.viewing) {
-        loadSearchResult(albumInView);
-      } else if (isSearching) {
-        setTimeout(loadSearchResult, 1000, albumInView);
-      }
-    }
-  }
+  return {
+    open: state.open,
+    closeMenu,
+    endSwipe,
+    setTouch,
+  };
+};
 
-  getAuthUrl() {
-    return `${process.env.REACT_APP_SPOTIFY_AUTHORIZE_URL}?${[
-      ['client_id', process.env.REACT_APP_SPOTIFY_CLIENT_ID],
-      ['response_type', 'token'],
-      ['redirect_uri', this.props.redirectUri],
-      ['state', 'reactApp'],
-      ['scope', process.env.REACT_APP_SPOTIFY_SCOPES],
-      ['show_dialog', 'false'],
-    ].map(([key, value]) => `${key}=${value}`).join('&')}`;
-  }
+const useProfile = () => {
+  const {
+    spotify,
+  } = React.useContext(GlobalAppContext);
 
-  getMainContainerClickHandler = () => {
+  const [profile, setProfile] = React.useState({ isLoaded: false });
+
+  React.useEffect(() => {
+    spotify.get('/me').then((response) => {
+      setProfile({
+        userId: response.data.id,
+        name: response.data.display_name,
+        avatar: getFirstImageUrl(response.data.images),
+        country: response.data.country,
+        isLoaded: true,
+      });
+    });
+  }, [spotify]);
+
+  return profile;
+};
+
+const useFilter = () => {
+  const [{
+    filter,
+  }, setContextValue] = React.useState({
+    filter: '',
+  });
+
+  const setFilter = value => setContextValue({
+    filter: value,
+  });
+
+  return [filter, setFilter];
+};
+
+const useErrors = () => {
+  const [list, setErrors] = React.useState([]);
+  const add = React.useCallback(value => setErrors([...list, value]), [list]);
+  const clear = React.useCallback(() => setErrors([]), []);
+
+  return { list, add, clear };
+};
+
+export function Root() {
+  const [filter, setFilter] = useFilter();
+  const profile = useProfile();
+  const {
+    open, closeMenu, endSwipe, setTouch,
+  } = useSwipeMenu();
+  const errors = useErrors();
+
+  const getMainContainerClickHandler = () => {
     if (window.matchMedia('(min-width: 769px)').matches) {
       return null;
     }
-    return this.props.closeMenu;
+    return closeMenu;
   };
 
-  render() {
-    const {
-      isNewUser, isAuthenticated, open, progress,
-    } = this.props;
-    if (isNewUser) {
-      return <Welcome loginUrl={this.getAuthUrl()} />;
-    } else if (!isAuthenticated) {
-      window.location = this.getAuthUrl();
-      return null;
-    }
-    const isDesktop = window.matchMedia('(min-width: 769px)').matches;
-    const isMenuVisible = isDesktop ? true : open === 100;
-    return (
-      <Main onClick={this.getMainContainerClickHandler()}>
-        <Drawer
-            open={open}
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiry');
+    window.location.reload();
+  };
+
+  const isDesktop = window.matchMedia('(min-width: 769px)').matches;
+  const isMenuVisible = isDesktop ? true : open === 100;
+  return (
+    <DataContext.Provider value={{
+ filter, setFilter, errors, profile,
+}}>
+      <Main onClick={getMainContainerClickHandler()}>
+        {isDesktop && <Menu
+            isVisible
+            loading={!profile.isLoaded}
+            name={profile.name}
+            userId={profile.userId}
+            avatar={profile.avatar}
+            onLogout={logout} />}
+        {!isDesktop && <Drawer
+            open={open === 100}
             bgColor="#222222"
+            width="300px"
             opacity={0.95}>
-          <Menu isVisible={isMenuVisible} />
-        </Drawer>
+          <Menu
+              isVisible={isMenuVisible}
+              loading={!profile.isLoaded}
+              name={profile.name}
+              userId={profile.userId}
+              avatar={profile.avatar}
+              onLogout={logout} />
+        </Drawer>}
         <ContentArea
-            onTouchStart={this.props.setTouch}
-            onTouchMove={this.props.setTouch}
-            onTouchEnd={this.props.endSwipe}>
-          <Errors />
+            onTouchStart={setTouch}
+            onTouchMove={setTouch}
+            onTouchEnd={endSwipe}>
+          <Errors list={errors.list} />
           <Views>
-            {progress.available && <Progress value={progress.value} size="small" />}
-            <Route exact path="/" component={Home} />
-            <Route path="/track/:id" render={({ match }) => <TrackDetails trackId={match.params.id} />} />
-            <Route path="/album/:id" render={({ match }) => <Album albumId={match.params.id} />} />
-            <Route path="/artist/:id" render={({ match }) => <Artist id={match.params.id} />} />
+            <Route exact path="/" component={() => <Home loading={!profile.isLoaded} name={profile.name} userId={profile.userId} />} />
+            <Route
+                path="/track/:id"
+                render={({ match }) => (
+                  <View failureMessage="Could not load this track">
+                    <TrackDetails trackId={match.params.id} />
+                  </View>
+                )} />
+            <Route
+                path="/album/:id"
+                render={({ match }) => (
+                  <View failureMessage="Could not load this album">
+                    <Album albumId={match.params.id} />
+                  </View>
+                )} />
+            <Route
+                path="/artist/:id"
+                render={({ match }) => (
+                  <View failureMessage="Could not load this artist">
+                    <Artist id={match.params.id} />
+                  </View>
+                )} />
+            <Route
+                path="/playlist/:id"
+                render={({ match }) => (
+                  <View failureMessage="Could not load this playlist">
+                    <Playlist id={match.params.id} />
+                  </View>
+                )} />
+            <Route path="/user" render={() => <Filter value={filter} onChange={setFilter} />} />
             <Route path="/user/tracks" render={() => <SavedTracks />} />
             <Route path="/user/albums" render={() => <SavedAlbums />} />
-            {progress.loading && <LoadingCircle message={progress.loading} />}
+            <Route path="/user/playlists" render={() => <FollowedPlaylists />} />
+            <Route path="/search" exact render={() => <Search limit={5} />} />
+            <Route path="/search/:type" render={({ match }) => <Search type={match.params.type} limit={50} />} />
           </Views>
         </ContentArea>
       </Main>
-    );
-  }
+    </DataContext.Provider>
+  );
 }
 
-Root.propTypes = {
-  closeMenu: PropTypes.func.isRequired,
-  endSwipe: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
-  isNewUser: PropTypes.bool,
-  loadPlaybackInfo: PropTypes.func.isRequired,
-  loadProfile: PropTypes.func.isRequired,
-  loadSearchResult: PropTypes.func.isRequired,
-  open: PropTypes.number.isRequired,
-  progress: PropTypes.shape({
-    available: PropTypes.bool,
-    value: PropTypes.number,
-    loading: PropTypes.string,
-  }),
-  redirectUri: PropTypes.string.isRequired,
-  setTouch: PropTypes.func.isRequired,
-  viewing: PropTypes.string,
-};
-
-const mapStateToProps = ({
-  user: { auth: { token, expiry } },
-  swipe: { open },
-  progress,
-  viewing,
-}) => ({
-  isNewUser: !token && !expiry,
-  isAuthenticated: typeof token !== 'undefined' && (Date.now() - (new Date(expiry)).getTime()) <= 0,
-  open,
-  progress,
-  viewing,
-});
-
-const mapDispatchToProps = dispatch => ({
-  loadProfile: () => dispatch(loadProfile()),
-  loadPlaybackInfo: () => dispatch(loadPlaybackInfo()),
-  setTouch: event => dispatch(setTouch(event)),
-  endSwipe: () => dispatch(endSwipe()),
-  closeMenu: () => dispatch(closeMenu()),
-  loadSearchResult: id => dispatch(loadSearchResult(id)),
-});
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Root));
+export default withRouter(Root);

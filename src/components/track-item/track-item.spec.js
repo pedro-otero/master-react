@@ -5,7 +5,7 @@ import TrackItem from './track-item';
 
 describe('Track item component', () => {
   const wrapper = shallow(<TrackItem
-      composers={['C1']}
+      composers={'C1'}
       name='Track'
       duration="0:01" />);
 
@@ -14,7 +14,7 @@ describe('Track item component', () => {
   });
 
   it('renders composers', () => {
-    expect(wrapper.find('Composers').length).toEqual(1);
+    expect(wrapper.find('SmallText').render().text()).toEqual('(C1)');
   });
 
   it('renders duration', () => {

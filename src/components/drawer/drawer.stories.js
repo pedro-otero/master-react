@@ -6,32 +6,27 @@ import Drawer from './drawer';
 
 class Container extends React.Component {
   state = {
-    open: false,
+    open: 0,
   };
 
   containerStyle = {
-    width: '300px',
-    height: '300px',
-    position: 'relative',
-    backgroundColor: 'blue',
+    padding: '1em',
   };
 
-  buttonStyle = {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-  };
-
-  toggle = () => this.setState(({ open }) => ({ open: !open }));
+  toggle = () => this.setState(({ open }) => ({ open: open === 100 ? 0 : 100 }));
 
   render() {
     return (
-      <div style={this.containerStyle}>
-        <Drawer open={this.state.open}>
-          <p>A drawer can take any element or options.</p>
-        </Drawer>
+      <div>
         <span>Click on toggle to see or hide the drawer</span>
-        <button onClick={this.toggle} style={this.buttonStyle}>Toggle</button>
+        <button onClick={this.toggle}>Toggle</button>
+        <div style={{ position: 'relative' }}>
+          <Drawer width="200px" open={this.state.open} bgColor="#916b98">
+            <div style={this.containerStyle}>
+              <p>A drawer can take any element or options.</p>
+            </div>
+          </Drawer>
+        </div>
       </div>
     );
   }

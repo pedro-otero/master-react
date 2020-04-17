@@ -2,19 +2,28 @@
 import React from 'react';
 import storiesOf from 'storiesOfComponentsWithLinks';
 import { MemoryRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
 
 import Root from '../components/root';
-import baseState from './base/baseState.json';
-import mockStore from './base/mockStore';
+import AppContext from '../context';
+import me from '../../mock-data/me.json';
 
-const thisStore = mockStore(baseState);
+const context = {
+  spotify: {
+    get: url => new Promise((resolve) => {
+      if (url === '/me') {
+        resolve(me);
+      } else if (url === '/me/player') {
+        resolve({ data: {} });
+      }
+    }),
+  },
+};
 
 storiesOf('Crews', module)
   .add('Startup', () => (
-    <Provider store={thisStore}>
+    <AppContext.Provider value={context}>
       <MemoryRouter initialEntries={['/']}>
-        <Root redirectUri="some.url" />
+        <Root />
       </MemoryRouter>
-    </Provider>
+    </AppContext.Provider>
   ));

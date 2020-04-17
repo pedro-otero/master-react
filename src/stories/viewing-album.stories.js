@@ -2,62 +2,107 @@
 import React from 'react';
 import storiesOf from 'storiesOfComponentsWithLinks';
 import { MemoryRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
 
 import Root from '../components/root';
-import baseState from './base/baseState.json';
-import mockStore from './base/mockStore';
+import AppContext from '../context';
+import me from '../../mock-data/me.json';
+import track from '../../mock-data/track--radio-friendly.json';
 
-const thisStore = mockStore({
-  ...baseState,
-  tracks: {
-    T1: {
-      name: 'Club Banger',
-      composers: ['Ghost Writer', 'Credit Vulture', 'Sampled Artist', 'Hot Producer'],
-      duration: '3:34',
-    },
-    T2: {
-      name: 'Hollow Track',
-      composers: ['Ghost Writer', 'Credit Vulture', 'Hot Producer'],
-      duration: '3:16',
-    },
-    T3: {
-      name: 'Cheesily Sad Song',
-      composers: ['Ghost Writer', 'Credit Vulture', 'Hot Producer'],
-      duration: '4:07',
-    },
-    T4: {
-      name: 'Not Even Fans Like It',
-      composers: ['Someone Else', 'Credit Vulture', 'Hot Producer'],
-      duration: '3:58',
-    },
-    T5: {
-      name: 'Included Out Of Pity',
-      composers: ['One Hit Wonder', 'Hot Producer'],
-      duration: '2:44',
-    },
+const context = {
+  spotify: {
+    get: url => new Promise((resolve) => {
+      if (url === '/me') {
+        resolve(me);
+      } else if (url === '/tracks/T1') {
+        resolve(track);
+      } else if (url === '/albums/L1') {
+        resolve({
+          data: {
+            id: 'L1',
+            name: 'Sophomore',
+            release_date: '2005',
+            images: [{ url: 'https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3' }],
+            artists: [{ id: 'R1' }],
+            tracks: {
+              items: [{
+                id: 'T1',
+                name: 'Club Banger',
+                duration_ms: 214000,
+              }, {
+                id: 'T2',
+                name: 'Hollow Track',
+                duration_ms: 196000,
+              }, {
+                id: 'T3',
+                name: 'Cheesily Sad Song',
+                duration_ms: 247000,
+              }, {
+                id: 'T4',
+                name: 'Not Even Fans Like It',
+                duration_ms: 238000,
+              }, {
+                id: 'T5',
+                name: 'Included Out Of Pity',
+                duration_ms: 164000,
+              }],
+            },
+          },
+        });
+      } else if (url === '/artists/R1') {
+        resolve({
+          data: {
+            name: 'One Hit Wonder',
+            images: [{ url: 'https://i.scdn.co/image/c49267a32f21626acd55c8dd5f42c0b9e66994f4' }],
+          },
+        });
+      } else if (url === '/me/player') {
+        resolve({ data: {} });
+      }
+    }),
   },
-  artists: {
-    R1: {
-      name: 'One Hit Wonder',
-      image: 'https://i.scdn.co/image/44272fc0e3bd34b073f34c175dddac5414908730',
+  observeAlbumSearch: () => ({
+    subscribe: (subscriber) => {
+      subscriber.next({
+        bestMatch: {
+          tracks: [{
+            id: 'T1',
+            composers: ['Ghost Writer', 'Credit Vulture', 'Sampled Artist', 'Hot Producer'],
+            producers: [],
+            credits: {},
+          }, {
+            id: 'T2',
+            composers: ['Ghost Writer', 'Credit Vulture', 'Hot Producer'],
+            producers: [],
+            credits: {},
+          }, {
+            id: 'T3',
+            composers: ['Ghost Writer', 'Credit Vulture', 'Hot Producer'],
+            producers: [],
+            credits: {},
+          }, {
+            id: 'T4',
+            composers: ['Someone Else', 'Credit Vulture', 'Hot Producer'],
+            producers: [],
+            credits: {},
+          }, {
+            id: 'T5',
+            composers: ['One Hit Wonder', 'Hot Producer'],
+            producers: [],
+            credits: {},
+          }],
+        },
+        progress: 100,
+      });
+      return { unsubscribe: () => {} };
     },
-  },
-  albums: {
-    L1: {
-      name: 'Sophomore',
-      artistId: 'R1',
-      image: 'https://i.scdn.co/image/edb1577fa1a7b3e9e0f07297071cf6076a1946c3',
-      trackIds: ['T1', 'T2', 'T3', 'T4', 'T5'],
-    },
-  },
-});
+  }),
+};
 
 storiesOf('Crews', module)
   .add('Viewing an album', () => (
-    <Provider store={thisStore}>
+    <AppContext.Provider value={context}>
       <MemoryRouter initialEntries={['/album/L1']}>
-        <Root redirectUri="some.url" />
+        <Root />
       </MemoryRouter>
-    </Provider>
+    </AppContext.Provider>
   ));

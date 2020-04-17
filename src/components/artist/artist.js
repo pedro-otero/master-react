@@ -1,16 +1,18 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import ArtistWork from 'components/ArtistWork';
-import Link from 'components/Link';
 import { Block } from 'components/Utils';
 import Image from 'components/Image';
-import { viewArtist } from 'state/view';
-import { loadArtistAlbums } from 'state/artists';
-import View from 'components/View';
-import { clearErrors } from 'state/errors';
+import { ViewContext } from 'components/View';
+import LoadingCircle from 'components/LoadingCircle';
+import GlobalAppContext from '../../context';
+import DataContext from '../../data-context';
+import Progress from '../progress/progress';
+import { artistToState, groupAlbums } from '../../data/artists';
+import { getItems } from '../../data/library';
 
 const AlbumItem = styled.div`
   display: flex;
@@ -28,23 +30,50 @@ const AlbumInfo = styled.div`
   justify-content: center;
 `;
 
-export class Artist extends React.Component {
-  render() {
-    const {
-      name, image, failed, albums, id, loadArtistAlbums, canLoadMoreAlbums, viewArtist, clearErrors,
-    } = this.props;
-    return (
-      <View
-          clearErrors={clearErrors}
-          canStartLoadingDetails={() => true}
-          shouldStopSearching={() => !canLoadMoreAlbums}
-          load={() => viewArtist(id)}
-          loadSearchResult={() => loadArtistAlbums(id)}
-          failed={failed}
-          failedMessage="Could not load this artist">
-        <ArtistWork title={name} image={image} background={image} />
+export function Artist({ id }) {
+  const {
+    spotify,
+  } = React.useContext(GlobalAppContext);
+  const { setIsError } = React.useContext(ViewContext);
+  const { profile } = React.useContext(DataContext);
+
+  const [artist, setArtist] = useState();
+  const [albums, setAlbums] = React.useState({
+    next: { offset: 0, limit: 20 },
+    items: [],
+    progress: { display: false },
+  });
+
+  useEffect(() => {
+    spotify.get(`/artists/${id}`)
+      .then(response => setArtist(artistToState(response.data)))
+      .catch(() => setIsError(true));
+  }, [id, setIsError, spotify]);
+
+  React.useEffect(() => {
+    if (profile.country && id && albums.next) {
+      spotify.get(`/artists/${id}/albums`, { params: albums.next }).then((response) => {
+        setAlbums(getItems(albums, {
+          data: {
+            ...response.data,
+            items: response.data.items
+              .filter(item => item.available_markets.includes(profile.country)),
+          },
+        }));
+      });
+    }
+  }, [albums.next, albums.items, id, profile.country, albums, spotify]);
+
+  const albumGroups = groupAlbums(albums.items);
+
+  return (
+    <Fragment>
+      {!artist && <LoadingCircle message="Loading..." />}
+      {artist && <Fragment>
+        {albums.progress.display && <Progress value={albums.progress.value} size="small" />}
+        <ArtistWork title={artist.name} image={artist.image} background={artist.image} />
         <Block>
-          {albums.map(category => (
+          {albumGroups.map(category => (
             <Fragment key={category.name}>
               <h3>{category.name} ({category.items.length})</h3>
               <hr />
@@ -58,45 +87,18 @@ export class Artist extends React.Component {
                     </AlbumInfo>
                   </AlbumItem>
                 </Link>
-              ))}
+            ))}
               <br />
             </Fragment>
-          ))}
+        ))}
         </Block>
-      </View>
-    );
-  }
+      </Fragment>}
+    </Fragment>
+  );
 }
 
 Artist.propTypes = {
-  albums: PropTypes.array,
-  canLoadMoreAlbums: PropTypes.bool,
-  failed: PropTypes.bool,
   id: PropTypes.string,
-  image: PropTypes.string,
-  loadArtistAlbums: PropTypes.func,
-  name: PropTypes.string,
-  viewArtist: PropTypes.func,
 };
 
-const mapStateToProps = ({ artists }, { id }) => {
-  let artist = {};
-  if (artists[id]) {
-    artist = artists[id];
-  }
-  const {
-    name, image, albums: { items: albums = [], nextPage } = {}, failed,
-  } = artist;
-  const canLoadMoreAlbums = nextPage !== null;
-  return {
-    id, name, image, albums, failed, canLoadMoreAlbums,
-  };
-};
-
-const mapDispatchToProps = dispatch => ({
-  viewArtist: id => dispatch(viewArtist(id)),
-  loadArtistAlbums: id => dispatch(loadArtistAlbums(id)),
-  clearErrors: () => dispatch(clearErrors()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Artist);
+export default Artist;
