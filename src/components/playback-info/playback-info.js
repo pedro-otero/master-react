@@ -28,13 +28,14 @@ const overflowPrevention = `
 const TrackName = styled.strong`${overflowPrevention}`;
 const Artist = styled.small`${overflowPrevention}`;
 
-const PLAYBACK_INFO_LOAD_INTERVAL = 5000;
+const PLAYBACK_INFO_LOAD_INTERVAL = Number(process.env.REACT_APP_SPOTIFY_THROTTLE) + 5000;
 
 class PlaybackInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+
   componentDidMount() {
     if (this.props.isVisible) {
       this.subscribeToPlayback();

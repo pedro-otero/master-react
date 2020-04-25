@@ -35,7 +35,7 @@ function startAuthenticatedApp(token) {
       axios,
       getAuthUrl(),
       token,
-      process.env.REACT_APP_SPOTIFY_THROTTLE,
+      Number(process.env.REACT_APP_SPOTIFY_THROTTLE),
     ),
     observeAlbumSearch: makeGetRelease(axios.create({
       baseURL: process.env.REACT_APP_BE_DOMAIN,

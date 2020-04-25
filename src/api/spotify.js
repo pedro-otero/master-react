@@ -13,7 +13,7 @@ export default function getSpotifyAxiosInstance(axios, authUrl, token, minTimeBe
       const headers = {
         Authorization: `Bearer ${token}`,
       };
-      setTimeout(resolve({ ...config, headers }), interval);
+      setTimeout(() => resolve({ ...config, headers }), interval);
     });
   });
 
